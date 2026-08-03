@@ -141,7 +141,7 @@ register_shutdown_function(
 
 // 10. Namespace/autoload resolution.
 check( 'PSR-4 autoload resolves Version', class_exists( Version::class ), 'Version class not found' );
-check( 'Version::VERSION is 0.1.0', Version::VERSION === '0.1.0', Version::VERSION );
+check( 'Version::VERSION is 0.2.0', Version::VERSION === '0.2.0', Version::VERSION );
 
 // 9. Idempotent boot.
 Kernel::launch();

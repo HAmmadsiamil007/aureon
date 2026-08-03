@@ -2,19 +2,20 @@
 /**
  * Kernel — the Phantom Core bootstrap orchestrator.
  *
- * Phase 1 (Bootstrap): launched once from app/load.php on `plugins_loaded`
- * (priority 5). It runs the ordered boot sequence:
+ * Phase 1–2: launched once from app/load.php on `plugins_loaded` (priority 5).
+ * It runs the ordered boot sequence:
  *
- *   config → env → flags → logger → errorHandler
+ *   config → container → env → flags → logger → errorHandler
+ *   → hooks → events → registry → cache → factory → providers
  *
  * then raises `phantom_core:ready`. Every step result is published into the
- * App service registry, making the framework runtime reachable via
- * App::instance()->make('...').
+ * App service registry + container, making the framework runtime reachable via
+ * App::instance()->make('...') (ADR-013/014).
  *
  * Lifecycle events (ADR-006):
  *   phantom_core:booting      — before any step
  *   phantom_core:booted       — after all steps succeeded
- *   phantom_core:ready        — framework fully booted
+ *   phantom_core:ready        — framework fully booted (only on full success)
  *   phantom_core:boot_error   — on failure (with Throwable + step id)
  *
  * The Kernel never throws on the WordPress surface; boot failures are logged
@@ -28,8 +29,19 @@ declare( strict_types=1 );
 
 namespace Phantom\Core\Boot;
 
+use Phantom\Core\Cache\ObjectCache;
+use Phantom\Core\Cache\TransientCache;
 use Phantom\Core\Config\ConfigLoader;
+use Phantom\Core\Config\Repository;
+use Phantom\Core\Container\Container;
 use Phantom\Core\Core\App;
+use Phantom\Core\Events\Dispatcher;
+use Phantom\Core\Factory\SimpleFactory;
+use Phantom\Core\Hooks\HookManager;
+use Phantom\Core\Hooks\WpBridge;
+use Phantom\Core\Providers\ServiceProviderInterface;
+use Phantom\Core\Registry\ArrayRegistry;
+use Phantom\Core\Registry\DynamicRegistry;
 use Phantom\Core\Support\Debug\Log;
 use Phantom\Core\Support\Debug\Loggers;
 use Phantom\Core\Support\Env;
@@ -74,7 +86,7 @@ final class Kernel implements BootableInterface {
 	}
 
 	/**
-	 * Register the Phase-1 boot steps.
+	 * Register the boot steps.
 	 *
 	 * @return void
 	 */
@@ -85,16 +97,34 @@ final class Kernel implements BootableInterface {
 		$config_step = static function (): array {
 			$loader = new ConfigLoader( dirname( __DIR__, 2 ) );
 			$config = $loader->load();
+			$repo   = new Repository( $config );
 
 			App::instance()->set_config( $config );
+			App::instance()->set_config_repository( $repo );
 
-			return array( 'config' => $config );
+			return array(
+				'config'     => $config,
+				'repository' => $repo,
+			);
+		};
+
+		$container_step = static function ( array $context ): array {
+			$container = new Container();
+
+			if ( isset( $context['repository'] ) && $context['repository'] instanceof Repository ) {
+				$container->set( 'config', $context['repository'] );
+			}
+
+			App::instance()->set_container( $container );
+			App::instance()->provide( array( 'container' => $container ) );
+
+			return array( 'container' => $container );
 		};
 
 		$env_step = static function ( array $context ): array {
 			$env = Env::detect( $context['config'] ?? array() );
-			$app = App::instance();
-			$app->provide( array( 'env' => $env ) );
+
+			App::instance()->provide( array( 'env' => $env ) );
 
 			return array( 'env' => $env );
 		};
@@ -102,8 +132,8 @@ final class Kernel implements BootableInterface {
 		$flags_step = static function ( array $context ): array {
 			$config = $context['config'] ?? array();
 			$flags  = new FeatureFlags( (array) ( $config['features'] ?? array() ) );
-			$app    = App::instance();
-			$app->provide( array( 'flags' => $flags ) );
+
+			App::instance()->provide( array( 'flags' => $flags ) );
 
 			return array( 'flags' => $flags );
 		};
@@ -111,10 +141,9 @@ final class Kernel implements BootableInterface {
 		$logger_step = static function ( array $context ): array {
 			$config  = $context['config'] ?? array();
 			$loggers = new Loggers( (array) ( $config['log'] ?? array() ) );
-			$app     = App::instance();
 
 			Log::set_writer( $loggers );
-			$app->provide( array( 'logger' => $loggers ) );
+			App::instance()->provide( array( 'logger' => $loggers ) );
 
 			return array( 'logger' => $loggers );
 		};
@@ -127,18 +156,118 @@ final class Kernel implements BootableInterface {
 				$errors->register();
 			}
 
-			$app = App::instance();
-			$app->provide( array( 'errorHandler' => $errors ) );
+			App::instance()->provide( array( 'errorHandler' => $errors ) );
 
 			return array( 'errorHandler' => $errors );
 		};
 
+		$hooks_step = static function (): array {
+			$hooks = new HookManager( new WpBridge() );
+
+			App::instance()->provide( array( 'hooks' => $hooks ) );
+
+			return array( 'hooks' => $hooks );
+		};
+
+		$events_step = static function ( array $context ): array {
+			$hooks      = $context['hooks'] ?? null;
+			$dispatcher = new Dispatcher( $hooks instanceof HookManager ? $hooks : null );
+
+			App::instance()->provide( array( 'events' => $dispatcher ) );
+
+			return array( 'events' => $dispatcher );
+		};
+
+		$registry_step = static function (): array {
+			$array_registry   = new ArrayRegistry();
+			$dynamic_registry = new DynamicRegistry();
+
+			App::instance()->provide(
+				array(
+					'registry.array'   => $array_registry,
+					'registry.dynamic' => $dynamic_registry,
+				)
+			);
+
+			return array(
+				'registry.array'   => $array_registry,
+				'registry.dynamic' => $dynamic_registry,
+			);
+		};
+
+		$cache_step = static function (): array {
+			$object_cache    = new ObjectCache();
+			$transient_cache = new TransientCache();
+
+			App::instance()->provide(
+				array(
+					'cache.object'    => $object_cache,
+					'cache.transient' => $transient_cache,
+				)
+			);
+
+			return array(
+				'cache.object'    => $object_cache,
+				'cache.transient' => $transient_cache,
+			);
+		};
+
+		$factory_step = static function ( array $context ): array {
+			$container = $context['container'] ?? null;
+			$factory   = new SimpleFactory( $container instanceof Container ? $container : new Container() );
+
+			App::instance()->provide( array( 'factory' => $factory ) );
+
+			return array( 'factory' => $factory );
+		};
+
+		$providers_step = static function ( array $context ): array {
+			$config    = $context['config'] ?? array();
+			$container = $context['container'] ?? null;
+
+			if ( ! $container instanceof Container ) {
+				return array( 'providers' => array() );
+			}
+
+			$registered = array();
+
+			foreach ( (array) ( $config['providers'] ?? array() ) as $provider_class ) {
+				$is_provider = is_string( $provider_class )
+					&& is_subclass_of( $provider_class, ServiceProviderInterface::class );
+
+				if ( ! $is_provider ) {
+					throw new \InvalidArgumentException(
+						// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception messages are developer-facing, not HTML.
+						'Provider "' . (string) $provider_class . '" must implement '
+							. ServiceProviderInterface::class . '.'
+					);
+				}
+
+				$provider = new $provider_class();
+				$provider->register( $container );
+				$registered[] = $provider;
+			}
+
+			foreach ( $registered as $provider ) {
+				$provider->boot( $container );
+			}
+
+			return array( 'providers' => $registered );
+		};
+
 		$this->sequencer()
 			->add( 'config', $config_step, 10 )
-			->add( 'env', $env_step, 20 )
-			->add( 'flags', $flags_step, 30 )
-			->add( 'logger', $logger_step, 40 )
-			->add( 'errorHandler', $error_step, 50 );
+			->add( 'container', $container_step, 20 )
+			->add( 'env', $env_step, 30 )
+			->add( 'flags', $flags_step, 40 )
+			->add( 'logger', $logger_step, 50 )
+			->add( 'errorHandler', $error_step, 60 )
+			->add( 'hooks', $hooks_step, 70 )
+			->add( 'events', $events_step, 80 )
+			->add( 'registry', $registry_step, 90 )
+			->add( 'cache', $cache_step, 100 )
+			->add( 'factory', $factory_step, 110 )
+			->add( 'providers', $providers_step, 120 );
 	}
 
 	/**

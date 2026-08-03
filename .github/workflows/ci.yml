@@ -48,6 +48,9 @@ jobs:
       - name: Phase 1 bootstrap smoke suite (WP-free)
         run: php bin/smoke-phase1.php
 
+      - name: Phase 2 framework smoke suite (WP-free)
+        run: php bin/smoke-phase2.php
+
   static-analysis:
     name: PHPCS + PHPStan + Psalm
     runs-on: ubuntu-latest

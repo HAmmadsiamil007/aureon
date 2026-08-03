@@ -4,6 +4,49 @@ All notable changes to the Phantom theme / Phantom Core are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versioning follows SemVer `0.x` (see `docs/versions.md`).
 
+## [0.2.0-framework] — 2026-08-03
+
+Tag: `v0.2.0-framework` · Phase 2 — Framework Infrastructure (frozen
+Phases 0 + 1 unchanged)
+
+### Added
+
+- `Container\Container` — PSR-11-style DI container: `set()` raw values,
+  `register()`/`singleton()` closures, class-string auto-wiring via
+  constructor reflection; lazy resolution, singleton caching, cycle detection
+  (`CircularDependencyException`), `NotFoundException` (PSR-11). Supersedes the
+  Phase-1 App registry (ADR-013 → 014); `App::make()`/`get()` now delegate here.
+- `Events\EventInterface`, `StoppableEventInterface`, `GenericEvent`,
+  `Dispatcher` — ordered listeners (priority) + stop-propagation.
+- `Hooks\WpBridge` (capability-guarded `add_action`/`add_filter`/`apply_filters`
+  wrappers) + `Hooks\HookManager` (dedupes identical bindings).
+- `Registry\RegistryInterface`, `ArrayRegistry` (immutable),
+  `DynamicRegistry` (lazy factory-backed items).
+- `Factory\FactoryInterface` + `SimpleFactory` (container-backed builder).
+- `Config\Repository` — dot-notation get/set over the immutable config.
+- `Cache\CacheInterface`, `CacheKey` (namespaced), `ObjectCache`,
+  `TransientCache` (ADR-010) — shared interface; `flush()` only clears keys
+  written through that instance.
+- `Providers\ServiceProviderInterface` — `register()` then `boot()` lifecycle.
+- Kernel boot extended: `config → env → flags → logger → errorHandler →
+container → core services → providers` (providers array in `config.php`).
+- `bin/smoke-phase2.php` — WP-free framework smoke suite (39 assertions,
+  incl. Phase 1 regression); added to CI.
+- `phantom.env.json.example` schema fixed to `environment.override`/`features`.
+- ADR-014 — Phase 2 framework infrastructure record.
+
+### Changed
+
+- Version 0.1.1 → 0.2.0 (`Core\Version`, `style.css`, `composer.json`,
+  `composer.lock`).
+
+### Fixed
+
+- Static analysis hardening: WPCS EscapeOutput ignores placed on the flagged
+  token lines; param renames (`$class_name`, `$fallback`, `$wp_hook`,
+  `$abstract_id`); Psalm reference-typed property in `Config\Repository::set()`
+  replaced with a value-typed write.
+
 ## [0.1.1-bootstrap] — 2026-08-03
 
 Tag: `v0.1.1-bootstrap` · Phase 1 — Bootstrap (frozen Phase 0 unchanged)

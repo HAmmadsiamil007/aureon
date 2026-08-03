@@ -56,7 +56,7 @@ Phase 15 (Testing) → Phase 16 (Rebranding plan only) → Phase 17 (Release)
 |---|---|---|---|---|---|
 | 0 | Project Foundation | `Completed` (2026-08-03) | — | `PHASE_5_IMPLEMENTATION_PLAN.md` §Phase 0 — report: `wp-content/themes/phantom/docs/PHASE_0_VERIFICATION_REPORT.md` | ↑ link |
 | 1 | Bootstrap | `Completed` (2026-08-03) | 0 | §Phase 1 — report: `wp-content/themes/phantom/docs/PHASE_1_VERIFICATION_REPORT.md` | ↑ |
-| 2 | Framework Infrastructure | `Not Started` | 1 | §Phase 2 | ↑ |
+| 2 | Framework Infrastructure | `Completed` (2026-08-03) | 1 | §Phase 2 — report: `wp-content/themes/phantom/docs/PHASE_2_VERIFICATION_REPORT.md` | ↑ |
 | 3 | Design Token Engine | `Not Started` | 1, 2 | §Phase 3 | ↑ |
 | 4 | Render Engine | `Not Started` | 2, 3 | §Phase 4 | ↑ |
 | 5 | Component Registry | `Not Started` | 2, 4 | §Phase 5 | ↑ |
@@ -85,6 +85,8 @@ Phase 15 (Testing) → Phase 16 (Rebranding plan only) → Phase 17 (Release)
 | 0 | Verification report (APPROVED FOR PHASE 1) | `wp-content/themes/phantom/docs/PHASE_0_VERIFICATION_REPORT.md` | `Completed` |
 | 1 | Bootstrap — boot sequence, env/config/feature-flag/logger/error-handler services, App facade, smoke suite | `wp-content/themes/phantom/app/{Boot,Config,Core,Support}` · `bin/smoke-phase1.php` | `Completed` 2026-08-03 |
 | 1 | Verification report (APPROVED FOR PHASE 2) | `wp-content/themes/phantom/docs/PHASE_1_VERIFICATION_REPORT.md` | `Completed` |
+| 2 | Framework Infrastructure — DI Container, Events, Hooks, Registries, Factory, Config Repository, Cache, Service Providers, Kernel integration | `wp-content/themes/phantom/app/{Container,Events,Hooks,Registry,Factory,Config,Cache,Providers}` · `bin/smoke-phase2.php` | `Completed` 2026-08-03 |
+| 2 | Verification report (APPROVED FOR PHASE 3) | `wp-content/themes/phantom/docs/PHASE_2_VERIFICATION_REPORT.md` | `Completed` |
 
 ---
 
@@ -119,6 +121,7 @@ Phase 15 (Testing) → Phase 16 (Rebranding plan only) → Phase 17 (Release)
 | ADR-011 | Environment: `wp_get_environment_type()` + `phantom.env.json` overrides | `Accepted` | Standard WP detection, feature flags, debug mode. |
 | ADR-012 | PHPCS + PHPStan (level 5); tests via `WP_Mock`/`Brain Monkey` + Playwright (Chromium) | `Accepted` | See Phase 15. |
 | ADR-013 | Phase 1 Bootstrap architecture — `load.php` entry, Kernel/Sequencer lifecycle, App facade, immutable config, smoke suite | `Accepted` | Full record: `docs/architecture/ADR/ADR-013.md`. |
+| ADR-014 | Phase 2 Framework Infrastructure — DI Container, Events, Hooks, Registries, Factory, Config Repository, Cache, Service Providers | `Accepted` | Full record: `docs/architecture/ADR/ADR-014.md`. |
 
 > **Future ADRs go here — always append, never rewrite history.**
 

@@ -125,3 +125,25 @@ ANALYZER NOTES (2026-08-03):
 GATES ALL GREEN (2026-08-03): composer validate ✅, dump-autoload (2239 classes) ✅, php -l ✅, PHPCS 0/0 ✅, PHPStan L5 0 err (WP stubs) ✅, Psalm 0 issues (stubs, no global suppressions) ✅, smoke 24/24 ✅, ESLint ✅, Prettier ✅, tsc ✅, Vite build ✅, integrity 473/473 ✅.
 
 TODO GIT: tag `v0.1.1-bootstrap` after commit + push to origin/main.
+
+## PHASE 2 — FRAMEWORK INFRASTRUCTURE (COMPLETE 2026-08-03)
+Deliverable: `wp-content/themes/phantom/app/{Container,Events,Hooks,Registry,Factory,Config,Cache,Providers}` + `docs/PHASE_2_VERIFICATION_REPORT.md` — **STATUS: APPROVED FOR PHASE 3**.
+
+WHAT WAS BUILT (per plan Phase 2, nothing beyond):
+- Freeze: `v0.1.1-bootstrap` tag moved to final Phase 1 commit (post-hardening) + force-pushed.
+- `Container/Container` — PSR-11-style DI: set()/register()/singleton()/get()/has(), lazy resolution, singleton cache, cycle detection, NotFoundException + CircularDependencyException; class-string auto-wire via reflection. `App::make()/get()` now delegate here (ADR-013 -> ADR-014).
+- `Events/{EventInterface,StoppableEventInterface,GenericEvent,Dispatcher}` — ordered listeners (priority) + stop-propagation.
+- `Hooks/{WpBridge,HookManager}` — capability-guarded WP adapters; HookManager dedupes identical bindings.
+- `Registry/{RegistryInterface,ArrayRegistry,DynamicRegistry}`; `Factory/{FactoryInterface,SimpleFactory}`; `Config/Repository` (dot-notation); `Cache/{CacheInterface,CacheKey,ObjectCache,TransientCache}` (honest flush()); `Providers/ServiceProviderInterface` (register-then-boot).
+- Kernel boot extended: config -> env -> flags -> logger -> errorHandler -> container -> core services -> providers (providers array in app/Config/config.php).
+- `bin/smoke-phase2.php` — WP-free suite, 39/39 PASS incl. Phase 1 regression; added to CI.
+- Version 0.2.0; phantom.env.json.example schema fixed (environment.override/features). ADR-014 + ADR README index row.
+
+ANALYZER NOTES (2026-08-03):
+- WPCS EscapeOutput on exception messages: phpcs:ignore MUST sit directly above the flagged token line (empirically verified); message built into $message var then throw new NotFoundException($message) with ignore above the throw line is cleanest.
+- Concatenated exception strings: the sniff flags the line containing the variable token; keep concatenation on one logical line or break before the flagged token.
+- phpcbf exit code 1 = "fixes applied" (not a failure); re-run phpcs after to confirm 0 errors.
+
+GATES ALL GREEN (2026-08-03): composer validate ✅, php -l ✅, PHPCS 0/0 ✅, PHPStan L5 0 err ✅, Psalm 0 issues ✅, smoke1 24/24 ✅, smoke2 39/39 ✅, ESLint ✅, Prettier ✅, tsc ✅, Vite build ✅, integrity 473/473 ✅.
+
+TODO GIT: commit Phase 2 + tag `v0.2.0-framework` + push to origin/main.

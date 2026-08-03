@@ -39,4 +39,8 @@ return array(
 		// Whether ErrorHandler::register() installs the WP-surface handler.
 		'register' => true,
 	),
+	'providers'     => array(
+		// Service providers registered during boot (Phase 2). Subsystems add
+		// their provider class here as they ship in later phases.
+	),
 );

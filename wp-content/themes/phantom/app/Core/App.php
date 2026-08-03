@@ -2,18 +2,18 @@
 /**
  * App — the public static facade for Phantom Core.
  *
- * Phase 1 (Bootstrap): exposes the framework's runtime entry point after boot:
+ * Phase 1–2: exposes the framework's runtime entry point after boot:
  *   - instance()  — the singleton App
- *   - make()      — resolve a registered service from the Phase-1 registry
- *   - get()       — config shorthand
+ *   - make()      — resolve a service (container-backed since Phase 2)
+ *   - get()       — config shorthand (dot notation via Config\Repository)
  *   - env()       — current environment (production|staging|development|local)
  *   - is_debug()  — debug mode flag
  *   - log()       — structured logging through the Log facade
  *
- * The Phase-1 service registry is a simple id → value map populated by the
- * Kernel during bootstrap. The full dependency-injection container
- * (Container\Container, PSR-11-style) lands in Phase 2 and will back make()
- * without changing this public API.
+ * The Phase-1 id → value registry remains as the pre-container fallback; since
+ * Phase 2 the Container\Container (PSR-11-style) backs make(), and get() routes
+ * through the immutable Config\Repository. This public API is stable across
+ * both phases (ADR-013/014).
  *
  * @package Phantom\Core\Core
  * @since 0.1.0
@@ -23,6 +23,8 @@ declare( strict_types=1 );
 
 namespace Phantom\Core\Core;
 
+use Phantom\Core\Config\Repository;
+use Phantom\Core\Container\Container;
 use Phantom\Core\Support\Debug\Log;
 use Phantom\Core\Support\Env;
 
@@ -41,9 +43,26 @@ final class App {
 	/**
 	 * Phase-1 service registry (id → value).
 	 *
+	 * Kept as the pre-container fallback; superseded by $container in Phase 2
+	 * (ADR-013/014) without breaking consumers of make().
+	 *
 	 * @var array<string, mixed>
 	 */
 	private array $services = array();
+
+	/**
+	 * Phase-2 service container (set by the Kernel during boot).
+	 *
+	 * @var Container|null
+	 */
+	private ?Container $container = null;
+
+	/**
+	 * Immutable config repository (set by the Kernel during boot).
+	 *
+	 * @var Repository|null
+	 */
+	private ?Repository $config_repository = null;
 
 	/**
 	 * Loaded configuration array.
@@ -74,10 +93,9 @@ final class App {
 	}
 
 	/**
-	 * Register services into the Phase-1 registry.
+	 * Register services into the registry (and the container when present).
 	 *
-	 * Called by the Kernel during bootstrap. Superseded by the Phase-2
-	 * container without breaking this API.
+	 * Called by the Kernel during bootstrap.
 	 *
 	 * @param array<string, mixed> $services Map of service id → value.
 	 * @return void
@@ -86,15 +104,53 @@ final class App {
 	 */
 	public function provide( array $services ): void {
 		$this->services = array_merge( $this->services, $services );
+
+		if ( null !== $this->container ) {
+			foreach ( $services as $id => $value ) {
+				$this->container->set( (string) $id, $value );
+			}
+		}
+	}
+
+	/**
+	 * Attach the Phase-2 container (called by the Kernel).
+	 *
+	 * @param Container $container Service container.
+	 * @return void
+	 *
+	 * @internal Framework bootstrap only.
+	 */
+	public function set_container( Container $container ): void {
+		$this->container = $container;
+	}
+
+	/**
+	 * Attach the config repository (called by the Kernel).
+	 *
+	 * @param Repository $repository Immutable config repository.
+	 * @return void
+	 *
+	 * @internal Framework bootstrap only.
+	 */
+	public function set_config_repository( Repository $repository ): void {
+		$this->config_repository = $repository;
 	}
 
 	/**
 	 * Resolve a registered service by id.
 	 *
+	 * Phase 2: resolution delegates to the container when attached; the Phase-1
+	 * registry remains the fallback. Unknown ids resolve to null (Phase-1
+	 * contract) rather than throwing.
+	 *
 	 * @param string $service_id Service id.
 	 * @return mixed The service value, or null when unknown.
 	 */
 	public function make( string $service_id ): mixed {
+		if ( null !== $this->container && $this->container->has( $service_id ) ) {
+			return $this->container->get( $service_id );
+		}
+
 		return $this->services[ $service_id ] ?? null;
 	}
 
@@ -111,13 +167,17 @@ final class App {
 	}
 
 	/**
-	 * Config shorthand.
+	 * Config shorthand (dot notation supported via the repository).
 	 *
-	 * @param string $id       Config key (dot notation unsupported pre-Phase 2).
+	 * @param string $id       Config key, e.g. "log.level" (dot notation).
 	 * @param mixed  $fallback Fallback when the key is absent.
 	 * @return mixed
 	 */
 	public function get( string $id, mixed $fallback = null ): mixed {
+		if ( null !== $this->config_repository ) {
+			return $this->config_repository->get( $id, $fallback );
+		}
+
 		return $this->config[ $id ] ?? $fallback;
 	}
 
