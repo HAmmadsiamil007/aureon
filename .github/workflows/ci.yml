@@ -51,6 +51,9 @@ jobs:
       - name: Phase 2 framework smoke suite (WP-free)
         run: php bin/smoke-phase2.php
 
+      - name: Phase 3 design token smoke suite (WP-free)
+        run: php bin/smoke-phase3.php
+
   static-analysis:
     name: PHPCS + PHPStan + Psalm
     runs-on: ubuntu-latest

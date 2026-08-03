@@ -7,7 +7,7 @@
  * namespacing, asset handles, and runtime feature gating (ADR-002, ADR-010).
  *
  * @package Phantom\Core\Core
- * @since 0.1.0 (0.2.0: Framework Infrastructure)
+ * @since 0.1.0 (0.2.0: Framework Infrastructure; 0.3.0: Design Token Engine)
  */
 
 declare( strict_types=1 );
@@ -27,7 +27,7 @@ final class Version {
 	 *
 	 * @var string
 	 */
-	public const VERSION = '0.2.0';
+	public const VERSION = '0.3.0';
 
 	/**
 	 * Framework API level — bumped whenever a public API breaks compatibility.

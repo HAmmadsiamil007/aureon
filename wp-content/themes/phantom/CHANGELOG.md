@@ -4,6 +4,45 @@ All notable changes to the Phantom theme / Phantom Core are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versioning follows SemVer `0.x` (see `docs/versions.md`).
 
+## [0.3.0-tokens] — 2026-08-03
+
+Tag: `v0.3.0-tokens` · Phase 3 — Design Token Engine (frozen Phases 0–2
+unchanged)
+
+### Added
+
+- `Tokens\TokenRepository` — public facade: `tokens($context)`, `token($name)`
+  (throws `UnknownToken`), `resolve($name)`, `css($scope)`, `validate()`,
+  `contrast_passes()`.
+- `Tokens\TokenSource` — parses nested definitions into a flat dot-map;
+  validates names against `/^[a-z0-9][a-z0-9\-]{0,63}$/` per segment.
+- `Tokens\Preced` — precedence collector (default → preset → override).
+- `Tokens\Resolver` — walks the `extends` inheritance graph (cycle-safe).
+- `Tokens\TokenFactory` — token → CSS custom-property map (`--phantom-*`).
+- `Tokens\Invariant` — name/fallback validation + WCAG AA contrast ratio.
+- `Tokens\Renderer\CssRenderer` — `:root` + `[data-phantom-theme="…"]` blocks.
+- `Tokens\Loader\DataProvider` — in-memory cached loader for config files.
+- `Tokens\TokenServiceProvider` — container bindings (registered in
+  `Config\config.php` `providers`).
+- Canonical token groups (`app/Tokens/config/tokens.php`): color, typography,
+  space (4px scale), radius, shadow, motion, layout, grid, breakpoints,
+  z-index, component (extends-aliased). Presets: `default` + `dark`
+  (`app/Tokens/config/presets.php`).
+- `bin/smoke-phase3.php` — WP-free Design Token smoke suite (25 assertions,
+  incl. Phases 1–2 regression); added to CI.
+- ADR-015 — Design Token Engine record.
+
+### Changed
+
+- Version 0.2.0 → 0.3.0 (`Core\Version`, `style.css`, `composer.json`,
+  `composer.lock`).
+
+### Fixed
+
+- Token name pattern relaxed to allow digit-leading segments (canonical
+  numeric-scale tokens `space.4`, `type.size.2xl`); CSS var prefix keeps the
+  full property name letter-initial (ADR-015 §5).
+
 ## [0.2.0-framework] — 2026-08-03
 
 Tag: `v0.2.0-framework` · Phase 2 — Framework Infrastructure (frozen

@@ -42,5 +42,6 @@ return array(
 	'providers'     => array(
 		// Service providers registered during boot (Phase 2). Subsystems add
 		// their provider class here as they ship in later phases.
+		\Phantom\Core\Tokens\TokenServiceProvider::class,
 	),
 );
