@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<psalm
+	errorLevel="5"
+	resolveFromConfigFile="true"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+	<projectFiles>
+		<directory name="app"/>
+		<ignoreFiles>
+			<directory name="vendor"/>
+			<directory name="tests"/>
+			<directory name="e2e"/>
+		</ignoreFiles>
+	</projectFiles>
+
+	<issueHandlers>
+		<!-- TEMPORARY (Phase 0 only): no WordPress runtime is loaded during
+		     Psalm runs yet, so WP functions/classes are undefined. Phase 1
+		     (Bootstrap) wires WP stubs into the analysis; these two global
+		     suppressions must be removed then so Psalm can police WP API
+		     misuse in app/ (tracked in Report/MASTER_ROADMAP.md). -->
+		<UndefinedClass errorLevel="suppress"/>
+		<UndefinedFunction errorLevel="suppress"/>
+	</issueHandlers>
+</psalm>

@@ -1,0 +1,15 @@
+# Build output
+assets/dist
+dist
+
+# Dependencies
+node_modules
+vendor
+
+# Lockfiles (generated)
+package-lock.json
+composer.lock
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

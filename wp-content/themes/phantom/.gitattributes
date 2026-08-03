@@ -1,0 +1,19 @@
+# Normalize line endings to LF in the repository (matches .editorconfig
+# `end_of_line = lf`). Prevents cross-platform CRLF churn in diffs.
+* text=auto eol=lf
+
+# Binary assets stay untouched.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.ico binary
+*.zip binary
+
+# Lockfiles are machine-generated; treat as text for review but keep LF.
+composer.lock text eol=lf
+package-lock.json text eol=lf

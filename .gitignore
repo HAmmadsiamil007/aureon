@@ -1,0 +1,13 @@
+# ── Redundant archives (Report/ is fully tracked) ─────────────────────────────
+Report.zip
+
+# ── OS / editor noise ──────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/*
+
+# ── Nested phantom theme handles its own deps/caches (see
+#    wp-content/themes/phantom/.gitignore): vendor/, node_modules/, assets/dist/,
+#    .phpstan/, .psalm/, tools/composer.phar, phantom.env.json — all excluded there.

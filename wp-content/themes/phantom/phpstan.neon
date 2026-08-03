@@ -1,0 +1,16 @@
+parameters:
+	# Static analysis at level 5 (ADR-012). Raised per-subsystem as suites grow.
+	level: 5
+	paths:
+		- app
+	tmpDir: .phpstan
+	# No WP function stubs needed at Phase 0; the theme glues against public
+	# WP/GP APIs only (ADR-004) and PHPStan never scans vendor code.
+	excludePaths:
+		analyse:
+			- tests
+			- e2e
+		analyseAndScan:
+			- vendor
+	bootstrapFiles:
+		- vendor/autoload.php

@@ -1,0 +1,24 @@
+/*
+Theme Name: Phantom
+Theme URI: https://example.com/phantom
+Author: Phantom Core Team
+Author URI: https://example.com
+Description: Token-driven premium frontend framework for WordPress, delivered as a GeneratePress child theme. Phantom Core powers the presentation layer while GeneratePress, GP Premium, and WooCommerce remain 100% untouched.
+Version: 0.1.0
+Requires at least: 6.5
+Tested up to: 6.9
+Requires PHP: 8.2
+Template: generatepress
+Text Domain: phantom
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Tags: accessibility-ready, custom-menu, custom-logo, e-commerce, full-width-template, one-column, two-columns, right-sidebar
+*/
+
+/* Phase 0 — Project Foundation.
+ *
+ * This stylesheet carries only the WordPress theme header. All presentational
+ * styles ship via the asset pipeline (assets-src/ -> assets/dist) starting in
+ * Phase 7 (Asset Pipeline). Design tokens arrive in Phase 3 and are emitted as
+ * CSS custom properties (ADR-003) — no hard-coded hex/px in component code.
+ */

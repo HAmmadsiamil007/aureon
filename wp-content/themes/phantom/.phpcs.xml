@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<ruleset name="Phantom Core Coding Standards">
+	<description>PHP_CodeSniffer ruleset for the Phantom Core child theme (WordPress Coding Standards).</description>
+
+	<!-- Only scan our own source; never vendor or build output. -->
+	<file>./app</file>
+	<file>./inc</file>
+	<file>./functions.php</file>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<exclude-pattern>*/assets/dist/*</exclude-pattern>
+
+	<!-- WordPress Coding Standards (WPCS 3.x). -->
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress-Docs"/>
+
+	<!-- Prefix hygiene: every global symbol uses the phantom_ prefix (ADR-002). -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="phantom"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- PSR-4 autoloading (ADR-009) requires namespace-matching file names for
+	     classes in app/ (e.g. app/Core/Version.php). WPCS filename conventions
+	     apply only to non-namespaced theme/plugin files. -->
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>*/app/*</exclude-pattern>
+	</rule>
+
+	<!-- Text domain for all i18n strings. -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="phantom"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- PHP 8.2 baseline (ADR-012). -->
+	<config name="testVersion" value="8.2-"/>
+	<config name="minimum_supported_wp_version" value="6.5"/>
+
+	<!-- Line length: WPC 100 hard, we allow up to 120 with 140 hard cap. -->
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="120"/>
+			<property name="absoluteLineLimit" value="140"/>
+		</properties>
+	</rule>
+</ruleset>
