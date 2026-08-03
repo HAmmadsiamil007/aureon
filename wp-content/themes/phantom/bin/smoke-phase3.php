@@ -123,16 +123,24 @@ check( 'component.card.shadow resolves to a shadow value', str_contains( (string
 check( 'validate() has zero violations', array() === $tokens->validate(), implode( '; ', $tokens->validate() ) );
 
 // 9. WCAG AA contrast for default + dark.
-check( 'default preset contrast >= 4.5:1', $tokens->contrast_passes(), (string) ( new Invariant() )->contrast( (string) $accent, (string) $tokens->token( 'color.bg' ) ) );
+check( 'default preset fg/bg contrast >= 4.5:1', $tokens->contrast_passes() );
 
-$dark_fg = $tokens->tokens( 'color' )['color.fg'] ?? '#f9fafb';
-$dark_bg = $tokens->tokens( 'color' )['color.bg'] ?? '#111827';
-check(
-	'dark preset tokens present in default? (via preset block)',
-	str_contains( $dark_block, '--phantom-color-fg:' ),
-	'dark block fg var present'
+// Resolve the dark preset through the real pipeline and assert its fg/bg pair
+// also meets WCAG AA (plan testing strategy: "Invariant test ensures dark
+// preset AA").
+$dark_resolved = ( new \Phantom\Core\Tokens\Resolver() )->resolve_all(
+	( new \Phantom\Core\Tokens\Preced() )->collect(
+		( new \Phantom\Core\Tokens\TokenSource() )->parse(
+			( new \Phantom\Core\Tokens\Loader\DataProvider() )->tokens()
+		),
+		( new \Phantom\Core\Tokens\TokenSource() )->parse(
+			(array) ( ( new \Phantom\Core\Tokens\Loader\DataProvider() )->presets()['dark'] ?? array() )
+		)
+	)
 );
-check( 'Invariant contrast() ratio in 1..21', ( new Invariant() )->contrast( $dark_fg, $dark_bg ) >= 1.0 && ( new Invariant() )->contrast( $dark_fg, $dark_bg ) <= 21.0 );
+$invariant = new Invariant();
+check( 'dark preset fg/bg contrast >= 4.5:1', $invariant->contrast_passes( $dark_resolved ) );
+check( 'Invariant contrast() ratio in 1..21', $invariant->contrast( (string) $dark_resolved['color.fg'], (string) $dark_resolved['color.bg'] ) >= 1.0 && $invariant->contrast( (string) $dark_resolved['color.fg'], (string) $dark_resolved['color.bg'] ) <= 21.0 );
 
 // 10. UnknownToken behavior.
 $unknown_thrown = false;

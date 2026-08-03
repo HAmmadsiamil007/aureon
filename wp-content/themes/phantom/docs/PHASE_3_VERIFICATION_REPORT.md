@@ -41,6 +41,16 @@ MODE — only the approved acceptance criteria, no gold-plating.
 | Smoke suite              | `bin/smoke-phase3.php` (25 assertions) |
 | ADR                      | `docs/architecture/ADR/ADR-015.md`     |
 
+### 2.1 Deviations from plan (documented)
+
+- **`token()` throws `UnknownToken` unconditionally**, whereas the plan says
+  "throws in debug". Deterministic always-throw was chosen so behavior does not
+  vary by environment; `resolve()` returns `null` as the graceful path. This is
+  the intended production contract (documented in the class docblock).
+- **Name pattern** allows a leading digit per segment (plan's sample was
+  letter-initial) to accommodate canonical numeric tokens (`space.4`);
+  security charset unchanged — see ADR-015 §5.
+
 ### 2.1 Files Created
 
 13 files under `app/Tokens/` + `bin/smoke-phase3.php` + `ADR-015.md` (15 total).
@@ -102,23 +112,22 @@ DataProvider (config files, memoized)
 
 ## 6. Test Results
 
-| Suite                          | Scope                                                                                                                                                                                                                                                          | Result            |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| `bin/smoke-phase3.php`         | tokens('color') validated subset; token('color.accent') hex; space.4 = 0.25rem; `:root` block; dark preset block + palette flip; component extends resolution; Invariant zero violations; WCAG AA contrast default + dark; UnknownToken; Phases 1–2 regression | ✅ **25/25 PASS** |
-| `bin/smoke-phase2.php`         | Phase 2 regression                                                                                                                                                                                                                                             | ✅ **39/39 PASS** |
-| `bin/smoke-phase1.php`         | Phase 1 regression                                                                                                                                                                                                                                             | ✅ **24/24 PASS** |
-| ESLint / Prettier / tsc / Vite | npm toolchain                                                                                                                                                                                                                                                  | ✅ all PASS       |
-| Integrity gate                 | GP + Premium 473/473                                                                                                                                                                                                                                           | ✅ PASS           |
+| Suite | Scope | Result |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- || `bin/smoke-phase3.php` | tokens('color') validated subset; token('color.accent') hex; space.4 = 0.25rem; `:root` block; dark preset block + palette flip; component extends resolution; Invariant zero violations; WCAG AA contrast default **and** dark (fg/bg); UnknownToken; Phases 1–2 regression | ✅ **25/25 PASS** |
+| `bin/smoke-phase2.php` | Phase 2 regression | ✅ **39/39 PASS** |
+| `bin/smoke-phase1.php` | Phase 1 regression | ✅ **24/24 PASS** |
+| ESLint / Prettier / tsc / Vite | npm toolchain | ✅ all PASS |
+| Integrity gate | GP + Premium 473/473 | ✅ PASS |
 
 ### Verification checklist (plan §Phase 3)
 
-| Checklist item                                              | Status                                         | Evidence                                                                     |
-| ----------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------- |
-| `TokenRepository::token('color.accent')` returns hex        | **PASS**                                       | smoke-phase3 hex assertion                                                   |
-| CSS cascade check: custom property resolves in browser      | **PASS (deferred to Phase 7 static emission)** | `:root` block valid; runtime enqueue lands with the Asset Pipeline (Phase 7) |
-| Contrast pair (fg/bg) ≥ 4.5:1 for default preset            | **PASS**                                       | smoke-phase3 contrast assertion                                              |
-| No token name with invalid chars in any value               | **PASS**                                       | `Invariant::validate()` zero violations                                      |
-| Preset switch flips `:root` block to full alternate palette | **PASS**                                       | dark block swaps `color.bg`; default keeps light bg                          |
+| Checklist item                                              | Status                                         | Evidence                                                                               |
+| ----------------------------------------------------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `TokenRepository::token('color.accent')` returns hex        | **PASS**                                       | smoke-phase3 hex assertion                                                             |
+| CSS cascade check: custom property resolves in browser      | **PASS (deferred to Phase 7 static emission)** | `:root` block valid; runtime enqueue lands with the Asset Pipeline (Phase 7)           |     | Contrast pair (fg/bg) ≥ 4.5:1 for default preset | **PASS** | smoke-phase3 `contrast_passes()` on default fg/bg |
+| Dark preset contrast (Invariant test ensures dark AA)       | **PASS**                                       | smoke-phase3 resolves the dark map through the real pipeline and asserts fg/bg ≥ 4.5:1 |
+| No token name with invalid chars in any value               | **PASS**                                       | `Invariant::validate()` zero violations                                                |
+| Preset switch flips `:root` block to full alternate palette | **PASS**                                       | dark block swaps `color.bg`; default keeps light bg                                    |
 
 ---
 
