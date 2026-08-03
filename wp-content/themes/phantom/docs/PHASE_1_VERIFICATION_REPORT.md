@@ -248,15 +248,17 @@ functions.php ──requires──▶ app/load.php
 
 ## Regression Analysis
 
-| Check                                 | Result                                                    |
-| ------------------------------------- | --------------------------------------------------------- |
-| Phase 0 frozen at `v0.1.0-foundation` | PASS — tag exists; no Phase 0 file altered                |
-| GeneratePress hashes match baseline   | PASS — integrity gate                                     |
-| GP Premium hashes match baseline      | PASS — integrity gate                                     |
-| No vendor file modified               | PASS                                                      |
-| WooCommerce / WP Core untouched       | PASS                                                      |
-| Phase 0 gates still green             | PASS — full gate sweep re-run green                       |
-| New technical debt                    | NONE — one documented naming deviation, zero TODO markers |
+| Check                                             | Result                                                                                                                                                                                                                                                               |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Phase 0 snapshot frozen at `v0.1.0-foundation`    | PASS — annotated tag on the Phase 0 commit; snapshot immutable and restorable                                                                                                                                                                                        |
+| Phase 0 **runtime** deliverables unchanged        | PASS — `functions.php`, `app/Core/Version.php`, `style.css`, directory structure untouched                                                                                                                                                                           |
+| Phase 0 **tooling configs** extended (documented) | PASS — `.phpcs.xml`, `phpstan.neon`, `psalm.xml`, `composer.json`, `composer.lock` gained Phase-1 wiring (WP stubs, scoped hook rule, stubs dep); all recorded in `Files Modified` + CHANGELOG; the `v0.1.0-foundation` tag still reproduces the exact Phase 0 state |
+| GeneratePress hashes match baseline               | PASS — integrity gate                                                                                                                                                                                                                                                |
+| GP Premium hashes match baseline                  | PASS — integrity gate                                                                                                                                                                                                                                                |
+| No vendor file modified                           | PASS                                                                                                                                                                                                                                                                 |
+| WooCommerce / WP Core untouched                   | PASS                                                                                                                                                                                                                                                                 |
+| Phase 0 gates still green                         | PASS — full gate sweep re-run green                                                                                                                                                                                                                                  |
+| New technical debt                                | NONE — one documented naming deviation, zero TODO markers                                                                                                                                                                                                            |
 
 ---
 
@@ -294,6 +296,12 @@ documented in ADR-006/ADR-013 and this report.
 | VC-4 | Error handler emits once                          | **PASS**                   | `report()` single-emission guard + smoke                                                                                     |
 | VC-5 | `App` resolves without side effects at class-load | **PASS**                   | `instance()` has no boot/config side effects; documented                                                                     |
 | VC-6 | CI-visible smoke                                  | **PASS** _(adapted)_       | `bin/smoke-phase1.php` (WP-free equivalent of `wp eval`) runs in CI bootstrap job — 24/24                                    |
+
+> **Post-review hardening (same phase):** `Sequencer::has_failed()` added —
+> `phantom_core:ready` now only fires when every boot step succeeded (no false
+> ready on partial failure). `Env::detect()` validates the override against the
+> allowed environment set. CI integrity job asserts baseline + package presence
+> so the gate cannot silently skip. All changes re-verified green.
 
 ---
 

@@ -20,6 +20,18 @@ namespace Phantom\Core\Support;
 final class Env {
 
 	/**
+	 * Allowed environment values (mirrors wp_get_environment_type()).
+	 *
+	 * @var string[]
+	 */
+	private const VALID_ENVIRONMENTS = array(
+		'local',
+		'development',
+		'staging',
+		'production',
+	);
+
+	/**
 	 * Detect the current environment.
 	 *
 	 * Resolution order:
@@ -27,13 +39,16 @@ final class Env {
 	 *   2. wp_get_environment_type() when WordPress is loaded
 	 *   3. 'production' (safe fallback)
 	 *
+	 * The override is validated against the allowed set; unknown values fall
+	 * through to the next source so a typo can never produce a bogus env.
+	 *
 	 * @param array<string, mixed> $config Loaded config array.
 	 * @return string local|development|staging|production
 	 */
 	public static function detect( array $config = array() ): string {
 		$override = $config['environment']['override'] ?? null;
 
-		if ( is_string( $override ) && '' !== $override ) {
+		if ( is_string( $override ) && in_array( $override, self::VALID_ENVIRONMENTS, true ) ) {
 			return $override;
 		}
 

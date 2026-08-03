@@ -33,6 +33,13 @@ final class Sequencer {
 	private array $steps = array();
 
 	/**
+	 * Whether the most recent run had a failing step.
+	 *
+	 * @var bool
+	 */
+	private bool $failed = false;
+
+	/**
 	 * Register a boot step.
 	 *
 	 * @param string   $id       Unique step id (used in events and filters).
@@ -57,6 +64,17 @@ final class Sequencer {
 	 */
 	public function has( string $id ): bool {
 		return isset( $this->steps[ $id ] );
+	}
+
+	/**
+	 * Whether the last run had a failing step.
+	 *
+	 * Lets the Kernel gate the `phantom_core:ready` event on full success.
+	 *
+	 * @return bool
+	 */
+	public function has_failed(): bool {
+		return $this->failed;
 	}
 
 	/**
@@ -92,6 +110,8 @@ final class Sequencer {
 					$context = array_merge( $context, $result );
 				}
 			} catch ( \Throwable $e ) {
+				$this->failed = true;
+
 				Log::error(
 					'Boot step "{step}" failed: {message}',
 					array(

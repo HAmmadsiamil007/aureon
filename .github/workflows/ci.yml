@@ -112,5 +112,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Assert baseline + packages present (gate cannot silently skip)
+        run: |
+          test -f ../../../Report/gp_audit_manifest_new.txt
+          test -d ../../../generatepress.3.6.1/generatepress
+          test -d ../../../gp-premium_v2.5.6/gp-premium
+
       - name: Verify GeneratePress + GP Premium byte-identical to baseline
         run: bash bin/verify-parent-integrity.sh

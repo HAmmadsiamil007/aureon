@@ -144,6 +144,10 @@ final class Kernel implements BootableInterface {
 	/**
 	 * Boot the kernel: run the sequence and raise lifecycle events.
 	 *
+	 * `phantom_core:ready` is only raised when every boot step succeeded; on a
+	 * partial failure the sequence stops, `phantom_core:boot_error` fires, and
+	 * no ready event is emitted — so listeners never see a false "ready".
+	 *
 	 * @return void
 	 */
 	public function boot(): void {
@@ -156,6 +160,11 @@ final class Kernel implements BootableInterface {
 		$this->raise( 'phantom_core:booting' );
 		$this->register();
 		$this->sequencer()->run();
+
+		if ( $this->sequencer()->has_failed() ) {
+			return;
+		}
+
 		$this->raise( 'phantom_core:booted' );
 		$this->raise( 'phantom_core:ready' );
 	}
