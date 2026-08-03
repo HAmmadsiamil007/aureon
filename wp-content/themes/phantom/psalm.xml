@@ -15,13 +15,10 @@
 		</ignoreFiles>
 	</projectFiles>
 
-	<issueHandlers>
-		<!-- TEMPORARY (Phase 0 only): no WordPress runtime is loaded during
-		     Psalm runs yet, so WP functions/classes are undefined. Phase 1
-		     (Bootstrap) wires WP stubs into the analysis; these two global
-		     suppressions must be removed then so Psalm can police WP API
-		     misuse in app/ (tracked in Report/MASTER_ROADMAP.md). -->
-		<UndefinedClass errorLevel="suppress"/>
-		<UndefinedFunction errorLevel="suppress"/>
-	</issueHandlers>
+	<!-- WordPress stubs (ADR-004): Phase 1 wires WP declarations into the
+	     analysis so Psalm can police WP API misuse in app/; the Phase 0
+	     global suppressions are removed. -->
+	<stubs>
+		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php"/>
+	</stubs>
 </psalm>

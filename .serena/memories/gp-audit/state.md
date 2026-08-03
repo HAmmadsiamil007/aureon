@@ -98,3 +98,30 @@ TOOL VERSIONS LOCKED: PHP 8.2.31, Composer 2.10.2, Node 24.18, npm 11.18, PHPSta
 - serena memory `gp-audit/architecture-blueprint` holds the full blueprint + phase-5 notes.
 - ADRs 001-012 documented in MASTER_ROADMAP.md.
 - Named: Phantom Core / Phantom Theme. Conventions: Phantom\Core, phantom_, --phantom-*, ADR-001..012, feature flags phantom_feature_*.
+
+## PHASE 1 — BOOTSTRAP (COMPLETE 2026-08-03)
+Deliverable: `wp-content/themes/phantom/app/` boot layer + `docs/PHASE_1_VERIFICATION_REPORT.md` — **STATUS: APPROVED FOR PHASE 2**.
+
+WHAT WAS BUILT (per plan Phase 1, nothing beyond):
+- Freeze: git tag `v0.1.0-foundation` on Phase 0 (immutable).
+- ADRs materialized `docs/architecture/ADR/ADR-001..013` + README index; ADR-013 = Phase 1 Bootstrap architecture.
+- `app/load.php` — single entry; Composer PSR-4 autoload + `plugins_loaded(5)` Kernel bind (guarded for WP-free CLI).
+- `app/Boot/Kernel` + `Sequencer` + `BootableInterface` — lifecycle events `phantom_core:booting/booted/ready/boot_error` (ADR-006), filterable steps `phantom_core:boot_steps`, never throws on WP surface.
+- `app/Core/App` — facade `instance/make/get/env/is_debug/log` (WPCS snake_case; plan's isDebug renamed, documented) + Phase-1 service registry.
+- `app/Config/ConfigLoader` + `config.php` defaults — immutable array, `phantom.env.json` overrides (ADR-011), `../` traversal rejected.
+- `app/Support/Env` (wp_get_environment_type wrapper; debug via constant('WP_DEBUG')), `FeatureFlags` (fail closed), `Debug/Log` + `Loggers` (PSR-3-ish, level threshold, secret redaction ph_pass/sku_key), `ErrorHandler` (WP_Error wrap, register-once, single boot_error emission).
+- `bin/smoke-phase1.php` — WP-free CLI suite, 24/24 PASS, deterministic + self-cleaning (snapshot/restore shutdown handler).
+- CI workflow moved to repo root `.github/workflows/ci.yml` (GitHub requires root); `working-directory` = theme; smoke step added; nested workflow removed.
+- Static analysis wired to WP stubs: phpstan.neon includes `phpstan-wordpress` extension; psalm.xml `<stubs>` wordpress-stubs; Phase 0 global Psalm suppressions REMOVED; composer.json adds `php-stubs/wordpress-stubs` require-dev.
+
+ANALYZER NOTES (2026-08-03):
+- WPCS snake_case won over the plan's camelCase facade sketch (isDebug→is_debug etc.) — zero external consumers, WPCS is the governing standard (ADR-006/quality gates).
+- ADR-006 colon hooks (`phantom_core:*`) kept; `WordPress.NamingConventions.ValidHookName` scoped out of app/ in .phpcs.xml (documented).
+- Dynamic `do_action($hook)` in Kernel::raise() → phpcs:ignore PrefixAllGlobals (callers only pass phantom_core:* hooks).
+- WP_DEBUG not in WP stubs (wp-config constant) → `defined('WP_DEBUG') && true === constant('WP_DEBUG')`.
+- error_get_last() shape is fixed → isset() dropped in ErrorHandler::on_shutdown().
+- Smoke suite MUST be deterministic: writes known phantom.env.json BEFORE boot, restores via register_shutdown_function (earlier fatal left a stray file — fixed).
+
+GATES ALL GREEN (2026-08-03): composer validate ✅, dump-autoload (2239 classes) ✅, php -l ✅, PHPCS 0/0 ✅, PHPStan L5 0 err (WP stubs) ✅, Psalm 0 issues (stubs, no global suppressions) ✅, smoke 24/24 ✅, ESLint ✅, Prettier ✅, tsc ✅, Vite build ✅, integrity 473/473 ✅.
+
+TODO GIT: tag `v0.1.1-bootstrap` after commit + push to origin/main.

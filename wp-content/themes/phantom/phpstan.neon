@@ -1,3 +1,8 @@
+includes:
+	# WordPress stubs + dynamic return types from phpstan-wordpress (ADR-004:
+	# glue against public WP APIs only). Resolves WP_Error, do_action, etc.
+	- vendor/szepeviktor/phpstan-wordpress/extension.neon
+
 parameters:
 	# Static analysis at level 5 (ADR-012). Raised per-subsystem as suites grow.
 	level: 5

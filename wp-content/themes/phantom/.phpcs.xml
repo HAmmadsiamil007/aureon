@@ -30,6 +30,14 @@
 		<exclude-pattern>*/app/*</exclude-pattern>
 	</rule>
 
+	<!-- ADR-006: the domain event bus deliberately uses the phantom_core:*
+	     double-colon namespace (phantom_core:ready, phantom_core:boot_error).
+	     WPCS prefers underscores, so the hook-name rule is scoped out of app/
+	     where the domain bus lives. WP-boundary hooks keep underscores. -->
+	<rule ref="WordPress.NamingConventions.ValidHookName">
+		<exclude-pattern>*/app/*</exclude-pattern>
+	</rule>
+
 	<!-- Text domain for all i18n strings. -->
 	<rule ref="WordPress.WP.I18n">
 		<properties>

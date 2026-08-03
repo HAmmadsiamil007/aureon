@@ -12,6 +12,11 @@ concurrency:
 permissions:
   contents: read
 
+# The Phantom theme lives at wp-content/themes/phantom — every step runs there.
+defaults:
+  run:
+    working-directory: wp-content/themes/phantom
+
 jobs:
   bootstrap:
     name: Bootstrap (composer validate + PHP lint)
@@ -27,9 +32,6 @@ jobs:
           coverage: none
 
       - name: composer validate
-        # Non-strict: the intentional `version` field (semver policy) yields a
-        # benign Packagist warning that would fail --strict. Validation still
-        # fails hard on schema errors (exit != 0).
         run: composer validate --no-check-publish
 
       - name: composer install (dev)
@@ -38,11 +40,13 @@ jobs:
       - name: composer dump-autoload (PSR-4, optimized)
         run: composer dump-autoload --optimize
 
-      - name: PHP syntax check on app/
-        run: find app -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: PHP syntax check on app/ + functions.php
+        run: |
+          find app -name '*.php' -print0 | xargs -0 -n1 php -l
+          php -l functions.php
 
-      - name: PHP syntax check on functions.php
-        run: php -l functions.php
+      - name: Phase 1 bootstrap smoke suite (WP-free)
+        run: php bin/smoke-phase1.php
 
   static-analysis:
     name: PHPCS + PHPStan + Psalm
@@ -81,6 +85,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
+          cache-dependency-path: wp-content/themes/phantom/package-lock.json
 
       - name: npm ci
         run: npm ci
@@ -107,10 +112,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Authoritative ONLY inside the monorepo checkout, where the GeneratePress
-      # + GP Premium packages and the audited manifest live at the repo root.
-      # In the isolated child-theme checkout the gate SKIPS with exit 0 and an
-      # explicit message (never silently pretends verification happened). The
-      # script resolves the package paths itself from the repo layout.
       - name: Verify GeneratePress + GP Premium byte-identical to baseline
         run: bash bin/verify-parent-integrity.sh

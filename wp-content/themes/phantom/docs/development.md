@@ -30,8 +30,11 @@ php tools/composer.phar dump-autoload --optimize
 
 # Static analysis
 php tools/composer.phar cs          # PHPCS (WordPress Coding Standards)
-php tools/composer.phar stan        # PHPStan level 5
-php tools/composer.phar psalm       # Psalm errorLevel 5
+php tools/composer.phar stan        # PHPStan level 5 (WordPress stubs via phpstan-wordpress)
+php tools/composer.phar psalm       # Psalm errorLevel 5 (stubs via php-stubs/wordpress-stubs)
+
+# Phase 1 — bootstrap smoke suite (WP-free boot lifecycle, 24 assertions)
+php bin/smoke-phase1.php            # exit 0 = all assertions pass
 
 # Node toolchain
 npm run lint                        # ESLint (flat config)
@@ -43,19 +46,20 @@ npm run build                       # Vite build → assets/dist (Phase 7 expand
 npm run check                       # lint + format + typecheck
 ```
 
-## Quality gates (Phase 0)
+## Quality gates (Phase 1)
 
 Every commit must pass:
 
-1. `php -l` on every `.php` file under `app/`
+1. `php -l` on every `.php` file under `app/` + `bin/`
 2. `composer validate` + successful `composer dump-autoload`
-3. PHPCS — zero errors
+3. PHPCS — zero errors, zero warnings
 4. PHPStan level 5 — zero errors
 5. Psalm errorLevel 5 — zero errors
-6. ESLint + Prettier + `tsc --noEmit`
-7. `bin/verify-parent-integrity.sh` — GP/Premium byte-identical to baseline
+6. `php bin/smoke-phase1.php` — 24/24 bootstrap assertions
+7. ESLint + Prettier + `tsc --noEmit` + Vite build
+8. `bin/verify-parent-integrity.sh` — GP/Premium byte-identical to baseline
 
-CI runs all of these on push/PR (`.github/workflows/ci.yml`).
+CI runs all of these on push/PR (`.github/workflows/ci.yml` at repo root).
 
 ## Integrity gate (ADR-004)
 
