@@ -393,43 +393,7 @@ if ( ! function_exists( 'aureon_activation_area' ) ) {
 	add_action( 'aureon_admin_right_panel', 'aureon_activation_area' );
 
 	function aureon_activation_area() {
-		$license = get_option( 'aureon_studio_license_key', '' );
-		$key = get_option( 'aureon_studio_license_key_status', 'deactivated' );
-
-		if ( 'valid' == $key ) {
-			$message = sprintf( '<span class="license-key-message receiving-updates">%s</span>', __( 'Receiving updates', 'aureon-studio' ) );
-		} else {
-			$message = sprintf( '<span class="license-key-message not-receiving-updates">%s</span>', __( 'Not receiving updates', 'aureon-studio' ) );
-		}
-		?>
-		<form method="post" action="options.php">
-			<div class="postbox aureon-metabox" id="aureon-license-keys">
-				<h3 class="hndle">
-					<?php _e( 'Updates', 'aureon-studio' );?>
-					<span class="license-key-info">
-						<?php echo $message; ?>
-						<a title="<?php esc_attr_e( 'Help', 'aureon-studio' ); ?>" href="https://example.com/article/updating-aureon-studio/" target="_blank" rel="noopener">[?]</a>
-					</span>
-				</h3>
-
-				<div class="inside" style="margin-bottom:0;">
-					<div class="license-key-container" style="position:relative;">
-						<p>
-							<input spellcheck="false" class="license-key-input" id="aureon_license_key_aureon_studio" name="aureon_license_key_aureon_studio" type="<?php echo apply_filters( 'aureon_premium_license_key_field', 'password' ); ?>" value="<?php echo $license; ?>" placeholder="<?php _e( 'License Key', 'aureon-studio' ); ?>" />
-						</p>
-
-						<p class="beta-testing-container" <?php echo ( empty( $license ) ) ? 'style="display: none;"' : '';?>>
-							<input type="checkbox" id="aureon_studio_beta_testing" name="aureon_studio_beta_testing" value="true" <?php echo ( get_option( 'aureon_studio_beta_testing', false ) ) ? 'checked="checked"' : ''; ?> />
-							<label for="aureon_studio_beta_testing"><?php _e( 'Receive beta updates', 'aureon-studio' ); ?> <a title="<?php esc_attr_e( 'Help', 'aureon-studio' ); ?>" href="https://example.com/article/beta-testing/" target="_blank" rel="noopener">[?]</a></label>
-						</p>
-
-						<?php wp_nonce_field( 'aureon_license_key_aureon_studio_nonce', 'aureon_license_key_aureon_studio_nonce' ); ?>
-						<input type="submit" class="button button-primary" name="aureon_studio_license_key" value="<?php _e( 'Save', 'aureon-studio' );?>" />
-					</div>
-				</div>
-			</div>
-		</form>
-		<?php
+		// License key UI removed — no phone-home validation.
 	}
 }
 

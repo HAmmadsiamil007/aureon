@@ -56,7 +56,6 @@ class Aureon_Pro_Dashboard {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'aureon_admin_dashboard', array( $this, 'module_list' ), 8 );
-		add_action( 'aureon_admin_dashboard', array( $this, 'license_key' ), 5 );
 		add_action( 'aureon_admin_dashboard', array( $this, 'import_export' ), 50 );
 		add_action( 'aureon_admin_dashboard', array( $this, 'reset' ), 100 );
 		add_filter( 'aureon_premium_beta_tester', array( $this, 'set_beta_tester' ) );
@@ -396,7 +395,7 @@ class Aureon_Pro_Dashboard {
 	 * Add the container for our start customizing app.
 	 */
 	public function license_key() {
-		echo '<div id="aureon-license-key"></div>';
+		// License key UI removed — no phone-home validation.
 	}
 
 	/**
