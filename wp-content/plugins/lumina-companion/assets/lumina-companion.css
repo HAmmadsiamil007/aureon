@@ -1,0 +1,60 @@
+/**
+ * Lumina Companion — frontend styles (original).
+ *
+ * Token-driven; consumes the Lumina design tokens (--lumina-*). No
+ * hard-coded colors/spacing/typography.
+ */
+
+/* Secondary navigation */
+.lumina-secondary-nav {
+  background: var(--lumina-color-bg);
+  border-bottom: 1px solid var(--lumina-color-border);
+}
+
+.lumina-secondary-nav__list {
+  display: flex;
+  gap: var(--lumina-spacing-gap, 1rem);
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem var(--lumina-spacing-gutter, 1rem);
+}
+
+.lumina-secondary-nav__list a {
+  color: var(--lumina-color-fg);
+  text-decoration: none;
+}
+
+.lumina-secondary-nav__list a:hover,
+.lumina-secondary-nav__list a:focus-visible {
+  color: var(--lumina-color-accent);
+}
+
+.lumina-secondary-nav__list a:focus-visible {
+  outline: 2px solid var(--lumina-color-accent);
+  outline-offset: 2px;
+}
+
+/* Page header */
+.lumina-page-header {
+  padding: 3rem 0;
+}
+
+.lumina-page-header__title {
+  margin: 0 0 0.5rem;
+}
+
+/* Sections regions */
+.lumina-section-region {
+  padding: 1rem 0;
+}
+
+/* WooCommerce polish */
+.woocommerce ul.products li.product .button {
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .woocommerce div.product div.images img {
+    transition: none;
+  }
+}

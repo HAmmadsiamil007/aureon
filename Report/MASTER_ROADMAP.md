@@ -1,12 +1,12 @@
-# MASTER ROADMAP — Phantom Theme / Phantom Core
+# MASTER ROADMAP — Lumina Theme / Lumina Core
 
-> **Single source of truth** for the Phantom project. Tracks every completed, planned, and blocked phase, dependency ordering, acceptance criteria, status, and architectural decision records (ADRs).
+> **Single source of truth** for the Lumina project. Tracks every completed, planned, and blocked phase, dependency ordering, acceptance criteria, status, and architectural decision records (ADRs).
 
 | Field | Value |
 |---|---|
-| Project | Phantom Theme (custom frontend framework atop GeneratePress 3.6.1 + GP Premium 2.5.6) |
-| Core deliverable | **Phantom Core** — framework layer (service container, tokens, render engine, component registry, bridges) |
-| Root scope | `wp-content/themes/phantom` (child theme) — GP + GP Premium remain untouched |
+| Project | Lumina Theme (standalone premium frontend framework for WordPress) |
+| Core deliverable | **Lumina Core** — framework layer (service container, tokens, render engine, component registry, bridges) + **Lumina Companion** plugin |
+| Root scope | `wp-content/themes/lumina` (standalone theme, no parent) + `wp-content/plugins/lumina-companion` |
 | Last updated | 2026-08-04 |
 | Status legend | `Not Started` · `In Progress` · `Completed` · `Blocked` |
 
@@ -71,7 +71,7 @@ Phase 15 (Testing) → Phase 16 (Rebranding plan only) → Phase 17 (Release)
 | 14 | Accessibility | `Completed` (2026-08-04) | 3,4,11,12 | §Phase 14 — report: `wp-content/themes/phantom/docs/PHASE_14_VERIFICATION_REPORT.md` | ↑ |
 | 15 | QA, Validation & Production Readiness | `Completed` (2026-08-04) | 1–14 | §Phase 15 — report: `wp-content/themes/phantom/docs/PHASE_15_VERIFICATION_REPORT.md` | ↑ |
 | 15.5 | Production Freeze & Release Candidate | `Completed` (2026-08-04) | 15 | §Phase 15.5 — report: `wp-content/themes/phantom/docs/PHASE_15_5_PRODUCTION_FREEZE_REPORT.md` | ↑ |
-| 16 | Rebranding (plan only) | `Not Started` | all | §Phase 16 | ↑ |
+| 16 | Safe Rebranding — Lumina (standalone theme + companion plugin) | `Completed` (2026-08-04) | all | §Phase 16 — report: `wp-content/themes/lumina/docs/PHASE_16_VERIFICATION_REPORT.md` | ↑ |
 | 17 | Release | `Not Started` | 15, 16 | §Phase 17 | ↑ |
 
 > Full acceptance criteria live in the per-phase sections of `PHASE_5_PHANTOM_CORE_IMPLEMENTATION_PLAN.md` — the arrow "↑" in the Acceptance column points to that document.
@@ -162,6 +162,9 @@ Phase 15 (Testing) → Phase 16 (Rebranding plan only) → Phase 17 (Release)
 | ADR-023 | Phase 12 Frontend Template Library — Templates\Composer slug→region→component automap, canonical maps.php (23 slugs), thin templates/frontend/*.php delegating to View::compose, Woo via bridge only, WP-free compose() parity | `Accepted` | Full record: `docs/architecture/ADR/ADR-023.md`. |
 | ADR-024 | Phase 13 Performance Engineering — Performance\Budget VO, BudgetLogger, QueryGuard (debug-only), Lazy deferred runner, CachePurger + `phantom_core:cache_purged` action, performance config + provider, zero production overhead | `Accepted` | Full record: `docs/architecture/ADR/ADR-024.md`. |
 | ADR-025 | Phase 14 Accessibility Engineering — A11y\Checker static HTML audit, SkipLink via `wp_body_open`, DialogManager attribute contract + validation, provider + config, WP-free CI-verifiable | `Accepted` | Full record: `docs/architecture/ADR/ADR-025.md`. |
+| ADR-026 | Phase 16 Rebrand — `Lumina\Core` namespace, `lumina_`/`lumina-*` handles, `--lumina-*` tokens, `lumina_core:*` events, text domain `lumina`, v1.0.0 major bump (API_LEVEL 2), grep-zero gate | `Accepted` | Full record: `docs/architecture/ADR/ADR-026.md`. |
+| ADR-027 | Phase 16 Standalone — parent `Template:` removed, original shell files, resolver parent tier dropped, region hooks, self-integrity gate | `Accepted` | Full record: `docs/architecture/ADR/ADR-027.md`. |
+| ADR-028 | Phase 16 Lumina Companion plugin — original implementation, theme-gated, zero runtime deps, no commercial code copied | `Accepted` | Full record: `docs/architecture/ADR/ADR-028.md`. |
 
 > **Future ADRs go here — always append, never rewrite history.**
 

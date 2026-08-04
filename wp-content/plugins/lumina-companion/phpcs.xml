@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<ruleset name="Lumina Companion Coding Standards">
+	<description>WordPress Coding Standards for the Lumina Companion plugin.</description>
+
+	<!-- Scan plugin source + main file; bin/ are WP-free CLI smoke scripts
+	     (mirrors the Lumina theme, which also excludes bin/). -->
+	<file>./src</file>
+	<file>./lumina-companion.php</file>
+
+	<arg name="extensions" value="php" />
+	<arg value="sp" />
+
+	<rule ref="WordPress-Extra" />
+	<rule ref="WordPress-Docs" />
+
+	<!-- Prefix hygiene: every global symbol uses the lumina_ prefix. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="lumina" />
+			</property>
+		</properties>
+	</rule>
+
+	<!-- PSR-4 autoloading requires namespace-matching file names in src/
+	     (e.g. src/Modules/MenuPlus.php). -->
+	<rule ref="WordPress.Files.FileName">
+		<exclude-pattern>*/src/*</exclude-pattern>
+	</rule>
+
+	<!-- Text domain for all i18n strings. -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="lumina-companion" />
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Namespaced method-local variables are intentionally scoped to the
+	     module's option name; no global variables are ever introduced. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound">
+		<severity>0</severity>
+	</rule>
+</ruleset>

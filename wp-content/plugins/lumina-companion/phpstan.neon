@@ -1,0 +1,19 @@
+includes:
+	# WordPress stubs + dynamic return types from phpstan-wordpress.
+	- ../../themes/lumina/vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+	level: 5
+	paths:
+		- src
+		- lumina-companion.php
+	tmpDir: .phpstan
+	excludePaths:
+		analyseAndScan:
+			- vendor
+	bootstrapFiles:
+		- ../../themes/lumina/vendor/autoload.php
+	ignoreErrors:
+		# `container => false` is documented wp_nav_menu behavior; the
+		# phpstan-wordpress stub types the container offset as string.
+		- '#Parameter \#1 \$args of function wp_nav_menu expects#'

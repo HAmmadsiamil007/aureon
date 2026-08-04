@@ -1,0 +1,29 @@
+feat(rebrand): Phase 16 - Phantom to Lumina complete rebrand
+
+Full rebrand of the Phantom framework into Lumina Studio, as an original
+standalone product with zero GeneratePress / GP Premium / Phantom traces.
+
+Theme (wp-content/themes/lumina):
+- Fully standalone WordPress theme, no parent-tier dependency
+- Original shell templates: header, footer, index, single, page, archive,
+  search, 404, comments, searchform
+- Namespace Lumina\Core, --lumina-* design tokens (136 in _tokens.scss)
+- Region hooks: lumina_before/after_header, lumina_before/after_footer
+- Version 1.0.0, API_LEVEL 2, composer lumina/lumina, style.css Lumina Studio
+- Integrity gate verify-lumina-integrity.sh (393-file SHA-256 baseline,
+  portable star normalization for Linux/Windows CI)
+
+Plugin (wp-content/plugins/lumina-companion):
+- Original companion plugin, 8 modules: Spacing, Typography, PageHeader,
+  SecondaryNav, MenuPlus, Sections, SiteLibrary, WooCommerce
+- Theme-gated activation (get_template() === 'lumina'), WP-free guards,
+  ModuleTrait with WP-free sanitize fallback
+- PSR-4 src/, phpcs.xml, phpstan.neon, readme.txt
+
+Docs:
+- ADR-026/027/028 (standalone theme, companion plugin, region hooks)
+- API_FREEZE, CONTRACT_FREEZE, CHANGELOG 1.0.0, PHASE_16 reports
+- MASTER_ROADMAP Phase 16 approved
+
+Quality gates all green: 14 theme smoke suites, plugin 17/17 + integration
+16/16, PHPCS 0, PHPStan 0, Psalm 0, npm check, Vite build, integrity 393/393.

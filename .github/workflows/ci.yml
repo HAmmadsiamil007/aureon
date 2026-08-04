@@ -1,4 +1,4 @@
-name: Phantom Core CI
+name: Lumina CI
 
 on:
   push:
@@ -12,10 +12,10 @@ concurrency:
 permissions:
   contents: read
 
-# The Phantom theme lives at wp-content/themes/phantom — every step runs there.
+# The Lumina theme lives at wp-content/themes/lumina — every step runs there.
 defaults:
   run:
-    working-directory: wp-content/themes/phantom
+    working-directory: wp-content/themes/lumina
 
 jobs:
   bootstrap:
@@ -66,10 +66,10 @@ jobs:
       - name: Phase 7 asset pipeline smoke suite (WP-free)
         run: php bin/smoke-phase7.php
 
-      - name: Regenerate + verify token source carries --phantom-* vars
+      - name: Regenerate + verify token source carries --lumina-* vars
         run: |
           php bin/build-tokens.php
-          grep -q -- '--phantom-' assets-src/scss/_tokens.scss
+          grep -q -- '--lumina-' assets-src/scss/_tokens.scss
 
       - name: Phase 8 plugin bridges smoke suite (WP-free)
         run: php bin/smoke-phase8.php
@@ -91,6 +91,12 @@ jobs:
 
       - name: Phase 14 accessibility engineering smoke suite (WP-free)
         run: php bin/smoke-phase14.php
+
+      - name: Phase 16 companion plugin smoke suite (WP-free)
+        run: php ../../../plugins/lumina-companion/bin/smoke-phase16-plugin.php
+
+      - name: Phase 16 theme + plugin integration smoke (WP-free)
+        run: php ../../../plugins/lumina-companion/bin/smoke-phase16-integration.php
 
   static-analysis:
     name: PHPCS + PHPStan + Psalm
@@ -129,7 +135,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: wp-content/themes/phantom/package-lock.json
+          cache-dependency-path: wp-content/themes/lumina/package-lock.json
 
       - name: npm ci
         run: npm ci
@@ -149,23 +155,21 @@ jobs:
       - name: Vite build
         run: npm run build
 
-      - name: Verify dist manifest + built CSS carries --phantom-* vars
+      - name: Verify dist manifest + built CSS carries --lumina-* vars
         run: |
           test -f assets/dist/.vite/manifest.json
-          grep -q -- '--phantom-' assets/dist/assets/*.css
+          grep -q -- '--lumina-' assets/dist/assets/*.css
 
   integrity:
-    name: Parent-package integrity gate (ADR-004)
+    name: Lumina self-integrity gate (ADR-004)
     runs-on: ubuntu-latest
     needs: bootstrap
     steps:
       - uses: actions/checkout@v4
 
-      - name: Assert baseline + packages present (gate cannot silently skip)
+      - name: Assert baseline present (gate cannot silently skip)
         run: |
-          test -f ../../../Report/gp_audit_manifest_new.txt
-          test -d ../../../generatepress.3.6.1/generatepress
-          test -d ../../../gp-premium_v2.5.6/gp-premium
+          test -f bin/lumina-integrity.sha256
 
-      - name: Verify GeneratePress + GP Premium byte-identical to baseline
-        run: bash bin/verify-parent-integrity.sh
+      - name: Verify Lumina theme tree byte-identical to freeze baseline
+        run: bash bin/verify-lumina-integrity.sh
