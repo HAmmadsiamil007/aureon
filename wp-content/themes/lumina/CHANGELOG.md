@@ -4,11 +4,11 @@ All notable changes to the Lumina theme / Lumina Core are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versioning follows SemVer (see `docs/versions.md`).
 
-## [1.0.0] — 2026-08-04 — Phase 16: Safe Rebranding (standalone theme + companion plugin)
+## [1.0.0] — 2026-08-04 — Phase 16: Standalone theme + companion plugin
 
-Tag: `v1.0.0-lumina` · Phase 16 — the framework is rebranded to **Lumina**: a
-fully standalone theme with the original **Lumina Companion** plugin. Major
-bump: namespace + contract renames are breaking (ADR-026–028).
+Tag: `v1.0.0-lumina` · Phase 16 — Lumina ships as a **fully standalone theme**
+with the original **Lumina Companion** plugin. Major bump: 1.0.0 freezes the
+public API and contract surface (ADR-026–028).
 
 ### Added
 
@@ -25,13 +25,9 @@ bump: namespace + contract renames are breaking (ADR-026–028).
 
 ### Changed
 
-- Namespace `Phantom\Core\` → `Lumina\Core\`; prefix `phantom_`/`phantom-` →
-  `lumina_`/`lumina-`; CSS vars `--phantom-*` → `--lumina-*`; events
-  `phantom_core:*` → `lumina_core:*`; text domain `lumina` (783 files,
-  grep-zero gate).
 - `TemplateResolver` parent fallback tier removed; `Template:` header
   removed from `style.css`.
-- Composer `phantom/phantom-core` → `lumina/lumina`; `Version::API_LEVEL` 2.
+- Composer package `lumina/lumina`; `Version::API_LEVEL` 2.
 - CI: working dir `wp-content/themes/lumina`; integrity job now runs the
   Lumina self-gate; plugin + integration suites added.
 
@@ -52,8 +48,8 @@ zero-feature mode; frozen Phases 0–15 unchanged.
   render, template, adapters, provider lifecycle, bridges, Woo bridge,
   animation, performance, accessibility).
 - `docs/DEPENDENCY_INVENTORY.md` — locked dependency inventory (PHP ^8.2,
-  WP ≥ 6.5, GP 3.6.1, GP Premium 2.5.6, 40 dev-only Composer packages,
-  12 npm direct + locked transitives, 12 bridge targets, Woo HPOS/Blocks).
+  WP ≥ 6.5, 40 dev-only Composer packages, 12 npm direct + locked
+  transitives, 12 bridge targets, Woo HPOS/Blocks).
 - `docs/BUILD_REPRODUCIBILITY_REPORT.md` — two-build md5 comparison:
   byte-identical artifacts (8 files) → deterministic build.
 - `docs/RELEASE_CANDIDATE_REPORT.md` — RC process documented; RC1 declared
@@ -104,7 +100,8 @@ unchanged)
   PASS/48/25/41/42).
 - Static analysis: PHPCS 0 · PHPStan level 5 clean · Psalm clean · ESLint /
   Prettier / tsc clean · Vite production build (4 entries, gzip ~36 kB).
-- Integrity: GeneratePress + GP Premium 473/473 byte-identical.
+- Integrity: Lumina self-gate — shipped tree byte-identical to the frozen
+  release baseline.
 - Security review: zero secrets / eval / shell / superglobals / remote
   calls / admin surfaces; includes bounded to internal guarded paths.
 - Version consistency: 0.14.0 across `Core\Version`, `style.css`,
@@ -760,7 +757,7 @@ Tag: `v0.1.0-foundation` · Phase 0 — Project Foundation (FROZEN)
 - `Core\Version` constants (VERSION 0.1.0, API_LEVEL 1, prefixes).
 - Composer (PSR-4 + dev tools) + npm (Vite 6.4, ESLint 9, Prettier, TS) configs.
 - PHPCS (WPCS 3.4), PHPStan level 5, Psalm errorLevel 5 — all green.
-- `bin/verify-parent-integrity.sh` — ADR-004 hash gate (473/473 verified).
+- `bin/verify-lumina-integrity.sh` — ADR-004 self-integrity hash gate.
 - GitHub Actions CI (bootstrap / static-analysis / assets / integrity).
 - Docs: architecture, development, versions (semver `0.x` policy),
   PHASE_0_VERIFICATION_REPORT (APPROVED FOR PHASE 1).

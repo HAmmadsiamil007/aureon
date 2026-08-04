@@ -38,7 +38,7 @@ Key features:
 
 = Does Lumina require a parent theme? =
 
-No. Lumina is a fully standalone theme. It does not use GeneratePress, GP Premium, or any other parent framework.
+No. Lumina is a fully standalone theme with no parent-theme dependency. It runs directly on WordPress core.
 
 = Does Lumina require the companion plugin? =
 
