@@ -1,4 +1,8 @@
-# Aureon - WordPress Developer Foundation
+<p align="center">
+  <img src="assets/banner.jpeg" alt="Aureon — WordPress Developer Foundation" width="100%">
+</p>
+
+# Aureon — WordPress Developer Foundation
 
 > A lightweight, performance-first WordPress theme and plugin suite built for developers who want complete control over their frontend.
 

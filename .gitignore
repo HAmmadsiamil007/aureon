@@ -5,6 +5,9 @@ generatepress/
 *.zip
 *.tar.gz
 
+# Original source files (kept in assets/ instead)
+AUREON_framework_Bannar.jpeg
+
 # IDE files
 .vscode/
 .idea/
