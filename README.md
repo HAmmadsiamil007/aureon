@@ -259,7 +259,6 @@ This project is licensed under the GNU General Public License v2 or later - see 
 
 - **Documentation:** Coming soon
 - **Issues:** [GitHub Issues](https://github.com/HAmmadsiamil007/wordpress/issues)
-- **Email:** support@aureonstudio.com
 
 ---
 
