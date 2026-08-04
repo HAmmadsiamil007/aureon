@@ -30,6 +30,30 @@ if ( is_readable( $lumina_autoload ) ) {
 	require_once $lumina_autoload;
 }
 
+// Self-contained PSR-4 fallback autoloader (ADR-009, Phase 16.5).
+// Distributions do NOT ship vendor/ (dev tooling only). When Composer's
+// autoloader is absent this registers a minimal `Lumina\Core\` → `app/`
+// mapping so the theme runs standalone on a fresh install. Registered only
+// when the Kernel is not already loadable.
+if ( ! class_exists( \Lumina\Core\Boot\Kernel::class, false ) ) {
+	spl_autoload_register(
+		static function ( string $lumina_class ): void {
+			$lumina_prefix = 'Lumina\\Core\\';
+
+			if ( ! str_starts_with( $lumina_class, $lumina_prefix ) ) {
+				return;
+			}
+
+			$lumina_relative = substr( $lumina_class, strlen( $lumina_prefix ) );
+			$lumina_file     = __DIR__ . '/' . str_replace( '\\', '/', $lumina_relative ) . '.php';
+
+			if ( is_readable( $lumina_file ) ) {
+				require_once $lumina_file;
+			}
+		}
+	);
+}
+
 // Bind the Kernel to the plugin-loaded phase at priority 5 (ADR-013).
 if ( function_exists( 'add_action' ) ) {
 	add_action( 'plugins_loaded', array( \Lumina\Core\Boot\Kernel::class, 'launch' ), 5 );

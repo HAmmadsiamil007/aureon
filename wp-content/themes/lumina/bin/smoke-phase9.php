@@ -25,7 +25,13 @@ use Lumina\Core\Woo\Data\ProductAdapter;
 use Lumina\Core\Woo\Hooks\HookPreservation;
 use Lumina\Core\Woo\WooBridge;
 
-require __DIR__ . '/../vendor/autoload.php';
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', dirname( __DIR__ ) . '/' );
+}
+
+// Vendor-optional bootstrap: distributions ship without vendor/, so boot
+// through app/load.php, which registers the PSR-4 fallback autoloader.
+require dirname( __DIR__ ) . '/app/load.php';
 
 $failures = 0;
 $total    = 0;

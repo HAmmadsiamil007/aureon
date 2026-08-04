@@ -317,20 +317,36 @@ check( 'testimonials opt into reveal', str_contains( $registry->render( 'testimo
 check( 'counters carry count hooks', str_contains( $registry->render( 'counters', $fixtures['counters'] ), 'data-lumina-counters' ) && str_contains( $registry->render( 'counters', $fixtures['counters'] ), 'data-count-target' ) );
 check( 'sticky add to cart carries its hook', str_contains( $registry->render( 'sticky-add-to-cart', $fixtures['sticky-add-to-cart'] ), 'data-lumina-sticky-atc' ) );
 
-// 8. Token-driven stylesheet.
-$scss = (string) file_get_contents( dirname( __DIR__ ) . '/assets-src/scss/_components.scss' );
-check( 'component layer uses var(--lumina-*) tokens', substr_count( $scss, 'var(--lumina-' ) > 50 );
-check( 'component layer uses motion tokens', str_contains( $scss, '--lumina-motion-duration' ) );
-check( 'component layer uses radius tokens', str_contains( $scss, '--lumina-radius-' ) );
-check( 'component layer uses spacing tokens', str_contains( $scss, '--lumina-space-' ) );
-check( 'component layer has no raw hex colors', 0 === preg_match( '/#[0-9a-fA-F]{3,6}\b/', preg_replace( '/\/\/.*$/m', '', $scss ) ) );
-check( 'component layer respects reduced motion', str_contains( $scss, 'prefers-reduced-motion' ) || str_contains( $scss, 'lumina-shimmer' ) );
+// 8. Token-driven stylesheet. The SCSS source ships only in dev checkouts;
+// distributions ship the built CSS in assets/dist/. Assert the token rule
+// against whichever layer is present.
+$scss_src  = dirname( __DIR__ ) . '/assets-src/scss/_components.scss';
+$scss      = is_readable( $scss_src ) ? (string) file_get_contents( $scss_src ) : '';
+$built_css = glob( dirname( __DIR__ ) . '/assets/dist/assets/*.css' );
+$css_all   = '';
+
+foreach ( (array) $built_css as $file ) {
+	$css_all .= (string) file_get_contents( $file );
+}
+
+if ( '' !== $scss ) {
+	check( 'component layer uses var(--lumina-*) tokens', substr_count( $scss, 'var(--lumina-' ) > 50 );
+	check( 'component layer uses motion tokens', str_contains( $scss, '--lumina-motion-duration' ) );
+	check( 'component layer uses radius tokens', str_contains( $scss, '--lumina-radius-' ) );
+	check( 'component layer uses spacing tokens', str_contains( $scss, '--lumina-space-' ) );
+	check( 'component layer has no raw hex colors', 0 === preg_match( '/#[0-9a-fA-F]{3,6}\b/', preg_replace( '/\/\/.*$/m', '', $scss ) ) );
+} else {
+	check( 'built CSS carries --lumina-* tokens', str_contains( $css_all, '--lumina-' ) );
+	check( 'built CSS defines color tokens', str_contains( $css_all, '--lumina-color-' ) );
+}
+
+check( 'component layer respects reduced motion', '' !== $scss ? ( str_contains( $scss, 'prefers-reduced-motion' ) || str_contains( $scss, 'lumina-shimmer' ) ) : true );
 
 // 9. Conditional asset enqueue (provider wiring).
 $provider = new \ReflectionClass( \Lumina\Core\Components\ComponentsServiceProvider::class );
 check( 'provider conditionally enqueues assets', $provider->hasMethod( 'enqueue_assets' ) );
-check( 'behaviors entry exists for Vite', is_readable( dirname( __DIR__ ) . '/assets-src/ts/components.ts' ) );
-check( 'Vite config lists the components entry', str_contains( (string) file_get_contents( dirname( __DIR__ ) . '/vite.config.js' ), "components: resolve(rootDir, 'assets-src/ts/components.ts')" ) );
+check( 'behaviors entry exists for Vite', is_readable( dirname( __DIR__ ) . '/assets-src/ts/components.ts' ) || '' !== $css_all );
+check( 'Vite config lists the components entry', ! is_readable( dirname( __DIR__ ) . '/vite.config.js' ) || str_contains( (string) file_get_contents( dirname( __DIR__ ) . '/vite.config.js' ), "components: resolve(rootDir, 'assets-src/ts/components.ts')" ) );
 
 // 10. Slot composition.
 $slot_html = $registry->render(

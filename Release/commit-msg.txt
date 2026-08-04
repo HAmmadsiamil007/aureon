@@ -1,0 +1,33 @@
+feat(packaging): Phase 16.5 - distributable Lumina + Companion ZIPs
+
+Production packaging for the Lumina 1.0.0 release freeze:
+
+Artifacts (Release/):
+- lumina-1.0.0.zip - standalone theme, 293 files, 442 KiB
+- lumina-companion-1.0.0.zip - companion plugin, 16 files, 25 KiB
+- license-gplv2.txt - full GPL v2 distribution license
+
+New capability - zero-composer distributions:
+- app/load.php registers a self-contained PSR-4 fallback autoloader
+  (Lumina\Core\ -> app/) so the theme runs with no vendor/ on a fresh
+  install (dev tooling stays out of the archives)
+
+Packaging tooling:
+- bin/package-lumina.php - cross-platform PHP packaging script with
+  Windows separator normalization, exclusion list (vendor/node_modules/
+  docs/tests/bin/dev-configs), explicit readme/license staging, and
+  ZipArchive fail-fast + self-verify
+
+Test-harness hardening (vendor-optional):
+- smoke-phase8/9/10 boot via app/load.php (no hard vendor require)
+- smoke-phase11 + phase16-integration fall back to built CSS token
+  checks when assets-src/ is not shipped (dev stays at full assertions)
+
+Distribution files:
+- theme readme.txt (WP.org format), Release/.gitignore for artifacts
+
+Verified:
+- 16/16 smoke suites green against the shipped payload (no vendor)
+- ZIP integrity clean, install layout correct, manifest ships
+- 0 forbidden identifiers in payload
+- Theme PHPCS 0, plugin PHPCS 0, PHPStan 0/0, npm check, integrity 395/395

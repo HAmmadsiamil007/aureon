@@ -1,0 +1,6 @@
+# Lumina 1.0.0 distributable ZIPs are regenerable build artifacts.
+# Rebuild with: php wp-content/themes/lumina/bin/package-lumina.php
+# Keep license text + this note tracked; the ZIPs churn bytes per rebuild
+# (hashed filenames inside assets/dist/) and should not create commit noise.
+
+lumina-*.zip

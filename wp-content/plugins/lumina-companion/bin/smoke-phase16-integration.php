@@ -91,12 +91,30 @@ check(
 	false !== strpos( $header, "apply_filters( 'lumina_template_data'" )
 );
 
-// 6. CSS var coexistence + zero phantom.
-$theme_tokens = (string) file_get_contents( $theme_dir . '/assets-src/scss/_tokens.scss' );
+// 6. CSS var coexistence + zero phantom. The SCSS token source ships only in
+// dev checkouts; distributions ship the built CSS in assets/dist/. Assert the
+// token contract against whichever layer is present.
+$tokens_src = $theme_dir . '/assets-src/scss/_tokens.scss';
+$theme_tokens = is_readable( $tokens_src ) ? (string) file_get_contents( $tokens_src ) : '';
 $plugin_css   = $plugin->inline_css();
-check( 'theme tokens carry --lumina-*', false !== strpos( $theme_tokens, '--lumina-color-bg' ) );
+
+if ( '' !== $theme_tokens ) {
+	check( 'theme tokens carry --lumina-*', false !== strpos( $theme_tokens, '--lumina-color-bg' ) );
+	check( 'no --phantom- in theme tokens', false === strpos( $theme_tokens, '--phantom-' ) );
+} else {
+	// Distributions: verify the built stylesheet carries the token contract.
+	$built = glob( $theme_dir . '/assets/dist/assets/*.css' );
+	$css_all = '';
+
+	foreach ( (array) $built as $file ) {
+		$css_all .= (string) file_get_contents( $file );
+	}
+
+	check( 'built theme CSS carries --lumina-*', false !== strpos( $css_all, '--lumina-color-bg' ) );
+	check( 'no --phantom- in built theme CSS', false === strpos( $css_all, '--phantom-' ) );
+}
+
 check( 'plugin CSS carries --lumina-*', false !== strpos( $plugin_css, '--lumina-spacing-container' ) );
-check( 'no --phantom- in theme tokens', false === strpos( $theme_tokens, '--phantom-' ) );
 check( 'no --phantom- in plugin CSS', false === strpos( $plugin_css, '--phantom-' ) );
 
 echo "\n== Results: {$passes} passed, {$fails} failed ==\n";
