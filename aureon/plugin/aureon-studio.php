@@ -3,7 +3,7 @@
  * Plugin Name: Aureon Studio
  * Plugin URI: https://aureonstudio.com
  * Description: The entire collection of Aureon premium modules.
- * Version: 2.5.6
+ * Version: 1.0.0
  * Requires at least: 6.1
  * Requires PHP: 7.2
  * Author: Aureon Studio
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'AUREON_STUDIO_VERSION', '2.5.6' );
+define( 'AUREON_STUDIO_VERSION', '3.0.0' );
 define( 'AUREON_STUDIO_DIR_PATH', plugin_dir_path( __FILE__ ) );
 define( 'AUREON_STUDIO_DIR_URL', plugin_dir_url( __FILE__ ) );
 define( 'AUREON_LIBRARY_DIRECTORY', plugin_dir_path( __FILE__ ) . 'library/' );
