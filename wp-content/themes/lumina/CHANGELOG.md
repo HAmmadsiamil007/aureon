@@ -4,6 +4,39 @@ All notable changes to the Lumina theme / Lumina Core are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versioning follows SemVer (see `docs/versions.md`).
 
+## [1.0.1] — 2026-08-04 — Phase 16.5: Full premium-module parity + provenance audit
+
+Tag: `v1.0.1-lumina` · Companion plugin expands from 8 to **17 modules**,
+covering the complete premium-theme surface (GP-Premium-style feature parity,
+all original code). Provenance & licensing audit documented.
+
+### Added (Companion plugin — 9 new modules, all original)
+
+- `Colors` — per-element color overrides as `--lumina-color-*` tokens.
+- `Backgrounds` — body/content/footer colors + body background image layer.
+- `Blog` — archive columns, featured images, excerpts, meta, read-more.
+- `Copyright` — footer copyright text/bar with removal option.
+- `DisableElements` — hide header/footer/page-title globally or per post.
+- `Elements` — reusable content blocks placed on Lumina region hooks (CPT).
+- `FontLibrary` — Google-font enqueueing + `--lumina-font-*` families.
+- `Hooks` — HTML/script injection at 7 public hook points.
+- `General` — layout, container, sidebar, tagline, back-to-top.
+
+### Changed
+
+- Plugin customizer section (`lumina_companion`) now created before controls.
+- Elements module wired to region hooks via the plugin facade.
+- Plugin smoke suite: 17-module registry + conditional-module CSS coverage
+  (WP-free `get_option` stub) → 26 assertions.
+- Integration suite: 17-module assertion.
+- Docs: `PROVENANCE_LICENSING_AUDIT.md`, `FEATURE_COMPLETENESS_MATRIX.md`.
+- Readmes/composer description updated to the 17-module surface.
+
+### Validated
+
+- Plugin PHPCS 0, PHPStan 0; theme suite regression green; shipped ZIPs
+  rebuilt (plugin 25 files / 39 KiB) and re-verified — 0 forbidden refs.
+
 ## [1.0.0] — 2026-08-04 — Phase 16: Standalone theme + companion plugin
 
 Tag: `v1.0.0-lumina` · Phase 16 — Lumina ships as a **fully standalone theme**

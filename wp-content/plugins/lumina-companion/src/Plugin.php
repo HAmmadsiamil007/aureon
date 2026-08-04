@@ -23,6 +23,15 @@ use Lumina\Companion\Modules\Sections;
 use Lumina\Companion\Modules\Spacing;
 use Lumina\Companion\Modules\Typography;
 use Lumina\Companion\Modules\WooCommerce;
+use Lumina\Companion\Modules\Colors;
+use Lumina\Companion\Modules\Backgrounds;
+use Lumina\Companion\Modules\Blog;
+use Lumina\Companion\Modules\Copyright;
+use Lumina\Companion\Modules\DisableElements;
+use Lumina\Companion\Modules\Elements;
+use Lumina\Companion\Modules\FontLibrary;
+use Lumina\Companion\Modules\Hooks;
+use Lumina\Companion\Modules\General;
 
 /**
  * Singleton application root.
@@ -89,6 +98,7 @@ final class Plugin {
 			add_action( 'wp_body_open', array( $this, 'render_page_header_region' ), 15 );
 			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- WP core function.
 			add_filter( 'lumina_template_data', array( $this, 'inject_template_data' ), 10, 2 );
+			$this->wire_elements_hooks();
 		}
 	}
 
@@ -118,14 +128,23 @@ final class Plugin {
 	 */
 	private function register_modules(): void {
 		$modules = array(
-			'spacing'       => new Spacing(),
-			'typography'    => new Typography(),
-			'page-header'   => new PageHeader(),
-			'secondary-nav' => new SecondaryNav(),
-			'menu-plus'     => new MenuPlus(),
-			'sections'      => new Sections(),
-			'site-library'  => new SiteLibrary(),
-			'woocommerce'   => new WooCommerce(),
+			'spacing'          => new Spacing(),
+			'typography'       => new Typography(),
+			'page-header'      => new PageHeader(),
+			'secondary-nav'    => new SecondaryNav(),
+			'menu-plus'        => new MenuPlus(),
+			'sections'         => new Sections(),
+			'site-library'     => new SiteLibrary(),
+			'woocommerce'      => new WooCommerce(),
+			'colors'           => new Colors(),
+			'backgrounds'      => new Backgrounds(),
+			'blog'             => new Blog(),
+			'copyright'        => new Copyright(),
+			'disable-elements' => new DisableElements(),
+			'elements'         => new Elements(),
+			'font-library'     => new FontLibrary(),
+			'hooks'            => new Hooks(),
+			'general'          => new General(),
 		);
 
 		foreach ( $modules as $slug => $module ) {
@@ -148,10 +167,53 @@ final class Plugin {
 			return;
 		}
 
+		// The shared section every module's controls attach to.
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- WP core function in guarded call.
+		if ( is_object( $customizer ) && method_exists( $customizer, 'add_section' ) ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- WP core function in guarded call.
+			$customizer->add_section(
+				'lumina_companion',
+				array(
+					'title'    => 'Lumina Companion',
+					'priority' => 160,
+				)
+			);
+		}
+
 		foreach ( $this->modules as $module ) {
 			if ( method_exists( $module, 'customizer' ) ) {
 				$module->customizer( $customizer );
 			}
+		}
+	}
+
+	/**
+	 * Wire the Elements module to the region hooks it renders on.
+	 *
+	 * @return void
+	 */
+	private function wire_elements_hooks(): void {
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- WP core function.
+		if ( ! function_exists( 'add_action' ) ) {
+			return;
+		}
+
+		foreach ( array( 'lumina_before_header', 'lumina_after_header', 'lumina_before_footer', 'lumina_after_footer' ) as $hook ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals -- WP core function.
+			add_action( $hook, array( $this, 'render_elements_region' ), 5 );
+		}
+	}
+
+	/**
+	 * Render active Elements blocks on the current region hook.
+	 *
+	 * @return void
+	 */
+	public function render_elements_region(): void {
+		$elements = $this->module( 'elements' );
+
+		if ( $elements instanceof Elements && method_exists( $elements, 'render_elements' ) ) {
+			$elements->render_elements();
 		}
 	}
 

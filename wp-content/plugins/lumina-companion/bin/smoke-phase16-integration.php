@@ -72,7 +72,7 @@ check( 'plugin boots alongside theme', true );
 
 // 3. Plugin modules + theme container coexist.
 $slugs = $plugin->module_slugs();
-check( 'plugin registers 8 modules', 8 === count( $slugs ), implode( ',', $slugs ) );
+check( 'plugin registers 17 modules', 17 === count( $slugs ), implode( ',', $slugs ) );
 check( 'theme container still resolves templates', $app->make( 'templates.resolver' ) instanceof \Lumina\Core\Templates\TemplateResolver );
 check( 'theme container still resolves components', $app->make( 'components.registry' ) instanceof \Lumina\Core\Components\Registry );
 

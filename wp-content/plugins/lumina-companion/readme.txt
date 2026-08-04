@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Original companion plugin for the Lumina theme — spacing, typography, page header, secondary navigation, menu plus, sections, and WooCommerce styling. 100% original code.
+Original companion plugin for the Lumina theme — 17 premium feature categories covering the full premium-theme surface. 100% original code.
 
 == Description ==
 
@@ -24,6 +24,15 @@ implemented as 100% original code:
 * **Sections** — content regions on public Lumina hooks.
 * **Site Library** — a REST endpoint listing user-supplied site presets.
 * **WooCommerce** — WC styling via public hooks (only when WC is active).
+* **Colors** — per-element color overrides emitted as `--lumina-color-*` tokens.
+* **Backgrounds** — body/content/footer background colors + images.
+* **Blog** — archive columns, featured images, excerpts, meta, read-more.
+* **Copyright** — footer copyright text/bar with removal option.
+* **Disable Elements** — hide header/footer/page-title globally or per post.
+* **Elements** — reusable content blocks placed on Lumina region hooks.
+* **Font Library** — Google-font enqueueing + `--lumina-font-*` families.
+* **Hooks** — HTML/script injection at 7 public Lumina hook points.
+* **General** — layout, container, sidebar, tagline, back-to-top controls.
 
 The plugin registers its features only when the **Lumina** theme is active and
 degrades to a no-op on any other theme.

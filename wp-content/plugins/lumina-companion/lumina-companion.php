@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Lumina Companion
  * Plugin URI:        https://github.com/luminatheme/lumina-companion
- * Description:       Original companion plugin for the Lumina theme — spacing, typography, page header, secondary navigation, menu plus, sections, and WooCommerce styling. 100% original code; works only with the Lumina theme.
+ * Description:       Original companion plugin for the Lumina theme — 17 premium feature categories: spacing, typography, page header, secondary nav, menu plus, sections, site library, WooCommerce, colors, backgrounds, blog, copyright, disable elements, elements, font library, hooks, general. 100% original code; works only with the Lumina theme.
  * Version:           1.0.0
  * Requires at least: 6.5
  * Requires PHP:      8.2

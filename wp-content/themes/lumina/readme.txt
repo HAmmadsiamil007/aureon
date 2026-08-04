@@ -32,7 +32,7 @@ Key features:
 1. In your WordPress admin, go to Appearance > Themes > Add New.
 2. Click "Upload Theme" and select the `lumina.zip` file.
 3. Click "Install Now", then "Activate".
-4. (Recommended) Install and activate the companion plugin, **Lumina Companion**, to unlock premium feature categories: spacing, typography, page header, secondary navigation, menu plus, sections, and WooCommerce styling.
+4. (Recommended) Install and activate the companion plugin, **Lumina Companion**, to unlock the full premium feature set: spacing, typography, page header, secondary navigation, menu plus, sections, site library, WooCommerce, colors, backgrounds, blog, copyright, disable elements, elements, font library, hooks, and general layout controls.
 
 == Frequently Asked Questions ==
 
