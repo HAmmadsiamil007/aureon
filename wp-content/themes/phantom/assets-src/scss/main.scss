@@ -1,6 +1,8 @@
-// Phantom Core — stylesheet entry (placeholder).
+// Phantom Core — stylesheet entry (Phase 7; Phase 11 adds the component layer).
 //
-// Phase 0 (Project Foundation) only proves the SCSS pipeline boots.
-// The real architecture (foundations/tokens, base, components, layout,
-// pages, vendor-overrides) is established in Phase 7 (Asset Pipeline).
-// Tokens arrive in Phase 3 and are consumed here as CSS custom properties.
+// _tokens.scss is GENERATED from the Phase-3 token engine by
+// bin/build-tokens.php (ADR-005: static emission in production).
+
+@use 'tokens';
+@use 'base';
+@use 'components';

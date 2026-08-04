@@ -1,0 +1,39 @@
+// Phantom Core — base layer (Phase 7).
+//
+// Consumes the CSS custom properties emitted into _tokens.scss
+// (generated from app/Tokens/config/*). No magic values — every
+// presentational value comes from a --phantom-* token (ADR-003).
+
+body {
+  margin: 0;
+  color: var(--phantom-color-fg);
+  background-color: var(--phantom-color-bg);
+  font-family: var(--phantom-typography-font-sans);
+  font-size: var(--phantom-typography-type-size-base);
+  line-height: var(--phantom-typography-type-line-normal);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--phantom-color-accent);
+}
+
+img,
+iframe {
+  max-width: 100%;
+}
+
+::selection {
+  background-color: var(--phantom-color-accent);
+  color: var(--phantom-color-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

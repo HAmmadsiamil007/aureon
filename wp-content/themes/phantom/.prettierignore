@@ -2,6 +2,9 @@
 assets/dist
 dist
 
+# Generated build inputs (php bin/build-tokens.php)
+assets-src/scss/_tokens.scss
+
 # Dependencies
 node_modules
 vendor

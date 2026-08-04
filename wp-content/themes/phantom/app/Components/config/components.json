@@ -1,0 +1,1820 @@
+{
+  "components": [
+    {
+      "name": "button",
+      "renderer": "components/button",
+      "slug": "button",
+      "version": 2,
+      "data": {
+        "label": {
+          "type": "string",
+          "required": true
+        },
+        "href": {
+          "type": "string",
+          "default": ""
+        },
+        "variant": {
+          "type": "string",
+          "default": "primary"
+        },
+        "size": {
+          "type": "string",
+          "default": "md"
+        }
+      },
+      "variants": {
+        "primary": {
+          "class": "phantom-btn phantom-btn--primary"
+        },
+        "ghost": {
+          "class": "phantom-btn phantom-btn--ghost"
+        },
+        "outline": {
+          "class": "phantom-btn phantom-btn--outline"
+        },
+        "link": {
+          "class": "phantom-btn phantom-btn--link"
+        }
+      },
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "card",
+      "renderer": "components/card",
+      "slug": "card",
+      "version": 2,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "excerpt": {
+          "type": "string",
+          "default": ""
+        },
+        "link": {
+          "type": "string",
+          "default": ""
+        },
+        "accent": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "variants": {
+        "default": {
+          "accent": false
+        },
+        "accent": {
+          "accent": true
+        }
+      },
+      "slots": ["actions"],
+      "deps": ["button"]
+    },
+    {
+      "name": "announcement-bar",
+      "renderer": "components/announcement-bar",
+      "slug": "announcement-bar",
+      "version": 1,
+      "data": {
+        "message": {
+          "type": "string",
+          "default": ""
+        },
+        "link": {
+          "type": "string",
+          "default": ""
+        },
+        "dismissible": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "top-bar",
+      "renderer": "components/top-bar",
+      "slug": "top-bar",
+      "version": 1,
+      "data": {
+        "left": {
+          "type": "string",
+          "default": ""
+        },
+        "right": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": ["left_slot", "right_slot"],
+      "deps": []
+    },
+    {
+      "name": "header",
+      "renderer": "components/header",
+      "slug": "header",
+      "version": 1,
+      "data": {
+        "logo": {
+          "type": "string",
+          "default": ""
+        },
+        "logo_text": {
+          "type": "string",
+          "default": ""
+        },
+        "home_url": {
+          "type": "string",
+          "default": ""
+        },
+        "sticky": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "variants": {
+        "transparent": {
+          "class": "phantom-header phantom-header--transparent"
+        },
+        "solid": {
+          "class": "phantom-header phantom-header--solid"
+        }
+      },
+      "slots": ["nav", "actions"],
+      "deps": ["mobile-nav", "button"]
+    },
+    {
+      "name": "mega-menu",
+      "renderer": "components/mega-menu",
+      "slug": "mega-menu",
+      "version": 1,
+      "data": {
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "mobile-nav",
+      "renderer": "components/mobile-nav",
+      "slug": "mobile-nav",
+      "version": 1,
+      "data": {
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "trigger_label": {
+          "type": "string",
+          "default": "Menu"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "off-canvas",
+      "renderer": "components/off-canvas",
+      "slug": "off-canvas",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "position": {
+          "type": "string",
+          "default": "left"
+        }
+      },
+      "variants": {
+        "left": {
+          "position": "left"
+        },
+        "right": {
+          "position": "right"
+        }
+      },
+      "slots": ["content"],
+      "deps": []
+    },
+    {
+      "name": "search-overlay",
+      "renderer": "components/search-overlay",
+      "slug": "search-overlay",
+      "version": 1,
+      "data": {
+        "action": {
+          "type": "string",
+          "default": ""
+        },
+        "placeholder": {
+          "type": "string",
+          "default": "Search…"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "hero",
+      "renderer": "components/hero",
+      "slug": "hero",
+      "version": 1,
+      "data": {
+        "eyebrow": {
+          "type": "string",
+          "default": ""
+        },
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "text": {
+          "type": "string",
+          "default": ""
+        },
+        "media": {
+          "type": "string",
+          "default": ""
+        },
+        "media_alt": {
+          "type": "string",
+          "default": ""
+        },
+        "height": {
+          "type": "string",
+          "default": "medium"
+        }
+      },
+      "variants": {
+        "default": {
+          "height": "medium"
+        },
+        "full": {
+          "height": "full"
+        },
+        "media-left": {
+          "class": "phantom-hero phantom-hero--media-left"
+        }
+      },
+      "slots": ["actions"],
+      "deps": ["button"]
+    },
+    {
+      "name": "hero-slider",
+      "renderer": "components/hero-slider",
+      "slug": "hero-slider",
+      "version": 1,
+      "data": {
+        "slides": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["hero"]
+    },
+    {
+      "name": "banner",
+      "renderer": "components/banner",
+      "slug": "banner",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "text": {
+          "type": "string",
+          "default": ""
+        },
+        "link": {
+          "type": "string",
+          "default": ""
+        },
+        "variant": {
+          "type": "string",
+          "default": "default"
+        }
+      },
+      "variants": {
+        "default": {
+          "class": "phantom-banner"
+        },
+        "accent": {
+          "class": "phantom-banner phantom-banner--accent"
+        }
+      },
+      "slots": ["actions"],
+      "deps": ["button"]
+    },
+    {
+      "name": "image-banner",
+      "renderer": "components/image-banner",
+      "slug": "image-banner",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "text": {
+          "type": "string",
+          "default": ""
+        },
+        "image": {
+          "type": "string",
+          "default": ""
+        },
+        "image_alt": {
+          "type": "string",
+          "default": ""
+        },
+        "link": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": ["actions"],
+      "deps": ["button"]
+    },
+    {
+      "name": "video-banner",
+      "renderer": "components/video-banner",
+      "slug": "video-banner",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "text": {
+          "type": "string",
+          "default": ""
+        },
+        "video": {
+          "type": "string",
+          "default": ""
+        },
+        "poster": {
+          "type": "string",
+          "default": ""
+        },
+        "link": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": ["actions"],
+      "deps": ["button"]
+    },
+    {
+      "name": "cta",
+      "renderer": "components/cta",
+      "slug": "cta",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "text": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": ["actions"],
+      "deps": ["button"]
+    },
+    {
+      "name": "categories",
+      "renderer": "components/categories",
+      "slug": "categories",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["category-grid"]
+    },
+    {
+      "name": "category-grid",
+      "renderer": "components/category-grid",
+      "slug": "category-grid",
+      "version": 1,
+      "data": {
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "columns": {
+          "type": "int",
+          "default": 3
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "featured-collection",
+      "renderer": "components/featured-collection",
+      "slug": "featured-collection",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "subtitle": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "link": {
+          "type": "string",
+          "default": ""
+        },
+        "link_label": {
+          "type": "string",
+          "default": "View all"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["collection-grid", "button"]
+    },
+    {
+      "name": "collection-grid",
+      "renderer": "components/collection-grid",
+      "slug": "collection-grid",
+      "version": 1,
+      "data": {
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "columns": {
+          "type": "int",
+          "default": 4
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["product-card"]
+    },
+    {
+      "name": "products-grid",
+      "renderer": "components/products-grid",
+      "slug": "products-grid",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "columns": {
+          "type": "int",
+          "default": 4
+        },
+        "link": {
+          "type": "string",
+          "default": ""
+        },
+        "link_label": {
+          "type": "string",
+          "default": "View all"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["product-card", "button"]
+    },
+    {
+      "name": "product-card",
+      "renderer": "components/product-card",
+      "slug": "product-card",
+      "version": 1,
+      "data": {
+        "name": {
+          "type": "string",
+          "default": ""
+        },
+        "price": {
+          "type": "string",
+          "default": ""
+        },
+        "regular_price": {
+          "type": "string",
+          "default": ""
+        },
+        "image": {
+          "type": "string",
+          "default": ""
+        },
+        "image_alt": {
+          "type": "string",
+          "default": ""
+        },
+        "link": {
+          "type": "string",
+          "default": ""
+        },
+        "rating": {
+          "type": "float",
+          "default": 0
+        },
+        "rating_count": {
+          "type": "int",
+          "default": 0
+        },
+        "badges": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": ["actions"],
+      "deps": ["button", "product-badge", "star-rating"]
+    },
+    {
+      "name": "quick-view",
+      "renderer": "components/quick-view",
+      "slug": "quick-view",
+      "version": 1,
+      "data": {
+        "label": {
+          "type": "string",
+          "default": "Quick view"
+        },
+        "product_id": {
+          "type": "int",
+          "default": 0
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    },
+    {
+      "name": "wishlist-button",
+      "renderer": "components/wishlist-button",
+      "slug": "wishlist-button",
+      "version": 1,
+      "data": {
+        "label": {
+          "type": "string",
+          "default": "Add to wishlist"
+        },
+        "active_label": {
+          "type": "string",
+          "default": "In wishlist"
+        },
+        "product_id": {
+          "type": "int",
+          "default": 0
+        },
+        "active": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "compare-button",
+      "renderer": "components/compare-button",
+      "slug": "compare-button",
+      "version": 1,
+      "data": {
+        "label": {
+          "type": "string",
+          "default": "Compare"
+        },
+        "product_id": {
+          "type": "int",
+          "default": 0
+        },
+        "active": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "product-badge",
+      "renderer": "components/product-badge",
+      "slug": "product-badge",
+      "version": 1,
+      "data": {
+        "label": {
+          "type": "string",
+          "default": ""
+        },
+        "tone": {
+          "type": "string",
+          "default": "default"
+        }
+      },
+      "variants": {
+        "default": {
+          "tone": "default"
+        },
+        "sale": {
+          "tone": "sale"
+        },
+        "new": {
+          "tone": "new"
+        },
+        "hot": {
+          "tone": "hot"
+        }
+      },
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "sale-badge",
+      "renderer": "components/sale-badge",
+      "slug": "sale-badge",
+      "version": 1,
+      "data": {
+        "percent": {
+          "type": "string",
+          "default": ""
+        },
+        "label": {
+          "type": "string",
+          "default": "Sale"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["product-badge"]
+    },
+    {
+      "name": "countdown-timer",
+      "renderer": "components/countdown-timer",
+      "slug": "countdown-timer",
+      "version": 1,
+      "data": {
+        "target": {
+          "type": "string",
+          "default": ""
+        },
+        "label": {
+          "type": "string",
+          "default": "Offer ends in"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "recently-viewed",
+      "renderer": "components/recently-viewed",
+      "slug": "recently-viewed",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": "Recently viewed"
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["product-card"]
+    },
+    {
+      "name": "product-tabs",
+      "renderer": "components/product-tabs",
+      "slug": "product-tabs",
+      "version": 1,
+      "data": {
+        "tabs": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "product-gallery",
+      "renderer": "components/product-gallery",
+      "slug": "product-gallery",
+      "version": 1,
+      "data": {
+        "images": {
+          "type": "array",
+          "default": []
+        },
+        "alt": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "sticky-add-to-cart",
+      "renderer": "components/sticky-add-to-cart",
+      "slug": "sticky-add-to-cart",
+      "version": 1,
+      "data": {
+        "name": {
+          "type": "string",
+          "default": ""
+        },
+        "price": {
+          "type": "string",
+          "default": ""
+        },
+        "product_id": {
+          "type": "int",
+          "default": 0
+        },
+        "label": {
+          "type": "string",
+          "default": "Add to cart"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    },
+    {
+      "name": "mini-cart",
+      "renderer": "components/mini-cart",
+      "slug": "mini-cart",
+      "version": 1,
+      "data": {
+        "count": {
+          "type": "int",
+          "default": 0
+        },
+        "total": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "cart_url": {
+          "type": "string",
+          "default": ""
+        },
+        "checkout_url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    },
+    {
+      "name": "cart-drawer",
+      "renderer": "components/cart-drawer",
+      "slug": "cart-drawer",
+      "version": 1,
+      "data": {
+        "count": {
+          "type": "int",
+          "default": 0
+        },
+        "total": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "cart_url": {
+          "type": "string",
+          "default": ""
+        },
+        "checkout_url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["off-canvas", "button"]
+    },
+    {
+      "name": "cart-summary",
+      "renderer": "components/cart-summary",
+      "slug": "cart-summary",
+      "version": 1,
+      "data": {
+        "subtotal": {
+          "type": "string",
+          "default": ""
+        },
+        "shipping": {
+          "type": "string",
+          "default": ""
+        },
+        "total": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "checkout_url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    },
+    {
+      "name": "checkout-blocks",
+      "renderer": "components/checkout-blocks",
+      "slug": "checkout-blocks",
+      "version": 1,
+      "data": {
+        "fields": {
+          "type": "array",
+          "default": []
+        },
+        "checkout_url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "order-summary",
+      "renderer": "components/order-summary",
+      "slug": "order-summary",
+      "version": 1,
+      "data": {
+        "order_id": {
+          "type": "int",
+          "default": 0
+        },
+        "status": {
+          "type": "string",
+          "default": ""
+        },
+        "total": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "breadcrumb",
+      "renderer": "components/breadcrumb",
+      "slug": "breadcrumb",
+      "version": 1,
+      "data": {
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "sidebar",
+      "renderer": "components/sidebar",
+      "slug": "sidebar",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": ["content"],
+      "deps": []
+    },
+    {
+      "name": "filters",
+      "renderer": "components/filters",
+      "slug": "filters",
+      "version": 1,
+      "data": {
+        "groups": {
+          "type": "array",
+          "default": []
+        },
+        "action": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "faceted-nav",
+      "renderer": "components/faceted-nav",
+      "slug": "faceted-nav",
+      "version": 1,
+      "data": {
+        "facets": {
+          "type": "array",
+          "default": []
+        },
+        "action": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["filters"]
+    },
+    {
+      "name": "pagination",
+      "renderer": "components/pagination",
+      "slug": "pagination",
+      "version": 1,
+      "data": {
+        "current": {
+          "type": "int",
+          "default": 1
+        },
+        "total": {
+          "type": "int",
+          "default": 1
+        },
+        "base_url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "testimonials",
+      "renderer": "components/testimonials",
+      "slug": "testimonials",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["star-rating"]
+    },
+    {
+      "name": "reviews",
+      "renderer": "components/reviews",
+      "slug": "reviews",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": "Reviews"
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "average": {
+          "type": "float",
+          "default": 0
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["star-rating"]
+    },
+    {
+      "name": "star-rating",
+      "renderer": "components/star-rating",
+      "slug": "star-rating",
+      "version": 1,
+      "data": {
+        "value": {
+          "type": "float",
+          "default": 0
+        },
+        "count": {
+          "type": "int",
+          "default": 0
+        },
+        "max": {
+          "type": "int",
+          "default": 5
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "logo-cloud",
+      "renderer": "components/logo-cloud",
+      "slug": "logo-cloud",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "logos": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "brands",
+      "renderer": "components/brands",
+      "slug": "brands",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["logo-cloud"]
+    },
+    {
+      "name": "features-grid",
+      "renderer": "components/features-grid",
+      "slug": "features-grid",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "columns": {
+          "type": "int",
+          "default": 3
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "timeline",
+      "renderer": "components/timeline",
+      "slug": "timeline",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "statistics",
+      "renderer": "components/statistics",
+      "slug": "statistics",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "counters",
+      "renderer": "components/counters",
+      "slug": "counters",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["statistics"]
+    },
+    {
+      "name": "pricing-table",
+      "renderer": "components/pricing-table",
+      "slug": "pricing-table",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "plans": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    },
+    {
+      "name": "team",
+      "renderer": "components/team",
+      "slug": "team",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "members": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "faq",
+      "renderer": "components/faq",
+      "slug": "faq",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["accordion"]
+    },
+    {
+      "name": "accordion",
+      "renderer": "components/accordion",
+      "slug": "accordion",
+      "version": 1,
+      "data": {
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "tabs",
+      "renderer": "components/tabs",
+      "slug": "tabs",
+      "version": 1,
+      "data": {
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "modal",
+      "renderer": "components/modal",
+      "slug": "modal",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "close_label": {
+          "type": "string",
+          "default": "Close"
+        }
+      },
+      "variants": [],
+      "slots": ["content"],
+      "deps": ["button"]
+    },
+    {
+      "name": "popup",
+      "renderer": "components/popup",
+      "slug": "popup",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "delay_ms": {
+          "type": "int",
+          "default": 3000
+        }
+      },
+      "variants": [],
+      "slots": ["content"],
+      "deps": ["modal"]
+    },
+    {
+      "name": "newsletter",
+      "renderer": "components/newsletter",
+      "slug": "newsletter",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": "Stay in the loop"
+        },
+        "text": {
+          "type": "string",
+          "default": ""
+        },
+        "action": {
+          "type": "string",
+          "default": ""
+        },
+        "button_label": {
+          "type": "string",
+          "default": "Subscribe"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    },
+    {
+      "name": "blog-grid",
+      "renderer": "components/blog-grid",
+      "slug": "blog-grid",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "columns": {
+          "type": "int",
+          "default": 3
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["blog-card"]
+    },
+    {
+      "name": "blog-card",
+      "renderer": "components/blog-card",
+      "slug": "blog-card",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "excerpt": {
+          "type": "string",
+          "default": ""
+        },
+        "image": {
+          "type": "string",
+          "default": ""
+        },
+        "image_alt": {
+          "type": "string",
+          "default": ""
+        },
+        "link": {
+          "type": "string",
+          "default": ""
+        },
+        "date": {
+          "type": "string",
+          "default": ""
+        },
+        "category": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "related-posts",
+      "renderer": "components/related-posts",
+      "slug": "related-posts",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": "Related posts"
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["blog-card"]
+    },
+    {
+      "name": "author-box",
+      "renderer": "components/author-box",
+      "slug": "author-box",
+      "version": 1,
+      "data": {
+        "name": {
+          "type": "string",
+          "default": ""
+        },
+        "bio": {
+          "type": "string",
+          "default": ""
+        },
+        "avatar": {
+          "type": "string",
+          "default": ""
+        },
+        "url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "comments",
+      "renderer": "components/comments",
+      "slug": "comments",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": "Comments"
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "module-404",
+      "renderer": "components/module-404",
+      "slug": "module-404",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": "Page not found"
+        },
+        "text": {
+          "type": "string",
+          "default": "The page you are looking for does not exist."
+        },
+        "home_url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    },
+    {
+      "name": "search-results",
+      "renderer": "components/search-results",
+      "slug": "search-results",
+      "version": 1,
+      "data": {
+        "query": {
+          "type": "string",
+          "default": ""
+        },
+        "items": {
+          "type": "array",
+          "default": []
+        },
+        "total": {
+          "type": "int",
+          "default": 0
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["card"]
+    },
+    {
+      "name": "archive-header",
+      "renderer": "components/archive-header",
+      "slug": "archive-header",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "description": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["page-header"]
+    },
+    {
+      "name": "page-header",
+      "renderer": "components/page-header",
+      "slug": "page-header",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "description": {
+          "type": "string",
+          "default": ""
+        },
+        "image": {
+          "type": "string",
+          "default": ""
+        },
+        "image_alt": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["breadcrumb"]
+    },
+    {
+      "name": "footer",
+      "renderer": "components/footer",
+      "slug": "footer",
+      "version": 1,
+      "data": {
+        "brand": {
+          "type": "string",
+          "default": ""
+        },
+        "tagline": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": ["columns", "copyright"],
+      "deps": ["footer-columns", "copyright"]
+    },
+    {
+      "name": "footer-columns",
+      "renderer": "components/footer-columns",
+      "slug": "footer-columns",
+      "version": 1,
+      "data": {
+        "columns": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "social-icons",
+      "renderer": "components/social-icons",
+      "slug": "social-icons",
+      "version": 1,
+      "data": {
+        "items": {
+          "type": "array",
+          "default": []
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "copyright",
+      "renderer": "components/copyright",
+      "slug": "copyright",
+      "version": 1,
+      "data": {
+        "text": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "back-to-top",
+      "renderer": "components/back-to-top",
+      "slug": "back-to-top",
+      "version": 1,
+      "data": {
+        "label": {
+          "type": "string",
+          "default": "Back to top"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "cookie-notice",
+      "renderer": "components/cookie-notice",
+      "slug": "cookie-notice",
+      "version": 1,
+      "data": {
+        "message": {
+          "type": "string",
+          "default": "We use cookies to improve your experience."
+        },
+        "accept_label": {
+          "type": "string",
+          "default": "Accept"
+        },
+        "policy_url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    },
+    {
+      "name": "notification",
+      "renderer": "components/notification",
+      "slug": "notification",
+      "version": 1,
+      "data": {
+        "message": {
+          "type": "string",
+          "default": ""
+        },
+        "tone": {
+          "type": "string",
+          "default": "info"
+        },
+        "dismissible": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "variants": {
+        "info": {
+          "tone": "info"
+        },
+        "success": {
+          "tone": "success"
+        },
+        "warning": {
+          "tone": "warning"
+        },
+        "error": {
+          "tone": "error"
+        }
+      },
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "alert",
+      "renderer": "components/alert",
+      "slug": "alert",
+      "version": 1,
+      "data": {
+        "message": {
+          "type": "string",
+          "default": ""
+        },
+        "title": {
+          "type": "string",
+          "default": ""
+        },
+        "tone": {
+          "type": "string",
+          "default": "info"
+        }
+      },
+      "variants": {
+        "info": {
+          "tone": "info"
+        },
+        "success": {
+          "tone": "success"
+        },
+        "warning": {
+          "tone": "warning"
+        },
+        "error": {
+          "tone": "error"
+        }
+      },
+      "slots": ["actions"],
+      "deps": ["button"]
+    },
+    {
+      "name": "loading-skeleton",
+      "renderer": "components/loading-skeleton",
+      "slug": "loading-skeleton",
+      "version": 1,
+      "data": {
+        "rows": {
+          "type": "int",
+          "default": 3
+        },
+        "label": {
+          "type": "string",
+          "default": "Loading…"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": []
+    },
+    {
+      "name": "empty-state",
+      "renderer": "components/empty-state",
+      "slug": "empty-state",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": "Nothing here yet"
+        },
+        "text": {
+          "type": "string",
+          "default": ""
+        },
+        "action_label": {
+          "type": "string",
+          "default": ""
+        },
+        "action_url": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    },
+    {
+      "name": "error-state",
+      "renderer": "components/error-state",
+      "slug": "error-state",
+      "version": 1,
+      "data": {
+        "title": {
+          "type": "string",
+          "default": "Something went wrong"
+        },
+        "text": {
+          "type": "string",
+          "default": ""
+        },
+        "retry_label": {
+          "type": "string",
+          "default": "Try again"
+        }
+      },
+      "variants": [],
+      "slots": [],
+      "deps": ["button"]
+    }
+  ]
+}

@@ -20,5 +20,8 @@
 	     global suppressions are removed. -->
 	<stubs>
 		<file name="vendor/php-stubs/wordpress-stubs/wordpress-stubs.php"/>
+		<!-- Minimal WooCommerce API surface (Phase 9) — analysis-only stubs;
+		     WC absent at runtime → adapters return inert defaults. -->
+		<file name="tests/stubs/woocommerce-stubs.php"/>
 	</stubs>
 </psalm>

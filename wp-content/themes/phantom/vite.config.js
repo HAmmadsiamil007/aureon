@@ -4,12 +4,22 @@ import { dirname, resolve } from 'node:path';
 
 const rootDir = dirname(fileURLToPath(import.meta.url));
 
-// Phase 0 — minimal, valid Vite configuration.
+// Phase 7 — Asset Pipeline (Phase 10 adds the animation entry;
+// Phase 11 adds the component behaviors entry).
 //
-// Expanded fully in Phase 7 (Asset Pipeline): SCSS → CSS, TS/ESM → JS,
-// manifest output, hashing, dev-server (HMR) with `PHANTOM_VITE_PORT`,
-// vendor bundling (GSAP / Lenis / Three.js), fonts, and critical CSS.
-// This skeleton only pins the toolchain and proves the pipeline boots.
+// Entries:
+//   main       → assets-src/ts/main.ts        (frontend JS/ESM, deferred, hashed)
+//   animation  → assets-src/ts/animation.ts   (Phase 10 — enqueued only when the
+//                Animation Engine is active; GSAP/Lenis/Three are dynamic
+//                imports inside it, so they code-split per chunk)
+//   components → assets-src/ts/components.ts  (Phase 11 — enqueued only when the
+//                Component Library is active; delegated DOM behaviors)
+//   styles     → assets-src/scss/main.scss    (tokens + base + components, hashed)
+//
+// `manifest: true` emits assets/dist/manifest.json consumed by
+// Phantom\Core\Assets\ManifestReader / AssetLoader (prod cache busting).
+// Dev server (HMR) runs from assets-src/ and is detected by the PHP loader
+// via PHANTOM_VITE_ACTIVE / PHANTOM_VITE_PORT (ADR-011).
 export default defineConfig({
   root: resolve(rootDir, 'assets-src'),
   publicDir: false,
@@ -18,7 +28,12 @@ export default defineConfig({
     emptyOutDir: true,
     manifest: true,
     rollupOptions: {
-      input: resolve(rootDir, 'assets-src/ts/main.ts'),
+      input: {
+        main: resolve(rootDir, 'assets-src/ts/main.ts'),
+        animation: resolve(rootDir, 'assets-src/ts/animation.ts'),
+        components: resolve(rootDir, 'assets-src/ts/components.ts'),
+        styles: resolve(rootDir, 'assets-src/scss/main.scss'),
+      },
     },
   },
 });

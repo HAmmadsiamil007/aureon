@@ -1,9 +1,16 @@
 /**
- * Phantom Core — frontend entry point (placeholder).
+ * Phantom Core — frontend entry point (Phase 7).
  *
- * Phase 0 (Project Foundation) only proves the build pipeline boots.
- * Real application modules (core/registry, components, animation, bridges)
- * are assembled in Phase 7 (Asset Pipeline).
+ * Minimal interactive bootstrap for the Asset Pipeline: marks the theme as
+ * initialized on the document element. The animation runtime (Phase 10) is
+ * a code-split entry loaded by the PHP side only when the Animation Engine
+ * is active — it is not bundled into this entry (zero cost when unused).
  */
+
+const PHANTOM_READY = 'data-phantom-ready';
+
+if (document.documentElement && !document.documentElement.hasAttribute(PHANTOM_READY)) {
+  document.documentElement.setAttribute(PHANTOM_READY, '');
+}
 
 export {};

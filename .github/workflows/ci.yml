@@ -54,6 +54,44 @@ jobs:
       - name: Phase 3 design token smoke suite (WP-free)
         run: php bin/smoke-phase3.php
 
+      - name: Phase 4 render engine smoke suite (WP-free)
+        run: php bin/smoke-phase4.php
+
+      - name: Phase 5 component registry smoke suite (WP-free)
+        run: php bin/smoke-phase5.php
+
+      - name: Phase 6 template system smoke suite (WP-free)
+        run: php bin/smoke-phase6.php
+
+      - name: Phase 7 asset pipeline smoke suite (WP-free)
+        run: php bin/smoke-phase7.php
+
+      - name: Regenerate + verify token source carries --phantom-* vars
+        run: |
+          php bin/build-tokens.php
+          grep -q -- '--phantom-' assets-src/scss/_tokens.scss
+
+      - name: Phase 8 plugin bridges smoke suite (WP-free)
+        run: php bin/smoke-phase8.php
+
+      - name: Phase 9 WooCommerce bridge smoke suite (WP-free)
+        run: php bin/smoke-phase9.php
+
+      - name: Phase 10 animation engine smoke suite (WP-free)
+        run: php bin/smoke-phase10.php
+
+      - name: Phase 11 frontend component library smoke suite (WP-free)
+        run: php bin/smoke-phase11.php
+
+      - name: Phase 12 frontend template library smoke suite (WP-free)
+        run: php bin/smoke-phase12.php
+
+      - name: Phase 13 performance engineering smoke suite (WP-free)
+        run: php bin/smoke-phase13.php
+
+      - name: Phase 14 accessibility engineering smoke suite (WP-free)
+        run: php bin/smoke-phase14.php
+
   static-analysis:
     name: PHPCS + PHPStan + Psalm
     runs-on: ubuntu-latest
@@ -110,6 +148,11 @@ jobs:
 
       - name: Vite build
         run: npm run build
+
+      - name: Verify dist manifest + built CSS carries --phantom-* vars
+        run: |
+          test -f assets/dist/.vite/manifest.json
+          grep -q -- '--phantom-' assets/dist/assets/*.css
 
   integrity:
     name: Parent-package integrity gate (ADR-004)

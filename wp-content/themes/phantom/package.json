@@ -1,6 +1,6 @@
 {
   "name": "phantom-core",
-  "version": "0.1.0",
+  "version": "0.14.0",
   "private": true,
   "description": "Phantom Core asset pipeline (SCSS/TS source, Vite build). Compiled output ships with the Phantom child theme from Phase 7 (Asset Pipeline).",
   "type": "module",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
+    "@types/three": "^0.185.3",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.3.0",
@@ -28,5 +29,10 @@
     "typescript": "^5.5.0",
     "typescript-eslint": "^8.0.0",
     "vite": "^6.0.0"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.25",
+    "three": "^0.185.1"
   }
 }

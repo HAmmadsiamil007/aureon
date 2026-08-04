@@ -7,7 +7,12 @@
  * namespacing, asset handles, and runtime feature gating (ADR-002, ADR-010).
  *
  * @package Phantom\Core\Core
- * @since 0.1.0 (0.2.0: Framework Infrastructure; 0.3.0: Design Token Engine)
+ * @since 0.1.0 (0.2.0: Framework Infrastructure; 0.3.0: Design Token Engine;
+ * 0.4.0: Render Engine; 0.5.0: Component Registry; 0.6.0: Template System;
+ * 0.7.0: Asset Pipeline; 0.8.0: Plugin Bridges; 0.9.0: WooCommerce Bridge;
+ * 0.10.0: Animation Engine; 0.11.0: Frontend Component Library;
+ * 0.12.0: Frontend Template Library; 0.13.0: Performance
+ * Engineering; 0.14.0: Accessibility Engineering)
  */
 
 declare( strict_types=1 );
@@ -27,7 +32,7 @@ final class Version {
 	 *
 	 * @var string
 	 */
-	public const VERSION = '0.3.0';
+	public const VERSION = '0.14.0';
 
 	/**
 	 * Framework API level — bumped whenever a public API breaks compatibility.

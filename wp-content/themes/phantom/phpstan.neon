@@ -19,3 +19,6 @@ parameters:
 			- vendor
 	bootstrapFiles:
 		- vendor/autoload.php
+		# Minimal WooCommerce API surface (Phase 9) — analysis-only stubs;
+		# WC absent at runtime → adapters return inert defaults.
+		- tests/stubs/woocommerce-stubs.php

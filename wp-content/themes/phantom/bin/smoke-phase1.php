@@ -141,7 +141,7 @@ register_shutdown_function(
 
 // 10. Namespace/autoload resolution.
 check( 'PSR-4 autoload resolves Version', class_exists( Version::class ), 'Version class not found' );
-check( 'Version::VERSION is 0.3.0', Version::VERSION === '0.3.0', Version::VERSION );
+check( 'Version::VERSION is 0.14.0', Version::VERSION === '0.14.0', Version::VERSION );
 
 // 9. Idempotent boot.
 Kernel::launch();
@@ -170,7 +170,7 @@ check( 'App::is_debug() === false', false === $app->is_debug() );
 
 // 7. Feature flags fail closed for unshipped subsystems; unknown flags too.
 check( 'FeatureFlags: phantom_core enabled', true === $flags->enabled( 'phantom_core' ) );
-check( 'FeatureFlags: asset_pipeline disabled (unshipped)', false === $flags->enabled( 'asset_pipeline' ) );
+check( 'FeatureFlags: asset_pipeline enabled (Phase 7)', true === $flags->enabled( 'asset_pipeline' ) );
 check( 'FeatureFlags: unknown flag fails closed', false === $flags->enabled( 'does_not_exist' ) );
 
 // 6. Secret redaction.
