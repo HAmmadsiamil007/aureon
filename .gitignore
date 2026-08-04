@@ -1,13 +1,37 @@
-# ── Redundant archives (Report/ is fully tracked) ─────────────────────────────
-Report.zip
+# GeneratePress original files (not for distribution)
+generatepress/
 
-# ── OS / editor noise ──────────────────────────────────────────────────────────
+# Build artifacts
+*.zip
+*.tar.gz
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
 .DS_Store
 Thumbs.db
-*.log
-.idea/
-.vscode/*
 
-# ── Nested phantom theme handles its own deps/caches (see
-#    wp-content/themes/phantom/.gitignore): vendor/, node_modules/, assets/dist/,
-#    .phpstan/, .psalm/, tools/composer.phar, phantom.env.json — all excluded there.
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+
+# Logs
+*.log
+
+# Node modules
+node_modules/
+
+# Composer
+vendor/
+
+# Temporary files
+tmp/
+temp/
