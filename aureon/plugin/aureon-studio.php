@@ -137,18 +137,9 @@ require_once AUREON_STUDIO_DIR_PATH . 'general/enqueue-scripts.php';
 // Load our Dashboard functions once the theme has loaded.
 require_once AUREON_STUDIO_DIR_PATH . 'inc/class-dashboard.php';
 
-if ( aureon_is_module_active( 'aureon_package_site_library', 'AUREON_SITE_LIBRARY' ) && version_compare( PHP_VERSION, '5.4', '>=' ) && ! defined( 'AUREON_DISABLE_SITE_LIBRARY' ) ) {
-	require_once AUREON_STUDIO_DIR_PATH . 'site-library/class-site-library-rest.php';
-	require_once AUREON_STUDIO_DIR_PATH . 'site-library/class-site-library-helper.php';
-}
-
-if ( is_admin() ) {
-	require_once AUREON_STUDIO_DIR_PATH . 'inc/deprecated-admin.php';
-
-	if ( aureon_is_module_active( 'aureon_package_site_library', 'AUREON_SITE_LIBRARY' ) && version_compare( PHP_VERSION, '5.4', '>=' ) && ! defined( 'AUREON_DISABLE_SITE_LIBRARY' ) ) {
-		require_once AUREON_STUDIO_DIR_PATH . 'site-library/class-site-library.php';
-	}
-}
+// Licensing and update provider seams.
+require_once AUREON_STUDIO_DIR_PATH . 'inc/licensing/class-license-provider.php';
+require_once AUREON_STUDIO_DIR_PATH . 'inc/update/class-update-provider.php';
 
 if ( aureon_is_module_active( 'aureon_package_font_library', 'AUREON_FONT_LIBRARY' ) ) {
 	require_once AUREON_STUDIO_DIR_PATH . 'font-library/class-font-library.php';
@@ -160,49 +151,14 @@ if ( aureon_is_module_active( 'aureon_package_font_library', 'AUREON_FONT_LIBRAR
 if ( ! function_exists( 'aureon_premium_updater' ) ) {
 	add_action( 'admin_init', 'aureon_premium_updater', 0 );
 	/**
-	 * Set up the updater
-	 **/
-	function aureon_premium_updater() {
-		if ( ! class_exists( 'Aureon_Premium_Plugin_Updater' ) ) {
-			include AUREON_STUDIO_DIR_PATH . 'library/class-plugin-updater.php';
-		}
-
-		$license_key = get_option( 'aureon_studio_license_key' );
-
-		$edd_updater = new Aureon_Premium_Plugin_Updater(
-			'https://aureonstudio.com',
-			__FILE__,
-			array(
-				'version'   => AUREON_STUDIO_VERSION,
-				'license'   => trim( $license_key ),
-				'item_name' => 'Aureon Studio',
-				'author'    => 'Aureon Studio',
-				'url'       => home_url(),
-				'beta'      => apply_filters( 'aureon_premium_beta_tester', false ),
-			)
-		);
-	}
-}
-
-add_filter( 'edd_sl_plugin_updater_api_params', 'aureon_premium_set_updater_api_params', 10, 3 );
-/**
- * Add the Aureon version to our updater params.
- *
- * @param array  $api_params  The array of data sent in the request.
- * @param array  $api_data    The array of data set up in the class constructor.
- * @param string $plugin_file The full path and filename of the file.
- */
-function aureon_premium_set_updater_api_params( $api_params, $api_data, $plugin_file ) {
-	/*
-	 * Make sure $plugin_file matches your plugin's file path. You should have a constant for this
-	 * or can use __FILE__ if this code goes in your plugin's main file.
+	 * Set up update checks.
+	 *
+	 * The default update provider relies on standard WordPress update
+	 * behavior; swap it via the `aureon_studio_update_provider` filter.
 	 */
-	if ( __FILE__ === $plugin_file ) {
-		// Dynamically retrieve the current version number.
-		$api_params['aureon_version'] = defined( 'AUREON_VERSION' ) ? AUREON_VERSION : '';
+	function aureon_premium_updater() {
+		aureon_premium_get_update_provider()->init();
 	}
-
-	return $api_params;
 }
 
 if ( ! function_exists( 'aureon_premium_setup' ) ) {
