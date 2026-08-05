@@ -1,11 +1,11 @@
 === Aureon Studio ===
-Contributors: edge22
+Contributors: aureonstudio
 Donate link: https://aureonstudio.com
 Tags: aureon
 Requires at least: 6.1
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.5.6
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,11 +27,14 @@ In most cases, #1 will work fine and is way easier.
 
 == Changelog ==
 
+= 1.0.0 =
+* Feature: Remove the license key system - no activation required; all modules work out of the box.
+
 = 2.5.6 =
 * Security: Harden Font Library REST API permissions and remote font installation validation.
 
 = 2.5.5 =
-* Feature: Add GPP/Aureon One Site Library filters
+* Feature: Add Aureon/Aureon One Site Library filters
 
 = 2.5.4 =
 * Tweak: Enable smooth device transition in Elements editor
@@ -160,7 +163,7 @@ In most cases, #1 will work fine and is way easier.
 = 2.1.0 =
 * Blog: Fix masonry JS error if no archive pagination exists
 * Blog: Fix full width featured blog column
-* Colors: Deprecate module if using GP 3.1.0
+* Colors: Deprecate module if using Aureon 3.1.0
 * Elements: Add custom class option to dynamic image block
 * Elements: Add support for post_type array in display rules
 * Elements: Fix container link option when targeting next/previous posts
@@ -178,14 +181,14 @@ In most cases, #1 will work fine and is way easier.
 * Secondary Navigation: Fix sub-menu overlap when using dropdown click/mobile
 * Secondary Navigation: Replace box-shadow with border-bottom when sub-menu opens down
 * Site Library: Add site author attribution
-* Typography: Deprecate module if using dynamic typography in GP 3.1.0
+* Typography: Deprecate module if using dynamic typography in Aureon 3.1.0
 * WooCommerce: Integrate with new dynamic typography system
 * WooCommerce: Integrate with new colors system
 * WooCommerce: Remove category title/description if using page hero with title disabled
 * WooCommerce: Remove "speak" CSS properties
 * WooCommerce: Fix empty continue shopping link on mobile
 * WooCommerce: Fix persistent sticky add to cart panel
-* General: Integrate with new GP 3.1.0 Dashboard
+* General: Integrate with new Aureon 3.1.0 Dashboard
 * General: Remove featured-image-active body class if featured image is disabled
 * General: Change date format in exported JSON filename
 * General: Fix PHP error when license key activation returns 403
@@ -278,32 +281,32 @@ In most cases, #1 will work fine and is way easier.
 * Blog: Take aureon_blog_columns filter into account when loading columns CSS
 * Colors: Add search menu-bar-item color live preview to Customizer
 * Elements: Fix broken custom hook field in Block Elements
-* Elements: Integrate page hero with text container alignment in GP 3.0
-* Elements: Better integrate Header Element colors with GP 3.0
+* Elements: Integrate page hero with text container alignment in Aureon 3.0
+* Elements: Better integrate Header Element colors with Aureon 3.0
 * Elements: Only disable content title when {{post_title}} is present on single pages
 * Elements: Fix </body> tag in metabox
 * Elements: Add aureon_elements_metabox_ajax_allow_editors filter
 * Elements: Add new 3.0 hooks to hook selector
 * Elements: Re-add aureon_elements_custom_args filter
-* Menu Plus: Better prepare navigation as header for GP 3.0
-* Menu Plus: Better prepare Off-Canvas Panel for GP 3.0
-* Menu Plus: Better prepare sticky navigation for GP 3.0
+* Menu Plus: Better prepare navigation as header for Aureon 3.0
+* Menu Plus: Better prepare Off-Canvas Panel for Aureon 3.0
+* Menu Plus: Better prepare sticky navigation for Aureon 3.0
 * Menu Plus: Add has-menu-bar-items class to mobile header if needed
 * Menu Plus: Add is-logo-image class to all site logos
 * Menu Plus: Fix mobile header alignment when it has menu bar items
-* Secondary Nav: Better prepare sticky navigation for GP 3.0
+* Secondary Nav: Better prepare sticky navigation for Aureon 3.0
 * Secondary Nav: Fix hidden navigation widget in top bar when merged with secondary nav
 * Sites: Improve the option-only import feature
 * Sites: Improve the refresh sites button functionality
 * Sites: Improve the undo site import functionality
 * Sites: Fix Elementor site import issues
 * Sites: Re-add Elementor sites to library
-* Spacing: Better prepare Customizer live preview for GP 3.0
+* Spacing: Better prepare Customizer live preview for Aureon 3.0
 * Spacing: Fix blog column spacing Customizer live preview
-* Spacing: Stop handling mobile header, widget and footer widget features added in GP 3.0
-* Typography: Add mobile font size control for H3 (when using GP 3.0)
-* Typography: Add mobile font size control for H4 (when using GP 3.0)
-* Typography: Add mobile font size control for H5 (when using GP 3.0)
+* Spacing: Stop handling mobile header, widget and footer widget features added in Aureon 3.0
+* Typography: Add mobile font size control for H3 (when using Aureon 3.0)
+* Typography: Add mobile font size control for H4 (when using Aureon 3.0)
+* Typography: Add mobile font size control for H5 (when using Aureon 3.0)
 * Typography: Allow empty tablet and mobile site title font size values
 * Typography: Make menu toggle CSS selector specific to primary navigation
 * WooCommerce: Use CSS for secondary product image functionality instead of JS
@@ -513,7 +516,7 @@ In most cases, #1 will work fine and is way easier.
 * Menu Plus: Give close slideout event a name so it can be removed
 * Menu Plus: Remove invalid transition-delay
 * Menu Plus: Improve slideout overlay transition
-* Menu Plus: Add mobile open/close icons to GPP font
+* Menu Plus: Add mobile open/close icons to the Aureon icon font
 * Menu Plus: Allow dynamic widget classes in off canvas panel (fixes WC range slider widget issue)
 * Menu Plus: Basic compatibility with future SVG icons
 * Menu Plus: Prevent duplicate IDs when sticky navigation is cloned
