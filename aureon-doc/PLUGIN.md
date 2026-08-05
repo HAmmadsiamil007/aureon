@@ -1,6 +1,6 @@
 # Aureon Studio Plugin — Complete Documentation
 
-> Everything about Aureon Studio: architecture, the module activation system, all 17 modules in detail, shared library, Dashboard, compiled assets, legacy code, and known issues.
+> Everything about Aureon Studio: architecture, the module activation system, all 16 active modules in detail, shared library, Dashboard, compiled assets, legacy code, and known issues.
 
 ---
 
@@ -47,14 +47,14 @@ Aureon Studio is the companion plugin for the Aureon theme — **"the entire col
 | `aureon_package_page_header` | `AUREON_PAGE_HEADER` |
 | `aureon_package_secondary_nav` | `AUREON_SECONDARY_NAV` |
 | `aureon_package_sections` | `AUREON_SECTIONS` |
-| `aureon_package_site_library` | `AUREON_SITE_LIBRARY` |
+| ~~`aureon_package_site_library`~~ | ~~`AUREON_SITE_LIBRARY`~~ | **REMOVED** — Site Library deleted 2026-08-05 |
 | `aureon_package_spacing` | `AUREON_SPACING` |
 | `aureon_package_typography` | `AUREON_TYPOGRAPHY` |
 | `aureon_package_woocommerce` | `AUREON_WOOCOMMERCE` |
 
 ---
 
-## 3. The 17 modules
+## 3. The 16 modules
 
 ### 1) Backgrounds — `backgrounds/`
 Apply background images to any HTML element (body, header, nav, content, footer, secondary nav…). Features a live **background-image editor control** (position, size, repeat, attachment, colors, parallax via CSS) with desktop/tablet/mobile breakpoints. Also styles the **secondary navigation** background.
@@ -174,6 +174,9 @@ Text domain `aureon-studio`, with 22 `.mo` files and 36 `.json` (JS) files in `l
 | 4 | JS globals still named `generatePressTypography` / `generateCustomizerControls` | Cosmetic | **FIXED** — all renamed to `aureonTypography` / `aureonCustomizerControls` / `aureonBlog` / `aureonProDashboard` / `aureonSecondaryNav` / `aureonWooCommerce` / `aureonGlobalColors` / `aureonProCustomizerControls` |
 | 5 | `plugin/dist/customizer.js` read `aureonCustomizerControls` (shared global, clobbered theme) | High (blank React panels) | **FIXED** — plugin bundle + PHP now use `aureonProCustomizerControls`; verified in Docker (0 console errors) |
 | 6 | Customizer handle collision (theme+plugin same React handle) | High (no save button) | **FIXED** — theme `aureon-customizer-controls-react`, plugin `aureon-pro-customizer-controls-react` |
+| 7 | `select('core/edit-post').getPreference` deprecated since WP 6.0 | Medium (2 console warnings) | **FIXED (2026-08-05)** — replaced with `select('core/preferences').get()` in `dist/block-elements.js` (6 occurrences) + null-check fallback |
+| 8 | `TypeError: Cannot read properties of undefined (reading 'aureon-block-element/aureon-block-element')` | High (Elements editor crash) | **FIXED (2026-08-05)** — added `|| {}` fallback on panels access in `dist/block-elements.js` |
+| 9 | WooCommerce `order_awaiting_payment on null` PHP warning | Medium (PHP warnings) | **FIXED (2026-08-05)** — mu-plugin `mu-plugins/aureon-fix-wc-session.php` initializes WC session early + wraps `wc_clear_cart_after_payment()` with null-check |
 
 ## 10. Extending Aureon Studio
 - **Filters:** `aureon_media_queries`, `aureon_dynamic_css_print_method`, `aureon_number_of_fonts`, `aureon_typography_customize_list`, `aureon_blog_columns`, `aureon_element_display`, `aureon_smooth_scroll_offset`, `aureon_wc_*` (WooCommerce), `aureon_studio_license_provider`, `aureon_studio_update_provider`, `aureon_desktop/tablet/mobile_media_query`.

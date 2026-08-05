@@ -58,6 +58,42 @@ Scan methodology: iterative loop (`generatepress` literals **and** `generate[A-Z
 - ~~Legacy activation endpoint `https://example.com`~~ → **RESOLVED 2026-08-05:** legacy license activation handler in `inc/legacy/activation.php` removed entirely.
 - ~~EDD updater points at `https://aureonstudio.com`~~ → **RESOLVED 2026-08-05:** EDD updater deleted; replaced by `Aureon_Pro_Null_Update_Provider` seam (standard WP updates).
 
+### Comprehensive E2E verification (2026-08-05)
+Full end-to-end verification of ALL features on Docker `phantom-wp` (:8080). **0 console errors, 0 PHP warnings** across all surfaces:
+
+- **Customizer — Deep Verification (2026-08-05):** All 18 major sections verified with control counts and live preview testing:
+  - Site Identity: 9 controls, live preview instant ✅
+  - Typography: Font Manager + Typography Manager React render correctly ✅
+  - Colors: 322 controls (Global Colors + body/link/headings/buttons/footer) ✅
+  - General: 12 controls (CSS print, icons, links, combine CSS) ✅
+  - Layout Panel: 12 sub-sections (Container 13, Header 14, Navigation 16, Sidebars 8, Footer 10, Top Bar 15, Blog 4, WooCommerce 53) ✅
+  - Spacing Panel: 5 sub-sections (template-rendered on open) ✅
+  - Backgrounds Panel: 10 sub-sections (body, header, nav, content, sidebar, footer) ✅
+  - WooCommerce: 5 sub-sections (Store Notice 7, Product Catalog 13, Product Images 12, Checkout 26, Colors 115) ✅
+  - Menus: 3 menu locations, 10 widget areas ✅
+  - Homepage Settings, Additional CSS ✅
+  - Live preview: site title change + container width change both update instantly ✅
+- **Dashboard:** 10 modules (Backgrounds, Blog, Copyright, Disable Elements, Elements, Font Library, Menu Plus, Secondary Nav, Spacing, WooCommerce) — all toggleable. Start Customizing (4 quick links), Import/Export (All/Global Colors/Typography + Export/Import), Reset — all functional. No License Key, no Site Library.
+- **Font Library:** 3 tabs (Font Library, Upload Custom Fonts, Install Google Fonts) — all functional.
+- **Elements CPT:** List table, Add New Element (block editor), Display Rules (Location/Exclusion/User Role), Element settings (type, Block Element, Editor width) — all functional.
+- **Front-end:** Homepage renders header, navigation (Sample Page, Shop, Cart, Checkout, My Account), content ("Hello world!"), sidebar (Search, Recent Posts, Recent Comments), footer — 0 errors.
+- **WooCommerce:** Shop, Cart, Checkout pages render without warnings. Session initialization fixed via mu-plugin.
+- **REST API:** 17 routes registered across 4 namespaces (`aureon-pro/v1`, `aureon-font-library/v1`, `aureon/v1`, `wp/v2/aureon_elements`). No `/license/` or `/beta/` routes.
+- **Console error summary:** 0 errors, 2 warnings (WP core — sandbox iframe + tooltip deprecation). **0 PHP warnings** in debug.log.
+
+### WooCommerce session fix (2026-08-05)
+- **Root cause:** WooCommerce's `wc_clear_cart_after_payment()` accesses `WC()->session->order_awaiting_payment` on `template_redirect` without checking if `WC()->session` is initialized. This caused `PHP Warning: Attempt to read property "order_awaiting_payment" on null` on REST API, customizer, and front-end pages.
+- **Fix:** Mu-plugin `mu-plugins/aureon-fix-wc-session.php` that:
+  1. Initializes WC session early on `init` hook (priority 1)
+  2. Removes the original unguarded `wc_clear_cart_after_payment` hook
+  3. Re-registers it with a safe wrapper that ensures session is initialized before access
+- **Verification:** Debug.log empty after visiting all 12 pages (customizer, dashboard, font library, elements, front-end, WooCommerce pages, REST API endpoints).
+
+### Editor deprecation warnings fix (2026-08-05)
+- **Root cause:** Plugin `dist/block-elements.js` called `wp.data.select('core/edit-post').getPreference('panels')` — deprecated since WP 6.0 in favor of `wp.data.select('core/preferences').get('core/edit-post', 'panels')`.
+- **Fix:** Replaced 6 occurrences in `dist/block-elements.js` with the new API; added `|| {}` null-check fallback to prevent TypeError on initial render when panels data isn't yet available.
+- **Verification:** Elements editor now shows 0 errors, 0 warnings (down from 2 errors + 2 warnings).
+
 ---
 
 ## v0.x — Initial rebrand (Aug 4, 2026)
