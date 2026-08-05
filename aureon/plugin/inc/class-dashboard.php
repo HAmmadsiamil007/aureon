@@ -58,7 +58,6 @@ class Aureon_Pro_Dashboard {
 		add_action( 'aureon_admin_dashboard', array( $this, 'module_list' ), 8 );
 		add_action( 'aureon_admin_dashboard', array( $this, 'import_export' ), 50 );
 		add_action( 'aureon_admin_dashboard', array( $this, 'reset' ), 100 );
-		add_filter( 'aureon_premium_beta_tester', array( $this, 'set_beta_tester' ) );
 	}
 
 	/**
@@ -175,15 +174,6 @@ class Aureon_Pro_Dashboard {
 			),
 		);
 
-		if ( version_compare( PHP_VERSION, '5.4', '>=' ) && ! defined( 'AUREON_DISABLE_SITE_LIBRARY' ) ) {
-			$modules['Site Library'] = array(
-				'title' => __( 'Site Library', 'aureon-studio' ),
-				'description' => __( 'Choose from an extensive library of professionally designed starter sites.', 'aureon-studio' ),
-				'key' => 'aureon_package_site_library',
-				'isActive' => 'activated' === get_option( 'aureon_package_site_library', false ),
-			);
-		}
-
 		if ( function_exists( 'aureon_is_using_dynamic_typography' ) && aureon_is_using_dynamic_typography() ) {
 			unset( $modules['Typography'] );
 		}
@@ -296,23 +286,6 @@ class Aureon_Pro_Dashboard {
 	}
 
 	/**
-	 * Returns safely the license key.
-	 */
-	public static function get_license_key() {
-		$license_key = get_option( 'aureon_studio_license_key', '' );
-
-		if ( $license_key && strlen( $license_key ) > 4 ) {
-			$hidden_length = strlen( $license_key ) - 4;
-			$safe_part = substr( $license_key, -4 );
-			$hidden_part = implode( '', array_fill( 0, $hidden_length, '*' ) );
-
-			return $hidden_part . $safe_part;
-		}
-
-		return $license_key;
-	}
-
-	/**
 	 * Add our scripts to the page.
 	 */
 	public function enqueue_scripts() {
@@ -353,17 +326,13 @@ class Aureon_Pro_Dashboard {
 
 				wp_localize_script(
 					'aureon-pro-dashboard',
-					'generateProDashboard',
+					'aureonProDashboard',
 					array(
 						'modules' => self::get_modules(),
 						'exportableModules' => self::get_exportable_modules(),
 						'fontLibraryUrl' => admin_url( 'themes.php?page=aureon-font-library' ),
-						'siteLibraryUrl' => admin_url( 'themes.php?page=aureon-library' ),
 						'elementsUrl' => admin_url( 'edit.php?post_type=aureon_elements' ),
 						'hasWooCommerce' => class_exists( 'WooCommerce' ),
-						'licenseKey' => self::get_license_key(),
-						'licenseKeyStatus' => get_option( 'aureon_studio_license_key_status', 'deactivated' ),
-						'betaTester' => get_option( 'aureon_studio_beta_testing', false ),
 					)
 				);
 			}
@@ -371,31 +340,10 @@ class Aureon_Pro_Dashboard {
 	}
 
 	/**
-	 * Enable beta testing if our option is set.
-	 *
-	 * @since 2.1.0
-	 * @param boolean $value Whether beta testing is on or not.
-	 */
-	public function set_beta_tester( $value ) {
-		if ( get_option( 'aureon_studio_beta_testing', false ) ) {
-			return true;
-		}
-
-		return $value;
-	}
-
-	/**
 	 * Add the container for our start customizing app.
 	 */
 	public function module_list() {
 		echo '<div id="aureon-module-list"></div>';
-	}
-
-	/**
-	 * Add the container for our start customizing app.
-	 */
-	public function license_key() {
-		// License key UI removed — no phone-home validation.
 	}
 
 	/**
