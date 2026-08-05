@@ -575,65 +575,6 @@ if ( ! function_exists( 'aureon_verify_styles' ) ) {
 	}
 }
 
-if ( ! function_exists( 'aureon_add_license_key_field' ) ) {
-	function aureon_add_license_key_field() {
-		// Replaced by aureon_premium_license_key_field()
-	}
-}
-
-if ( ! function_exists( 'aureon_premium_license_key' ) ) {
-	function aureon_premium_license_key() {
-		// Replaced by aureon_premium_license_key_field()
-	}
-}
-
-if ( ! function_exists( 'aureon_save_premium_license_key' ) ) {
-	function aureon_save_premium_license_key() {
-		// Replaced by aureon_premium_process_license_key()
-	}
-}
-
-
-if ( ! function_exists( 'aureon_process_license_key' ) ) {
-	function aureon_process_license_key() {
-		// Replaced by aureon_premium_process_license_key()
-	}
-}
-
-/**
- * Add the Refresh sites link after the list of sites.
- *
- * @since 1.6
- * @deprecated 1.7
- */
-function aureon_sites_refresh_link() {
-	if ( ! aureon_is_sites_dashboard() ) {
-		return;
-	}
-
-	printf(
-		'<div class="refresh-sites">
-			<a class="button" href="%1$s">%2$s</a>
-		</div>',
-		wp_nonce_url( admin_url( 'themes.php?page=aureon-options&area=aureon-sites' ), 'refresh_sites', 'refresh_sites_nonce' ),
-		__( 'Refresh Sites', 'aureon-studio' )
-	);
-}
-
-/**
- * Delete our sites transient if the Refresh sites link is clicked.
- *
- * @since 1.6
- * @deprecated 1.12.0
- */
-function aureon_sites_refresh_list() {
-	if ( ! isset( $_GET['refresh_sites_nonce'] ) || ! wp_verify_nonce( $_GET['refresh_sites_nonce'], 'refresh_sites' ) ) {
-		return;
-	}
-
-	delete_transient( 'aureon_sites' );
-}
-
 if ( ! function_exists( 'aureon_insert_import_export' ) ) {
 	/**
 	* @deprecated 1.7
