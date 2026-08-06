@@ -33,7 +33,7 @@ jQuery( function( $ ) {
 		}
 	} );
 
-	if ( generateWooCommerce.addToCartPanel ) {
+	if ( aureonWooCommerce.addToCartPanel ) {
 		$( document.body ).on( 'added_to_cart', function() {
 			var adminBar = $( '#wpadminbar' ),
 				stickyNav = $( '.navigation-stick' ),
@@ -77,7 +77,7 @@ jQuery( function( $ ) {
 		}, 250 ) );
 	}
 
-	if ( generateWooCommerce.stickyAddToCart ) {
+	if ( aureonWooCommerce.stickyAddToCart ) {
 		var lastScroll = 0;
 		var scrollDownTimeout = 300;
 
@@ -157,23 +157,23 @@ jQuery( function( $ ) {
 	$( function() {
 		'use strict';
 
-		if ( generateWooCommerce.quantityButtons ) {
-			generateQuantityButtons();
+		if ( aureonWooCommerce.quantityButtons ) {
+			aureonQuantityButtons();
 		}
 	} );
 
 	$( document ).ajaxComplete( function() {
 		'use strict';
 
-		if ( generateWooCommerce.quantityButtons ) {
-			generateQuantityButtons();
+		if ( aureonWooCommerce.quantityButtons ) {
+			aureonQuantityButtons();
 		}
 	} );
 
-	function generateQuantityButtons() {
+	function aureonQuantityButtons() {
 		// Check if we have an overwrite hook for this function
 		try {
-			return generateWooCommerce.hooks.generateQuantityButtons();
+			return aureonWooCommerce.hooks.aureonQuantityButtons();
 		} catch ( e ) {
 			// No hook in place, carry on
 		}
@@ -193,7 +193,7 @@ jQuery( function( $ ) {
 
 		try {
 			// Is there a hook available?
-			quantityBoxes = generateWooCommerce.selectors.generateQuantityButtons.quantityBoxes;
+			quantityBoxes = aureonWooCommerce.selectors.aureonQuantityButtons.quantityBoxes;
 		} catch ( e ) {
 			// Use the default plugin selector functionality
 			quantityBoxes = $( '.cart div.quantity:not(.buttons-added), .cart td.quantity:not(.buttons-added)' ).find( '.qty' );
@@ -215,7 +215,7 @@ jQuery( function( $ ) {
 
 		try {
 			// Try assign a hooked callback
-			quantityBoxesCallback = generateWooCommerce.callbacks.generateQuantityButtons.quantityBoxes;
+			quantityBoxesCallback = aureonWooCommerce.callbacks.aureonQuantityButtons.quantityBoxes;
 		} catch ( e ) {
 			// Use the default callback handler
 			quantityBoxesCallback = function( key, value ) {

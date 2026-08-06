@@ -1,6 +1,11 @@
 Aureon Studio Plugin
 Copyright (c) 2026 Aureon Studio
 
+This plugin is a derivative of the GP Premium plugin, which extends the
+GeneratePress theme. GP Premium is a WordPress Plugin, Copyright (c)
+2015, Tom Usborne, released under the GNU General Public License,
+version 2.
+
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
 published by the Free Software Foundation.

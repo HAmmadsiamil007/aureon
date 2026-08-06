@@ -497,7 +497,7 @@
 /**
  * Start GP.
  */
-var generateOffside = offside( '.slideout-navigation', {
+var aureonOffside = offside( '.slideout-navigation', {
     slidingElementsSelector:'#slideout-container',
     buttonsSelector: '.slideout-mobile .main-navigation .menu-toggle, .slideout-both .main-navigation .menu-toggle, .slideout-both .slideout-toggle, .slideout-desktop .slideout-toggle',
 	slidingSide: offSide.side,
@@ -577,7 +577,7 @@ var closeElements = document.querySelectorAll( '.slideout-overlay, .slideout-exi
 for ( var i = 0; i < closeElements.length; i++ ) {
 	closeElements[i].addEventListener( 'click', function( e ) {
 		e.preventDefault();
-    	generateOffside.close();
+    	aureonOffside.close();
 	} );
 };
 
@@ -595,7 +595,7 @@ var closeOffsideOnAction = function() {
 
 	if ( '#' !== url && '' !== url && ! navigator.userAgent.match( /iemobile/i ) ) {
 		setTimeout( function() {
-			generateOffside.close();
+			aureonOffside.close();
 		}, 200 );
 	}
 };
@@ -609,7 +609,7 @@ document.addEventListener( 'keyup', function( e ) {
 		e = e || window.event;
 
 		if ( e.keyCode == 27 ) {
-			generateOffside.close();
+			aureonOffside.close();
 
 			var body = document.body;
 
@@ -640,7 +640,7 @@ for ( var i = 0; i < toggles.length; i++ ) {
 	toggles[ i ].addEventListener( 'keypress', function( e ) {
 		if ( ' ' === e.key ) {
 			e.preventDefault();
-			generateOffside.open();
+			aureonOffside.open();
 		}
 	} );
 };

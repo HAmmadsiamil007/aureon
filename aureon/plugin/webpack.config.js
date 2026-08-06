@@ -16,7 +16,6 @@ module.exports = {
 		...defaultEntries,
 		'block-elements': './src/block-elements.js',
 		'font-library': './src/font-library.js',
-		'site-library': './src/site-library.js',
 		customizer: './src/customizer.js',
 		dashboard: './src/dashboard.js',
 		editor: './src/editor.js',

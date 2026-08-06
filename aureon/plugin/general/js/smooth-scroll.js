@@ -705,7 +705,7 @@ if (window.Element && !Element.prototype.closest) {
 
 }));
 
-/* GP */
+/* Aureon */
 var aureonscroll = new SmoothScroll( aureonSmoothScroll.elements.join(), {
 	speed: aureonSmoothScroll.duration,
 	offset: function( anchor, toggle ) {

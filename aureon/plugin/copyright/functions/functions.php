@@ -90,7 +90,7 @@ if ( ! function_exists( 'aureon_copyright_remove_default' ) ) {
 	 * Remove the default copyright.
 	 *
 	 * @since 0.1
-	 * @deprecated GP 1.3.42
+	 * @deprecated 1.3.42
 	 */
 	function aureon_copyright_remove_default() {
 		// As of 1.3.42, we no longer need to do this.
@@ -112,7 +112,7 @@ if ( ! function_exists( 'aureon_copyright_add_custom' ) ) {
 	 * Add the custom copyright.
 	 *
 	 * @since 0.1
-	 * @deprecated GP 1.3.42
+	 * @deprecated 1.3.42
 	 */
 	function aureon_copyright_add_custom() {
 		// As of 1.3.42, we no longer need to do this.
@@ -149,7 +149,7 @@ if ( ! function_exists( 'aureon_apply_custom_copyright' ) ) {
 	 * @param string $copyright The copyright value.
 	 */
 	function aureon_apply_custom_copyright( $copyright ) {
-		// This will only work if GP >= 1.3.42 and the below function doesn't exist.
+		// This will only work if Aureon >= 1.3.42 and the below function doesn't exist.
 		if ( function_exists( 'aureon_add_login_attribution' ) ) {
 			return;
 		}

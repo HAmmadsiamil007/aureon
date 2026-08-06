@@ -5,8 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action( 'aureon_dashboard_inside_container', 'aureon_do_dashboard_tabs', 5 );
-add_action( 'aureon_inside_site_library_container', 'aureon_do_dashboard_tabs', 5 );
-add_action( 'aureon_before_site_library', 'aureon_do_dashboard_tabs', 5 );
 /**
  * Adds our tabs to the Aureon dashboard.
  *

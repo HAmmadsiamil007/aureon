@@ -803,7 +803,7 @@ function aureon_get_system_default_font() {
 }
 
 /**
- * Check to see if we have a GP menu active.
+ * Check to see if we have an Aureon menu active.
  * This is primarily used to know whether we need to enqueue menu.js or not.
  *
  * @since 3.1.0

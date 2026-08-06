@@ -1,8 +1,8 @@
 <?php
 /**
- * GenerateBlocks Pro singleton class.
+ * Aureon Pro singleton class.
  *
- * @package Generateblocks
+ * @package Aureon
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

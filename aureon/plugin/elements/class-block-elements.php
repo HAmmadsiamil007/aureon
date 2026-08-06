@@ -155,7 +155,6 @@ class Aureon_Block_Elements {
 				'featuredImagePlaceholder' => AUREON_STUDIO_DIR_URL . 'elements/assets/admin/featured-image-placeholder.png',
 				'authorImagePlaceholder' => AUREON_STUDIO_DIR_URL . 'elements/assets/admin/author-image-placeholder.png',
 				'bgImageFallback' => AUREON_STUDIO_DIR_URL . 'elements/assets/admin/background-image-fallback.jpg',
-				'templateImageUrl' => 'https://sites.aureonstudio.com/files/element-library',
 				'parentElements' => $parent_elements_data,
 			)
 		);

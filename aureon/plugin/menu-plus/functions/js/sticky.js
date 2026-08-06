@@ -445,7 +445,7 @@
 }(jQuery, window, document));
 
 (function ( $ ) {
-	$.fn.GenerateSimpleSticky = function( options ) {
+	$.fn.AureonSimpleSticky = function( options ) {
 		var settings = $.extend({
 			menu: $( this ),
 			parent: false,
@@ -502,7 +502,7 @@
 	}
 }( jQuery ));
 
-function generateStickyDebounce(func, wait, immediate) {
+function aureonStickyDebounce(func, wait, immediate) {
 	var timeout;
 	return function() {
 		var context = this, args = arguments;
@@ -562,12 +562,12 @@ jQuery( function( $ ) {
 			disableOn: navigationDisableOn
 		};
 
-		$( navigation ).GenerateSimpleSticky( options );
+		$( navigation ).AureonSimpleSticky( options );
 
 		body.on( 'aureon_navigation_location_updated', function() {
 			navigation.trigger( 'stickUp:detach' );
 			setTimeout(function() {
-				$( navigation ).GenerateSimpleSticky( options );
+				$( navigation ).AureonSimpleSticky( options );
 			}, 250);
 		});
 	}
@@ -576,7 +576,7 @@ jQuery( function( $ ) {
 
 		var mobileHeader = $( '#mobile-header' );
 
-		mobileHeader.GenerateSimpleSticky({
+		mobileHeader.AureonSimpleSticky({
 			scrollHide: ( mobileHeader.data( 'auto-hide-sticky' ) || '' === mobileHeader.data( 'auto-hide-sticky' ) ) ? true : false,
 			disableOn: function() {
 				if ( ! mobileHeader.is( ':visible' ) ) {
@@ -591,18 +591,18 @@ jQuery( function( $ ) {
 		sidebarNav = $( '.gen-sidebar-nav' ),
 		windowWidth = $( window ).width();
 
-	var checkSidebarNav = generateStickyDebounce( function() {
+	var checkSidebarNav = aureonStickyDebounce( function() {
 		if ( windowWidth !== $( window ).width() ) {
 			if ( sidebarNavClone.is( ':visible' ) ) {
 				sidebarNav.trigger( 'stickUp:detach' );
 				sidebarNavClone.trigger( 'stickUp:detach' );
-				sidebarNavClone.GenerateSimpleSticky( options );
+				sidebarNavClone.AureonSimpleSticky( options );
 			}
 
 			if ( sidebarNav.is( ':visible' ) ) {
 				sidebarNavClone.trigger( 'stickUp:detach' );
 				sidebarNav.trigger( 'stickUp:detach' );
-				sidebarNav.GenerateSimpleSticky( options );
+				sidebarNav.AureonSimpleSticky( options );
 			}
 		}
 	}, 250);

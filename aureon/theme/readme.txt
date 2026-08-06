@@ -1,5 +1,5 @@
 === Aureon ===
-Contributors: edge22
+Contributors: aureonstudio
 Donate link: https://aureonstudio.com/ongoing-development/
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -7,7 +7,7 @@ Tags: two-columns, three-columns, one-column, right-sidebar, left-sidebar, foote
 Requires at least: 6.5
 Requires PHP: 7.4
 Tested up to: 6.9
-Stable tag: 3.6.1
+Stable tag: 1.0.0
 
 Aureon is a lightweight WordPress theme built with a focus on speed and usability.
 
@@ -111,9 +111,9 @@ MIT License: https://github.com/JedWatson/react-select/blob/master/LICENSE
 
 = 3.5.0 =
 * Feature: Add support for more core block options
-* Feature: Add support for GPP Font Library in the Customizer
+* Feature: Add support for Aureon Studio Font Library in the Customizer
 * Fix: Underlined buttons in the editor
-* Tweak: Add minimal header/footer templates for future GPP site editor
+* Tweak: Add minimal header/footer templates for future Aureon Studio site editor
 * Tweak: Allow bottom margin value in custom typography elements
 * Accessibility: Add role to back to top button
 * Accessibility: Use h2 for comments title
@@ -194,7 +194,7 @@ MIT License: https://github.com/JedWatson/react-select/blob/master/LICENSE
 * Fix: Code block width in the editor
 * Fix: WooCommerce archive wrapper HTML attributes
 * Fix: Google font API requests using a standalone numbers
-* Fix: Customizer shortcut links in the GP Dashboard
+* Fix: Customizer shortcut links in the Aureon Studio Dashboard
 * Fix: Check for logo dimension data
 * Fix: Back to top iOS double-click issues
 * Tweak: Use block_editor_settings_all to add editor CSS
@@ -394,7 +394,7 @@ MIT License: https://github.com/JedWatson/react-select/blob/master/LICENSE
 * Tweak: Add padding-left to cancel comment reply link
 * Tweak: Update navigation color and header presets
 * Tweak: Add [type="search"] to .navigation-search input CSS selector
-* Tweak: Better style GP core button in block editor
+* Tweak: Better style Aureon core button in block editor
 * Tweak: Improve comment cookie consent display across browsers
 * Tweak: Add is-logo-image class to site logo
 * Tweak: Remove type attribute from scripts and styles

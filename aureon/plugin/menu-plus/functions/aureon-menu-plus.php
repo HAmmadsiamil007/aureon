@@ -2340,7 +2340,7 @@ function aureon_set_mobile_menu_breakpoint( $breakpoint ) {
 		aureon_menu_plus_get_defaults()
 	);
 
-	// This setting shouldn't apply if the mobile header isn't on and we're using GP < 2.3.
+	// This setting shouldn't apply if the mobile header isn't on and we're using Aureon < 2.3.
 	if ( defined( 'AUREON_VERSION' ) && version_compare( AUREON_VERSION, '2.3-alpha.1', '<' ) ) {
 		if ( 'enable' !== $settings['mobile_header'] ) {
 			return $breakpoint;
@@ -2371,7 +2371,7 @@ function aureon_set_not_mobile_menu_breakpoint( $breakpoint ) {
 		aureon_menu_plus_get_defaults()
 	);
 
-	// This setting shouldn't apply if the mobile header isn't on and we're using GP < 2.3.
+	// This setting shouldn't apply if the mobile header isn't on and we're using Aureon < 2.3.
 	if ( defined( 'AUREON_VERSION' ) && version_compare( AUREON_VERSION, '2.3-alpha.1', '<' ) ) {
 		if ( 'enable' !== $settings['mobile_header'] ) {
 			return $breakpoint;
@@ -2389,7 +2389,7 @@ function aureon_set_not_mobile_menu_breakpoint( $breakpoint ) {
 
 add_filter( 'aureon_has_active_menu', 'aureon_menu_plus_set_active_menu' );
 /**
- * Tell GP about our active menus.
+ * Tell Aureon about our active menus.
  *
  * @since 2.1.0
  * @param boolean $has_active_menu Whether we have an active menu.

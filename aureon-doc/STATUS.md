@@ -246,3 +246,78 @@ All features verified live on Docker `phantom-wp` (:8080, admin/admin123). **0 c
 | 3 | ~~EDD updater points at `https://aureonstudio.com`~~ | **RESOLVED (2026-08-05)** — EDD updater deleted; replaced by `Aureon_Pro_Null_Update_Provider` seam (standard WP updates) | — |
 
 These are the **only** known issues; none affect the theme, the plugin's core features, or the Customizer.
+
+---
+
+## 8. Phase 17 — Frontend Integration Architecture
+
+### 8.1 Status
+
+**Phase 17.1: DESIGN COMPLETE — DECISIONS LOCKED**
+
+Full design document: [`PHASE-17-1-INTEGRATION-ARCHITECTURE.md`](./PHASE-17-1-INTEGRATION-ARCHITECTURE.md)
+
+### 8.2 Locked Architectural Decisions
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| Theme architecture | Standalone (no child theme) | Independent product, original branding |
+| WooCommerce integration | Hybrid (80-90% hooks, 10-20% overrides) | Minimizes maintenance, avoids WC conflicts |
+| Authentication | Bridge WP + Firebase + future providers | Maximum flexibility, abstraction layer |
+| `phantom-data.js` | Reduce to AJAX-only enhancement | Server-side rendering for pages |
+| Asset delivery | Bundle locally (GSAP, Lenis, Swiper, FA) | Reliability, performance, privacy |
+| Rendering | Server-side primary, REST only for AJAX | SEO, performance, caching |
+| Data flow | WP → WC → Modules → Adapters → ViewModels → Renderer → Components | Components never call WP directly |
+| CSS | Keep frontend CSS, replace hardcoded with tokens | Preserve UI/UX, enable Customizer |
+| JS | Preserve working scripts, no rewrites | Stability, proven animations |
+| Components | Every section = reusable component from ViewModels | Decoupled, testable, replaceable |
+
+### 8.3 Frontend Template Inventory
+
+- **Brand:** AETHER (premium athletic footwear)
+- **Pages:** 18 HTML files (home, shop, cart, checkout, account, blog, product-detail, about, contact, faq, wishlist, login, 404, coming-soon, privacy, terms, cookies)
+- **CSS:** 4,550-line design system + 1,531-line responsive + 151-line motion + 142-line a11y
+- **JS:** GSAP + ScrollTrigger (16 animation presets), Swiper, Lenis, canvas fire sparks, magnetic buttons, tilt effects
+- **Data Bridge:** `phantom-data.js` maps `data-phantom-*` attributes to WP REST API (being replaced by server-side rendering)
+- **Analysis:** [`FRONTEND-ANALYSIS.md`](./FRONTEND-ANALYSIS.md)
+
+### 8.4 Next Steps (Post-Approval)
+
+Implementation phases 18.1–18.11, estimated ~42 hours total. See design document Appendix B.
+
+### 8.5 Implementation Status (2026-08-06)
+
+| Phase | Description | Status |
+|-------|-------------|--------|
+| 18.1 | Frontend foundation — AETHER assets, header/footer hooks, 0 console errors | ✅ Complete |
+| 18.2 | Design token integration — Customizer → CSS vars, live preview | ✅ Complete |
+| 18.3 | WooCommerce templates — archive, single, content-product, cart, checkout | ✅ Complete |
+| 18.4 | Blog templates — blog page template, single post rewrite | ✅ Complete |
+| 18.5 | Static page templates — about, contact, coming soon, 404 | ✅ Complete |
+| 18.6 | REST API endpoints — 10 endpoints under `aether/v1` namespace | ✅ Complete |
+| 18.7 | JS interactions — FAQ accordion, quick view, wishlist, search, cart AJAX, add to cart | ✅ Complete |
+| 18.8 | Regression testing — all templates pass PHP lint | ✅ Complete |
+| 18.9 | Accessibility audit — skip link, focus-visible, reduced-motion, ARIA labels | ✅ Complete |
+| 18.10 | Performance optimization — filemtime cache-busting, pages.css enqueued, all JS footer-loaded | ✅ Complete |
+| 18.11 | E2E testing — Playwright across all pages, 0 console errors | ✅ Complete |
+
+**All implementation phases + E2E testing complete.** Live site deployment pending.
+
+#### Bug fixes applied (2026-08-06)
+
+| Issue | Root cause | Fix |
+|-------|-----------|-----|
+| `$ is not a function` (×9 console errors) | WordPress loads jQuery in no-conflict mode (`jQuery` defined, `$` not). Vendor scripts (owl carousel, loadmore, search, etc.) use `$` directly. | Added `wp_add_inline_script('jquery', '$ = jQuery alias')` in `aether-enqueue.php` after jQuery loads. |
+| Shop page fatal: `Call to undefined function result_count()` | `archive-product.php` called `result_count()` / `orderby_results()` — non-existent functions. | Fixed to `woocommerce_result_count()` / `woocommerce_catalog_ordering()` (correct WooCommerce template functions). |
+| Newsletter endpoint 404 | JS called `aether/v1/newsletter` but REST API registered `aether/v1/newsletter/subscribe`. | Updated JS `main.js` to use correct endpoint path. |
+
+#### E2E results (all pages)
+
+| Page | HTTP | Console errors | Critical elements |
+|------|------|---------------|-------------------|
+| Homepage | 200 | 0 | hero-swiper, faq-section, newsletter-section, header, skip-to-content |
+| Shop | 200 | 0 | header, content, shop-page, products-grid (6 products rendering) |
+| Cart | 200 | 0 | header, main |
+| About | 200 | 0 | header, main |
+| Blog | 200 | 0 | header, main |
+| Contact | 200 | 0 | header, main |

@@ -24,7 +24,7 @@ if ( ! function_exists( 'aureon_create_menu' ) ) {
 
 if ( ! function_exists( 'aureon_options_styles' ) ) {
 	/**
-	 * Adds any necessary scripts to the GP dashboard page
+	 * Adds any necessary scripts to the Aureon dashboard page
 	 *
 	 * @since 0.1
 	 */
@@ -35,7 +35,7 @@ if ( ! function_exists( 'aureon_options_styles' ) ) {
 
 if ( ! function_exists( 'aureon_settings_page' ) ) {
 	/**
-	 * Builds the content of our GP dashboard page
+	 * Builds the content of our Aureon dashboard page
 	 *
 	 * @since 0.1
 	 */
@@ -136,9 +136,6 @@ if ( ! function_exists( 'aureon_settings_page' ) ) {
 									),
 									'Sections' => array(
 										'url' => aureon_get_premium_url( 'https://aureonstudio.com/premium/#sections', false ),
-									),
-									'Site Library' => array(
-										'url' => aureon_get_premium_url( 'https://aureonstudio.com/site-library', false ),
 									),
 									'Spacing' => array(
 										'url' => aureon_get_premium_url( 'https://aureonstudio.com/premium/#spacing', false ),

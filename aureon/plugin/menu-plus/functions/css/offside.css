@@ -65,7 +65,7 @@
     overflow-x: hidden;
 }
 
-/* GP */
+/* Aureon */
 .slideout-navigation.main-navigation:not(.is-open):not(.slideout-transition) {
 	display: none;
 }

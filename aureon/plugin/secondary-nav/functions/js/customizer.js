@@ -13,7 +13,7 @@
 				}
 			}
 			if ( 'secondary-contained-nav' == newval ) {
-				if ( generateSecondaryNav.isFlex && ( 'secondary-nav-float-right' === navLocation || 'secondary-nav-float-left' === navLocation ) ) {
+				if ( aureonSecondaryNav.isFlex && ( 'secondary-nav-float-right' === navLocation || 'secondary-nav-float-left' === navLocation ) ) {
 					return;
 				}
 

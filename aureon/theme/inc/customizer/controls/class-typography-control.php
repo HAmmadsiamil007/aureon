@@ -116,8 +116,8 @@ if ( class_exists( 'WP_Customize_Control' ) && ! class_exists( 'Aureon_Typograph
 								<# } #>
 							</optgroup>
 							<optgroup label="{{ data.google_fonts_title }}">
-								<# for ( var key in generatePressTypography.googleFonts ) { #>
-									<option value="{{ generatePressTypography.googleFonts[ key ].name }}"  <# if ( generatePressTypography.googleFonts[ key ].name === data.family.value ) { #>selected="selected"<# } #>>{{ generatePressTypography.googleFonts[ key ].name }}</option>
+								<# for ( var key in aureonTypography.googleFonts ) { #>
+									<option value="{{ aureonTypography.googleFonts[ key ].name }}"  <# if ( aureonTypography.googleFonts[ key ].name === data.family.value ) { #>selected="selected"<# } #>>{{ aureonTypography.googleFonts[ key ].name }}</option>
 								<# } #>
 							</optgroup>
 						</select>
@@ -131,7 +131,7 @@ if ( class_exists( 'WP_Customize_Control' ) && ! class_exists( 'Aureon_Typograph
 			<# if ( 'undefined' !== typeof ( data.variant ) ) { #>
 				<#
 				var id = data.family.value.split(' ').join('_').toLowerCase();
-				var font_data = generatePressTypography.googleFonts[id];
+				var font_data = aureonTypography.googleFonts[id];
 				var variants = '';
 				if ( typeof font_data !== 'undefined' ) {
 					variants = font_data.variants;

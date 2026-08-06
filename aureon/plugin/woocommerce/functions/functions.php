@@ -244,7 +244,7 @@ function aureon_wc_scripts() {
 
 	wp_localize_script(
 		'aureon-woocommerce',
-		'generateWooCommerce',
+		'aureonWooCommerce',
 		array(
 			'quantityButtons' => aureon_wc_get_setting( 'quantity_buttons' ),
 			'stickyAddToCart' => aureon_wc_show_sticky_add_to_cart(),

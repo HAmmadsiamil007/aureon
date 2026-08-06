@@ -81,7 +81,7 @@ if ( ! function_exists( 'aureon_secondary_nav_enqueue_customizer_scripts' ) ) {
 
 		wp_localize_script(
 			'aureon-secondary-nav-customizer',
-			'generateSecondaryNav',
+			'aureonSecondaryNav',
 			array(
 				'isFlex' => function_exists( 'aureon_is_using_flexbox' ) && aureon_is_using_flexbox(),
 			)
@@ -1340,7 +1340,7 @@ function aureon_secondary_nav_has_menu_bar_items() {
 
 add_filter( 'aureon_has_active_menu', 'aureon_secondary_nav_set_active_menu' );
 /**
- * Tell GP about our active menus.
+ * Tell Aureon about our active menus.
  *
  * @since 2.1.0
  * @param boolean $has_active_menu Whether we have an active menu.

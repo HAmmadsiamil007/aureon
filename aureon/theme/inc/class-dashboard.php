@@ -77,7 +77,7 @@ class Aureon_Dashboard {
 	}
 
 	/**
-	 * Add a body class on GP dashboard pages.
+	 * Add a body class on Aureon dashboard pages.
 	 *
 	 * @param string $classes The existing classes.
 	 */

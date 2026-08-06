@@ -37,7 +37,7 @@ class Aureon_Elements_Helper {
 	}
 
 	/**
-	 * Check to see if specific theme/GPP options exist and are set.
+	 * Check to see if specific theme options exist and are set.
 	 *
 	 * @since 1.7
 	 *

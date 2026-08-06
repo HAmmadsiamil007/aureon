@@ -12,7 +12,7 @@ if ( ! function_exists( 'aureon_spacing_update_footer_padding' ) ) {
 	 * December 19, 2016
 	 */
 	function aureon_spacing_update_footer_padding() {
-		// Bail if GP isn't activated
+		// Bail if Aureon isn't activated
 		if ( ! function_exists( 'aureon_spacing_get_defaults' ) ) {
 			return;
 		}
@@ -60,7 +60,7 @@ if ( ! function_exists( 'aureon_spacing_update_mobile_content_padding' ) ) {
 	 * Febuary 20, 2017
 	 */
 	function aureon_spacing_update_mobile_content_padding() {
-		// Bail if GP isn't activated
+		// Bail if Aureon isn't activated
 		if ( ! function_exists( 'aureon_spacing_get_defaults' ) ) {
 			return;
 		}

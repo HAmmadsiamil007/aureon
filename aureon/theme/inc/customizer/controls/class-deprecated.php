@@ -23,14 +23,14 @@ if ( class_exists( 'WP_Customize_Control' ) && ! class_exists( 'Aureon_Customize
 	}
 }
 
-if ( class_exists( 'WP_Customize_Control' ) && ! class_exists( 'GenerateLabelControl' ) ) {
+if ( class_exists( 'WP_Customize_Control' ) && ! class_exists( 'AureonLabelControl' ) ) {
 	/**
 	 * Heading area
 	 *
 	 * @since 0.1
 	 * @depreceted 1.3.41
 	 **/
-	class GenerateLabelControl extends WP_Customize_Control { // phpcs:ignore
+	class AureonLabelControl extends WP_Customize_Control { // phpcs:ignore
 		/**
 		 * Render content.
 		 */

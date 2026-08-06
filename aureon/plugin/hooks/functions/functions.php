@@ -64,7 +64,7 @@ if ( ! function_exists( 'aureon_hooks_php_check' ) ) {
 	add_action( 'admin_notices', 'aureon_hooks_php_check' );
 	/**
 	 * Checks if DISALLOW_FILE_EDIT is defined.
-	 * If it is, tell the user to disallow PHP execution in GP Hooks.
+	 * If it is, tell the user to disallow PHP execution in Aureon Hooks.
 	 *
 	 * @since 1.3.1
 	 */
@@ -74,7 +74,7 @@ if ( ! function_exists( 'aureon_hooks_php_check' ) ) {
 				'<div class="notice notice-error">
 					<p>%1$s <a href="https://docs.aureonstudio.com/article/disallow-php-execution/" target="_blank">%2$s</a></p>
 				</div>',
-				esc_html__( 'DISALLOW_FILE_EDIT is defined. You should also disallow PHP execution in GP Hooks.', 'aureon-studio' ),
+				esc_html__( 'DISALLOW_FILE_EDIT is defined. You should also disallow PHP execution in Aureon Hooks.', 'aureon-studio' ),
 				esc_html__( 'Learn how', 'aureon-studio' )
 			);
 		}
@@ -129,7 +129,7 @@ if ( ! class_exists( 'Aureon_Hooks_Settings' ) ) {
 		 * @return void
 		 */
 		public function add_menu_item() {
-			$page = add_theme_page( __( 'GP Hooks', 'aureon-studio' ) , __( 'GP Hooks', 'aureon-studio' ) , apply_filters( 'aureon_hooks_capability','manage_options' ) , 'aureon_hooks_settings' ,  array( $this, 'settings_page' ) );
+			$page = add_theme_page( __( 'Aureon Hooks', 'aureon-studio' ) , __( 'Aureon Hooks', 'aureon-studio' ) , apply_filters( 'aureon_hooks_capability','manage_options' ) , 'aureon_hooks_settings' ,  array( $this, 'settings_page' ) );
 			add_action( 'admin_print_styles-' . $page, array( $this, 'settings_assets' ) );
 		}
 
@@ -149,7 +149,7 @@ if ( ! class_exists( 'Aureon_Hooks_Settings' ) ) {
 		 * @return array 		Modified links
 		 */
 		public function add_settings_link( $links ) {
-			$settings_link = '<a href="options-general.php?page=aureon_hooks_settings">' . __( 'GP Hooks', 'aureon-studio' ) . '</a>';
+			$settings_link = '<a href="options-general.php?page=aureon_hooks_settings">' . __( 'Aureon Hooks', 'aureon-studio' ) . '</a>';
 	  		array_push( $links, $settings_link );
 	  		return $links;
 		}
@@ -400,7 +400,7 @@ if ( ! class_exists( 'Aureon_Hooks_Settings' ) ) {
 
 					$html .= '<div id="postbox-container-1">';
 						$html .= '<div class="postbox sticky-scroll-box">';
-							$html .= '<h3 class="hndle">' . __( 'GP Hooks', 'aureon-studio' ) . '</h3>';
+							$html .= '<h3 class="hndle">' . __( 'Aureon Hooks', 'aureon-studio' ) . '</h3>';
 							$html .= '<div class="inside">';
 								$html .= '<p>' . __( 'Use these fields to insert anything you like throughout Aureon. Shortcodes are allowed, and you can even use PHP if you check the Execute PHP checkboxes.', 'aureon-studio' ) . '</p>';
 								$html .= '<select id="hook-dropdown" style="margin-top:20px;">';
@@ -519,7 +519,7 @@ function aureon_old_aureon_hooks_fix_menu() {
 
 add_action( 'admin_head', 'aureon_hooks_add_legacy_button', 999 );
 /**
- * Add legacy buttons to our new GP Elements post type.
+ * Add legacy buttons to our new Aureon Elements post type.
  *
  * @since 1.7
  */

@@ -114,7 +114,7 @@ function aureon_old_page_header_fix_menu() {
 
 add_action( 'admin_head', 'aureon_page_header_add_legacy_locations_button', 999 );
 /**
- * Add legacy buttons to our new GP Elements post type.
+ * Add legacy buttons to our new Aureon Elements post type.
  *
  * @since 1.7
  */

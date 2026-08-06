@@ -3,7 +3,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 
 	if ( msnryContainer ) {
 		// eslint-disable-next-line no-undef -- Masonry is a dependency.
-		var msnry = new Masonry( msnryContainer, generateBlog.masonryInit ),
+		var msnry = new Masonry( msnryContainer, aureonBlog.masonryInit ),
 			navBelow = document.querySelector( '#nav-below' ),
 			loadMore = document.querySelector( '.load-more' );
 
@@ -39,11 +39,11 @@ document.addEventListener( 'DOMContentLoaded', function() {
 			button = document.querySelector( '.load-more a' ),
 			svgIcon = '';
 
-		if ( generateBlog.icon ) {
-			svgIcon = generateBlog.icon;
+		if ( aureonBlog.icon ) {
+			svgIcon = aureonBlog.icon;
 		}
 
-		var infiniteScrollInit = generateBlog.infiniteScrollInit;
+		var infiniteScrollInit = aureonBlog.infiniteScrollInit;
 
 		infiniteScrollInit.outlayer = msnry;
 
@@ -53,7 +53,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		if ( button ) {
 			button.addEventListener( 'click', function( e ) {
 				document.activeElement.blur();
-				e.target.innerHTML = svgIcon + generateBlog.loading;
+				e.target.innerHTML = svgIcon + aureonBlog.loading;
 				e.target.classList.add( 'loading' );
 			} );
 		}
@@ -82,7 +82,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 			}
 
 			if ( button ) {
-				button.innerHTML = svgIcon + generateBlog.more;
+				button.innerHTML = svgIcon + aureonBlog.more;
 				button.classList.remove( 'loading' );
 			}
 

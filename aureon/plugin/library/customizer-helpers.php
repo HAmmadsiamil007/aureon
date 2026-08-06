@@ -40,7 +40,7 @@ function aureon_premium_control_inline_scripts() {
 		wp_localize_script( 'aureon-pro-typography-customizer', 'typography_defaults', aureon_typography_default_fonts() );
 		wp_localize_script(
 			'aureon-pro-typography-customizer',
-			'generatePressTypography',
+			'aureonTypography',
 			array(
 				'googleFonts' => apply_filters( 'aureon_typography_customize_list', aureon_get_all_google_fonts( $number_of_fonts ) )
 			)
@@ -103,7 +103,7 @@ function aureon_premium_control_inline_scripts() {
 	);
 
 	wp_enqueue_script(
-		'aureon-pro-customizer-controls',
+		'aureon-pro-customizer-controls-react',
 		AUREON_STUDIO_DIR_URL . 'dist/customizer.js',
 		array( 'customize-controls', 'wp-i18n', 'wp-element', 'customize-base' ),
 		AUREON_STUDIO_VERSION,
@@ -111,12 +111,12 @@ function aureon_premium_control_inline_scripts() {
 	);
 
 	if ( function_exists( 'wp_set_script_translations' ) ) {
-		wp_set_script_translations( 'aureon-pro-customizer-controls', 'aureon-studio' );
+		wp_set_script_translations( 'aureon-pro-customizer-controls-react', 'aureon-studio' );
 	}
 
 	wp_localize_script(
-		'aureon-pro-customizer-controls',
-		'aureonCustomizerControls',
+		'aureon-pro-customizer-controls-react',
+		'aureonProCustomizerControls',
 		array(
 			'hasSecondaryNav' => aureon_is_module_active( 'aureon_package_secondary_nav', 'AUREON_SECONDARY_NAV' ),
 			'hasMenuPlus' => aureon_is_module_active( 'aureon_package_menu_plus', 'AUREON_MENU_PLUS' ),

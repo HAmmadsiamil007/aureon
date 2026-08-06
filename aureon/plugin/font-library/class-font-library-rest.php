@@ -51,7 +51,7 @@ class Aureon_Pro_Font_Library_Rest extends WP_REST_Controller {
 	}
 
 	/**
-	 * GenerateBlocks_Rest constructor.
+	 * Aureon_Font_Library_Rest constructor.
 	 */
 	public function __construct() {
 		add_action( 'rest_api_init', array( $this, 'register_routes' ) );

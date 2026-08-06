@@ -855,7 +855,7 @@ function aureon_do_pro_compatibility_setup() {
 
 add_filter( 'aureon_has_active_menu', 'aureon_do_pro_active_menus' );
 /**
- * Tell GP about our active pro menus.
+ * Tell Aureon about our active pro menus.
  *
  * @since 3.1.0
  * @param boolean $has_active_menu Whether we have an active menu.

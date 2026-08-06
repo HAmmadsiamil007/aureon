@@ -53,7 +53,7 @@ if ( ! function_exists( 'aureon_blog_scripts' ) ) {
 
 			wp_localize_script(
 				'aureon-blog',
-				'generateBlog',
+				'aureonBlog',
 				array(
 					'more'  => $settings['masonry_load_more'],
 					'loading' => $settings['masonry_loading'],

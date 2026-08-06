@@ -176,7 +176,7 @@ class Aureon_External_CSS_File {
 			add_filter( 'aureon_using_dynamic_css_external_file', '__return_true' );
 			add_filter( 'aureon_dynamic_css_skip_cache', '__return_true', 20 );
 
-			// Remove inline CSS in GP < 3.0.0.
+			// Remove inline CSS in Aureon < 3.0.0.
 			if ( ! function_exists( 'aureon_get_dynamic_css' ) && function_exists( 'aureon_enqueue_dynamic_css' ) ) {
 				remove_action( 'wp_enqueue_scripts', 'aureon_enqueue_dynamic_css', 50 );
 			}
@@ -196,7 +196,7 @@ class Aureon_External_CSS_File {
 				wp_enqueue_style( 'aureon-child' );
 			}
 
-			// Re-add no-cache CSS in GP < 3.0.0.
+			// Re-add no-cache CSS in Aureon < 3.0.0.
 			if ( ! function_exists( 'aureon_get_dynamic_css' ) && function_exists( 'aureon_no_cache_dynamic_css' ) ) {
 				$nocache_css = aureon_no_cache_dynamic_css();
 

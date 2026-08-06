@@ -2,45 +2,34 @@
 /**
  * The template for displaying 404 pages (Not Found).
  *
+ * AETHER-styled 404 page.
+ *
  * @package Aureon
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 
-get_header(); ?>
+get_header();
+?>
 
-	<div <?php aureon_do_attr( 'content' ); ?>>
-		<main <?php aureon_do_attr( 'main' ); ?>>
-			<?php
-			/**
-			 * aureon_before_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_before_main_content' );
-
-			aureon_do_template_part( '404' );
-
-			/**
-			 * aureon_after_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_after_main_content' );
-			?>
-		</main>
+<section class="error-404" id="error404">
+	<div class="container">
+		<div class="error-content" data-reveal>
+			<span class="error-code">404</span>
+			<h1 class="error-title">Page Not Found</h1>
+			<p class="error-text">The page you're looking for doesn't exist or has been moved.</p>
+			<div class="error-actions">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-primary">Back to Home</a>
+				<a href="<?php echo esc_url( class_exists( 'WooCommerce' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' ) ); ?>" class="btn btn-outline">Shop Now</a>
+			</div>
+			<div class="error-search">
+				<?php get_search_form(); ?>
+			</div>
+		</div>
 	</div>
+</section>
 
-	<?php
-	/**
-	 * aureon_after_primary_content_area hook.
-	 *
-	 * @since 2.0
-	 */
-	do_action( 'aureon_after_primary_content_area' );
-
-	aureon_construct_sidebars();
-
-	get_footer();
+<?php
+get_footer();

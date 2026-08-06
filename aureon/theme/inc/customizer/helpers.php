@@ -311,7 +311,7 @@ function aureon_do_control_inline_scripts() {
 
 	wp_localize_script(
 		'aureon-typography-customizer',
-		'generatePressTypography',
+		'aureonTypography',
 		array(
 			'googleFonts' => apply_filters( 'aureon_typography_customize_list', aureon_get_all_google_fonts( $number_of_fonts ) ),
 		)
@@ -337,7 +337,7 @@ function aureon_do_control_inline_scripts() {
 	);
 
 	wp_enqueue_script(
-		'aureon-customizer-controls',
+		'aureon-customizer-controls-react',
 		trailingslashit( get_template_directory_uri() ) . 'assets/dist/customizer.js',
 		// We're including wp-color-picker for localized strings, nothing more.
 		array( 'lodash', 'react', 'react-dom', 'wp-components', 'wp-element', 'wp-hooks', 'wp-i18n', 'wp-polyfill', 'jquery', 'customize-base', 'customize-controls', 'wp-color-picker' ),
@@ -346,7 +346,7 @@ function aureon_do_control_inline_scripts() {
 	);
 
 	if ( function_exists( 'wp_set_script_translations' ) ) {
-		wp_set_script_translations( 'aureon-customizer-controls', 'aureon' );
+		wp_set_script_translations( 'aureon-customizer-controls-react', 'aureon' );
 	}
 
 	$color_palette = get_theme_support( 'editor-color-palette' );
@@ -364,8 +364,8 @@ function aureon_do_control_inline_scripts() {
 	}
 
 	wp_localize_script(
-		'aureon-customizer-controls',
-		'generateCustomizerControls',
+		'aureon-customizer-controls-react',
+		'aureonCustomizerControls',
 		array(
 			'palette' => $colors,
 			'showGoogleFonts' => apply_filters( 'aureon_font_manager_show_google_fonts', true ),
@@ -380,7 +380,7 @@ function aureon_do_control_inline_scripts() {
 	);
 
 	wp_enqueue_style(
-		'aureon-customizer-controls',
+		'aureon-customizer-controls-react',
 		trailingslashit( get_template_directory_uri() ) . 'assets/dist/style-customizer.css',
 		array( 'wp-components' ),
 		AUREON_VERSION
@@ -397,7 +397,7 @@ function aureon_do_control_inline_scripts() {
 
 	$global_colors_css .= '}';
 
-	wp_add_inline_style( 'aureon-customizer-controls', $global_colors_css );
+	wp_add_inline_style( 'aureon-customizer-controls-react', $global_colors_css );
 }
 
 if ( ! function_exists( 'aureon_customizer_live_preview' ) ) {

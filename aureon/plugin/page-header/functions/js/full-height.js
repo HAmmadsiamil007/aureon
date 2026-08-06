@@ -5,7 +5,7 @@
  */
 
 // Build the header height function
-function generateHeaderHeight() {
+function aureonHeaderHeight() {
 	// If we're not using a full screen element, bail.
 	if ( ! jQuery( '.fullscreen-enabled' ).length )
 		return;
@@ -38,26 +38,26 @@ function generateHeaderHeight() {
 jQuery(document).ready(function($) {
 	
 	// Run the header height function
-	generateHeaderHeight();
+	aureonHeaderHeight();
 	
 	// Set up the resize timer
-	var generateResizeTimer;
+	var aureonResizeTimer;
 	
 	if ( jQuery('.aureon-page-header.fullscreen-enabled')[0] ) {
 		// Initiate full window height on resize
 		var width = $(window).width();
 		$(window).resize(function() {
 			if($(window).width() != width){
-				clearTimeout(generateResizeTimer);
-				generateResizeTimer = setTimeout(generateHeaderHeight, 200);
+				clearTimeout(aureonResizeTimer);
+				aureonResizeTimer = setTimeout(aureonHeaderHeight, 200);
 				width = $(window).width();
 			}
 		});
 		
 		$( window ).on( "orientationchange", function( event ) {
 			if($(window).width() != width){
-				clearTimeout(generateResizeTimer);
-				generateResizeTimer = setTimeout(generateHeaderHeight, 200);
+				clearTimeout(aureonResizeTimer);
+				aureonResizeTimer = setTimeout(aureonHeaderHeight, 200);
 				width = $(window).width();
 			}
 		});
