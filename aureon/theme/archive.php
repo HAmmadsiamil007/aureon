@@ -1,85 +1,39 @@
 <?php
 /**
- * The template for displaying Archive pages.
+ * The template for displaying archive pages (AETHER).
  *
  * @package Aureon
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 
-get_header(); ?>
+get_header();
 
-	<div <?php aureon_do_attr( 'content' ); ?>>
-		<main <?php aureon_do_attr( 'main' ); ?>>
-			<?php
-			/**
-			 * aureon_before_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_before_main_content' );
+if ( function_exists( 'aether_render_component' ) ) :
 
-			if ( aureon_has_default_loop() ) {
-				if ( have_posts() ) :
+	aether_render_component( 'hero/page-title', array(
+		'label'    => __( 'Journal', 'aureon' ),
+		'title'    => get_the_archive_title(),
+		'subtitle' => get_the_archive_description(),
+		'behavior' => array( 'motion-text' => 'words' ),
+	) );
 
-					/**
-					 * aureon_archive_title hook.
-					 *
-					 * @since 0.1
-					 *
-					 * @hooked aureon_archive_title - 10
-					 */
-					do_action( 'aureon_archive_title' );
+endif;
 
-					/**
-					 * aureon_before_loop hook.
-					 *
-					 * @since 3.1.0
-					 */
-					do_action( 'aureon_before_loop', 'archive' );
+if ( function_exists( 'aether_render_section' ) ) :
 
-					while ( have_posts() ) :
+	aether_render_section( 'blog-grid', array(
+		'label'    => __( 'Journal', 'aureon' ),
+		'title'    => '',
+		'subtitle' => '',
+	) );
 
-						the_post();
+	if ( aureon_get_option( 'aether_section_newsletter', true ) ) {
+		aether_render_section( 'newsletter' );
+	}
 
-						aureon_do_template_part( 'archive' );
+endif;
 
-					endwhile;
-
-					/**
-					 * aureon_after_loop hook.
-					 *
-					 * @since 2.3
-					 */
-					do_action( 'aureon_after_loop', 'archive' );
-
-				else :
-
-					aureon_do_template_part( 'none' );
-
-				endif;
-			}
-
-			/**
-			 * aureon_after_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_after_main_content' );
-			?>
-		</main>
-	</div>
-
-	<?php
-	/**
-	 * aureon_after_primary_content_area hook.
-	 *
-	 * @since 2.0
-	 */
-	do_action( 'aureon_after_primary_content_area' );
-
-	aureon_construct_sidebars();
-
-	get_footer();
+get_footer();

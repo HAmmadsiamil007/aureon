@@ -25,7 +25,7 @@
 - [x] GenerateBlocks references intact
 - [x] regenerate/generated words intact
 - [x] All 17 module files present
-- [x] AUREON_VERSION=4.0.0, AUREON_STUDIO_VERSION=3.0.0
+- [x] AUREON_VERSION=3.6.1 (disk truth; earlier 4.0.0 record was WRONG), AUREON_STUDIO_VERSION=3.0.0
 - [x] Display headers show 1.0.0
 - [x] PHP syntax valid on all files
 - [x] No broken require/include paths

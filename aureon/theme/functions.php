@@ -104,18 +104,8 @@ require $theme_dir . '/inc/class-theme-update.php';
 require $theme_dir . '/inc/class-rest.php';
 require $theme_dir . '/inc/deprecated.php';
 
-// AETHER frontend integration.
-require $theme_dir . '/inc/aether-enqueue.php';
-require $theme_dir . '/inc/aether-hooks.php';
-require $theme_dir . '/inc/vendor-enqueue.php';
-require $theme_dir . '/inc/aether-customizer.php';
-require $theme_dir . '/inc/aether-tokens.php';
-require $theme_dir . '/inc/aether-ajax.php';
-require $theme_dir . '/inc/aether-rest-api.php';
-require $theme_dir . '/inc/aether-security.php';
-require $theme_dir . '/inc/aether-seo.php';
-require $theme_dir . '/inc/aether-newsletter.php';
-require $theme_dir . '/inc/aether-performance.php';
+// AETHER frontend engine (Stage 2 — shell).
+require $theme_dir . '/inc/frontend.php';
 
 if ( is_admin() ) {
 	require $theme_dir . '/inc/meta-box.php';

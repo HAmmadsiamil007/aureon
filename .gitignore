@@ -38,3 +38,7 @@ vendor/
 # Temporary files
 tmp/
 temp/
+
+# Playwright MCP test artifacts (may contain local dev credentials)
+.playwright-mcp/
+

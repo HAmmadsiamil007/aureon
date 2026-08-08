@@ -1,59 +1,39 @@
 <?php
 /**
- * The template for displaying all pages.
+ * The template for displaying a single page (AETHER).
  *
- * This is the template that displays all pages by default.
- * Please note that this is the WordPress construct of pages
- * and that other 'pages' on your WordPress site will use a
- * different template.
+ * Composed: page hero + content/page + newsletter.
  *
  * @package Aureon
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 
-get_header(); ?>
+get_header();
 
-	<div <?php aureon_do_attr( 'content' ); ?>>
-		<main <?php aureon_do_attr( 'main' ); ?>>
-			<?php
-			/**
-			 * aureon_before_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_before_main_content' );
+if ( function_exists( 'aether_render_component' ) ) :
 
-			if ( aureon_has_default_loop() ) {
-				while ( have_posts() ) :
+	$aether_page_title = is_front_page() ? get_bloginfo( 'name' ) : get_the_title();
 
-					the_post();
+	aether_render_component( 'hero/page-title', array(
+		'label'    => __( 'About', 'aureon' ),
+		'title'    => $aether_page_title,
+		'subtitle' => '',
+		'behavior' => array( 'motion-text' => 'words' ),
+	) );
 
-					aureon_do_template_part( 'page' );
+	aether_render_component( 'content/page', array(
+		'content' => get_the_content(),
+	) );
 
-				endwhile;
-			}
+	if ( aureon_get_option( 'aether_section_newsletter', true ) ) {
+		if ( function_exists( 'aether_render_section' ) ) {
+			aether_render_section( 'newsletter' );
+		}
+	}
 
-			/**
-			 * aureon_after_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_after_main_content' );
-			?>
-		</main>
-	</div>
+endif;
 
-	<?php
-	/**
-	 * aureon_after_primary_content_area hook.
-	 *
-	 * @since 2.0
-	 */
-	do_action( 'aureon_after_primary_content_area' );
-
-	aureon_construct_sidebars();
-
-	get_footer();
+get_footer();

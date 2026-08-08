@@ -1,0 +1,610 @@
+- generic [active] [ref=f7e1]:
+  - link "Skip to content" [ref=f7e2] [cursor=pointer]:
+    - /url: "#content"
+  - generic [ref=f7e3]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=f7e4]:
+          - menuitem "About WordPress" [ref=f7e5] [cursor=pointer]:
+            - generic [ref=f7e7]: About WordPress
+        - group [ref=f7e8]:
+          - menuitem "Claudia Kids Collection" [ref=f7e9] [cursor=pointer]
+        - group [ref=f7e10]:
+          - menuitem "Live" [ref=f7e11] [cursor=pointer]
+        - group [ref=f7e12]:
+          - menuitem "Customize" [ref=f7e13] [cursor=pointer]
+        - group [ref=f7e14]:
+          - menuitem "5 updates available" [ref=f7e15] [cursor=pointer]:
+            - generic [ref=f7e17]: "5"
+            - generic [ref=f7e18]: 5 updates available
+        - group [ref=f7e19]:
+          - menuitem "0 Comments in moderation" [ref=f7e20] [cursor=pointer]:
+            - generic [ref=f7e22]: "0"
+            - generic [ref=f7e23]: 0 Comments in moderation
+        - group [ref=f7e24]:
+          - menuitem "New" [ref=f7e25] [cursor=pointer]:
+            - generic [ref=f7e27]: New
+      - menu [ref=f7e28]:
+        - group [ref=f7e29]:
+          - menuitem "Howdy, admin" [ref=f7e30] [cursor=pointer]
+        - group [ref=f7e31]:
+          - menuitem "Search" [ref=f7e32]:
+            - generic [ref=f7e33]:
+              - textbox "Search" [ref=f7e34] [cursor=pointer]
+              - generic [ref=f7e35]: Search
+  - link "Skip to content" [ref=f7e36] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f7e38]:
+    - generic [ref=f7e41]:
+      - paragraph [ref=f7e43]: Summer sale discount off <span class="d-inline-block">60%</span> on all of your orders!
+      - generic [ref=f7e45]:
+        - generic [ref=f7e47] [cursor=pointer]:
+          - img "flag" [ref=f7e48]
+          - text: EN
+          - img "dropdown" [ref=f7e49]
+        - generic [ref=f7e51] [cursor=pointer]:
+          - text: USD
+          - img "dropdown" [ref=f7e52]
+    - banner [ref=f7e53]:
+      - navigation "Primary" [ref=f7e55]:
+        - link [ref=f7e56] [cursor=pointer]:
+          - /url: http://localhost:8080/
+          - figure [ref=f7e57]:
+            - img "Claudia Kids Collection" [ref=f7e58]
+        - button "Toggle navigation" [ref=f7e59]
+        - generic [ref=f7e60]:
+          - list [ref=f7e61]:
+            - listitem [ref=f7e62]:
+              - link "Home" [ref=f7e63] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f7e64]:
+              - link "About" [ref=f7e65] [cursor=pointer]:
+                - /url: /about/
+            - listitem [ref=f7e66]:
+              - link "Shop" [ref=f7e67] [cursor=pointer]:
+                - /url: /shop/
+            - listitem [ref=f7e68]:
+              - button "Blog" [ref=f7e69] [cursor=pointer]
+              - list [ref=f7e71]:
+                - listitem [ref=f7e72]:
+                  - link "Blog" [ref=f7e73] [cursor=pointer]:
+                    - /url: http://localhost:8080/blog/
+                - listitem [ref=f7e74]:
+                  - link "Single Blog" [ref=f7e75] [cursor=pointer]:
+                    - /url: http://localhost:8080/single-blog/
+                - listitem [ref=f7e76]:
+                  - link "Load More" [ref=f7e77] [cursor=pointer]:
+                    - /url: http://localhost:8080/load-more/
+                - listitem [ref=f7e78]:
+                  - link "One Column" [ref=f7e79] [cursor=pointer]:
+                    - /url: http://localhost:8080/one-column/
+                - listitem [ref=f7e80]:
+                  - link "Two Column" [ref=f7e81] [cursor=pointer]:
+                    - /url: http://localhost:8080/two-column/
+                - listitem [ref=f7e82]:
+                  - link "Three Column" [ref=f7e83] [cursor=pointer]:
+                    - /url: http://localhost:8080/three-column/
+                - listitem [ref=f7e84]:
+                  - link "Three Column Sidebar" [ref=f7e85] [cursor=pointer]:
+                    - /url: http://localhost:8080/three-column-sidebar/
+                - listitem [ref=f7e86]:
+                  - link "Four Column" [ref=f7e87] [cursor=pointer]:
+                    - /url: http://localhost:8080/four-column/
+                - listitem [ref=f7e88]:
+                  - link "Six Column Full Wide" [ref=f7e89] [cursor=pointer]:
+                    - /url: http://localhost:8080/six-column-full-wide/
+            - listitem [ref=f7e90]:
+              - button "Pages" [ref=f7e91] [cursor=pointer]
+              - list [ref=f7e93]:
+                - listitem [ref=f7e94]:
+                  - link "Testimonials" [ref=f7e95] [cursor=pointer]:
+                    - /url: http://localhost:8080/testimonials/
+                - listitem [ref=f7e96]:
+                  - link "FAQ" [ref=f7e97] [cursor=pointer]:
+                    - /url: http://localhost:8080/faq/
+                - listitem [ref=f7e98]:
+                  - link "Team" [ref=f7e99] [cursor=pointer]:
+                    - /url: http://localhost:8080/team/
+                - listitem [ref=f7e100]:
+                  - link "Cart" [ref=f7e101] [cursor=pointer]:
+                    - /url: http://localhost:8080/cart-2/
+                - listitem [ref=f7e102]:
+                  - link "Checkout" [ref=f7e103] [cursor=pointer]:
+                    - /url: http://localhost:8080/checkout-2/
+                - listitem [ref=f7e104]:
+                  - link "Product Detail" [ref=f7e105] [cursor=pointer]:
+                    - /url: http://localhost:8080/product-detail/
+                - listitem [ref=f7e106]:
+                  - link "Error 404" [ref=f7e107] [cursor=pointer]:
+                    - /url: http://localhost:8080/error-404/
+                - listitem [ref=f7e108]:
+                  - link "Coming Soon" [ref=f7e109] [cursor=pointer]:
+                    - /url: http://localhost:8080/coming-soon/
+                - listitem [ref=f7e110]:
+                  - link "Login" [ref=f7e111] [cursor=pointer]:
+                    - /url: http://localhost:8080/login/
+                - listitem [ref=f7e112]:
+                  - link "Join Now" [ref=f7e113] [cursor=pointer]:
+                    - /url: http://localhost:8080/join-now/
+                - listitem [ref=f7e114]:
+                  - link "Terms of Use" [ref=f7e115] [cursor=pointer]:
+                    - /url: http://localhost:8080/terms-of-use/
+                - listitem [ref=f7e116]:
+                  - link "Privacy Policy" [ref=f7e117] [cursor=pointer]:
+                    - /url: http://localhost:8080/privacy-policy-2/
+                - listitem [ref=f7e118]:
+                  - link "Cookie Policy" [ref=f7e119] [cursor=pointer]:
+                    - /url: http://localhost:8080/cookie-policy/
+                - listitem [ref=f7e120]:
+                  - link "Thank You" [ref=f7e121] [cursor=pointer]:
+                    - /url: http://localhost:8080/thank-you/
+            - listitem [ref=f7e122]:
+              - link "Contact" [ref=f7e123] [cursor=pointer]:
+                - /url: /contact/
+          - generic [ref=f7e125]:
+            - link "Search" [ref=f7e126] [cursor=pointer]:
+              - /url: "#search"
+              - img "Search" [ref=f7e127]
+            - link "Cart" [ref=f7e128] [cursor=pointer]:
+              - /url: http://localhost:8080/cart-2/
+              - img "Cart" [ref=f7e129]
+              - generic [ref=f7e130]: "1"
+            - link "My account" [ref=f7e131] [cursor=pointer]:
+              - /url: http://localhost:8080/my-account/
+              - img "My account" [ref=f7e132]
+        - generic [ref=f7e133]:
+          - link "Search" [ref=f7e134] [cursor=pointer]:
+            - /url: "#search"
+            - img "Search" [ref=f7e135]
+          - link "Cart" [ref=f7e136] [cursor=pointer]:
+            - /url: http://localhost:8080/cart-2/
+            - img "Cart" [ref=f7e137]
+            - generic [ref=f7e138]: "1"
+          - link "My account" [ref=f7e139] [cursor=pointer]:
+            - /url: http://localhost:8080/my-account/
+            - img "My account" [ref=f7e140]
+    - main [ref=f7e141]:
+      - generic [ref=f7e142]:
+        - figure [ref=f7e143]:
+          - img "image" [ref=f7e144]
+        - figure [ref=f7e145]:
+          - img "image" [ref=f7e146]
+        - generic [ref=f7e148]:
+          - generic [ref=f7e149]:
+            - figure [ref=f7e150]:
+              - img "vector" [ref=f7e151]
+            - text: Claudia Kids Collection
+            - heading "Little Treasures, Big Smiles!" [level=1] [ref=f7e152]:
+              - text: Little Treasures,
+              - text: Big Smiles!
+            - paragraph [ref=f7e153]: Discover a world of fun and joy with our toys, clothes, and essentials that bring smiles.
+            - link "Shop Now " [ref=f7e154] [cursor=pointer]:
+              - /url: http://localhost:8080/shop/
+              - text: Shop Now
+              - generic [ref=f7e155]: 
+          - link [ref=f7e157] [cursor=pointer]:
+            - /url: "#promotion"
+            - figure [ref=f7e158]:
+              - img "buttondown" [ref=f7e159]
+            - figure [ref=f7e160]:
+              - img "buttondown" [ref=f7e161]
+      - generic [ref=f7e164]:
+        - generic [ref=f7e165]:
+          - generic [ref=f7e167]:
+            - generic [ref=f7e168]:
+              - text: Trending
+              - heading "Kids Collection" [level=4] [ref=f7e169]
+              - generic [ref=f7e170]: Upto 50% Off
+              - link "Shop Now " [ref=f7e171] [cursor=pointer]:
+                - /url: http://localhost:8080/shop/
+                - text: Shop Now
+                - generic [ref=f7e172]: 
+            - figure [ref=f7e173]:
+              - img "promo" [ref=f7e174]
+          - generic [ref=f7e176]:
+            - figure [ref=f7e177]:
+              - img "promo" [ref=f7e178]
+            - generic [ref=f7e179]:
+              - text: Latest
+              - heading "Boys Collection" [level=4] [ref=f7e180]
+              - generic [ref=f7e181]: Upto 30% Off
+              - link "Shop Now " [ref=f7e182] [cursor=pointer]:
+                - /url: http://localhost:8080/shop/
+                - text: Shop Now
+                - generic [ref=f7e183]: 
+        - generic [ref=f7e186]:
+          - text: Hot Deals
+          - heading "Buy One Get One Free" [level=3] [ref=f7e187]:
+            - text: Buy One Get
+            - text: One Free
+          - link "Shop Now " [ref=f7e188] [cursor=pointer]:
+            - /url: http://localhost:8080/shop/
+            - text: Shop Now
+            - generic [ref=f7e189]: 
+          - figure [ref=f7e190]:
+            - img "promotion" [ref=f7e191]
+        - generic [ref=f7e194]:
+          - figure [ref=f7e195]:
+            - img "promotion" [ref=f7e196]
+          - text: New Arrivals
+          - heading "Girls Collection" [level=3] [ref=f7e197]
+          - link "Shop Now " [ref=f7e198] [cursor=pointer]:
+            - /url: http://localhost:8080/shop/
+            - text: Shop Now
+            - generic [ref=f7e199]: 
+      - generic [ref=f7e201]:
+        - generic [ref=f7e202]:
+          - generic [ref=f7e203]: Our Collection
+          - heading "Popular Products" [level=2] [ref=f7e204]
+        - generic [ref=f7e205]:
+          - generic [ref=f7e207]:
+            - figure [ref=f7e209]:
+              - img "Dinosaur Puzzle" [ref=f7e210]
+            - generic [ref=f7e212]:
+              - generic [ref=f7e213]: (0.0/5)
+              - heading "Dinosaur Puzzle" [level=6] [ref=f7e214]
+              - generic [ref=f7e216]: $14.99
+          - generic [ref=f7e218]:
+            - figure [ref=f7e220]:
+              - img "Rainbow Sneakers" [ref=f7e221]
+            - generic [ref=f7e223]:
+              - generic [ref=f7e224]: (0.0/5)
+              - heading "Rainbow Sneakers" [level=6] [ref=f7e225]
+              - generic [ref=f7e227]: $39.99
+          - generic [ref=f7e229]:
+            - figure [ref=f7e231]:
+              - img "Art Set 120" [ref=f7e232]
+            - generic [ref=f7e234]:
+              - generic [ref=f7e235]: (0.0/5)
+              - heading "Art Set 120" [level=6] [ref=f7e236]
+              - generic [ref=f7e238]: $24.99
+          - generic [ref=f7e240]:
+            - figure [ref=f7e242]:
+              - img "Unicorn Backpack" [ref=f7e243]
+            - generic [ref=f7e245]:
+              - generic [ref=f7e246]: (0.0/5)
+              - heading "Unicorn Backpack" [level=6] [ref=f7e247]
+              - generic [ref=f7e249]: $34.99
+          - generic [ref=f7e251]:
+            - figure [ref=f7e253]:
+              - img "Space T-Shirt" [ref=f7e254]
+            - generic [ref=f7e256]:
+              - generic [ref=f7e257]: (0.0/5)
+              - heading "Space T-Shirt" [level=6] [ref=f7e258]
+              - generic [ref=f7e260]: $19.99
+          - generic [ref=f7e262]:
+            - figure [ref=f7e264]:
+              - img "Wooden Blocks" [ref=f7e265]
+            - generic [ref=f7e267]:
+              - generic [ref=f7e268]: (0.0/5)
+              - heading "Wooden Blocks" [level=6] [ref=f7e269]
+              - generic [ref=f7e271]: $29.99
+        - link "View All " [ref=f7e273] [cursor=pointer]:
+          - /url: http://localhost:8080/shop/
+          - text: View All
+          - generic [ref=f7e274]: 
+      - generic [ref=f7e275]:
+        - figure [ref=f7e276]:
+          - img "vector" [ref=f7e277]
+        - figure [ref=f7e278]:
+          - img "vector" [ref=f7e279]
+        - figure [ref=f7e280]:
+          - img "vector" [ref=f7e281]
+        - generic [ref=f7e285]:
+          - heading "Mid Season Sale!" [level=1] [ref=f7e286]
+          - heading "Get 20% Off on All New Arrivals!" [level=4] [ref=f7e287]
+          - link "Get this Deal " [ref=f7e288] [cursor=pointer]:
+            - /url: http://localhost:8080/shop/
+            - text: Get this Deal
+            - generic [ref=f7e289]: 
+      - generic [ref=f7e291]:
+        - generic [ref=f7e292]:
+          - generic [ref=f7e293]: magna aliqua
+          - heading "Product Categories" [level=2] [ref=f7e294]
+        - list [ref=f7e295]:
+          - listitem [ref=f7e296]:
+            - link [ref=f7e297] [cursor=pointer]:
+              - /url: http://localhost:8080/shop/
+              - figure [ref=f7e298]:
+                - img "product" [ref=f7e299]
+            - heading "Kids Toys" [level=4] [ref=f7e300]
+          - listitem [ref=f7e301]:
+            - link [ref=f7e302] [cursor=pointer]:
+              - /url: http://localhost:8080/shop/
+              - figure [ref=f7e303]:
+                - img "product" [ref=f7e304]
+            - heading "Clothes" [level=4] [ref=f7e305]
+          - listitem [ref=f7e306]:
+            - link [ref=f7e307] [cursor=pointer]:
+              - /url: http://localhost:8080/shop/
+              - figure [ref=f7e308]:
+                - img "product" [ref=f7e309]
+            - heading "Girls" [level=4] [ref=f7e310]
+          - listitem [ref=f7e311]:
+            - link [ref=f7e312] [cursor=pointer]:
+              - /url: http://localhost:8080/shop/
+              - figure [ref=f7e313]:
+                - img "product" [ref=f7e314]
+            - heading "Accessories" [level=4] [ref=f7e315]
+          - listitem [ref=f7e316]:
+            - link [ref=f7e317] [cursor=pointer]:
+              - /url: http://localhost:8080/shop/
+              - figure [ref=f7e318]:
+                - img "product" [ref=f7e319]
+            - heading "New Born" [level=4] [ref=f7e320]
+          - listitem [ref=f7e321]:
+            - link [ref=f7e322] [cursor=pointer]:
+              - /url: http://localhost:8080/shop/
+              - figure [ref=f7e323]:
+                - img "product" [ref=f7e324]
+            - heading "Boys" [level=4] [ref=f7e325]
+      - generic [ref=f7e327]:
+        - generic [ref=f7e328]:
+          - generic [ref=f7e329]: reprehenderit
+          - heading "Top Selling Products" [level=2] [ref=f7e330]
+        - generic [ref=f7e331]:
+          - generic [ref=f7e333]:
+            - figure [ref=f7e335]:
+              - img "Dinosaur Puzzle" [ref=f7e336]
+            - generic [ref=f7e338]:
+              - generic [ref=f7e339]: (0.0/5)
+              - heading "Dinosaur Puzzle" [level=6] [ref=f7e340]
+              - generic [ref=f7e342]: $14.99
+          - generic [ref=f7e344]:
+            - figure [ref=f7e346]:
+              - img "Rainbow Sneakers" [ref=f7e347]
+            - generic [ref=f7e349]:
+              - generic [ref=f7e350]: (0.0/5)
+              - heading "Rainbow Sneakers" [level=6] [ref=f7e351]
+              - generic [ref=f7e353]: $39.99
+          - generic [ref=f7e355]:
+            - figure [ref=f7e357]:
+              - img "Art Set 120" [ref=f7e358]
+            - generic [ref=f7e360]:
+              - generic [ref=f7e361]: (0.0/5)
+              - heading "Art Set 120" [level=6] [ref=f7e362]
+              - generic [ref=f7e364]: $24.99
+          - generic [ref=f7e366]:
+            - figure [ref=f7e368]:
+              - img "Unicorn Backpack" [ref=f7e369]
+            - generic [ref=f7e371]:
+              - generic [ref=f7e372]: (0.0/5)
+              - heading "Unicorn Backpack" [level=6] [ref=f7e373]
+              - generic [ref=f7e375]: $34.99
+        - link "View All " [ref=f7e377] [cursor=pointer]:
+          - /url: http://localhost:8080/shop/
+          - text: View All
+          - generic [ref=f7e378]: 
+      - generic [ref=f7e380]:
+        - generic [ref=f7e381]:
+          - generic [ref=f7e382]: Testimonials
+          - heading "Our Client Reviews" [level=2] [ref=f7e383]
+        - generic [ref=f7e385]:
+          - figure [ref=f7e386]:
+            - img "image" [ref=f7e387]
+          - generic [ref=f7e388]:
+            - generic [ref=f7e390]:
+              - generic [ref=f7e392]:
+                - list [ref=f7e393]:
+                  - listitem [ref=f7e394]:
+                    - generic [ref=f7e395]: 
+                  - listitem [ref=f7e396]:
+                    - generic [ref=f7e397]: 
+                  - listitem [ref=f7e398]:
+                    - generic [ref=f7e399]: 
+                  - listitem [ref=f7e400]:
+                    - generic [ref=f7e401]: 
+                  - listitem [ref=f7e402]:
+                    - generic [ref=f7e403]: 
+                - paragraph
+                - generic [ref=f7e404]:
+                  - generic [ref=f7e405]: Katrina Parker
+                  - text: Happy Client
+              - generic [ref=f7e407]:
+                - list [ref=f7e408]:
+                  - listitem [ref=f7e409]:
+                    - generic [ref=f7e410]: 
+                  - listitem [ref=f7e411]:
+                    - generic [ref=f7e412]: 
+                  - listitem [ref=f7e413]:
+                    - generic [ref=f7e414]: 
+                  - listitem [ref=f7e415]:
+                    - generic [ref=f7e416]: 
+                  - listitem [ref=f7e417]:
+                    - generic [ref=f7e418]: 
+                - paragraph
+                - generic [ref=f7e419]:
+                  - generic [ref=f7e420]: Fergus Douchebag
+                  - text: Happy Client
+              - generic [ref=f7e422]:
+                - list [ref=f7e423]:
+                  - listitem [ref=f7e424]:
+                    - generic [ref=f7e425]: 
+                  - listitem [ref=f7e426]:
+                    - generic [ref=f7e427]: 
+                  - listitem [ref=f7e428]:
+                    - generic [ref=f7e429]: 
+                  - listitem [ref=f7e430]:
+                    - generic [ref=f7e431]: 
+                  - listitem [ref=f7e432]:
+                    - generic [ref=f7e433]: 
+                - paragraph
+                - generic [ref=f7e434]:
+                  - generic [ref=f7e435]: Erika Neurth
+                  - text: Happy Client
+              - generic [ref=f7e437]:
+                - list [ref=f7e438]:
+                  - listitem [ref=f7e439]:
+                    - generic [ref=f7e440]: 
+                  - listitem [ref=f7e441]:
+                    - generic [ref=f7e442]: 
+                  - listitem [ref=f7e443]:
+                    - generic [ref=f7e444]: 
+                  - listitem [ref=f7e445]:
+                    - generic [ref=f7e446]: 
+                  - listitem [ref=f7e447]:
+                    - generic [ref=f7e448]: 
+                - paragraph
+                - generic [ref=f7e449]:
+                  - generic [ref=f7e450]: Alina James
+                  - text: Happy Client
+            - list [ref=f7e451]:
+              - listitem [ref=f7e452]:
+                - figure [ref=f7e453]:
+                  - img "image"
+              - listitem [ref=f7e454]:
+                - figure [ref=f7e455]:
+                  - img "image"
+              - listitem [ref=f7e456]:
+                - figure [ref=f7e457]:
+                  - img "image"
+              - listitem [ref=f7e458]:
+                - figure [ref=f7e459]:
+                  - img "image"
+            - generic [ref=f7e460]:
+              - button "" [ref=f7e461]:
+                - generic [ref=f7e462]: 
+              - button "" [ref=f7e463]:
+                - generic [ref=f7e464]: 
+      - generic [ref=f7e465]:
+        - figure
+        - figure
+        - generic [ref=f7e466]:
+          - generic [ref=f7e467]:
+            - generic [ref=f7e468]: "@claudia instagram"
+            - heading "Find us On Instagram" [level=2] [ref=f7e469]
+          - list [ref=f7e472]:
+            - listitem:
+              - link:
+                - /url: https://www.instagram.com/
+                - figure:
+                  - img "image"
+                - text: 
+            - listitem:
+              - link:
+                - /url: https://www.instagram.com/
+                - figure:
+                  - img "image"
+                - text: 
+            - listitem:
+              - link:
+                - /url: https://www.instagram.com/
+                - figure:
+                  - img "image"
+                - text: 
+            - listitem:
+              - link:
+                - /url: https://www.instagram.com/
+                - figure:
+                  - img "image"
+                - text: 
+      - generic [ref=f7e475]:
+        - generic [ref=f7e477]:
+          - img "icon"
+          - generic [ref=f7e478]: Free Worldwide Shipping
+        - generic [ref=f7e480]:
+          - img "icon"
+          - generic [ref=f7e481]: Secure Checkout Hassle Free
+        - generic [ref=f7e483]:
+          - img "icon"
+          - generic [ref=f7e484]: 24/7 Live Chat Support
+        - generic [ref=f7e486]:
+          - img "icon"
+          - generic [ref=f7e487]: 30 Days Money Back Guarantee
+    - generic [ref=f7e490]:
+      - heading "Subscribe to Our Newsletter :" [level=3] [ref=f7e492]
+      - generic [ref=f7e494]:
+        - textbox "Email address for newsletter" [ref=f7e495]:
+          - /placeholder: "Enter Your Email Address:"
+        - button "Subscribe" [ref=f7e496] [cursor=pointer]:
+          - text: Subscribe
+          - generic [ref=f7e497]: 
+    - generic [ref=f7e498]:
+      - generic [ref=f7e501]:
+        - generic [ref=f7e503]:
+          - figure [ref=f7e504]:
+            - img "Claudia Kids Collection" [ref=f7e505]
+          - paragraph [ref=f7e506]: Duis aute irure dolor in reprehenderit in voluptate velit cillum dolore eu fugiat nulla pariatur ccaecat cupidata proident, sunt in culpa officia deserunt mollit.
+          - generic [ref=f7e507]:
+            - link:
+              - /url: https://www.facebook.com/
+            - link:
+              - /url: https://www.instagram.com/
+            - link:
+              - /url: https://www.youtube.com/
+        - generic [ref=f7e509]:
+          - heading "Navigation" [level=4] [ref=f7e510]
+          - list [ref=f7e511]:
+            - listitem [ref=f7e512]:
+              - link " Home" [ref=f7e513] [cursor=pointer]:
+                - /url: http://localhost:8080/
+                - generic [ref=f7e514]: 
+                - text: Home
+            - listitem [ref=f7e515]:
+              - link " Shop" [ref=f7e516] [cursor=pointer]:
+                - /url: http://localhost:8080/shop/
+                - generic [ref=f7e517]: 
+                - text: Shop
+            - listitem [ref=f7e518]:
+              - link " About" [ref=f7e519] [cursor=pointer]:
+                - /url: http://localhost:8080/about/
+                - generic [ref=f7e520]: 
+                - text: About
+            - listitem [ref=f7e521]:
+              - link " Blog" [ref=f7e522] [cursor=pointer]:
+                - /url: http://localhost:8080/blog/
+                - generic [ref=f7e523]: 
+                - text: Blog
+            - listitem [ref=f7e524]:
+              - link " Contact" [ref=f7e525] [cursor=pointer]:
+                - /url: http://localhost:8080/contact/
+                - generic [ref=f7e526]: 
+                - text: Contact
+        - generic [ref=f7e528]:
+          - heading "Support" [level=4] [ref=f7e529]
+          - list [ref=f7e530]:
+            - listitem [ref=f7e531]:
+              - link " Term of Use" [ref=f7e532] [cursor=pointer]:
+                - /url: http://localhost:8080/term-of-use/
+                - generic [ref=f7e533]: 
+                - text: Term of Use
+            - listitem [ref=f7e534]:
+              - link " Privacy Policy" [ref=f7e535] [cursor=pointer]:
+                - /url: http://localhost:8080/privacy-policy/
+                - generic [ref=f7e536]: 
+                - text: Privacy Policy
+            - listitem [ref=f7e537]:
+              - link " Cookie Policy" [ref=f7e538] [cursor=pointer]:
+                - /url: http://localhost:8080/cookie-policy/
+                - generic [ref=f7e539]: 
+                - text: Cookie Policy
+            - listitem [ref=f7e540]:
+              - link " Latest Posts" [ref=f7e541] [cursor=pointer]:
+                - /url: http://localhost:8080/blog/
+                - generic [ref=f7e542]: 
+                - text: Latest Posts
+            - listitem [ref=f7e543]:
+              - link " Care Guide" [ref=f7e544] [cursor=pointer]:
+                - /url: http://localhost:8080/faq/
+                - generic [ref=f7e545]: 
+                - text: Care Guide
+        - generic [ref=f7e547]:
+          - heading "Contact Us" [level=4] [ref=f7e548]
+          - list [ref=f7e549]:
+            - listitem [ref=f7e550]:
+              - img "phone" [ref=f7e551]
+              - text: +1235 211 5236
+            - listitem [ref=f7e552]:
+              - img "email" [ref=f7e553]
+              - text: hello@claudia.com
+            - listitem [ref=f7e554]:
+              - img "location" [ref=f7e555]
+              - text: 121 King Street Melbourne, <br>3000, Australia
+      - generic [ref=f7e558]:
+        - paragraph [ref=f7e560]: © 2026 Optix Framework. All rights reserved.
+        - figure [ref=f7e562]:
+          - img "payment" [ref=f7e563]
+  - generic [ref=f7e568]:
+    - text: This site uses cookies.
+    - button "Accept" [ref=f7e569] [cursor=pointer]
+  - status [ref=f7e570]

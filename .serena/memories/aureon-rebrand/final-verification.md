@@ -24,3 +24,14 @@
 ## ZIPs
 - `aureon.1.0.0.zip` — 1032 KB (theme)
 - `aureon-studio.1.0.0.zip` — 1189 KB (plugin)
+
+## UPDATE (2026-08-05) — Post-fingerprint-removal verification (supersedes rows above)
+| Check | Result |
+|-------|--------|
+| camelCase `generate[A-Z]` tokens (theme+plugin, excl. langs) | **0** |
+| Brand literals outside license.txt | **0** |
+| `generate-*`/`gp-*` filenames | **0** |
+| php -l (all PHP) | 0 errors |
+| node --check (all non-min JS) | 0 errors |
+| Customizer live (Docker) | 0 console errors; React panels render; plugin groups inject |
+| Remaining GP references | license.txt only (GPL-legal, intentional) |

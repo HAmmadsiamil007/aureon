@@ -305,6 +305,7 @@ if ( ! function_exists( 'aureon_customize_register' ) ) {
 		require_once $fields_dir . '/footer-bar.php';
 		require_once $fields_dir . '/back-to-top.php';
 		require_once $fields_dir . '/search-modal.php';
+		require_once $fields_dir . '/frontend.php';
 
 		do_action( 'aureon_customize_after_controls', $wp_customize );
 

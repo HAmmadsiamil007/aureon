@@ -1,8 +1,8 @@
 <?php
 /**
- * The template for displaying 404 pages (Not Found).
+ * The template for displaying 404 pages (AETHER).
  *
- * AETHER-styled 404 page.
+ * Composed: error hero + newsletter.
  *
  * @package Aureon
  */
@@ -12,24 +12,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 get_header();
-?>
 
-<section class="error-404" id="error404">
-	<div class="container">
-		<div class="error-content" data-reveal>
-			<span class="error-code">404</span>
-			<h1 class="error-title">Page Not Found</h1>
-			<p class="error-text">The page you're looking for doesn't exist or has been moved.</p>
-			<div class="error-actions">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="btn btn-primary">Back to Home</a>
-				<a href="<?php echo esc_url( class_exists( 'WooCommerce' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' ) ); ?>" class="btn btn-outline">Shop Now</a>
-			</div>
-			<div class="error-search">
-				<?php get_search_form(); ?>
-			</div>
-		</div>
-	</div>
-</section>
+if ( function_exists( 'aether_render_component' ) ) :
 
-<?php
+	$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' );
+
+	aether_render_component( 'error/404', array(
+		'code'        => '404',
+		'title'       => __( 'Lost in the Void', 'aureon' ),
+		'description' => __( "The page you're looking for doesn't exist or has been moved.", 'aureon' ),
+		'home_url'    => home_url( '/' ),
+		'shop_url'    => $shop_url,
+		'behavior'    => array( 'motion-text' => 'words' ),
+	) );
+
+	if ( aureon_get_option( 'aether_section_newsletter', true ) ) {
+		if ( function_exists( 'aether_render_section' ) ) {
+			aether_render_section( 'newsletter' );
+		}
+	}
+
+endif;
+
 get_footer();

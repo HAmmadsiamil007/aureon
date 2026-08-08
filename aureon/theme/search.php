@@ -1,75 +1,40 @@
 <?php
 /**
- * The template for displaying Search Results pages.
+ * The template for displaying search results (AETHER).
  *
  * @package Aureon
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 
-get_header(); ?>
+get_header();
 
-	<div <?php aureon_do_attr( 'content' ); ?>>
-		<main <?php aureon_do_attr( 'main' ); ?>>
-			<?php
-			/**
-			 * aureon_before_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_before_main_content' );
+if ( function_exists( 'aether_render_component' ) ) :
 
-			if ( aureon_has_default_loop() ) {
-				if ( have_posts() ) :
-					/**
-					 * aureon_before_loop hook.
-					 *
-					 * @since 3.1.0
-					 */
-					do_action( 'aureon_before_loop', 'search' );
+	aether_render_component( 'hero/page-title', array(
+		'label'    => __( 'Search', 'aureon' ),
+		'title'    => sprintf( __( 'Results for "%s"', 'aureon' ), get_search_query() ),
+		'subtitle' => '',
+		'behavior' => array( 'motion-text' => 'words' ),
+	) );
 
-					while ( have_posts() ) :
+endif;
 
-						the_post();
+if ( function_exists( 'aether_render_section' ) ) :
 
-						aureon_do_template_part( 'search' );
+	aether_render_section( 'blog-grid', array(
+		'label'    => __( 'Search Results', 'aureon' ),
+		'title'    => '',
+		'subtitle' => '',
+		's'        => get_search_query(),
+	) );
 
-					endwhile;
+	if ( aureon_get_option( 'aether_section_newsletter', true ) ) {
+		aether_render_section( 'newsletter' );
+	}
 
-					/**
-					 * aureon_after_loop hook.
-					 *
-					 * @since 2.3
-					 */
-					do_action( 'aureon_after_loop', 'search' );
+endif;
 
-				else :
-
-					aureon_do_template_part( 'none' );
-
-				endif;
-			}
-
-			/**
-			 * aureon_after_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_after_main_content' );
-			?>
-		</main>
-	</div>
-
-	<?php
-	/**
-	 * aureon_after_primary_content_area hook.
-	 *
-	 * @since 2.0
-	 */
-	do_action( 'aureon_after_primary_content_area' );
-
-	aureon_construct_sidebars();
-
-	get_footer();
+get_footer();

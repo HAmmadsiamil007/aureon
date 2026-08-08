@@ -1,82 +1,38 @@
 <?php
 /**
- * The main template file.
+ * The main template file (AETHER fallback).
  *
- * This is the most generic template file in a WordPress theme
- * and one of the two required files for a theme (the other being style.css).
- * It is used to display a page when nothing more specific matches a query.
- * E.g., it puts together the home page when no home.php file exists.
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
+ * Composed: page hero + blog grid + newsletter. Used when no other
+ * template matches.
  *
  * @package Aureon
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 
-get_header(); ?>
+get_header();
 
-	<div <?php aureon_do_attr( 'content' ); ?>>
-		<main <?php aureon_do_attr( 'main' ); ?>>
-			<?php
-			/**
-			 * aureon_before_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_before_main_content' );
+if ( function_exists( 'aether_render_component' ) ) :
 
-			if ( aureon_has_default_loop() ) {
-				if ( have_posts() ) :
+	aether_render_component( 'hero/page-title', array(
+		'label'    => is_search() ? __( 'Search', 'aureon' ) : __( 'Journal', 'aureon' ),
+		'title'    => is_search() ? sprintf( __( 'Results for "%s"', 'aureon' ), get_search_query() ) : get_the_archive_title(),
+		'subtitle' => __( 'Insights on technology, performance, and the future of footwear', 'aureon' ),
+		'behavior' => array( 'motion-text' => 'words' ),
+	) );
 
-					/**
-					 * aureon_before_loop hook.
-					 *
-					 * @since 3.1.0
-					 */
-					do_action( 'aureon_before_loop', 'index' );
+endif;
 
-					while ( have_posts() ) :
+if ( function_exists( 'aether_render_section' ) ) :
 
-						the_post();
+	aether_render_section( 'blog-grid' );
 
-						aureon_do_template_part( 'index' );
+	if ( aureon_get_option( 'aether_section_newsletter', true ) ) {
+		aether_render_section( 'newsletter' );
+	}
 
-					endwhile;
+endif;
 
-					/**
-					 * aureon_after_loop hook.
-					 *
-					 * @since 2.3
-					 */
-					do_action( 'aureon_after_loop', 'index' );
-
-				else :
-
-					aureon_do_template_part( 'none' );
-
-				endif;
-			}
-
-			/**
-			 * aureon_after_main_content hook.
-			 *
-			 * @since 0.1
-			 */
-			do_action( 'aureon_after_main_content' );
-			?>
-		</main>
-	</div>
-
-	<?php
-	/**
-	 * aureon_after_primary_content_area hook.
-	 *
-	 * @since 2.0
-	 */
-	do_action( 'aureon_after_primary_content_area' );
-
-	aureon_construct_sidebars();
-
-	get_footer();
+get_footer();

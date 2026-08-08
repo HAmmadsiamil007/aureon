@@ -1,0 +1,318 @@
+- generic [active]:
+  - link "Skip to content" [ref=e1] [cursor=pointer]:
+    - /url: "#content"
+  - generic [ref=e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=e3]:
+          - menuitem "About WordPress" [ref=e4] [cursor=pointer]:
+            - generic [ref=e6]: About WordPress
+        - group [ref=e7]:
+          - menuitem "Claudia Kids Collection" [ref=e8] [cursor=pointer]
+        - group [ref=e9]:
+          - menuitem "Live" [ref=e10] [cursor=pointer]
+        - group [ref=e11]:
+          - menuitem "Customize" [ref=e12] [cursor=pointer]
+        - group [ref=e13]:
+          - menuitem "5 updates available" [ref=e14] [cursor=pointer]:
+            - generic [ref=e16]: "5"
+            - generic [ref=e17]: 5 updates available
+        - group [ref=e18]:
+          - menuitem "0 Comments in moderation" [ref=e19] [cursor=pointer]:
+            - generic [ref=e21]: "0"
+            - generic [ref=e22]: 0 Comments in moderation
+        - group [ref=e23]:
+          - menuitem "New" [ref=e24] [cursor=pointer]:
+            - generic [ref=e26]: New
+        - group [ref=e27]:
+          - menuitem "Edit Page" [ref=e28] [cursor=pointer]
+      - menu [ref=e29]:
+        - group [ref=e30]:
+          - menuitem "Howdy, admin" [ref=e31] [cursor=pointer]
+        - group [ref=e32]:
+          - menuitem "Search" [ref=e33]:
+            - generic [ref=e34]:
+              - textbox "Search" [ref=e35] [cursor=pointer]
+              - generic [ref=e36]: Search
+  - link "Skip to content" [ref=e37] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=e38]:
+    - generic [ref=e41]:
+      - paragraph [ref=e43]:
+        - text: Summer sale discount off
+        - generic [ref=e44]: 60%
+        - text: on all of your orders!
+      - generic [ref=e46]:
+        - generic [ref=e48] [cursor=pointer]:
+          - img "EN" [ref=e49]
+          - text: EN
+          - img "dropdown" [ref=e50]
+        - generic [ref=e52] [cursor=pointer]:
+          - text: USD
+          - img "dropdown" [ref=e53]
+    - banner [ref=e54]:
+      - navigation "Primary" [ref=e56]:
+        - link [ref=e57] [cursor=pointer]:
+          - /url: http://localhost:8080/
+          - figure [ref=e58]:
+            - img "Claudia Kids Collection" [ref=e59]
+        - list [ref=e61]:
+          - listitem [ref=e62]:
+            - link "Home" [ref=e63] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e64]:
+            - link "About" [ref=e65] [cursor=pointer]:
+              - /url: /about/
+          - listitem [ref=e66]:
+            - link "Shop" [ref=e67] [cursor=pointer]:
+              - /url: /shop/
+          - listitem [ref=e68]:
+            - button "Blog" [ref=e69] [cursor=pointer]
+          - listitem [ref=e70]:
+            - button "Pages" [ref=e71] [cursor=pointer]
+          - listitem [ref=e72]:
+            - link "Contact" [ref=e73] [cursor=pointer]:
+              - /url: /contact/
+        - generic [ref=e74]:
+          - link "Search" [ref=e75] [cursor=pointer]:
+            - /url: "#search"
+            - img "Search" [ref=e76]
+          - link "Cart" [ref=e77] [cursor=pointer]:
+            - /url: http://localhost:8080/cart/
+            - img "Cart" [ref=e78]
+            - generic [ref=e79]: "1"
+          - link "My account" [ref=e80] [cursor=pointer]:
+            - /url: http://localhost:8080/my-account/
+            - img "My account" [ref=e81]
+    - main:
+      - generic [ref=e85]:
+        - heading "Kids Blog" [level=1] [ref=e86]
+        - list [ref=e88]:
+          - listitem [ref=e89]:
+            - link "Home" [ref=e90] [cursor=pointer]:
+              - /url: http://localhost:8080/
+          - listitem [ref=e91]: / Blog
+      - generic [ref=e94]:
+        - tablist [ref=e95]:
+          - tab "All" [expanded] [selected] [ref=e96] [cursor=pointer]
+          - tab "Advices" [ref=e97] [cursor=pointer]
+          - tab "Announcements" [ref=e98] [cursor=pointer]
+          - tab "News" [ref=e99] [cursor=pointer]
+          - tab "Consultation" [ref=e100] [cursor=pointer]
+          - tab "Development" [ref=e101] [cursor=pointer]
+        - tabpanel "All" [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]:
+              - figure [ref=e106]:
+                - img "Welcome to Claudia Kids Collection" [ref=e107]
+              - generic [ref=e108]:
+                - list [ref=e109]:
+                  - listitem [ref=e110]:
+                    - generic [ref=e111]: 
+                    - text: Posted by admin
+                  - listitem [ref=e112]:
+                    - generic [ref=e113]: 
+                    - text: July 15, 2026
+                - heading "Welcome to Claudia Kids Collection" [level=4] [ref=e114]:
+                  - link "Welcome to Claudia Kids Collection" [ref=e115] [cursor=pointer]:
+                    - /url: http://localhost:8080/welcome-to-claudia-kids-collection/
+                - paragraph [ref=e116]: Welcome to our wonderful world of kids fashion and toys! We are excited to bring you the best collection for your little ones. Our carefully curated selection features everything from comfortable everyday wear to special occasion outfits, plus educational toys that spark creativity.
+                - link "Read More" [ref=e118] [cursor=pointer]:
+                  - /url: http://localhost:8080/welcome-to-claudia-kids-collection/
+            - generic [ref=e119]:
+              - figure [ref=e120]:
+                - img "Top 10 Toys for Creative Kids in 2026" [ref=e121]
+              - generic [ref=e122]:
+                - list [ref=e123]:
+                  - listitem [ref=e124]:
+                    - generic [ref=e125]: 
+                    - text: Posted by admin
+                  - listitem [ref=e126]:
+                    - generic [ref=e127]: 
+                    - text: July 15, 2026
+                - heading "Top 10 Toys for Creative Kids in 2026" [level=4] [ref=e128]:
+                  - link "Top 10 Toys for Creative Kids in 2026" [ref=e129] [cursor=pointer]:
+                    - /url: http://localhost:8080/top-10-toys-for-creative-kids-in-2026/
+                - paragraph [ref=e130]: Looking for toys that inspire creativity? Here are our top 10 picks for 2026 that will keep your kids engaged and learning through play. From building blocks to art supplies, these toys are designed to develop fine motor skills and imaginative thinking.
+                - link "Read More" [ref=e132] [cursor=pointer]:
+                  - /url: http://localhost:8080/top-10-toys-for-creative-kids-in-2026/
+            - generic [ref=e133]:
+              - figure [ref=e134]:
+                - img "Summer Fashion Guide for Little Ones" [ref=e135]
+              - generic [ref=e136]:
+                - list [ref=e137]:
+                  - listitem [ref=e138]:
+                    - generic [ref=e139]: 
+                    - text: Posted by admin
+                  - listitem [ref=e140]:
+                    - generic [ref=e141]: 
+                    - text: July 15, 2026
+                - heading "Summer Fashion Guide for Little Ones" [level=4] [ref=e142]:
+                  - link "Summer Fashion Guide for Little Ones" [ref=e143] [cursor=pointer]:
+                    - /url: http://localhost:8080/summer-fashion-guide-for-little-ones/
+                - paragraph [ref=e144]: Get your little ones ready for summer with our comprehensive fashion guide. From sun hats to sandals, we have everything you need. Our summer collection features breathable fabrics, vibrant colors, and styles that kids love to wear.
+                - link "Read More" [ref=e146] [cursor=pointer]:
+                  - /url: http://localhost:8080/summer-fashion-guide-for-little-ones/
+            - generic [ref=e147]:
+              - figure [ref=e148]:
+                - img "Outdoor Adventures for Family" [ref=e149]
+              - generic [ref=e150]:
+                - list [ref=e151]:
+                  - listitem [ref=e152]:
+                    - generic [ref=e153]: 
+                    - text: Posted by
+                  - listitem [ref=e154]:
+                    - generic [ref=e155]: 
+                    - text: July 15, 2026
+                - heading "Outdoor Adventures for Family" [level=4] [ref=e156]:
+                  - link "Outdoor Adventures for Family" [ref=e157] [cursor=pointer]:
+                    - /url: http://localhost:8080/outdoor-adventures-for-family/
+                - paragraph [ref=e158]: Fun outdoor activities the whole family can enjoy together this season.
+                - link "Read More" [ref=e160] [cursor=pointer]:
+                  - /url: http://localhost:8080/outdoor-adventures-for-family/
+            - generic [ref=e161]:
+              - figure [ref=e162]:
+                - img "Healthy Snacks for Kids" [ref=e163]
+              - generic [ref=e164]:
+                - list [ref=e165]:
+                  - listitem [ref=e166]:
+                    - generic [ref=e167]: 
+                    - text: Posted by
+                  - listitem [ref=e168]:
+                    - generic [ref=e169]: 
+                    - text: July 15, 2026
+                - heading "Healthy Snacks for Kids" [level=4] [ref=e170]:
+                  - link "Healthy Snacks for Kids" [ref=e171] [cursor=pointer]:
+                    - /url: http://localhost:8080/healthy-snacks-for-kids/
+                - paragraph [ref=e172]: Nutritious and delicious snack ideas that your children will actually want to eat.
+                - link "Read More" [ref=e174] [cursor=pointer]:
+                  - /url: http://localhost:8080/healthy-snacks-for-kids/
+            - generic [ref=e175]:
+              - figure [ref=e176]:
+                - img "Back to School Guide" [ref=e177]
+              - generic [ref=e178]:
+                - list [ref=e179]:
+                  - listitem [ref=e180]:
+                    - generic [ref=e181]: 
+                    - text: Posted by
+                  - listitem [ref=e182]:
+                    - generic [ref=e183]: 
+                    - text: July 15, 2026
+                - heading "Back to School Guide" [level=4] [ref=e184]:
+                  - link "Back to School Guide" [ref=e185] [cursor=pointer]:
+                    - /url: http://localhost:8080/back-to-school-guide/
+                - paragraph [ref=e186]: Everything you need to prepare your kids for a successful school year.
+                - link "Read More" [ref=e188] [cursor=pointer]:
+                  - /url: http://localhost:8080/back-to-school-guide/
+          - navigation "..." [ref=e189]:
+            - list [ref=e190]:
+              - listitem [ref=e191]:
+                - generic [ref=e192]: "1"
+              - listitem [ref=e193]:
+                - link "2" [ref=e194] [cursor=pointer]:
+                  - /url: http://localhost:8080/blog/?tab_0_page=2
+              - listitem [ref=e195]:
+                - link [ref=e196] [cursor=pointer]:
+                  - /url: http://localhost:8080/blog/?tab_0_page=2
+                  - generic [ref=e197]: 
+    - generic [ref=e200]:
+      - heading "Subscribe to Our Newsletter :" [level=3] [ref=e202]:
+        - text: Subscribe to Our
+        - text: "Newsletter :"
+      - generic [ref=e204]:
+        - textbox "Email address for newsletter" [ref=e205]:
+          - /placeholder: "Enter Your Email Address:"
+        - button "Subscribe" [ref=e206] [cursor=pointer]:
+          - text: Subscribe
+          - generic [ref=e207]: 
+    - contentinfo [ref=e208]:
+      - generic [ref=e211]:
+        - generic [ref=e213]:
+          - link:
+            - /url: http://localhost:8080/
+            - figure:
+              - img "Claudia Kids Collection"
+          - paragraph [ref=e214]: Duis aute irure dolor in reprehenderit in voluptate velit cillum dolore eu fugiat nulla pariatur ccaecat cupidata proident, sunt in culpa officia deserunt mollit.
+          - list [ref=e215]:
+            - listitem [ref=e216]:
+              - link "Facebook" [ref=e217] [cursor=pointer]:
+                - /url: https://www.facebook.com/
+                - generic [ref=e218]: 
+            - listitem [ref=e219]:
+              - link "Instagram" [ref=e220] [cursor=pointer]:
+                - /url: https://www.instagram.com/
+                - generic [ref=e221]: 
+            - listitem [ref=e222]:
+              - link "YouTube" [ref=e223] [cursor=pointer]:
+                - /url: https://www.youtube.com/
+                - generic [ref=e224]: 
+        - generic [ref=e226]:
+          - heading "Navigation" [level=5] [ref=e227]
+          - list [ref=e228]:
+            - listitem [ref=e229]:
+              - generic [ref=e230] [cursor=pointer]: 
+              - link "Home" [ref=e231] [cursor=pointer]:
+                - /url: http://localhost:8080/
+            - listitem [ref=e232]:
+              - generic [ref=e233] [cursor=pointer]: 
+              - link "Shop" [ref=e234] [cursor=pointer]:
+                - /url: http://localhost:8080/shop/
+            - listitem [ref=e235]:
+              - generic [ref=e236] [cursor=pointer]: 
+              - link "About" [ref=e237] [cursor=pointer]:
+                - /url: http://localhost:8080/about/
+            - listitem [ref=e238]:
+              - generic [ref=e239] [cursor=pointer]: 
+              - link "Blog" [ref=e240] [cursor=pointer]:
+                - /url: http://localhost:8080/blog/
+            - listitem [ref=e241]:
+              - generic [ref=e242] [cursor=pointer]: 
+              - link "Contact" [ref=e243] [cursor=pointer]:
+                - /url: http://localhost:8080/contact/
+        - generic [ref=e245]:
+          - heading "Support" [level=5] [ref=e246]
+          - list [ref=e247]:
+            - listitem [ref=e248]:
+              - generic [ref=e249] [cursor=pointer]: 
+              - link "Term of use" [ref=e250] [cursor=pointer]:
+                - /url: http://localhost:8080/term-of-use/
+            - listitem [ref=e251]:
+              - generic [ref=e252] [cursor=pointer]: 
+              - link "Privacy policy" [ref=e253] [cursor=pointer]:
+                - /url: http://localhost:8080/privacy-policy/
+            - listitem [ref=e254]:
+              - generic [ref=e255] [cursor=pointer]: 
+              - link "Cookie policy" [ref=e256] [cursor=pointer]:
+                - /url: http://localhost:8080/cookie-policy/
+            - listitem [ref=e257]:
+              - generic [ref=e258] [cursor=pointer]: 
+              - link "Latest Posts" [ref=e259] [cursor=pointer]:
+                - /url: http://localhost:8080/single-blog/
+            - listitem [ref=e260]:
+              - generic [ref=e261] [cursor=pointer]: 
+              - link "Care Guide" [ref=e262] [cursor=pointer]:
+                - /url: http://localhost:8080/contact/
+        - generic [ref=e264]:
+          - heading "Contact Us" [level=5] [ref=e265]
+          - list [ref=e266]:
+            - listitem [ref=e267]:
+              - generic [ref=e268] [cursor=pointer]: 
+              - link "+1235 211 5236" [ref=e269] [cursor=pointer]:
+                - /url: tel:+12352115236
+            - listitem [ref=e270]:
+              - generic [ref=e271] [cursor=pointer]: 
+              - link "hello@claudia.com" [ref=e272] [cursor=pointer]:
+                - /url: mailto:hello@claudia.com
+            - listitem [ref=e273]:
+              - generic [ref=e274] [cursor=pointer]: 
+              - link "121 King Street Melbourne, 3000, Australia" [ref=e275] [cursor=pointer]:
+                - /url: https://www.google.com/maps/place/21+King+St,+Melbourne+VIC+3000,+Australia/@-37.8199805,144.9529083,18z/data=!4m6!3m5!1s0x6ad65d52754eaecb:0x22f367daf52cbd47!8m2!3d-37.819936!4d144.9570765!16s%2Fg%2F11c2dj2n2c?entry=ttu
+                - text: 121 King Street Melbourne,
+                - text: 3000, Australia
+      - generic [ref=e278]:
+        - paragraph [ref=e279]: Copyright © 2026 claudia.com All rights reserved.
+        - img "Payment methods"
+  - generic [ref=e280]:
+    - text: This site uses cookies.
+    - button "Accept" [ref=e281] [cursor=pointer]
+  - status [ref=e282]

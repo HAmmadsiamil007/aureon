@@ -1,0 +1,498 @@
+- generic [active] [ref=f2e1]:
+  - link "Skip to main content" [ref=f2e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=f2e4]:
+    - generic [ref=f2e5]: A
+    - generic [ref=f2e6]: E
+    - generic [ref=f2e7]: T
+    - generic [ref=f2e8]: H
+    - generic [ref=f2e9]: E
+    - generic [ref=f2e10]: R
+  - generic [ref=f2e12]:
+    - generic [ref=f2e14]:
+      - generic [ref=f2e15]:
+        - generic [ref=f2e16]: 
+        - text: Free Shipping On Orders Over $200
+      - text: "|"
+      - generic [ref=f2e17]:
+        - generic [ref=f2e18]: 
+        - text: New Collection Dropping Soon
+      - text: "|"
+      - generic [ref=f2e19]:
+        - generic [ref=f2e20]: 
+        - text: 30-Day Free Returns
+    - banner [ref=f2e21]:
+      - generic [ref=f2e22]:
+        - link "AETHER" [ref=f2e23] [cursor=pointer]:
+          - /url: index.html
+        - navigation [ref=f2e24]:
+          - list [ref=f2e25]:
+            - listitem [ref=f2e26]:
+              - link "Home" [ref=f2e27] [cursor=pointer]:
+                - /url: index.html
+            - listitem [ref=f2e28]:
+              - link "Collection " [ref=f2e29] [cursor=pointer]:
+                - /url: shop.html
+                - text: Collection
+                - generic [ref=f2e30]: 
+            - listitem [ref=f2e31]:
+              - link "About" [ref=f2e32] [cursor=pointer]:
+                - /url: about.html
+            - listitem [ref=f2e33]:
+              - link "Blog" [ref=f2e34] [cursor=pointer]:
+                - /url: blog.html
+            - listitem [ref=f2e35]:
+              - link "Contact" [ref=f2e36] [cursor=pointer]:
+                - /url: contact.html
+          - text:    
+        - generic [ref=f2e37]:
+          - link "Search" [ref=f2e38] [cursor=pointer]:
+            - /url: shop.html
+            - generic [ref=f2e39]: 
+          - link "Wishlist" [ref=f2e40] [cursor=pointer]:
+            - /url: shop.html
+            - generic [ref=f2e41]: 
+          - link "Cart" [ref=f2e42] [cursor=pointer]:
+            - /url: cart.html
+            - generic [ref=f2e43]: 
+            - generic [ref=f2e44]: "0"
+          - link "Account" [ref=f2e45] [cursor=pointer]:
+            - /url: login.html
+            - generic [ref=f2e46]: 
+    - generic [ref=f2e47]:
+      - generic [ref=f2e48]:
+        - generic [ref=f2e49]:
+          - group "1 / 3" [ref=f2e50]:
+            - img "AETHER Void Runner" [ref=f2e52]
+            - generic [ref=f2e55]:
+              - heading "AETHER Void Runner" [level=1] [ref=f2e56]:
+                - text: AETHER
+                - generic [ref=f2e57]: Void Runner
+              - paragraph [ref=f2e58]: Engineered for the void. Carbon fiber technology meets adaptive cushioning.
+              - generic [ref=f2e59]:
+                - link "Shop Now — $449" [ref=f2e60] [cursor=pointer]:
+                  - /url: shop.html
+                - link "Explore Tech" [ref=f2e61] [cursor=pointer]:
+                  - /url: about.html
+          - group "2 / 3":
+            - generic:
+              - img "AETHER Cloud Stride"
+            - generic:
+              - generic:
+                - generic: Performance
+                - heading "Cloud Stride" [level=1]:
+                  - text: Cloud
+                  - generic: Stride
+                - paragraph: Ultra-lightweight design. Zero-gravity cushioning. Infinite energy return.
+                - generic:
+                  - link "Shop Collection":
+                    - /url: shop.html
+                  - link "Our Story":
+                    - /url: about.html
+          - group "3 / 3":
+            - generic:
+              - img "AETHER Midnight Edition"
+            - generic:
+              - generic:
+                - generic: Limited Edition
+                - heading "Midnight Edition" [level=1]:
+                  - text: Midnight
+                  - generic: Edition
+                - paragraph: Stealth black. Reflective accents. Made for the night runners.
+                - generic:
+                  - link "Get Yours":
+                    - /url: shop.html
+                  - link "View Details":
+                    - /url: about.html
+        - generic [ref=f2e62]:
+          - button "Previous slide" [ref=f2e63] [cursor=pointer]:
+            - generic [ref=f2e64]: 
+          - generic [ref=f2e65]: 01 / 03
+          - button "Next slide" [ref=f2e66] [cursor=pointer]:
+            - generic [ref=f2e67]: 
+      - paragraph [ref=f2e72]: Scroll to explore
+    - generic [ref=f2e74]:
+      - generic [ref=f2e75]:
+        - generic [ref=f2e76]: Shop by Category
+        - heading "Find Your Fit" [level=2] [ref=f2e77]
+      - generic [ref=f2e78]:
+        - link "Men's Collection 24 Products Men Shop Men " [ref=f2e79] [cursor=pointer]:
+          - /url: shop.html
+          - img "Men's Collection" [ref=f2e81]
+          - generic [ref=f2e83]:
+            - generic [ref=f2e84]: 24 Products
+            - heading "Men" [level=3] [ref=f2e85]
+            - generic [ref=f2e86]:
+              - text: Shop Men
+              - generic [ref=f2e87]: 
+        - link "Women's Collection 18 Products Women Shop Women " [ref=f2e88] [cursor=pointer]:
+          - /url: shop.html
+          - img "Women's Collection" [ref=f2e90]
+          - generic [ref=f2e92]:
+            - generic [ref=f2e93]: 18 Products
+            - heading "Women" [level=3] [ref=f2e94]
+            - generic [ref=f2e95]:
+              - text: Shop Women
+              - generic [ref=f2e96]: 
+        - link "Kids Collection 12 Products Kids Shop Kids " [ref=f2e97] [cursor=pointer]:
+          - /url: shop.html
+          - img "Kids Collection" [ref=f2e99]
+          - generic [ref=f2e101]:
+            - generic [ref=f2e102]: 12 Products
+            - heading "Kids" [level=3] [ref=f2e103]
+            - generic [ref=f2e104]:
+              - text: Shop Kids
+              - generic [ref=f2e105]: 
+        - link "New Arrivals Just Dropped New Arrivals Shop Now " [ref=f2e106] [cursor=pointer]:
+          - /url: shop.html
+          - img "New Arrivals" [ref=f2e108]
+          - generic [ref=f2e110]:
+            - generic [ref=f2e111]: Just Dropped
+            - heading "New Arrivals" [level=3] [ref=f2e112]
+            - generic [ref=f2e113]:
+              - text: Shop Now
+              - generic [ref=f2e114]: 
+    - generic [ref=f2e116]:
+      - generic [ref=f2e117]:
+        - generic [ref=f2e118]: Bestsellers
+        - heading "Most Loved" [level=2] [ref=f2e119]
+        - paragraph [ref=f2e120]: The shoes everyone's talking about. Tried, tested, and obsessed over.
+      - generic [ref=f2e121]:
+        - generic [ref=f2e122] [cursor=pointer]:
+          - generic [ref=f2e123]:
+            - img "AETHER Void Runner" [ref=f2e124]
+            - generic [ref=f2e125]: Bestseller
+            - generic [ref=f2e126]:
+              - button "Add to wishlist" [ref=f2e127]:
+                - generic [ref=f2e128]: 
+              - button "Quick view" [ref=f2e129]:
+                - generic [ref=f2e130]: 
+          - generic [ref=f2e131]:
+            - generic [ref=f2e132]:
+              - generic [ref=f2e133]: 
+              - generic [ref=f2e134]: 
+              - generic [ref=f2e135]: 
+              - generic [ref=f2e136]: 
+              - generic [ref=f2e137]: 
+              - generic [ref=f2e138]: (128)
+            - heading "AETHER Void Runner" [level=3] [ref=f2e139]
+            - paragraph [ref=f2e140]: Carbon fiber · 40mm cushion
+            - generic [ref=f2e141]:
+              - generic [ref=f2e142]: $449
+              - link "Add to Cart" [ref=f2e143]:
+                - /url: product-detail.html
+        - generic [ref=f2e144] [cursor=pointer]:
+          - generic [ref=f2e145]:
+            - img "AETHER Cloud Stride" [ref=f2e146]
+            - generic [ref=f2e147]: New
+            - generic [ref=f2e148]:
+              - button "Add to wishlist" [ref=f2e149]:
+                - generic [ref=f2e150]: 
+              - button "Quick view" [ref=f2e151]:
+                - generic [ref=f2e152]: 
+          - generic [ref=f2e153]:
+            - generic [ref=f2e154]:
+              - generic [ref=f2e155]: 
+              - generic [ref=f2e156]: 
+              - generic [ref=f2e157]: 
+              - generic [ref=f2e158]: 
+              - generic [ref=f2e159]: 
+              - generic [ref=f2e160]: (86)
+            - heading "AETHER Cloud Stride" [level=3] [ref=f2e161]
+            - paragraph [ref=f2e162]: Ultra-light · Zero gravity
+            - generic [ref=f2e163]:
+              - generic [ref=f2e164]: $399
+              - link "Add to Cart" [ref=f2e165]:
+                - /url: product-detail.html
+        - generic [ref=f2e166] [cursor=pointer]:
+          - generic [ref=f2e167]:
+            - img "AETHER Midnight Edition" [ref=f2e168]
+            - generic [ref=f2e169]: Limited
+            - generic [ref=f2e170]:
+              - button "Add to wishlist" [ref=f2e171]:
+                - generic [ref=f2e172]: 
+              - button "Quick view" [ref=f2e173]:
+                - generic [ref=f2e174]: 
+          - generic [ref=f2e175]:
+            - generic [ref=f2e176]:
+              - generic [ref=f2e177]: 
+              - generic [ref=f2e178]: 
+              - generic [ref=f2e179]: 
+              - generic [ref=f2e180]: 
+              - generic [ref=f2e181]: 
+              - generic [ref=f2e182]: (64)
+            - heading "AETHER Midnight" [level=3] [ref=f2e183]
+            - paragraph [ref=f2e184]: Stealth black · Reflective
+            - generic [ref=f2e185]:
+              - generic [ref=f2e186]: $479
+              - link "Add to Cart" [ref=f2e187]:
+                - /url: product-detail.html
+        - generic [ref=f2e188] [cursor=pointer]:
+          - generic [ref=f2e189]:
+            - img "AETHER Aero Sprint" [ref=f2e190]
+            - generic [ref=f2e191]:
+              - button "Add to wishlist" [ref=f2e192]:
+                - generic [ref=f2e193]: 
+              - button "Quick view" [ref=f2e194]:
+                - generic [ref=f2e195]: 
+          - generic [ref=f2e196]:
+            - generic [ref=f2e197]:
+              - generic [ref=f2e198]: 
+              - generic [ref=f2e199]: 
+              - generic [ref=f2e200]: 
+              - generic [ref=f2e201]: 
+              - generic [ref=f2e202]: 
+              - generic [ref=f2e203]: (42)
+            - heading "AETHER Aero Sprint" [level=3] [ref=f2e204]
+            - paragraph [ref=f2e205]: Race-ready · Featherweight
+            - generic [ref=f2e206]:
+              - generic [ref=f2e207]: $369
+              - link "Add to Cart" [ref=f2e208]:
+                - /url: product-detail.html
+      - link "View All Products " [ref=f2e210] [cursor=pointer]:
+        - /url: shop.html
+        - text: View All Products
+        - generic [ref=f2e211]: 
+    - generic [ref=f2e213]:
+      - generic [ref=f2e214]:
+        - generic [ref=f2e215]: Reviews
+        - heading "What Athletes Say" [level=2] [ref=f2e216]
+        - generic [ref=f2e218]:
+          - generic [ref=f2e219]: "4.9"
+          - generic [ref=f2e220]:
+            - generic [ref=f2e221]: 
+            - generic [ref=f2e222]: 
+            - generic [ref=f2e223]: 
+            - generic [ref=f2e224]: 
+            - generic [ref=f2e225]: 
+          - generic [ref=f2e226]: Based on 312 reviews
+      - generic [ref=f2e227]:
+        - generic [ref=f2e228]:
+          - group "1 / 4" [ref=f2e229]:
+            - generic [ref=f2e230]:
+              - generic [ref=f2e231]:
+                - generic [ref=f2e232]: MC
+                - generic [ref=f2e233]:
+                  - strong [ref=f2e234]: Marcus Chen
+                  - text: Professional Runner
+                - generic [ref=f2e235]:
+                  - generic [ref=f2e236]: 
+                  - text: Verified
+              - generic [ref=f2e237]:
+                - generic [ref=f2e238]: 
+                - generic [ref=f2e239]: 
+                - generic [ref=f2e240]: 
+                - generic [ref=f2e241]: 
+                - generic [ref=f2e242]: 
+              - heading "Game changer for marathon training" [level=4] [ref=f2e243]
+              - paragraph [ref=f2e244]: "\"The carbon fiber plate gives insane energy return. I shaved 3 minutes off my half marathon time within the first month. The void cushioning makes it feel like you're running on clouds.\""
+              - text: 2 weeks ago
+          - group "2 / 4" [ref=f2e245]:
+            - generic [ref=f2e246]:
+              - generic [ref=f2e247]:
+                - generic [ref=f2e248]: SK
+                - generic [ref=f2e249]:
+                  - strong [ref=f2e250]: Sarah Kim
+                  - text: Sneaker Collector
+                - generic [ref=f2e251]:
+                  - generic [ref=f2e252]: 
+                  - text: Verified
+              - generic [ref=f2e253]:
+                - generic [ref=f2e254]: 
+                - generic [ref=f2e255]: 
+                - generic [ref=f2e256]: 
+                - generic [ref=f2e257]: 
+                - generic [ref=f2e258]: 
+              - heading "Premium feel from box to street" [level=4] [ref=f2e259]
+              - paragraph [ref=f2e260]: "\"The design is unlike anything I've seen. The unboxing experience alone is worth it. These are艺术品 — functional art. Get compliments every time I wear them.\""
+              - text: 1 month ago
+          - group "3 / 4" [ref=f2e261]:
+            - generic [ref=f2e262]:
+              - generic [ref=f2e263]:
+                - generic [ref=f2e264]: JW
+                - generic [ref=f2e265]:
+                  - strong [ref=f2e266]: James Wright
+                  - text: Marathon Coach
+                - generic [ref=f2e267]:
+                  - generic [ref=f2e268]: 
+                  - text: Verified
+              - generic [ref=f2e269]:
+                - generic [ref=f2e270]: 
+                - generic [ref=f2e271]: 
+                - generic [ref=f2e272]: 
+                - generic [ref=f2e273]: 
+                - generic [ref=f2e274]: 
+              - heading "My athletes love these" [level=4] [ref=f2e275]
+              - paragraph [ref=f2e276]: "\"I've put all my competitive runners in AETHER. The performance difference is measurable. Lightweight, responsive, and the adaptive fit system means zero hot spots during long runs.\""
+              - text: 3 weeks ago
+          - group "4 / 4" [ref=f2e277]:
+            - generic [ref=f2e278]:
+              - generic [ref=f2e279]:
+                - generic [ref=f2e280]: AL
+                - generic [ref=f2e281]:
+                  - strong [ref=f2e282]: Aisha Lawson
+                  - text: Fitness Enthusiast
+                - generic [ref=f2e283]:
+                  - generic [ref=f2e284]: 
+                  - text: Verified
+              - generic [ref=f2e285]:
+                - generic [ref=f2e286]: 
+                - generic [ref=f2e287]: 
+                - generic [ref=f2e288]: 
+                - generic [ref=f2e289]: 
+                - generic [ref=f2e290]: 
+              - heading "Best running shoe I've owned" [level=4] [ref=f2e291]
+              - paragraph [ref=f2e292]: "\"From daily jogs to race day — these handle everything. The breathability is incredible and they still look brand new after 200+ miles. Worth every penny.\""
+              - text: 5 days ago
+        - generic [ref=f2e293]:
+          - button "Go to slide 1" [ref=f2e294] [cursor=pointer]
+          - button "Go to slide 2" [ref=f2e295] [cursor=pointer]
+    - generic [ref=f2e297]:
+      - generic [ref=f2e298]:
+        - generic [ref=f2e299]: FAQ
+        - heading "Got Questions?" [level=2] [ref=f2e300]
+        - paragraph [ref=f2e301]: Everything you need to know about AETHER.
+      - generic [ref=f2e302]:
+        - generic [ref=f2e303]:
+          - generic [ref=f2e304]:
+            - button "What makes AETHER different? " [expanded] [ref=f2e305] [cursor=pointer]:
+              - generic [ref=f2e306]: What makes AETHER different?
+              - generic [ref=f2e307]: 
+            - paragraph [ref=f2e309]: AETHER combines carbon fiber plate technology with our proprietary Void Air cushioning system. Every shoe is engineered with aerospace-grade materials, delivering 40% more energy return than traditional running shoes while weighing only 280g.
+          - generic [ref=f2e310]:
+            - button "What is the return policy? +" [ref=f2e311] [cursor=pointer]:
+              - generic [ref=f2e312]: What is the return policy?
+              - generic [ref=f2e313]: +
+            - paragraph [ref=f2e314]: We offer a 30-day no-questions-asked return policy. If you're not satisfied with your AETHER shoes, return them in original condition for a full refund. We also cover return shipping on all orders.
+          - generic [ref=f2e315]:
+            - button "How do I find my size? +" [ref=f2e316] [cursor=pointer]:
+              - generic [ref=f2e317]: How do I find my size?
+              - generic [ref=f2e318]: +
+            - paragraph [ref=f2e319]: Each product page includes our interactive size guide. We recommend measuring your foot length and comparing it to our chart. Our adaptive lacing system accommodates a range of fits within each size.
+        - generic [ref=f2e320]:
+          - generic [ref=f2e321]:
+            - button "How long does shipping take? +" [ref=f2e322] [cursor=pointer]:
+              - generic [ref=f2e323]: How long does shipping take?
+              - generic [ref=f2e324]: +
+            - paragraph [ref=f2e325]: Standard shipping is free on orders over $200 and takes 3-5 business days. Express shipping (1-2 days) is available for $15. International shipping is available to 40+ countries with delivery in 5-10 business days.
+          - generic [ref=f2e326]:
+            - button "Are AETHER shoes sustainable? +" [ref=f2e327] [cursor=pointer]:
+              - generic [ref=f2e328]: Are AETHER shoes sustainable?
+              - generic [ref=f2e329]: +
+            - paragraph [ref=f2e330]: Sustainability is core to AETHER. Our upper mesh uses 75% recycled materials, our packaging is 100% recyclable, and we offset 100% of carbon emissions from shipping. We're working toward a fully circular product by 2027.
+          - generic [ref=f2e331]:
+            - button "Do you offer warranty? +" [ref=f2e332] [cursor=pointer]:
+              - generic [ref=f2e333]: Do you offer warranty?
+              - generic [ref=f2e334]: +
+            - paragraph [ref=f2e335]: Every AETHER shoe comes with a 2-year performance warranty. If the cushioning, sole, or upper fails under normal use within 24 months, we'll replace them free of charge. No questions asked.
+      - generic [ref=f2e336]:
+        - paragraph [ref=f2e337]: Still have questions?
+        - link "Contact Us" [ref=f2e338] [cursor=pointer]:
+          - /url: contact.html
+    - generic [ref=f2e341]:
+      - generic [ref=f2e342]: Stay Connected
+      - heading "JOIN THE VOID" [level=2] [ref=f2e343]
+      - paragraph [ref=f2e344]: Subscribe for exclusive drops, early access, and AETHER news.
+      - generic [ref=f2e345]:
+        - generic [ref=f2e346]:
+          - textbox "Enter your email" [ref=f2e347]
+          - button "Subscribe " [ref=f2e348] [cursor=pointer]:
+            - generic [ref=f2e349]: Subscribe
+            - generic [ref=f2e350]: 
+        - paragraph [ref=f2e351]:
+          - generic [ref=f2e352]: 
+          - text: No spam. Unsubscribe anytime.
+      - text: 
+    - contentinfo "Site footer" [ref=f2e353]:
+      - generic [ref=f2e354]:
+        - generic [ref=f2e355]:
+          - generic [ref=f2e356]:
+            - link "AETHER" [ref=f2e357] [cursor=pointer]:
+              - /url: index.html
+            - paragraph [ref=f2e358]: Step Into The Void
+            - generic "Social media links" [ref=f2e359]:
+              - link "Instagram" [ref=f2e360] [cursor=pointer]:
+                - /url: "#"
+                - generic [ref=f2e361]: 
+              - link "Twitter" [ref=f2e362] [cursor=pointer]:
+                - /url: "#"
+                - generic [ref=f2e363]: 
+              - link "TikTok" [ref=f2e364] [cursor=pointer]:
+                - /url: "#"
+                - generic [ref=f2e365]: 
+              - link "YouTube" [ref=f2e366] [cursor=pointer]:
+                - /url: "#"
+                - generic [ref=f2e367]: 
+          - generic [ref=f2e368]:
+            - heading "Shop" [level=4] [ref=f2e369]
+            - list [ref=f2e370]:
+              - listitem [ref=f2e371]:
+                - link "Men" [ref=f2e372] [cursor=pointer]:
+                  - /url: shop.html
+              - listitem [ref=f2e373]:
+                - link "Women" [ref=f2e374] [cursor=pointer]:
+                  - /url: shop.html
+              - listitem [ref=f2e375]:
+                - link "Kids" [ref=f2e376] [cursor=pointer]:
+                  - /url: shop.html
+              - listitem [ref=f2e377]:
+                - link "New Arrivals" [ref=f2e378] [cursor=pointer]:
+                  - /url: shop.html
+              - listitem [ref=f2e379]:
+                - link "Bestsellers" [ref=f2e380] [cursor=pointer]:
+                  - /url: shop.html
+          - generic [ref=f2e381]:
+            - heading "Support" [level=4] [ref=f2e382]
+            - list [ref=f2e383]:
+              - listitem [ref=f2e384]:
+                - link "FAQ" [ref=f2e385] [cursor=pointer]:
+                  - /url: faq.html
+              - listitem [ref=f2e386]:
+                - link "Contact Us" [ref=f2e387] [cursor=pointer]:
+                  - /url: contact.html
+              - listitem [ref=f2e388]:
+                - link "Shipping Info" [ref=f2e389] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=f2e390]:
+                - link "Returns & Exchanges" [ref=f2e391] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=f2e392]:
+                - link "Size Guide" [ref=f2e393] [cursor=pointer]:
+                  - /url: "#"
+          - generic [ref=f2e394]:
+            - heading "Company" [level=4] [ref=f2e395]
+            - list [ref=f2e396]:
+              - listitem [ref=f2e397]:
+                - link "About Us" [ref=f2e398] [cursor=pointer]:
+                  - /url: about.html
+              - listitem [ref=f2e399]:
+                - link "Blog" [ref=f2e400] [cursor=pointer]:
+                  - /url: blog.html
+              - listitem [ref=f2e401]:
+                - link "Careers" [ref=f2e402] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=f2e403]:
+                - link "Press" [ref=f2e404] [cursor=pointer]:
+                  - /url: "#"
+          - generic [ref=f2e405]:
+            - heading "Stay in the Loop" [level=4] [ref=f2e406]
+            - paragraph [ref=f2e407]: Get exclusive drops, early access, and AETHER news.
+            - form "Newsletter subscription" [ref=f2e408]:
+              - textbox "Your email" [ref=f2e409]
+              - button "Subscribe" [ref=f2e410] [cursor=pointer]:
+                - generic [ref=f2e411]: 
+        - generic [ref=f2e412]:
+          - generic [ref=f2e413]:
+            - generic [ref=f2e414]: © 2026 AETHER. All Rights Reserved.
+            - link "Privacy" [ref=f2e415] [cursor=pointer]:
+              - /url: privacy-policy.html
+            - link "Terms" [ref=f2e416] [cursor=pointer]:
+              - /url: term-of-use.html
+            - link "Cookies" [ref=f2e417] [cursor=pointer]:
+              - /url: cookie-policy.html
+          - generic [ref=f2e418]:
+            - generic [ref=f2e419]: 
+            - generic [ref=f2e420]: 
+            - generic [ref=f2e421]: 
+            - generic [ref=f2e422]: 
+            - generic [ref=f2e423]: 

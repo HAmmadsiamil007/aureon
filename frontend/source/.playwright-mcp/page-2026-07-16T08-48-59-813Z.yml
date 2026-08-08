@@ -1,0 +1,235 @@
+- generic [active]:
+  - link "Skip to content" [ref=e1] [cursor=pointer]:
+    - /url: "#content"
+  - generic [ref=e2]:
+    - navigation "Toolbar":
+      - menu:
+        - group [ref=e3]:
+          - menuitem "About WordPress" [ref=e4] [cursor=pointer]:
+            - generic [ref=e6]: About WordPress
+        - group [ref=e7]:
+          - menuitem "Claudia Kids Collection" [ref=e8] [cursor=pointer]
+        - group [ref=e9]:
+          - menuitem "Live" [ref=e10] [cursor=pointer]
+        - group [ref=e11]:
+          - menuitem "Customize" [ref=e12] [cursor=pointer]
+        - group [ref=e13]:
+          - menuitem "5 updates available" [ref=e14] [cursor=pointer]:
+            - generic [ref=e16]: "5"
+            - generic [ref=e17]: 5 updates available
+        - group [ref=e18]:
+          - menuitem "0 Comments in moderation" [ref=e19] [cursor=pointer]:
+            - generic [ref=e21]: "0"
+            - generic [ref=e22]: 0 Comments in moderation
+        - group [ref=e23]:
+          - menuitem "New" [ref=e24] [cursor=pointer]:
+            - generic [ref=e26]: New
+        - group [ref=e27]:
+          - menuitem "Edit Page" [ref=e28] [cursor=pointer]
+      - menu [ref=e29]:
+        - group [ref=e30]:
+          - menuitem "Howdy, admin" [ref=e31] [cursor=pointer]
+        - group [ref=e32]:
+          - menuitem "Search" [ref=e33]:
+            - generic [ref=e34]:
+              - textbox "Search" [ref=e35] [cursor=pointer]
+              - generic [ref=e36]: Search
+  - link "Skip to content" [ref=e37] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=e38]:
+    - generic [ref=e41]:
+      - paragraph [ref=e43]:
+        - text: Summer sale discount off
+        - generic [ref=e44]: 60%
+        - text: on all of your orders!
+      - generic [ref=e46]:
+        - generic [ref=e48] [cursor=pointer]:
+          - img "EN" [ref=e49]
+          - text: EN
+          - img "dropdown" [ref=e50]
+        - generic [ref=e52] [cursor=pointer]:
+          - text: USD
+          - img "dropdown" [ref=e53]
+    - banner [ref=e54]:
+      - navigation "Primary" [ref=e56]:
+        - link [ref=e57] [cursor=pointer]:
+          - /url: http://localhost:8080/
+          - figure [ref=e58]:
+            - img "Claudia Kids Collection" [ref=e59]
+        - list [ref=e61]:
+          - listitem [ref=e62]:
+            - link "Home" [ref=e63] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e64]:
+            - link "About" [ref=e65] [cursor=pointer]:
+              - /url: /about/
+          - listitem [ref=e66]:
+            - link "Shop" [ref=e67] [cursor=pointer]:
+              - /url: /shop/
+          - listitem [ref=e68]:
+            - button "Blog" [ref=e69] [cursor=pointer]
+          - listitem [ref=e70]:
+            - button "Pages" [ref=e71] [cursor=pointer]
+          - listitem [ref=e72]:
+            - link "Contact" [ref=e73] [cursor=pointer]:
+              - /url: /contact/
+        - generic [ref=e74]:
+          - link "Search" [ref=e75] [cursor=pointer]:
+            - /url: "#search"
+            - img "Search" [ref=e76]
+          - link "Cart" [ref=e77] [cursor=pointer]:
+            - /url: http://localhost:8080/cart/
+            - img "Cart" [ref=e78]
+            - generic [ref=e79]: "1"
+          - link "My account" [ref=e80] [cursor=pointer]:
+            - /url: http://localhost:8080/my-account/
+            - img "My account" [ref=e81]
+    - main [ref=e82]:
+      - heading "Who we are" [level=2] [ref=e83]
+      - paragraph [ref=e84]:
+        - strong [ref=e85]: "Suggested text:"
+        - text: "Our website address is: http://localhost:8080."
+      - heading "Comments" [level=2] [ref=e86]
+      - paragraph [ref=e87]:
+        - strong [ref=e88]: "Suggested text:"
+        - text: When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor’s IP address and browser user agent string to help spam detection.
+      - paragraph [ref=e89]: "An anonymized string created from your email address (also called a hash) may be provided to the Gravatar service to see if you are using it. The Gravatar service privacy policy is available here: https://automattic.com/privacy/. After approval of your comment, your profile picture is visible to the public in the context of your comment."
+      - heading "Media" [level=2] [ref=e90]
+      - paragraph [ref=e91]:
+        - strong [ref=e92]: "Suggested text:"
+        - text: If you upload images to the website, you should avoid uploading images with embedded location data (EXIF GPS) included. Visitors to the website can download and extract any location data from images on the website.
+      - heading "Cookies" [level=2] [ref=e93]
+      - paragraph [ref=e94]:
+        - strong [ref=e95]: "Suggested text:"
+        - text: If you leave a comment on our site you may opt-in to saving your name, email address and website in cookies. These are for your convenience so that you do not have to fill in your details again when you leave another comment. These cookies will last for one year.
+      - paragraph [ref=e96]: If you visit our login page, we will set a temporary cookie to determine if your browser accepts cookies. This cookie contains no personal data and is discarded when you close your browser.
+      - paragraph [ref=e97]: When you log in, we will also set up several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select "Remember Me", your login will persist for two weeks. If you log out of your account, the login cookies will be removed.
+      - paragraph [ref=e98]: If you edit or publish an article, an additional cookie will be saved in your browser. This cookie includes no personal data and simply indicates the post ID of the article you just edited. It expires after 1 day.
+      - heading "Embedded content from other websites" [level=2] [ref=e99]
+      - paragraph [ref=e100]:
+        - strong [ref=e101]: "Suggested text:"
+        - text: Articles on this site may include embedded content (e.g. videos, images, articles, etc.). Embedded content from other websites behaves in the exact same way as if the visitor has visited the other website.
+      - paragraph [ref=e102]: These websites may collect data about you, use cookies, embed additional third-party tracking, and monitor your interaction with that embedded content, including tracking your interaction with the embedded content if you have an account and are logged in to that website.
+      - heading "Who we share your data with" [level=2] [ref=e103]
+      - paragraph [ref=e104]:
+        - strong [ref=e105]: "Suggested text:"
+        - text: If you request a password reset, your IP address will be included in the reset email.
+      - heading "How long we retain your data" [level=2] [ref=e106]
+      - paragraph [ref=e107]:
+        - strong [ref=e108]: "Suggested text:"
+        - text: If you leave a comment, the comment and its metadata are retained indefinitely. This is so we can recognize and approve any follow-up comments automatically instead of holding them in a moderation queue.
+      - paragraph [ref=e109]: For users that register on our website (if any), we also store the personal information they provide in their user profile. All users can see, edit, or delete their personal information at any time (except they cannot change their username). Website administrators can also see and edit that information.
+      - heading "What rights you have over your data" [level=2] [ref=e110]
+      - paragraph [ref=e111]:
+        - strong [ref=e112]: "Suggested text:"
+        - text: If you have an account on this site, or have left comments, you can request to receive an exported file of the personal data we hold about you, including any data you have provided to us. You can also request that we erase any personal data we hold about you. This does not include any data we are obliged to keep for administrative, legal, or security purposes.
+      - heading "Where your data is sent" [level=2] [ref=e113]
+      - paragraph [ref=e114]:
+        - strong [ref=e115]: "Suggested text:"
+        - text: Visitor comments may be checked through an automated spam detection service.
+      - paragraph [ref=e116]:
+        - link "Edit Privacy Policy" [ref=e117] [cursor=pointer]:
+          - /url: http://localhost:8080/wp-admin/post.php?post=3&action=edit
+          - text: Edit
+          - generic [ref=e118]: Privacy Policy
+    - generic [ref=e121]:
+      - heading "Subscribe to Our Newsletter :" [level=3] [ref=e123]:
+        - text: Subscribe to Our
+        - text: "Newsletter :"
+      - generic [ref=e125]:
+        - textbox "Email address for newsletter" [ref=e126]:
+          - /placeholder: "Enter Your Email Address:"
+        - button "Subscribe" [ref=e127] [cursor=pointer]:
+          - text: Subscribe
+          - generic [ref=e128]: 
+    - contentinfo [ref=e129]:
+      - generic [ref=e132]:
+        - generic [ref=e134]:
+          - link [ref=e135] [cursor=pointer]:
+            - /url: http://localhost:8080/
+            - figure [ref=e136]:
+              - img "Claudia Kids Collection" [ref=e137]
+          - paragraph [ref=e138]: Duis aute irure dolor in reprehenderit in voluptate velit cillum dolore eu fugiat nulla pariatur ccaecat cupidata proident, sunt in culpa officia deserunt mollit.
+          - list [ref=e139]:
+            - listitem [ref=e140]:
+              - link "Facebook" [ref=e141] [cursor=pointer]:
+                - /url: https://www.facebook.com/
+                - generic [ref=e142]: 
+            - listitem [ref=e143]:
+              - link "Instagram" [ref=e144] [cursor=pointer]:
+                - /url: https://www.instagram.com/
+                - generic [ref=e145]: 
+            - listitem [ref=e146]:
+              - link "YouTube" [ref=e147] [cursor=pointer]:
+                - /url: https://www.youtube.com/
+                - generic [ref=e148]: 
+        - generic [ref=e150]:
+          - heading "Navigation" [level=5] [ref=e151]
+          - list [ref=e152]:
+            - listitem [ref=e153]:
+              - generic [ref=e154] [cursor=pointer]: 
+              - link "Home" [ref=e155] [cursor=pointer]:
+                - /url: http://localhost:8080/
+            - listitem [ref=e156]:
+              - generic [ref=e157] [cursor=pointer]: 
+              - link "Shop" [ref=e158] [cursor=pointer]:
+                - /url: http://localhost:8080/shop/
+            - listitem [ref=e159]:
+              - generic [ref=e160] [cursor=pointer]: 
+              - link "About" [ref=e161] [cursor=pointer]:
+                - /url: http://localhost:8080/about/
+            - listitem [ref=e162]:
+              - generic [ref=e163] [cursor=pointer]: 
+              - link "Blog" [ref=e164] [cursor=pointer]:
+                - /url: http://localhost:8080/blog/
+            - listitem [ref=e165]:
+              - generic [ref=e166] [cursor=pointer]: 
+              - link "Contact" [ref=e167] [cursor=pointer]:
+                - /url: http://localhost:8080/contact/
+        - generic [ref=e169]:
+          - heading "Support" [level=5] [ref=e170]
+          - list [ref=e171]:
+            - listitem [ref=e172]:
+              - generic [ref=e173] [cursor=pointer]: 
+              - link "Term of use" [ref=e174] [cursor=pointer]:
+                - /url: http://localhost:8080/term-of-use/
+            - listitem [ref=e175]:
+              - generic [ref=e176] [cursor=pointer]: 
+              - link "Privacy policy" [ref=e177] [cursor=pointer]:
+                - /url: http://localhost:8080/privacy-policy/
+            - listitem [ref=e178]:
+              - generic [ref=e179] [cursor=pointer]: 
+              - link "Cookie policy" [ref=e180] [cursor=pointer]:
+                - /url: http://localhost:8080/cookie-policy/
+            - listitem [ref=e181]:
+              - generic [ref=e182] [cursor=pointer]: 
+              - link "Latest Posts" [ref=e183] [cursor=pointer]:
+                - /url: http://localhost:8080/single-blog/
+            - listitem [ref=e184]:
+              - generic [ref=e185] [cursor=pointer]: 
+              - link "Care Guide" [ref=e186] [cursor=pointer]:
+                - /url: http://localhost:8080/contact/
+        - generic [ref=e188]:
+          - heading "Contact Us" [level=5] [ref=e189]
+          - list [ref=e190]:
+            - listitem [ref=e191]:
+              - generic [ref=e192] [cursor=pointer]: 
+              - link "+1235 211 5236" [ref=e193] [cursor=pointer]:
+                - /url: tel:+12352115236
+            - listitem [ref=e194]:
+              - generic [ref=e195] [cursor=pointer]: 
+              - link "hello@claudia.com" [ref=e196] [cursor=pointer]:
+                - /url: mailto:hello@claudia.com
+            - listitem [ref=e197]:
+              - generic [ref=e198] [cursor=pointer]: 
+              - link "121 King Street Melbourne, 3000, Australia" [ref=e199] [cursor=pointer]:
+                - /url: https://www.google.com/maps/place/21+King+St,+Melbourne+VIC+3000,+Australia/@-37.8199805,144.9529083,18z/data=!4m6!3m5!1s0x6ad65d52754eaecb:0x22f367daf52cbd47!8m2!3d-37.819936!4d144.9570765!16s%2Fg%2F11c2dj2n2c?entry=ttu
+                - text: 121 King Street Melbourne,
+                - text: 3000, Australia
+      - generic [ref=e202]:
+        - paragraph [ref=e203]: Copyright © 2026 claudia.com All rights reserved.
+        - img "Payment methods"
+  - generic [ref=e208]:
+    - text: This site uses cookies.
+    - button "Accept" [ref=e209] [cursor=pointer]
+  - status [ref=e210]

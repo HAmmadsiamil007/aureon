@@ -1,0 +1,1197 @@
+- generic [ref=f39e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f39e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f39e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=f39e7]:
+      - listitem [ref=f39e8]:
+        - link "Dashboard" [ref=f39e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=f39e10]: 
+          - generic [ref=f39e11]: Dashboard
+        - list [ref=f39e12]:
+          - listitem [ref=f39e13]:
+            - link "Home" [ref=f39e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=f39e15]:
+            - link "Updates 5" [ref=f39e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Updates
+              - generic [ref=f39e17]: "5"
+      - listitem [ref=f39e18]
+      - listitem [ref=f39e20]:
+        - link "Posts" [ref=f39e21] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=f39e22]: 
+          - generic [ref=f39e23]: Posts
+        - list [ref=f39e24]:
+          - listitem [ref=f39e25]:
+            - link "All Posts" [ref=f39e26] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=f39e27]:
+            - link "Add Post" [ref=f39e28] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=f39e29]:
+            - link "Categories" [ref=f39e30] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=f39e31]:
+            - link "Tags" [ref=f39e32] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=f39e33]:
+        - link "Projects" [ref=f39e34] [cursor=pointer]:
+          - /url: edit.php?post_type=portfolio
+          - generic [ref=f39e35]: 
+          - generic [ref=f39e36]: Projects
+        - list [ref=f39e37]:
+          - listitem [ref=f39e38]:
+            - link "All Projects" [ref=f39e39] [cursor=pointer]:
+              - /url: edit.php?post_type=portfolio
+          - listitem [ref=f39e40]:
+            - link "Add New Project" [ref=f39e41] [cursor=pointer]:
+              - /url: post-new.php?post_type=portfolio
+          - listitem [ref=f39e42]:
+            - link "Categories" [ref=f39e43] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=portfolio_category&post_type=portfolio
+      - listitem [ref=f39e44]:
+        - link "Media" [ref=f39e45] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=f39e46]: 
+          - generic [ref=f39e47]: Media
+        - list [ref=f39e48]:
+          - listitem [ref=f39e49]:
+            - link "Library" [ref=f39e50] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=f39e51]:
+            - link "Add Media File" [ref=f39e52] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=f39e53]:
+        - link "Pages" [ref=f39e54] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=f39e55]: 
+          - generic [ref=f39e56]: Pages
+        - list [ref=f39e57]:
+          - listitem [ref=f39e58]:
+            - link "All Pages" [ref=f39e59] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=f39e60]:
+            - link "Add Page" [ref=f39e61] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=f39e62]:
+        - link "Comments" [ref=f39e63] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=f39e64]: 
+          - generic [ref=f39e65]: Comments
+      - listitem [ref=f39e66]
+      - listitem [ref=f39e68]:
+        - link "WooCommerce" [ref=f39e69] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin
+          - generic [ref=f39e71]: WooCommerce
+        - list [ref=f39e72]:
+          - listitem [ref=f39e73]:
+            - link "Home 6" [ref=f39e74] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin
+              - text: Home
+              - generic [ref=f39e75]: "6"
+          - listitem [ref=f39e76]:
+            - link "Orders" [ref=f39e77] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_order
+          - listitem [ref=f39e78]:
+            - link "Customers" [ref=f39e79] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/customers
+          - listitem [ref=f39e80]:
+            - link "Coupons" [ref=f39e81] [cursor=pointer]:
+              - /url: admin.php?page=coupons-moved
+          - listitem [ref=f39e82]:
+            - link "Reports" [ref=f39e83] [cursor=pointer]:
+              - /url: admin.php?page=wc-reports
+          - listitem [ref=f39e84]:
+            - link "Settings" [ref=f39e85] [cursor=pointer]:
+              - /url: admin.php?page=wc-settings
+          - listitem [ref=f39e86]:
+            - link "Status" [ref=f39e87] [cursor=pointer]:
+              - /url: admin.php?page=wc-status
+          - listitem [ref=f39e88]:
+            - link "Extensions" [ref=f39e89] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/extensions
+      - listitem [ref=f39e90]:
+        - link "Products" [ref=f39e91] [cursor=pointer]:
+          - /url: edit.php?post_type=product
+          - generic [ref=f39e92]: 
+          - generic [ref=f39e93]: Products
+        - list [ref=f39e94]:
+          - listitem [ref=f39e95]:
+            - link "All Products" [ref=f39e96] [cursor=pointer]:
+              - /url: edit.php?post_type=product
+          - listitem [ref=f39e97]:
+            - link "Add new product" [ref=f39e98] [cursor=pointer]:
+              - /url: post-new.php?post_type=product
+          - listitem [ref=f39e99]:
+            - link "Brands" [ref=f39e100] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_brand&post_type=product
+          - listitem [ref=f39e101]:
+            - link "Categories" [ref=f39e102] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_cat&post_type=product
+          - listitem [ref=f39e103]:
+            - link "Tags" [ref=f39e104] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_tag&post_type=product
+          - listitem [ref=f39e105]:
+            - link "Attributes" [ref=f39e106] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product_attributes
+          - listitem [ref=f39e107]:
+            - link "Reviews" [ref=f39e108] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product-reviews
+      - listitem [ref=f39e109]:
+        - link "Payments 1" [ref=f39e110] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/wc-pay-welcome-page
+          - generic [ref=f39e112]:
+            - text: Payments
+            - generic [ref=f39e113]: "1"
+      - listitem [ref=f39e114]:
+        - link "Analytics" [ref=f39e115] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - generic [ref=f39e116]: 
+          - generic [ref=f39e117]: Analytics
+        - list [ref=f39e118]:
+          - listitem [ref=f39e119]:
+            - link "Overview" [ref=f39e120] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - listitem [ref=f39e121]:
+            - link "Products" [ref=f39e122] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/products
+          - listitem [ref=f39e123]:
+            - link "Revenue" [ref=f39e124] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/revenue
+          - listitem [ref=f39e125]:
+            - link "Orders" [ref=f39e126] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/orders
+          - listitem [ref=f39e127]:
+            - link "Variations" [ref=f39e128] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/variations
+          - listitem [ref=f39e129]:
+            - link "Categories" [ref=f39e130] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/categories
+          - listitem [ref=f39e131]:
+            - link "Coupons" [ref=f39e132] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/coupons
+          - listitem [ref=f39e133]:
+            - link "Taxes" [ref=f39e134] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/taxes
+          - listitem [ref=f39e135]:
+            - link "Downloads" [ref=f39e136] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/downloads
+          - listitem [ref=f39e137]:
+            - link "Stock" [ref=f39e138] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/stock
+          - listitem [ref=f39e139]:
+            - link "Settings" [ref=f39e140] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/settings
+      - listitem [ref=f39e141]:
+        - link "Marketing" [ref=f39e142] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/marketing
+          - generic [ref=f39e143]: 
+          - generic [ref=f39e144]: Marketing
+        - list [ref=f39e145]:
+          - listitem [ref=f39e146]:
+            - link "Overview" [ref=f39e147] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/marketing
+          - listitem [ref=f39e148]:
+            - link "Coupons" [ref=f39e149] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_coupon
+      - listitem [ref=f39e150]
+      - listitem [ref=f39e152]:
+        - link "Appearance" [ref=f39e153] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=f39e154]: 
+          - generic [ref=f39e155]: Appearance
+        - list [ref=f39e156]:
+          - listitem [ref=f39e157]:
+            - link "Themes 3" [ref=f39e158] [cursor=pointer]:
+              - /url: themes.php
+              - text: Themes
+              - generic [ref=f39e159]: "3"
+          - listitem [ref=f39e160]:
+            - link "Design" [ref=f39e161] [cursor=pointer]:
+              - /url: site-editor.php
+          - listitem [ref=f39e162]:
+            - link "Customize" [ref=f39e163] [cursor=pointer]:
+              - /url: customize.php?return=%2Fwp-admin%2Fedit.php%3Fpost_type%3Dpage
+          - listitem [ref=f39e164]:
+            - link "Widgets" [ref=f39e165] [cursor=pointer]:
+              - /url: widgets.php
+          - listitem [ref=f39e166]:
+            - link "Fonts" [ref=f39e167] [cursor=pointer]:
+              - /url: font-library.php
+          - listitem [ref=f39e168]:
+            - link "Menus" [ref=f39e169] [cursor=pointer]:
+              - /url: nav-menus.php
+          - listitem [ref=f39e170]:
+            - link "Theme File Editor" [ref=f39e171] [cursor=pointer]:
+              - /url: theme-editor.php
+      - listitem [ref=f39e172]:
+        - link "Plugins 2" [ref=f39e173] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=f39e174]: 
+          - generic [ref=f39e175]:
+            - text: Plugins
+            - generic [ref=f39e176]: "2"
+        - list [ref=f39e177]:
+          - listitem [ref=f39e178]:
+            - link "Installed Plugins" [ref=f39e179] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=f39e180]:
+            - link "Add Plugin" [ref=f39e181] [cursor=pointer]:
+              - /url: plugin-install.php
+          - listitem [ref=f39e182]:
+            - link "Plugin File Editor" [ref=f39e183] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=f39e184]:
+        - link "Users" [ref=f39e185] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=f39e186]: 
+          - generic [ref=f39e187]: Users
+        - list [ref=f39e188]:
+          - listitem [ref=f39e189]:
+            - link "All Users" [ref=f39e190] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=f39e191]:
+            - link "Add User" [ref=f39e192] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=f39e193]:
+            - link "Profile" [ref=f39e194] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=f39e195]:
+        - link "Tools" [ref=f39e196] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=f39e197]: 
+          - generic [ref=f39e198]: Tools
+        - list [ref=f39e199]:
+          - listitem [ref=f39e200]:
+            - link "Available Tools" [ref=f39e201] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=f39e202]:
+            - link "Import" [ref=f39e203] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=f39e204]:
+            - link "Export" [ref=f39e205] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=f39e206]:
+            - link "Site Health" [ref=f39e207] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=f39e208]:
+            - link "Export Personal Data" [ref=f39e209] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=f39e210]:
+            - link "Erase Personal Data" [ref=f39e211] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=f39e212]:
+            - link "Scheduled Actions" [ref=f39e213] [cursor=pointer]:
+              - /url: tools.php?page=action-scheduler
+      - listitem [ref=f39e214]:
+        - link "Settings" [ref=f39e215] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=f39e216]: 
+          - generic [ref=f39e217]: Settings
+        - list [ref=f39e218]:
+          - listitem [ref=f39e219]:
+            - link "General" [ref=f39e220] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=f39e221]:
+            - link "Connectors" [ref=f39e222] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=f39e223]:
+            - link "Writing" [ref=f39e224] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=f39e225]:
+            - link "Reading" [ref=f39e226] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=f39e227]:
+            - link "Discussion" [ref=f39e228] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=f39e229]:
+            - link "Media" [ref=f39e230] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=f39e231]:
+            - link "Permalinks" [ref=f39e232] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=f39e233]:
+            - link "Privacy" [ref=f39e234] [cursor=pointer]:
+              - /url: options-privacy.php
+          - listitem [ref=f39e235]:
+            - link "Optix Framework" [ref=f39e236] [cursor=pointer]:
+              - /url: options-general.php?page=optix-framework
+      - listitem [ref=f39e237]:
+        - button "Collapse Main menu" [expanded] [ref=f39e238] [cursor=pointer]:
+          - generic [ref=f39e240]: Collapse Menu
+  - generic [ref=f39e241]:
+    - generic [ref=f39e242]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f39e243]:
+            - menuitem "About WordPress" [ref=f39e244] [cursor=pointer]:
+              - generic [ref=f39e246]: About WordPress
+          - group [ref=f39e247]:
+            - menuitem "Claudia Kids Collection" [ref=f39e248] [cursor=pointer]
+          - group [ref=f39e249]:
+            - menuitem "Live" [ref=f39e250] [cursor=pointer]
+          - group [ref=f39e251]:
+            - menuitem "5 updates available" [ref=f39e252] [cursor=pointer]:
+              - generic [ref=f39e254]: "5"
+              - generic [ref=f39e255]: 5 updates available
+          - group [ref=f39e256]:
+            - menuitem "Ctrl+K Open command palette" [ref=f39e257] [cursor=pointer]:
+              - generic [ref=f39e259]:
+                - text: Ctrl+K
+                - generic [ref=f39e260]: Open command palette
+          - group [ref=f39e261]:
+            - menuitem "0 Comments in moderation" [ref=f39e262] [cursor=pointer]:
+              - generic [ref=f39e264]: "0"
+              - generic [ref=f39e265]: 0 Comments in moderation
+          - group [ref=f39e266]:
+            - menuitem "New" [ref=f39e267] [cursor=pointer]:
+              - generic [ref=f39e269]: New
+        - menu [ref=f39e270]:
+          - group [ref=f39e271]:
+            - menuitem "Howdy, admin" [ref=f39e272] [cursor=pointer]
+    - main [ref=f39e273]:
+      - generic [ref=f39e274]:
+        - generic [ref=f39e275]:
+          - button "Screen Options" [ref=f39e277] [cursor=pointer]
+          - button "Help" [ref=f39e279] [cursor=pointer]
+        - generic [ref=f39e280]:
+          - heading "Pages" [level=1] [ref=f39e281]
+          - link "Add Page" [ref=f39e282] [cursor=pointer]:
+            - /url: http://localhost:8080/wp-admin/post-new.php?post_type=page
+          - heading "Filter pages list" [level=2] [ref=f39e283]
+          - list [ref=f39e284]:
+            - listitem [ref=f39e285]:
+              - link "All (32)" [ref=f39e286] [cursor=pointer]:
+                - /url: edit.php?post_type=page&all_posts=1
+              - text: "|"
+            - listitem [ref=f39e287]:
+              - link "Mine (6)" [ref=f39e288] [cursor=pointer]:
+                - /url: edit.php?post_type=page&author=1
+              - text: "|"
+            - listitem [ref=f39e289]:
+              - link "Published (30)" [ref=f39e290] [cursor=pointer]:
+                - /url: edit.php?post_status=publish&post_type=page
+              - text: "|"
+            - listitem [ref=f39e291]:
+              - link "Drafts (2)" [ref=f39e292] [cursor=pointer]:
+                - /url: edit.php?post_status=draft&post_type=page
+          - generic [ref=f39e293]:
+            - paragraph [ref=f39e294]:
+              - generic [ref=f39e295]: "Search Pages:"
+              - searchbox "Search Pages:" [ref=f39e296]
+              - button "Search Pages" [ref=f39e297] [cursor=pointer]
+            - generic [ref=f39e298]:
+              - generic [ref=f39e299]:
+                - generic [ref=f39e300]: Select bulk action
+                - combobox "Select bulk action" [ref=f39e301] [cursor=pointer]:
+                  - option "Bulk actions" [selected]
+                  - option "Bulk edit"
+                  - option "Move to Trash"
+                - button "Apply" [ref=f39e302] [cursor=pointer]
+              - generic [ref=f39e303]:
+                - generic [ref=f39e304]: Filter by date
+                - combobox "Filter by date" [ref=f39e305] [cursor=pointer]:
+                  - option "All dates" [selected]
+                  - option "July 2026"
+                - button "Filter" [ref=f39e306] [cursor=pointer]
+              - heading "Pages list navigation" [level=2] [ref=f39e307]
+              - generic [ref=f39e308]:
+                - text: 32 items
+                - generic [ref=f39e309]:
+                  - generic [ref=f39e310]: «
+                  - generic [ref=f39e311]: ‹
+                  - generic [ref=f39e312]:
+                    - generic [ref=f39e313]: Current Page
+                    - textbox "Current Page" [ref=f39e314]: "1"
+                    - generic [ref=f39e315]: of 2
+                  - link "Next page" [ref=f39e316] [cursor=pointer]:
+                    - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&paged=2
+                    - generic [ref=f39e317]: Next page
+                    - text: ›
+                  - link "Last page" [ref=f39e318] [cursor=pointer]:
+                    - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&paged=2
+                    - generic [ref=f39e319]: Last page
+                    - text: »
+            - heading "Pages list" [level=2] [ref=f39e320]
+            - table "Table ordered by Hierarchical Menu Order and Title. Ascending." [ref=f39e321]:
+              - caption [ref=f39e322]: Table ordered by Hierarchical Menu Order and Title. Ascending.
+              - rowgroup [ref=f39e323]:
+                - row "Select All Title Author Comments Sort ascending. Date Sort descending." [ref=f39e324]:
+                  - cell "Select All" [ref=f39e325]:
+                    - checkbox "Select All" [ref=f39e326] [cursor=pointer]
+                    - generic [ref=f39e328]: Select All
+                  - columnheader "Title" [ref=f39e329]:
+                    - link "Title" [ref=f39e330] [cursor=pointer]:
+                      - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&orderby=title&order=desc
+                      - generic [ref=f39e331]: Title
+                  - columnheader "Author" [ref=f39e335]
+                  - columnheader "Comments Sort ascending." [ref=f39e336]:
+                    - link "Comments Sort ascending." [ref=f39e337] [cursor=pointer]:
+                      - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&orderby=comment_count&order=asc
+                      - generic [ref=f39e340]: Comments
+                      - generic [ref=f39e344]: Sort ascending.
+                  - columnheader "Date Sort descending." [ref=f39e345]:
+                    - link "Date Sort descending." [ref=f39e346] [cursor=pointer]:
+                      - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&orderby=date&order=desc
+                      - generic [ref=f39e347]: Date
+                      - generic [ref=f39e351]: Sort descending.
+              - rowgroup [ref=f39e352]:
+                - row "Select About About Edit “About” | Quick edit “About” inline | Move “About” to the Trash | View “About” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e353]:
+                  - rowheader "Select About" [ref=f39e354]:
+                    - checkbox "Select About" [ref=f39e355] [cursor=pointer]
+                    - generic [ref=f39e357]: Select About
+                  - cell "About Edit “About” | Quick edit “About” inline | Move “About” to the Trash | View “About”" [ref=f39e358]:
+                    - strong [ref=f39e359]:
+                      - link "About" [ref=f39e360] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=4&action=edit
+                    - generic [ref=f39e361]:
+                      - generic [ref=f39e362]:
+                        - link "Edit “About”" [ref=f39e363] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=4&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e364]:
+                        - button "Quick edit “About” inline" [ref=f39e365] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e366]:
+                        - link "Move “About” to the Trash" [ref=f39e367] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=4&action=trash&_wpnonce=c4220a3c71
+                          - text: Trash
+                        - text: "|"
+                      - link "View “About”" [ref=f39e369] [cursor=pointer]:
+                        - /url: http://localhost:8080/about/
+                        - text: View
+                  - cell "(no author)" [ref=f39e370]:
+                    - text: —
+                    - generic [ref=f39e371]: (no author)
+                  - cell "No comments" [ref=f39e372]:
+                    - generic [ref=f39e373]:
+                      - text: —
+                      - generic [ref=f39e374]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e375]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Blog Blog Edit “Blog” | Quick edit “Blog” inline | Move “Blog” to the Trash | View “Blog” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e376]:
+                  - rowheader "Select Blog" [ref=f39e377]:
+                    - checkbox "Select Blog" [ref=f39e378] [cursor=pointer]
+                    - generic [ref=f39e380]: Select Blog
+                  - cell "Blog Edit “Blog” | Quick edit “Blog” inline | Move “Blog” to the Trash | View “Blog”" [ref=f39e381]:
+                    - strong [ref=f39e382]:
+                      - link "Blog" [ref=f39e383] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=7&action=edit
+                    - generic [ref=f39e384]:
+                      - generic [ref=f39e385]:
+                        - link "Edit “Blog”" [ref=f39e386] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=7&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e387]:
+                        - button "Quick edit “Blog” inline" [ref=f39e388] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e389]:
+                        - link "Move “Blog” to the Trash" [ref=f39e390] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=7&action=trash&_wpnonce=1f3d048d3a
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Blog”" [ref=f39e392] [cursor=pointer]:
+                        - /url: http://localhost:8080/blog/
+                        - text: View
+                  - cell "(no author)" [ref=f39e393]:
+                    - text: —
+                    - generic [ref=f39e394]: (no author)
+                  - cell "No comments" [ref=f39e395]:
+                    - generic [ref=f39e396]:
+                      - text: —
+                      - generic [ref=f39e397]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e398]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Cart Cart Edit “Cart” | Quick edit “Cart” inline | Move “Cart” to the Trash | View “Cart” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e399]:
+                  - rowheader "Select Cart" [ref=f39e400]:
+                    - checkbox "Select Cart" [ref=f39e401] [cursor=pointer]
+                    - generic [ref=f39e403]: Select Cart
+                  - cell "Cart Edit “Cart” | Quick edit “Cart” inline | Move “Cart” to the Trash | View “Cart”" [ref=f39e404]:
+                    - strong [ref=f39e405]:
+                      - link "Cart" [ref=f39e406] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=8&action=edit
+                    - generic [ref=f39e407]:
+                      - generic [ref=f39e408]:
+                        - link "Edit “Cart”" [ref=f39e409] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=8&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e410]:
+                        - button "Quick edit “Cart” inline" [ref=f39e411] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e412]:
+                        - link "Move “Cart” to the Trash" [ref=f39e413] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=8&action=trash&_wpnonce=17f1d5af70
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Cart”" [ref=f39e415] [cursor=pointer]:
+                        - /url: http://localhost:8080/cart/
+                        - text: View
+                  - cell "(no author)" [ref=f39e416]:
+                    - text: —
+                    - generic [ref=f39e417]: (no author)
+                  - cell "No comments" [ref=f39e418]:
+                    - generic [ref=f39e419]:
+                      - text: —
+                      - generic [ref=f39e420]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e421]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Cart Cart — Cart Page Edit “Cart” | Quick edit “Cart” inline | Move “Cart” to the Trash | View “Cart” admin No comments Published 2026/07/15 at 12:14 pm" [ref=f39e422]:
+                  - rowheader "Select Cart" [ref=f39e423]:
+                    - checkbox "Select Cart" [ref=f39e424] [cursor=pointer]
+                    - generic [ref=f39e426]: Select Cart
+                  - cell "Cart — Cart Page Edit “Cart” | Quick edit “Cart” inline | Move “Cart” to the Trash | View “Cart”" [ref=f39e427]:
+                    - strong [ref=f39e428]:
+                      - link "Cart" [ref=f39e429] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=35&action=edit
+                      - text: — Cart Page
+                    - generic [ref=f39e430]:
+                      - generic [ref=f39e431]:
+                        - link "Edit “Cart”" [ref=f39e432] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=35&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e433]:
+                        - button "Quick edit “Cart” inline" [ref=f39e434] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e435]:
+                        - link "Move “Cart” to the Trash" [ref=f39e436] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=35&action=trash&_wpnonce=08b18edcbd
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Cart”" [ref=f39e438] [cursor=pointer]:
+                        - /url: http://localhost:8080/cart-2/
+                        - text: View
+                  - cell "admin" [ref=f39e439]:
+                    - link "admin" [ref=f39e440] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "No comments" [ref=f39e441]:
+                    - generic [ref=f39e442]:
+                      - text: —
+                      - generic [ref=f39e443]: No comments
+                  - cell "Published 2026/07/15 at 12:14 pm" [ref=f39e444]:
+                    - text: Published
+                    - text: 2026/07/15 at 12:14 pm
+                - row "Select Checkout Checkout Edit “Checkout” | Quick edit “Checkout” inline | Move “Checkout” to the Trash | View “Checkout” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e445]:
+                  - rowheader "Select Checkout" [ref=f39e446]:
+                    - checkbox "Select Checkout" [ref=f39e447] [cursor=pointer]
+                    - generic [ref=f39e449]: Select Checkout
+                  - cell "Checkout Edit “Checkout” | Quick edit “Checkout” inline | Move “Checkout” to the Trash | View “Checkout”" [ref=f39e450]:
+                    - strong [ref=f39e451]:
+                      - link "Checkout" [ref=f39e452] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=9&action=edit
+                    - generic [ref=f39e453]:
+                      - generic [ref=f39e454]:
+                        - link "Edit “Checkout”" [ref=f39e455] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=9&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e456]:
+                        - button "Quick edit “Checkout” inline" [ref=f39e457] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e458]:
+                        - link "Move “Checkout” to the Trash" [ref=f39e459] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=9&action=trash&_wpnonce=1de3c488e9
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Checkout”" [ref=f39e461] [cursor=pointer]:
+                        - /url: http://localhost:8080/checkout/
+                        - text: View
+                  - cell "(no author)" [ref=f39e462]:
+                    - text: —
+                    - generic [ref=f39e463]: (no author)
+                  - cell "No comments" [ref=f39e464]:
+                    - generic [ref=f39e465]:
+                      - text: —
+                      - generic [ref=f39e466]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e467]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Checkout Checkout — Checkout Page Edit “Checkout” | Quick edit “Checkout” inline | Move “Checkout” to the Trash | View “Checkout” admin No comments Published 2026/07/15 at 12:14 pm" [ref=f39e468]:
+                  - rowheader "Select Checkout" [ref=f39e469]:
+                    - checkbox "Select Checkout" [ref=f39e470] [cursor=pointer]
+                    - generic [ref=f39e472]: Select Checkout
+                  - cell "Checkout — Checkout Page Edit “Checkout” | Quick edit “Checkout” inline | Move “Checkout” to the Trash | View “Checkout”" [ref=f39e473]:
+                    - strong [ref=f39e474]:
+                      - link "Checkout" [ref=f39e475] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=36&action=edit
+                      - text: — Checkout Page
+                    - generic [ref=f39e476]:
+                      - generic [ref=f39e477]:
+                        - link "Edit “Checkout”" [ref=f39e478] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=36&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e479]:
+                        - button "Quick edit “Checkout” inline" [ref=f39e480] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e481]:
+                        - link "Move “Checkout” to the Trash" [ref=f39e482] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=36&action=trash&_wpnonce=56e9f48930
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Checkout”" [ref=f39e484] [cursor=pointer]:
+                        - /url: http://localhost:8080/checkout-2/
+                        - text: View
+                  - cell "admin" [ref=f39e485]:
+                    - link "admin" [ref=f39e486] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "No comments" [ref=f39e487]:
+                    - generic [ref=f39e488]:
+                      - text: —
+                      - generic [ref=f39e489]: No comments
+                  - cell "Published 2026/07/15 at 12:14 pm" [ref=f39e490]:
+                    - text: Published
+                    - text: 2026/07/15 at 12:14 pm
+                - row "Select Coming Soon Coming Soon Edit “Coming Soon” | Quick edit “Coming Soon” inline | Move “Coming Soon” to the Trash | View “Coming Soon” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e491]:
+                  - rowheader "Select Coming Soon" [ref=f39e492]:
+                    - checkbox "Select Coming Soon" [ref=f39e493] [cursor=pointer]
+                    - generic [ref=f39e495]: Select Coming Soon
+                  - cell "Coming Soon Edit “Coming Soon” | Quick edit “Coming Soon” inline | Move “Coming Soon” to the Trash | View “Coming Soon”" [ref=f39e496]:
+                    - strong [ref=f39e497]:
+                      - link "Coming Soon" [ref=f39e498] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=14&action=edit
+                    - generic [ref=f39e499]:
+                      - generic [ref=f39e500]:
+                        - link "Edit “Coming Soon”" [ref=f39e501] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=14&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e502]:
+                        - button "Quick edit “Coming Soon” inline" [ref=f39e503] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e504]:
+                        - link "Move “Coming Soon” to the Trash" [ref=f39e505] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=14&action=trash&_wpnonce=acdcbc94ce
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Coming Soon”" [ref=f39e507] [cursor=pointer]:
+                        - /url: http://localhost:8080/coming-soon/
+                        - text: View
+                  - cell "(no author)" [ref=f39e508]:
+                    - text: —
+                    - generic [ref=f39e509]: (no author)
+                  - cell "No comments" [ref=f39e510]:
+                    - generic [ref=f39e511]:
+                      - text: —
+                      - generic [ref=f39e512]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e513]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Contact Contact Edit “Contact” | Quick edit “Contact” inline | Move “Contact” to the Trash | View “Contact” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e514]:
+                  - rowheader "Select Contact" [ref=f39e515]:
+                    - checkbox "Select Contact" [ref=f39e516] [cursor=pointer]
+                    - generic [ref=f39e518]: Select Contact
+                  - cell "Contact Edit “Contact” | Quick edit “Contact” inline | Move “Contact” to the Trash | View “Contact”" [ref=f39e519]:
+                    - strong [ref=f39e520]:
+                      - link "Contact" [ref=f39e521] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=5&action=edit
+                    - generic [ref=f39e522]:
+                      - generic [ref=f39e523]:
+                        - link "Edit “Contact”" [ref=f39e524] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=5&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e525]:
+                        - button "Quick edit “Contact” inline" [ref=f39e526] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e527]:
+                        - link "Move “Contact” to the Trash" [ref=f39e528] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=5&action=trash&_wpnonce=34393b413b
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Contact”" [ref=f39e530] [cursor=pointer]:
+                        - /url: http://localhost:8080/contact/
+                        - text: View
+                  - cell "(no author)" [ref=f39e531]:
+                    - text: —
+                    - generic [ref=f39e532]: (no author)
+                  - cell "No comments" [ref=f39e533]:
+                    - generic [ref=f39e534]:
+                      - text: —
+                      - generic [ref=f39e535]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e536]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Cookie Policy Cookie Policy Edit “Cookie Policy” | Quick edit “Cookie Policy” inline | Move “Cookie Policy” to the Trash | View “Cookie Policy” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e537]:
+                  - rowheader "Select Cookie Policy" [ref=f39e538]:
+                    - checkbox "Select Cookie Policy" [ref=f39e539] [cursor=pointer]
+                    - generic [ref=f39e541]: Select Cookie Policy
+                  - cell "Cookie Policy Edit “Cookie Policy” | Quick edit “Cookie Policy” inline | Move “Cookie Policy” to the Trash | View “Cookie Policy”" [ref=f39e542]:
+                    - strong [ref=f39e543]:
+                      - link "Cookie Policy" [ref=f39e544] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=21&action=edit
+                    - generic [ref=f39e545]:
+                      - generic [ref=f39e546]:
+                        - link "Edit “Cookie Policy”" [ref=f39e547] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=21&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e548]:
+                        - button "Quick edit “Cookie Policy” inline" [ref=f39e549] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e550]:
+                        - link "Move “Cookie Policy” to the Trash" [ref=f39e551] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=21&action=trash&_wpnonce=a8ef789b19
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Cookie Policy”" [ref=f39e553] [cursor=pointer]:
+                        - /url: http://localhost:8080/cookie-policy/
+                        - text: View
+                  - cell "(no author)" [ref=f39e554]:
+                    - text: —
+                    - generic [ref=f39e555]: (no author)
+                  - cell "No comments" [ref=f39e556]:
+                    - generic [ref=f39e557]:
+                      - text: —
+                      - generic [ref=f39e558]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e559]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Error 404 Error 404 Edit “Error 404” | Quick edit “Error 404” inline | Move “Error 404” to the Trash | View “Error 404” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e560]:
+                  - rowheader "Select Error 404" [ref=f39e561]:
+                    - checkbox "Select Error 404" [ref=f39e562] [cursor=pointer]
+                    - generic [ref=f39e564]: Select Error 404
+                  - cell "Error 404 Edit “Error 404” | Quick edit “Error 404” inline | Move “Error 404” to the Trash | View “Error 404”" [ref=f39e565]:
+                    - strong [ref=f39e566]:
+                      - link "Error 404" [ref=f39e567] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=19&action=edit
+                    - generic [ref=f39e568]:
+                      - generic [ref=f39e569]:
+                        - link "Edit “Error 404”" [ref=f39e570] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=19&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e571]:
+                        - button "Quick edit “Error 404” inline" [ref=f39e572] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e573]:
+                        - link "Move “Error 404” to the Trash" [ref=f39e574] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=19&action=trash&_wpnonce=6148ec880f
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Error 404”" [ref=f39e576] [cursor=pointer]:
+                        - /url: http://localhost:8080/error-404/
+                        - text: View
+                  - cell "(no author)" [ref=f39e577]:
+                    - text: —
+                    - generic [ref=f39e578]: (no author)
+                  - cell "No comments" [ref=f39e579]:
+                    - generic [ref=f39e580]:
+                      - text: —
+                      - generic [ref=f39e581]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e582]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select FAQ FAQ Edit “FAQ” | Quick edit “FAQ” inline | Move “FAQ” to the Trash | View “FAQ” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e583]:
+                  - rowheader "Select FAQ" [ref=f39e584]:
+                    - checkbox "Select FAQ" [ref=f39e585] [cursor=pointer]
+                    - generic [ref=f39e587]: Select FAQ
+                  - cell "FAQ Edit “FAQ” | Quick edit “FAQ” inline | Move “FAQ” to the Trash | View “FAQ”" [ref=f39e588]:
+                    - strong [ref=f39e589]:
+                      - link "FAQ" [ref=f39e590] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=12&action=edit
+                    - generic [ref=f39e591]:
+                      - generic [ref=f39e592]:
+                        - link "Edit “FAQ”" [ref=f39e593] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=12&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e594]:
+                        - button "Quick edit “FAQ” inline" [ref=f39e595] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e596]:
+                        - link "Move “FAQ” to the Trash" [ref=f39e597] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=12&action=trash&_wpnonce=90a6b01eb7
+                          - text: Trash
+                        - text: "|"
+                      - link "View “FAQ”" [ref=f39e599] [cursor=pointer]:
+                        - /url: http://localhost:8080/faq/
+                        - text: View
+                  - cell "(no author)" [ref=f39e600]:
+                    - text: —
+                    - generic [ref=f39e601]: (no author)
+                  - cell "No comments" [ref=f39e602]:
+                    - generic [ref=f39e603]:
+                      - text: —
+                      - generic [ref=f39e604]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e605]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Four Column Four Column Edit “Four Column” | Quick edit “Four Column” inline | Move “Four Column” to the Trash | View “Four Column” (no author) No comments Published 2026/07/16 at 7:44 am" [ref=f39e606]:
+                  - rowheader "Select Four Column" [ref=f39e607]:
+                    - checkbox "Select Four Column" [ref=f39e608] [cursor=pointer]
+                    - generic [ref=f39e610]: Select Four Column
+                  - cell "Four Column Edit “Four Column” | Quick edit “Four Column” inline | Move “Four Column” to the Trash | View “Four Column”" [ref=f39e611]:
+                    - strong [ref=f39e612]:
+                      - link "Four Column" [ref=f39e613] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=60&action=edit
+                    - generic [ref=f39e614]:
+                      - generic [ref=f39e615]:
+                        - link "Edit “Four Column”" [ref=f39e616] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=60&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e617]:
+                        - button "Quick edit “Four Column” inline" [ref=f39e618] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e619]:
+                        - link "Move “Four Column” to the Trash" [ref=f39e620] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=60&action=trash&_wpnonce=81d2e05a55
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Four Column”" [ref=f39e622] [cursor=pointer]:
+                        - /url: http://localhost:8080/four-column/
+                        - text: View
+                  - cell "(no author)" [ref=f39e623]:
+                    - text: —
+                    - generic [ref=f39e624]: (no author)
+                  - cell "No comments" [ref=f39e625]:
+                    - generic [ref=f39e626]:
+                      - text: —
+                      - generic [ref=f39e627]: No comments
+                  - cell "Published 2026/07/16 at 7:44 am" [ref=f39e628]:
+                    - text: Published
+                    - text: 2026/07/16 at 7:44 am
+                - row "Select Join Now Join Now Edit “Join Now” | Quick edit “Join Now” inline | Move “Join Now” to the Trash | View “Join Now” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e629]:
+                  - rowheader "Select Join Now" [ref=f39e630]:
+                    - checkbox "Select Join Now" [ref=f39e631] [cursor=pointer]
+                    - generic [ref=f39e633]: Select Join Now
+                  - cell "Join Now Edit “Join Now” | Quick edit “Join Now” inline | Move “Join Now” to the Trash | View “Join Now”" [ref=f39e634]:
+                    - strong [ref=f39e635]:
+                      - link "Join Now" [ref=f39e636] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=17&action=edit
+                    - generic [ref=f39e637]:
+                      - generic [ref=f39e638]:
+                        - link "Edit “Join Now”" [ref=f39e639] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=17&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e640]:
+                        - button "Quick edit “Join Now” inline" [ref=f39e641] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e642]:
+                        - link "Move “Join Now” to the Trash" [ref=f39e643] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=17&action=trash&_wpnonce=114f705213
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Join Now”" [ref=f39e645] [cursor=pointer]:
+                        - /url: http://localhost:8080/join-now/
+                        - text: View
+                  - cell "(no author)" [ref=f39e646]:
+                    - text: —
+                    - generic [ref=f39e647]: (no author)
+                  - cell "No comments" [ref=f39e648]:
+                    - generic [ref=f39e649]:
+                      - text: —
+                      - generic [ref=f39e650]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e651]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Load More Load More Edit “Load More” | Quick edit “Load More” inline | Move “Load More” to the Trash | View “Load More” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e652]:
+                  - rowheader "Select Load More" [ref=f39e653]:
+                    - checkbox "Select Load More" [ref=f39e654] [cursor=pointer]
+                    - generic [ref=f39e656]: Select Load More
+                  - cell "Load More Edit “Load More” | Quick edit “Load More” inline | Move “Load More” to the Trash | View “Load More”" [ref=f39e657]:
+                    - strong [ref=f39e658]:
+                      - link "Load More" [ref=f39e659] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=18&action=edit
+                    - generic [ref=f39e660]:
+                      - generic [ref=f39e661]:
+                        - link "Edit “Load More”" [ref=f39e662] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=18&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e663]:
+                        - button "Quick edit “Load More” inline" [ref=f39e664] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e665]:
+                        - link "Move “Load More” to the Trash" [ref=f39e666] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=18&action=trash&_wpnonce=047befd5d0
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Load More”" [ref=f39e668] [cursor=pointer]:
+                        - /url: http://localhost:8080/load-more/
+                        - text: View
+                  - cell "(no author)" [ref=f39e669]:
+                    - text: —
+                    - generic [ref=f39e670]: (no author)
+                  - cell "No comments" [ref=f39e671]:
+                    - generic [ref=f39e672]:
+                      - text: —
+                      - generic [ref=f39e673]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e674]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Login Login Edit “Login” | Quick edit “Login” inline | Move “Login” to the Trash | View “Login” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e675]:
+                  - rowheader "Select Login" [ref=f39e676]:
+                    - checkbox "Select Login" [ref=f39e677] [cursor=pointer]
+                    - generic [ref=f39e679]: Select Login
+                  - cell "Login Edit “Login” | Quick edit “Login” inline | Move “Login” to the Trash | View “Login”" [ref=f39e680]:
+                    - strong [ref=f39e681]:
+                      - link "Login" [ref=f39e682] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=15&action=edit
+                    - generic [ref=f39e683]:
+                      - generic [ref=f39e684]:
+                        - link "Edit “Login”" [ref=f39e685] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=15&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e686]:
+                        - button "Quick edit “Login” inline" [ref=f39e687] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e688]:
+                        - link "Move “Login” to the Trash" [ref=f39e689] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=15&action=trash&_wpnonce=63a8ccf597
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Login”" [ref=f39e691] [cursor=pointer]:
+                        - /url: http://localhost:8080/login/
+                        - text: View
+                  - cell "(no author)" [ref=f39e692]:
+                    - text: —
+                    - generic [ref=f39e693]: (no author)
+                  - cell "No comments" [ref=f39e694]:
+                    - generic [ref=f39e695]:
+                      - text: —
+                      - generic [ref=f39e696]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e697]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select My account My account — My Account Page Edit “My account” | Quick edit “My account” inline | Move “My account” to the Trash | View “My account” admin No comments Published 2026/07/15 at 12:14 pm" [ref=f39e698]:
+                  - rowheader "Select My account" [ref=f39e699]:
+                    - checkbox "Select My account" [ref=f39e700] [cursor=pointer]
+                    - generic [ref=f39e702]: Select My account
+                  - cell "My account — My Account Page Edit “My account” | Quick edit “My account” inline | Move “My account” to the Trash | View “My account”" [ref=f39e703]:
+                    - strong [ref=f39e704]:
+                      - link "My account" [ref=f39e705] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=37&action=edit
+                      - text: — My Account Page
+                    - generic [ref=f39e706]:
+                      - generic [ref=f39e707]:
+                        - link "Edit “My account”" [ref=f39e708] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=37&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e709]:
+                        - button "Quick edit “My account” inline" [ref=f39e710] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e711]:
+                        - link "Move “My account” to the Trash" [ref=f39e712] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=37&action=trash&_wpnonce=ca45ec87f2
+                          - text: Trash
+                        - text: "|"
+                      - link "View “My account”" [ref=f39e714] [cursor=pointer]:
+                        - /url: http://localhost:8080/my-account/
+                        - text: View
+                  - cell "admin" [ref=f39e715]:
+                    - link "admin" [ref=f39e716] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "No comments" [ref=f39e717]:
+                    - generic [ref=f39e718]:
+                      - text: —
+                      - generic [ref=f39e719]: No comments
+                  - cell "Published 2026/07/15 at 12:14 pm" [ref=f39e720]:
+                    - text: Published
+                    - text: 2026/07/15 at 12:14 pm
+                - row "Select One Column One Column Edit “One Column” | Quick edit “One Column” inline | Move “One Column” to the Trash | View “One Column” (no author) No comments Published 2026/07/16 at 7:44 am" [ref=f39e721]:
+                  - rowheader "Select One Column" [ref=f39e722]:
+                    - checkbox "Select One Column" [ref=f39e723] [cursor=pointer]
+                    - generic [ref=f39e725]: Select One Column
+                  - cell "One Column Edit “One Column” | Quick edit “One Column” inline | Move “One Column” to the Trash | View “One Column”" [ref=f39e726]:
+                    - strong [ref=f39e727]:
+                      - link "One Column" [ref=f39e728] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=56&action=edit
+                    - generic [ref=f39e729]:
+                      - generic [ref=f39e730]:
+                        - link "Edit “One Column”" [ref=f39e731] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=56&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e732]:
+                        - button "Quick edit “One Column” inline" [ref=f39e733] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e734]:
+                        - link "Move “One Column” to the Trash" [ref=f39e735] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=56&action=trash&_wpnonce=c8ad09c820
+                          - text: Trash
+                        - text: "|"
+                      - link "View “One Column”" [ref=f39e737] [cursor=pointer]:
+                        - /url: http://localhost:8080/one-column/
+                        - text: View
+                  - cell "(no author)" [ref=f39e738]:
+                    - text: —
+                    - generic [ref=f39e739]: (no author)
+                  - cell "No comments" [ref=f39e740]:
+                    - generic [ref=f39e741]:
+                      - text: —
+                      - generic [ref=f39e742]: No comments
+                  - cell "Published 2026/07/16 at 7:44 am" [ref=f39e743]:
+                    - text: Published
+                    - text: 2026/07/16 at 7:44 am
+                - row "Select Privacy Policy Privacy Policy — Draft, Privacy Policy Page Edit “Privacy Policy” | Quick edit “Privacy Policy” inline | Move “Privacy Policy” to the Trash | Preview “Privacy Policy” admin No comments Last Modified 2026/07/15 at 6:36 am" [ref=f39e744]:
+                  - rowheader "Select Privacy Policy" [ref=f39e745]:
+                    - checkbox "Select Privacy Policy" [ref=f39e746] [cursor=pointer]
+                    - generic [ref=f39e748]: Select Privacy Policy
+                  - cell "Privacy Policy — Draft, Privacy Policy Page Edit “Privacy Policy” | Quick edit “Privacy Policy” inline | Move “Privacy Policy” to the Trash | Preview “Privacy Policy”" [ref=f39e749]:
+                    - strong [ref=f39e750]:
+                      - link "Privacy Policy" [ref=f39e751] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=3&action=edit
+                      - text: — Draft, Privacy Policy Page
+                    - generic [ref=f39e752]:
+                      - generic [ref=f39e753]:
+                        - link "Edit “Privacy Policy”" [ref=f39e754] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=3&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e755]:
+                        - button "Quick edit “Privacy Policy” inline" [ref=f39e756] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e757]:
+                        - link "Move “Privacy Policy” to the Trash" [ref=f39e758] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=3&action=trash&_wpnonce=ac972e7ed7
+                          - text: Trash
+                        - text: "|"
+                      - link "Preview “Privacy Policy”" [ref=f39e760] [cursor=pointer]:
+                        - /url: http://localhost:8080/?page_id=3&preview=true
+                        - text: Preview
+                  - cell "admin" [ref=f39e761]:
+                    - link "admin" [ref=f39e762] [cursor=pointer]:
+                      - /url: edit.php?post_type=page&author=1
+                  - cell "No comments" [ref=f39e763]:
+                    - generic [ref=f39e764]:
+                      - text: —
+                      - generic [ref=f39e765]: No comments
+                  - cell "Last Modified 2026/07/15 at 6:36 am" [ref=f39e766]:
+                    - text: Last Modified
+                    - text: 2026/07/15 at 6:36 am
+                - row "Select Privacy Policy Privacy Policy Edit “Privacy Policy” | Quick edit “Privacy Policy” inline | Move “Privacy Policy” to the Trash | View “Privacy Policy” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e767]:
+                  - rowheader "Select Privacy Policy" [ref=f39e768]:
+                    - checkbox "Select Privacy Policy" [ref=f39e769] [cursor=pointer]
+                    - generic [ref=f39e771]: Select Privacy Policy
+                  - cell "Privacy Policy Edit “Privacy Policy” | Quick edit “Privacy Policy” inline | Move “Privacy Policy” to the Trash | View “Privacy Policy”" [ref=f39e772]:
+                    - strong [ref=f39e773]:
+                      - link "Privacy Policy" [ref=f39e774] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=11&action=edit
+                    - generic [ref=f39e775]:
+                      - generic [ref=f39e776]:
+                        - link "Edit “Privacy Policy”" [ref=f39e777] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=11&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e778]:
+                        - button "Quick edit “Privacy Policy” inline" [ref=f39e779] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e780]:
+                        - link "Move “Privacy Policy” to the Trash" [ref=f39e781] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=11&action=trash&_wpnonce=475d92958f
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Privacy Policy”" [ref=f39e783] [cursor=pointer]:
+                        - /url: http://localhost:8080/privacy-policy-2/
+                        - text: View
+                  - cell "(no author)" [ref=f39e784]:
+                    - text: —
+                    - generic [ref=f39e785]: (no author)
+                  - cell "No comments" [ref=f39e786]:
+                    - generic [ref=f39e787]:
+                      - text: —
+                      - generic [ref=f39e788]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e789]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+                - row "Select Product Detail Product Detail Edit “Product Detail” | Quick edit “Product Detail” inline | Move “Product Detail” to the Trash | View “Product Detail” (no author) No comments Published 2026/07/15 at 9:04 am" [ref=f39e790]:
+                  - rowheader "Select Product Detail" [ref=f39e791]:
+                    - checkbox "Select Product Detail" [ref=f39e792] [cursor=pointer]
+                    - generic [ref=f39e794]: Select Product Detail
+                  - cell "Product Detail Edit “Product Detail” | Quick edit “Product Detail” inline | Move “Product Detail” to the Trash | View “Product Detail”" [ref=f39e795]:
+                    - strong [ref=f39e796]:
+                      - link "Product Detail" [ref=f39e797] [cursor=pointer]:
+                        - /url: http://localhost:8080/wp-admin/post.php?post=22&action=edit
+                    - generic [ref=f39e798]:
+                      - generic [ref=f39e799]:
+                        - link "Edit “Product Detail”" [ref=f39e800] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=22&action=edit
+                          - text: Edit
+                        - text: "|"
+                      - generic [ref=f39e801]:
+                        - button "Quick edit “Product Detail” inline" [ref=f39e802] [cursor=pointer]: Quick Edit
+                        - text: "|"
+                      - generic [ref=f39e803]:
+                        - link "Move “Product Detail” to the Trash" [ref=f39e804] [cursor=pointer]:
+                          - /url: http://localhost:8080/wp-admin/post.php?post=22&action=trash&_wpnonce=1439cce9b9
+                          - text: Trash
+                        - text: "|"
+                      - link "View “Product Detail”" [ref=f39e806] [cursor=pointer]:
+                        - /url: http://localhost:8080/product-detail/
+                        - text: View
+                  - cell "(no author)" [ref=f39e807]:
+                    - text: —
+                    - generic [ref=f39e808]: (no author)
+                  - cell "No comments" [ref=f39e809]:
+                    - generic [ref=f39e810]:
+                      - text: —
+                      - generic [ref=f39e811]: No comments
+                  - cell "Published 2026/07/15 at 9:04 am" [ref=f39e812]:
+                    - text: Published
+                    - text: 2026/07/15 at 9:04 am
+              - rowgroup [ref=f39e813]:
+                - row "Select All Title Author Comments Sort ascending. Date Sort descending." [ref=f39e814]:
+                  - cell "Select All" [ref=f39e815]:
+                    - checkbox "Select All" [ref=f39e816] [cursor=pointer]
+                    - generic [ref=f39e818]: Select All
+                  - columnheader "Title" [ref=f39e819]:
+                    - link "Title" [ref=f39e820] [cursor=pointer]:
+                      - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&orderby=title&order=desc
+                      - generic [ref=f39e821]: Title
+                  - columnheader "Author" [ref=f39e825]
+                  - columnheader "Comments Sort ascending." [ref=f39e826]:
+                    - link "Comments Sort ascending." [ref=f39e827] [cursor=pointer]:
+                      - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&orderby=comment_count&order=asc
+                      - generic [ref=f39e830]: Comments
+                      - generic [ref=f39e834]: Sort ascending.
+                  - columnheader "Date Sort descending." [ref=f39e835]:
+                    - link "Date Sort descending." [ref=f39e836] [cursor=pointer]:
+                      - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&orderby=date&order=desc
+                      - generic [ref=f39e837]: Date
+                      - generic [ref=f39e841]: Sort descending.
+            - generic [ref=f39e842]:
+              - generic [ref=f39e843]:
+                - generic [ref=f39e844]: Select bulk action
+                - combobox "Select bulk action" [ref=f39e845] [cursor=pointer]:
+                  - option "Bulk actions" [selected]
+                  - option "Bulk edit"
+                  - option "Move to Trash"
+                - button "Apply" [ref=f39e846] [cursor=pointer]
+              - generic [ref=f39e847]:
+                - text: 32 items
+                - generic [ref=f39e848]:
+                  - generic [ref=f39e849]: «
+                  - generic [ref=f39e850]: ‹
+                  - generic [ref=f39e851]: Current Page
+                  - generic [ref=f39e853]: 1 of 2
+                  - link "Next page" [ref=f39e854] [cursor=pointer]:
+                    - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&paged=2
+                    - generic [ref=f39e855]: Next page
+                    - text: ›
+                  - link "Last page" [ref=f39e856] [cursor=pointer]:
+                    - /url: http://localhost:8080/wp-admin/edit.php?post_type=page&paged=2
+                    - generic [ref=f39e857]: Last page
+                    - text: »
+  - contentinfo [ref=f39e858]:
+    - paragraph [ref=f39e859]:
+      - generic [ref=f39e860]:
+        - text: Thank you for creating with
+        - link "WordPress" [ref=f39e861] [cursor=pointer]:
+          - /url: https://wordpress.org/
+        - text: .
+    - paragraph [ref=f39e862]: Version 7.0.1

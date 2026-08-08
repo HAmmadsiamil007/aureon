@@ -1,0 +1,634 @@
+- generic [ref=f4e2]:
+  - navigation "Main menu":
+    - link "Skip to main content" [ref=f4e3] [cursor=pointer]:
+      - /url: "#wpbody-content"
+    - link "Skip to toolbar" [ref=f4e4] [cursor=pointer]:
+      - /url: "#wp-toolbar"
+    - list [ref=f4e7]:
+      - listitem [ref=f4e8]:
+        - link "Dashboard" [ref=f4e9] [cursor=pointer]:
+          - /url: index.php
+          - generic [ref=f4e10]: 
+          - generic [ref=f4e11]: Dashboard
+        - list [ref=f4e12]:
+          - listitem [ref=f4e13]:
+            - link "Home" [ref=f4e14] [cursor=pointer]:
+              - /url: index.php
+          - listitem [ref=f4e15]:
+            - link "Updates 5" [ref=f4e16] [cursor=pointer]:
+              - /url: update-core.php
+              - text: Updates
+              - generic [ref=f4e17]: "5"
+      - listitem [ref=f4e18]:
+        - link "Optix Options" [ref=f4e19] [cursor=pointer]:
+          - /url: admin.php?page=optix-theme-options
+          - generic [ref=f4e20]: 
+          - generic [ref=f4e21]: Optix Options
+        - list [ref=f4e22]:
+          - listitem [ref=f4e23]:
+            - link "Optix Options" [ref=f4e24] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options
+          - listitem [ref=f4e25]:
+            - link "General" [ref=f4e26] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-general
+          - listitem [ref=f4e27]:
+            - link "Header" [ref=f4e28] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-header
+          - listitem [ref=f4e29]:
+            - link "Top Bar" [ref=f4e30] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-topbar
+          - listitem [ref=f4e31]:
+            - link "Footer" [ref=f4e32] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-footer
+          - listitem [ref=f4e33]:
+            - link "Typography" [ref=f4e34] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-typography
+          - listitem [ref=f4e35]:
+            - link "Colors" [ref=f4e36] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-colors
+          - listitem [ref=f4e37]:
+            - link "Home Page" [ref=f4e38] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-home-page
+          - listitem [ref=f4e39]:
+            - link "About Page" [ref=f4e40] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-about-page
+          - listitem [ref=f4e41]:
+            - link "Blog" [ref=f4e42] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-blog
+          - listitem [ref=f4e43]:
+            - link "Contact" [ref=f4e44] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-contact
+          - listitem [ref=f4e45]:
+            - link "Shop" [ref=f4e46] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-shop
+          - listitem [ref=f4e47]:
+            - link "Product Detail" [ref=f4e48] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-product-detail
+          - listitem [ref=f4e49]:
+            - link "Cart & Checkout" [ref=f4e50] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-cart-checkout
+          - listitem [ref=f4e51]:
+            - link "Other Pages" [ref=f4e52] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-pages
+          - listitem [ref=f4e53]:
+            - link "Animations" [ref=f4e54] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-animations
+          - listitem [ref=f4e55]:
+            - link "Advanced" [ref=f4e56] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-advanced
+          - listitem [ref=f4e57]:
+            - link "Import / Export" [ref=f4e58] [cursor=pointer]:
+              - /url: admin.php?page=optix-theme-options-import-export
+      - listitem [ref=f4e59]
+      - listitem [ref=f4e61]:
+        - link "Posts" [ref=f4e62] [cursor=pointer]:
+          - /url: edit.php
+          - generic [ref=f4e63]: 
+          - generic [ref=f4e64]: Posts
+        - list [ref=f4e65]:
+          - listitem [ref=f4e66]:
+            - link "All Posts" [ref=f4e67] [cursor=pointer]:
+              - /url: edit.php
+          - listitem [ref=f4e68]:
+            - link "Add Post" [ref=f4e69] [cursor=pointer]:
+              - /url: post-new.php
+          - listitem [ref=f4e70]:
+            - link "Categories" [ref=f4e71] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=category
+          - listitem [ref=f4e72]:
+            - link "Tags" [ref=f4e73] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=post_tag
+      - listitem [ref=f4e74]:
+        - link "Projects" [ref=f4e75] [cursor=pointer]:
+          - /url: edit.php?post_type=portfolio
+          - generic [ref=f4e76]: 
+          - generic [ref=f4e77]: Projects
+        - list [ref=f4e78]:
+          - listitem [ref=f4e79]:
+            - link "All Projects" [ref=f4e80] [cursor=pointer]:
+              - /url: edit.php?post_type=portfolio
+          - listitem [ref=f4e81]:
+            - link "Add New Project" [ref=f4e82] [cursor=pointer]:
+              - /url: post-new.php?post_type=portfolio
+          - listitem [ref=f4e83]:
+            - link "Categories" [ref=f4e84] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=portfolio_category&post_type=portfolio
+      - listitem [ref=f4e85]:
+        - link "Media" [ref=f4e86] [cursor=pointer]:
+          - /url: upload.php
+          - generic [ref=f4e87]: 
+          - generic [ref=f4e88]: Media
+        - list [ref=f4e89]:
+          - listitem [ref=f4e90]:
+            - link "Library" [ref=f4e91] [cursor=pointer]:
+              - /url: upload.php
+          - listitem [ref=f4e92]:
+            - link "Add Media File" [ref=f4e93] [cursor=pointer]:
+              - /url: media-new.php
+      - listitem [ref=f4e94]:
+        - link "Pages" [ref=f4e95] [cursor=pointer]:
+          - /url: edit.php?post_type=page
+          - generic [ref=f4e96]: 
+          - generic [ref=f4e97]: Pages
+        - list [ref=f4e98]:
+          - listitem [ref=f4e99]:
+            - link "All Pages" [ref=f4e100] [cursor=pointer]:
+              - /url: edit.php?post_type=page
+          - listitem [ref=f4e101]:
+            - link "Add Page" [ref=f4e102] [cursor=pointer]:
+              - /url: post-new.php?post_type=page
+      - listitem [ref=f4e103]:
+        - link "Comments" [ref=f4e104] [cursor=pointer]:
+          - /url: edit-comments.php
+          - generic [ref=f4e105]: 
+          - generic [ref=f4e106]: Comments
+      - listitem [ref=f4e107]
+      - listitem [ref=f4e109]:
+        - link "WooCommerce" [ref=f4e110] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin
+          - generic [ref=f4e112]: WooCommerce
+        - list [ref=f4e113]:
+          - listitem [ref=f4e114]:
+            - link "Home 6" [ref=f4e115] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin
+              - text: Home
+              - generic [ref=f4e116]: "6"
+          - listitem [ref=f4e117]:
+            - link "Orders" [ref=f4e118] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_order
+          - listitem [ref=f4e119]:
+            - link "Customers" [ref=f4e120] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/customers
+          - listitem [ref=f4e121]:
+            - link "Coupons" [ref=f4e122] [cursor=pointer]:
+              - /url: admin.php?page=coupons-moved
+          - listitem [ref=f4e123]:
+            - link "Reports" [ref=f4e124] [cursor=pointer]:
+              - /url: admin.php?page=wc-reports
+          - listitem [ref=f4e125]:
+            - link "Settings" [ref=f4e126] [cursor=pointer]:
+              - /url: admin.php?page=wc-settings
+          - listitem [ref=f4e127]:
+            - link "Status" [ref=f4e128] [cursor=pointer]:
+              - /url: admin.php?page=wc-status
+          - listitem [ref=f4e129]:
+            - link "Extensions" [ref=f4e130] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/extensions
+      - listitem [ref=f4e131]:
+        - link "Products" [ref=f4e132] [cursor=pointer]:
+          - /url: edit.php?post_type=product
+          - generic [ref=f4e133]: 
+          - generic [ref=f4e134]: Products
+        - list [ref=f4e135]:
+          - listitem [ref=f4e136]:
+            - link "All Products" [ref=f4e137] [cursor=pointer]:
+              - /url: edit.php?post_type=product
+          - listitem [ref=f4e138]:
+            - link "Add new product" [ref=f4e139] [cursor=pointer]:
+              - /url: post-new.php?post_type=product
+          - listitem [ref=f4e140]:
+            - link "Brands" [ref=f4e141] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_brand&post_type=product
+          - listitem [ref=f4e142]:
+            - link "Categories" [ref=f4e143] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_cat&post_type=product
+          - listitem [ref=f4e144]:
+            - link "Tags" [ref=f4e145] [cursor=pointer]:
+              - /url: edit-tags.php?taxonomy=product_tag&post_type=product
+          - listitem [ref=f4e146]:
+            - link "Attributes" [ref=f4e147] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product_attributes
+          - listitem [ref=f4e148]:
+            - link "Reviews" [ref=f4e149] [cursor=pointer]:
+              - /url: edit.php?post_type=product&page=product-reviews
+      - listitem [ref=f4e150]:
+        - link "Payments 1" [ref=f4e151] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/wc-pay-welcome-page
+          - generic [ref=f4e153]:
+            - text: Payments
+            - generic [ref=f4e154]: "1"
+      - listitem [ref=f4e155]:
+        - link "Analytics" [ref=f4e156] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - generic [ref=f4e157]: 
+          - generic [ref=f4e158]: Analytics
+        - list [ref=f4e159]:
+          - listitem [ref=f4e160]:
+            - link "Overview" [ref=f4e161] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/overview
+          - listitem [ref=f4e162]:
+            - link "Products" [ref=f4e163] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/products
+          - listitem [ref=f4e164]:
+            - link "Revenue" [ref=f4e165] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/revenue
+          - listitem [ref=f4e166]:
+            - link "Orders" [ref=f4e167] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/orders
+          - listitem [ref=f4e168]:
+            - link "Variations" [ref=f4e169] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/variations
+          - listitem [ref=f4e170]:
+            - link "Categories" [ref=f4e171] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/categories
+          - listitem [ref=f4e172]:
+            - link "Coupons" [ref=f4e173] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/coupons
+          - listitem [ref=f4e174]:
+            - link "Taxes" [ref=f4e175] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/taxes
+          - listitem [ref=f4e176]:
+            - link "Downloads" [ref=f4e177] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/downloads
+          - listitem [ref=f4e178]:
+            - link "Stock" [ref=f4e179] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/stock
+          - listitem [ref=f4e180]:
+            - link "Settings" [ref=f4e181] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/analytics/settings
+      - listitem [ref=f4e182]:
+        - link "Marketing" [ref=f4e183] [cursor=pointer]:
+          - /url: admin.php?page=wc-admin&path=/marketing
+          - generic [ref=f4e184]: 
+          - generic [ref=f4e185]: Marketing
+        - list [ref=f4e186]:
+          - listitem [ref=f4e187]:
+            - link "Overview" [ref=f4e188] [cursor=pointer]:
+              - /url: admin.php?page=wc-admin&path=/marketing
+          - listitem [ref=f4e189]:
+            - link "Coupons" [ref=f4e190] [cursor=pointer]:
+              - /url: edit.php?post_type=shop_coupon
+      - listitem [ref=f4e191]
+      - listitem [ref=f4e193]:
+        - link "Appearance" [ref=f4e194] [cursor=pointer]:
+          - /url: themes.php
+          - generic [ref=f4e195]: 
+          - generic [ref=f4e196]: Appearance
+        - list [ref=f4e197]:
+          - listitem [ref=f4e198]:
+            - link "Themes 3" [ref=f4e199] [cursor=pointer]:
+              - /url: themes.php
+              - text: Themes
+              - generic [ref=f4e200]: "3"
+          - listitem [ref=f4e201]:
+            - link "Design" [ref=f4e202] [cursor=pointer]:
+              - /url: site-editor.php
+          - listitem [ref=f4e203]:
+            - link "Customize" [ref=f4e204] [cursor=pointer]:
+              - /url: customize.php?return=%2Fwp-admin%2Fnav-menus.php
+          - listitem [ref=f4e205]:
+            - link "Widgets" [ref=f4e206] [cursor=pointer]:
+              - /url: widgets.php
+          - listitem [ref=f4e207]:
+            - link "Fonts" [ref=f4e208] [cursor=pointer]:
+              - /url: font-library.php
+          - listitem [ref=f4e209]:
+            - link "Menus" [ref=f4e210] [cursor=pointer]:
+              - /url: nav-menus.php
+          - listitem [ref=f4e211]:
+            - link "Theme File Editor" [ref=f4e212] [cursor=pointer]:
+              - /url: theme-editor.php
+      - listitem [ref=f4e213]:
+        - link "Plugins 2" [ref=f4e214] [cursor=pointer]:
+          - /url: plugins.php
+          - generic [ref=f4e215]: 
+          - generic [ref=f4e216]:
+            - text: Plugins
+            - generic [ref=f4e217]: "2"
+        - list [ref=f4e218]:
+          - listitem [ref=f4e219]:
+            - link "Installed Plugins" [ref=f4e220] [cursor=pointer]:
+              - /url: plugins.php
+          - listitem [ref=f4e221]:
+            - link "Add Plugin" [ref=f4e222] [cursor=pointer]:
+              - /url: plugin-install.php
+          - listitem [ref=f4e223]:
+            - link "Plugin File Editor" [ref=f4e224] [cursor=pointer]:
+              - /url: plugin-editor.php
+      - listitem [ref=f4e225]:
+        - link "Users" [ref=f4e226] [cursor=pointer]:
+          - /url: users.php
+          - generic [ref=f4e227]: 
+          - generic [ref=f4e228]: Users
+        - list [ref=f4e229]:
+          - listitem [ref=f4e230]:
+            - link "All Users" [ref=f4e231] [cursor=pointer]:
+              - /url: users.php
+          - listitem [ref=f4e232]:
+            - link "Add User" [ref=f4e233] [cursor=pointer]:
+              - /url: user-new.php
+          - listitem [ref=f4e234]:
+            - link "Profile" [ref=f4e235] [cursor=pointer]:
+              - /url: profile.php
+      - listitem [ref=f4e236]:
+        - link "Tools" [ref=f4e237] [cursor=pointer]:
+          - /url: tools.php
+          - generic [ref=f4e238]: 
+          - generic [ref=f4e239]: Tools
+        - list [ref=f4e240]:
+          - listitem [ref=f4e241]:
+            - link "Available Tools" [ref=f4e242] [cursor=pointer]:
+              - /url: tools.php
+          - listitem [ref=f4e243]:
+            - link "Import" [ref=f4e244] [cursor=pointer]:
+              - /url: import.php
+          - listitem [ref=f4e245]:
+            - link "Export" [ref=f4e246] [cursor=pointer]:
+              - /url: export.php
+          - listitem [ref=f4e247]:
+            - link "Site Health" [ref=f4e248] [cursor=pointer]:
+              - /url: site-health.php
+          - listitem [ref=f4e249]:
+            - link "Export Personal Data" [ref=f4e250] [cursor=pointer]:
+              - /url: export-personal-data.php
+          - listitem [ref=f4e251]:
+            - link "Erase Personal Data" [ref=f4e252] [cursor=pointer]:
+              - /url: erase-personal-data.php
+          - listitem [ref=f4e253]:
+            - link "Optix Import/Export" [ref=f4e254] [cursor=pointer]:
+              - /url: tools.php?page=optix-import-export
+          - listitem [ref=f4e255]:
+            - link "Scheduled Actions" [ref=f4e256] [cursor=pointer]:
+              - /url: tools.php?page=action-scheduler
+      - listitem [ref=f4e257]:
+        - link "Settings" [ref=f4e258] [cursor=pointer]:
+          - /url: options-general.php
+          - generic [ref=f4e259]: 
+          - generic [ref=f4e260]: Settings
+        - list [ref=f4e261]:
+          - listitem [ref=f4e262]:
+            - link "General" [ref=f4e263] [cursor=pointer]:
+              - /url: options-general.php
+          - listitem [ref=f4e264]:
+            - link "Connectors" [ref=f4e265] [cursor=pointer]:
+              - /url: options-connectors.php
+          - listitem [ref=f4e266]:
+            - link "Writing" [ref=f4e267] [cursor=pointer]:
+              - /url: options-writing.php
+          - listitem [ref=f4e268]:
+            - link "Reading" [ref=f4e269] [cursor=pointer]:
+              - /url: options-reading.php
+          - listitem [ref=f4e270]:
+            - link "Discussion" [ref=f4e271] [cursor=pointer]:
+              - /url: options-discussion.php
+          - listitem [ref=f4e272]:
+            - link "Media" [ref=f4e273] [cursor=pointer]:
+              - /url: options-media.php
+          - listitem [ref=f4e274]:
+            - link "Permalinks" [ref=f4e275] [cursor=pointer]:
+              - /url: options-permalink.php
+          - listitem [ref=f4e276]:
+            - link "Privacy" [ref=f4e277] [cursor=pointer]:
+              - /url: options-privacy.php
+          - listitem [ref=f4e278]:
+            - link "Optix Framework" [ref=f4e279] [cursor=pointer]:
+              - /url: options-general.php?page=optix-framework
+      - listitem [ref=f4e280]:
+        - button "Collapse Main menu" [expanded] [ref=f4e281] [cursor=pointer]:
+          - generic [ref=f4e283]: Collapse Menu
+  - generic [ref=f4e284]:
+    - generic [ref=f4e285]:
+      - navigation "Toolbar":
+        - menu:
+          - group [ref=f4e286]:
+            - menuitem "About WordPress" [ref=f4e287] [cursor=pointer]:
+              - generic [ref=f4e289]: About WordPress
+          - group [ref=f4e290]:
+            - menuitem "Claudia Kids Collection" [ref=f4e291] [cursor=pointer]
+          - group [ref=f4e292]:
+            - menuitem "Live" [ref=f4e293] [cursor=pointer]
+          - group [ref=f4e294]:
+            - menuitem "5 updates available" [ref=f4e295] [cursor=pointer]:
+              - generic [ref=f4e297]: "5"
+              - generic [ref=f4e298]: 5 updates available
+          - group [ref=f4e299]:
+            - menuitem "Ctrl+K Open command palette" [ref=f4e300] [cursor=pointer]:
+              - generic [ref=f4e302]:
+                - text: Ctrl+K
+                - generic [ref=f4e303]: Open command palette
+          - group [ref=f4e304]:
+            - menuitem "0 Comments in moderation" [ref=f4e305] [cursor=pointer]:
+              - generic [ref=f4e307]: "0"
+              - generic [ref=f4e308]: 0 Comments in moderation
+          - group [ref=f4e309]:
+            - menuitem "New" [ref=f4e310] [cursor=pointer]:
+              - generic [ref=f4e312]: New
+        - menu [ref=f4e313]:
+          - group [ref=f4e314]:
+            - menuitem "Howdy, admin" [ref=f4e315] [cursor=pointer]
+    - main [ref=f4e316]:
+      - generic [ref=f4e317]:
+        - generic [ref=f4e318]:
+          - button "Screen Options" [ref=f4e320] [cursor=pointer]
+          - button "Help" [ref=f4e322] [cursor=pointer]
+        - generic [ref=f4e323]:
+          - heading "Menus" [level=1] [ref=f4e324]
+          - link "Manage with Live Preview" [ref=f4e325] [cursor=pointer]:
+            - /url: http://localhost:8080/wp-admin/customize.php?autofocus%5Bpanel%5D=nav_menus&return=%2Fwp-admin%2Fnav-menus.php
+          - navigation "Secondary menu" [ref=f4e326]:
+            - link "Edit Menus" [ref=f4e327] [cursor=pointer]:
+              - /url: http://localhost:8080/wp-admin/nav-menus.php
+            - link "Manage Locations" [ref=f4e328] [cursor=pointer]:
+              - /url: http://localhost:8080/wp-admin/nav-menus.php?action=locations
+          - generic [ref=f4e330]:
+            - text: Edit your menu below, or
+            - link "create a new menu" [ref=f4e331] [cursor=pointer]:
+              - /url: http://localhost:8080/wp-admin/nav-menus.php?action=edit&menu=0
+            - text: . Do not forget to save your changes!
+            - generic [ref=f4e332]: Click the Save Menu button to save your changes.
+          - generic [ref=f4e333]:
+            - generic [ref=f4e335]:
+              - heading "Add menu items" [level=2] [ref=f4e336]
+              - list [ref=f4e338]:
+                - listitem [ref=f4e339]:
+                  - heading "Pages" [level=3] [ref=f4e340] [cursor=pointer]:
+                    - button "Pages" [expanded] [ref=f4e341]:
+                      - generic [ref=f4e342]:
+                        - text: Pages
+                        - generic [ref=f4e343]: 
+                  - generic [ref=f4e346]:
+                    - list [ref=f4e347]:
+                      - listitem [ref=f4e348]:
+                        - link "Most Recent" [ref=f4e349] [cursor=pointer]:
+                          - /url: /wp-admin/nav-menus.php?page-tab=most-recent#tabs-panel-posttype-page-most-recent
+                      - listitem [ref=f4e350]:
+                        - link "View All" [ref=f4e351] [cursor=pointer]:
+                          - /url: /wp-admin/nav-menus.php?page-tab=all#page-all
+                      - listitem [ref=f4e352]:
+                        - link "Search" [ref=f4e353] [cursor=pointer]:
+                          - /url: /wp-admin/nav-menus.php?page-tab=search#tabs-panel-posttype-page-search
+                    - region "Most Recent" [ref=f4e354]:
+                      - list [ref=f4e355]:
+                        - listitem [ref=f4e356]:
+                          - generic [ref=f4e357]:
+                            - checkbox "My account — My Account Page" [ref=f4e358] [cursor=pointer]
+                            - text: My account — My Account Page
+                        - listitem [ref=f4e359]:
+                          - generic [ref=f4e360]:
+                            - checkbox "Checkout — Checkout Page" [ref=f4e361] [cursor=pointer]
+                            - text: Checkout — Checkout Page
+                        - listitem [ref=f4e362]:
+                          - generic [ref=f4e363]:
+                            - checkbox "Cart — Cart Page" [ref=f4e364] [cursor=pointer]
+                            - text: Cart — Cart Page
+                        - listitem [ref=f4e365]:
+                          - generic [ref=f4e366]:
+                            - checkbox "Product Detail" [ref=f4e367] [cursor=pointer]
+                            - text: Product Detail
+                        - listitem [ref=f4e368]:
+                          - generic [ref=f4e369]:
+                            - checkbox "Cookie Policy" [ref=f4e370] [cursor=pointer]
+                            - text: Cookie Policy
+                        - listitem [ref=f4e371]:
+                          - generic [ref=f4e372]:
+                            - checkbox "Terms of Use" [ref=f4e373] [cursor=pointer]
+                            - text: Terms of Use
+                        - listitem [ref=f4e374]:
+                          - generic [ref=f4e375]:
+                            - checkbox "Error 404" [ref=f4e376] [cursor=pointer]
+                            - text: Error 404
+                        - listitem [ref=f4e377]:
+                          - generic [ref=f4e378]:
+                            - checkbox "Load More" [ref=f4e379] [cursor=pointer]
+                            - text: Load More
+                        - listitem [ref=f4e380]:
+                          - generic [ref=f4e381]:
+                            - checkbox "Join Now" [ref=f4e382] [cursor=pointer]
+                            - text: Join Now
+                        - listitem [ref=f4e383]:
+                          - generic [ref=f4e384]:
+                            - checkbox "Thank You" [ref=f4e385] [cursor=pointer]
+                            - text: Thank You
+                        - listitem [ref=f4e386]:
+                          - generic [ref=f4e387]:
+                            - checkbox "Login" [ref=f4e388] [cursor=pointer]
+                            - text: Login
+                        - listitem [ref=f4e389]:
+                          - generic [ref=f4e390]:
+                            - checkbox "Coming Soon" [ref=f4e391] [cursor=pointer]
+                            - text: Coming Soon
+                        - listitem [ref=f4e392]:
+                          - generic [ref=f4e393]:
+                            - checkbox "Team" [ref=f4e394] [cursor=pointer]
+                            - text: Team
+                        - listitem [ref=f4e395]:
+                          - generic [ref=f4e396]:
+                            - checkbox "FAQ" [ref=f4e397] [cursor=pointer]
+                            - text: FAQ
+                        - listitem [ref=f4e398]:
+                          - generic [ref=f4e399]:
+                            - checkbox "Privacy Policy" [ref=f4e400] [cursor=pointer]
+                            - text: Privacy Policy
+                    - paragraph [ref=f4e401]:
+                      - generic [ref=f4e402]:
+                        - checkbox "Select All" [ref=f4e403] [cursor=pointer]
+                        - text: Select All
+                      - button "Add to Menu" [ref=f4e405] [cursor=pointer]
+                - listitem [ref=f4e406]:
+                  - heading "Posts" [level=3] [ref=f4e407] [cursor=pointer]:
+                    - button "Posts" [ref=f4e408]:
+                      - generic [ref=f4e409]:
+                        - text: Posts
+                        - generic [ref=f4e410]: 
+                - text:  
+                - listitem [ref=f4e411]:
+                  - heading "Custom Links" [level=3] [ref=f4e412] [cursor=pointer]:
+                    - button "Custom Links" [ref=f4e413]:
+                      - generic [ref=f4e414]:
+                        - text: Custom Links
+                        - generic [ref=f4e415]: 
+                - listitem [ref=f4e416]:
+                  - heading "Categories" [level=3] [ref=f4e417] [cursor=pointer]:
+                    - button "Categories" [ref=f4e418]:
+                      - generic [ref=f4e419]:
+                        - text: Categories
+                        - generic [ref=f4e420]: 
+                - text:     
+                - listitem [ref=f4e421]:
+                  - heading "WooCommerce endpoints" [level=3] [ref=f4e422] [cursor=pointer]:
+                    - button "WooCommerce endpoints" [ref=f4e423]:
+                      - generic [ref=f4e424]:
+                        - text: WooCommerce endpoints
+                        - generic [ref=f4e425]: 
+            - generic [ref=f4e428]:
+              - heading "Menu structure" [level=2] [ref=f4e429]
+              - generic [ref=f4e430]:
+                - generic [ref=f4e432]:
+                  - generic [ref=f4e433]: Menu Name
+                  - textbox "Menu Name" [ref=f4e434]: Primary Menu
+                - generic [ref=f4e436]:
+                  - paragraph [ref=f4e438]: Drag the items into the order you prefer. Click the arrow on the right of the item to reveal additional configuration options.
+                  - generic [ref=f4e440] [cursor=pointer]:
+                    - checkbox "Bulk Select" [ref=f4e441]
+                    - text: Bulk Select
+                  - list [ref=f4e442]:
+                    - listitem [ref=f4e443]:
+                      - generic [ref=f4e445]:
+                        - generic [ref=f4e446]: Home
+                        - generic [ref=f4e447]:
+                          - generic [ref=f4e448]: Custom Link
+                          - link "Edit menu item" [ref=f4e449] [cursor=pointer]:
+                            - /url: http://localhost:8080/wp-admin/nav-menus.php?edit-menu-item=54#menu-item-settings-54
+                            - generic [ref=f4e450]: Edit
+                    - listitem [ref=f4e451]:
+                      - generic [ref=f4e453]:
+                        - generic [ref=f4e454]: Shop
+                        - generic [ref=f4e455]:
+                          - generic [ref=f4e456]: Custom Link
+                          - link "Edit menu item" [ref=f4e457] [cursor=pointer]:
+                            - /url: http://localhost:8080/wp-admin/nav-menus.php?edit-menu-item=50#menu-item-settings-50
+                            - generic [ref=f4e458]: Edit
+                    - listitem [ref=f4e459]:
+                      - generic [ref=f4e461]:
+                        - generic [ref=f4e462]: About
+                        - generic [ref=f4e463]:
+                          - generic [ref=f4e464]: Custom Link
+                          - link "Edit menu item" [ref=f4e465] [cursor=pointer]:
+                            - /url: http://localhost:8080/wp-admin/nav-menus.php?edit-menu-item=51#menu-item-settings-51
+                            - generic [ref=f4e466]: Edit
+                    - listitem [ref=f4e467]:
+                      - generic [ref=f4e469]:
+                        - generic [ref=f4e470]: Blog
+                        - generic [ref=f4e471]:
+                          - generic [ref=f4e472]: Custom Link
+                          - link "Edit menu item" [ref=f4e473] [cursor=pointer]:
+                            - /url: http://localhost:8080/wp-admin/nav-menus.php?edit-menu-item=52#menu-item-settings-52
+                            - generic [ref=f4e474]: Edit
+                    - listitem [ref=f4e475]:
+                      - generic [ref=f4e477]:
+                        - generic [ref=f4e478]: Contact
+                        - generic [ref=f4e479]:
+                          - generic [ref=f4e480]: Custom Link
+                          - link "Edit menu item" [ref=f4e481] [cursor=pointer]:
+                            - /url: http://localhost:8080/wp-admin/nav-menus.php?edit-menu-item=53#menu-item-settings-53
+                            - generic [ref=f4e482]: Edit
+                  - generic [ref=f4e484] [cursor=pointer]:
+                    - checkbox "Bulk Select" [ref=f4e485]
+                    - text: Bulk Select
+                  - generic [ref=f4e486]:
+                    - heading "Menu Settings" [level=3] [ref=f4e487]
+                    - group "Auto add pages" [ref=f4e488]:
+                      - generic [ref=f4e489]: Auto add pages
+                      - generic [ref=f4e490]:
+                        - checkbox "Automatically add new top-level pages to this menu" [ref=f4e491] [cursor=pointer]
+                        - text: Automatically add new top-level pages to this menu
+                    - group "Menu location" [ref=f4e492]:
+                      - generic [ref=f4e493]: Menu location
+                      - generic [ref=f4e494]:
+                        - checkbox "Primary Menu" [checked] [ref=f4e495] [cursor=pointer]
+                        - text: Primary Menu
+                      - generic [ref=f4e496]:
+                        - checkbox "Footer Menu" [ref=f4e497] [cursor=pointer]
+                        - text: Footer Menu
+                - generic [ref=f4e499]:
+                  - button "Save Menu" [ref=f4e501] [cursor=pointer]
+                  - link "Delete Menu" [ref=f4e503] [cursor=pointer]:
+                    - /url: http://localhost:8080/wp-admin/nav-menus.php?action=delete&menu=20&_wpnonce=a3fb4f7861
+  - contentinfo [ref=f4e504]:
+    - paragraph [ref=f4e505]:
+      - generic [ref=f4e506]:
+        - text: Thank you for creating with
+        - link "WordPress" [ref=f4e507] [cursor=pointer]:
+          - /url: https://wordpress.org/
+        - text: .
+    - paragraph [ref=f4e508]: Version 7.0.1
