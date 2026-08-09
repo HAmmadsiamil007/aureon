@@ -6,6 +6,30 @@ Format: `[category] description`. Versioning follows the product display version
 
 ---
 
+## v1.1.0 — AETHER frontend dynamic closure & CI (2026-08-09)
+
+Frontend **v1.1.0** — closure of the Phase 17 dynamic-conversion loop (all gates VERIFIED, 69/69 E2E).
+
+### Dynamic conversion (Phase 17 A–F)
+- **A — Animation safety (Rule 7 fix):** `animations.js` now checks GSAP/ScrollTrigger existence *before* adding `html.has-motion`; watchdog + try/catch added; `@media (scripting:none)` preloader fallback. Motion CSS can no longer hide `[data-reveal]` content on CDN failure.
+- **B — WC guards:** zero unguarded `wc_get_*`/`wc_*` calls across product/wc-products/wishlist adapters; final raw call (`wc_attribute_taxonomy_name` in adapter-cart) `function_exists`-guarded.
+- **C — Settings-bound:** announcement bar, footer columns, contact info read Customizer settings; hero CTA defaults to shop page.
+- **D — Demo policy:** `aether_demo_content` master toggle (default on) gates all demo fallbacks.
+- **E — Test suite committed:** Playwright 5 specs (routes, interactions, failure-injection `@failure`, a11y, visual). 69 passed / 1 skipped (desktop mobile-drawer) / 0 failed; 3 harness bugs fixed (absolute-href product selector, FAQ live-locator, search overlay timeout).
+- **F — Styleguide:** `page-styleguide.php` renders manifest components only.
+
+### Gates & CI
+- `frontend/tests/verify.sh` — grep gate now matches WP/WC function *calls* only (docblock mentions no longer false-fail); error counting fixed (was lost in pipe subshells). PASSED 2026-08-09.
+- `.github/workflows/ci.yml` — rewritten for the actual repo (was Lumina `wp-content/themes/lumina` phantom that failed every push): php -l + JS check + verify.sh on push/PR; optional `workflow_dispatch` Playwright E2E with `WEB_BASE_URL`.
+
+### Docs
+- 11 files under `docs/` — closure report, dynamic conversion baseline, data contract, component dynamicity matrix, customizer/woo binding matrices, failure-mode report, conversion report, API usage, implementation plan, visual regression report.
+
+### Versioning
+- Theme `style.css` + plugin `aureon-studio.php` → **1.1.0** (from 1.0.0), aligned tag `v1.1.0-aureon`.
+
+---
+
 ## v1.0.0 — Full rebrand & hardening (2026-08-05)
 
 Aureon = fork/rebrand of **GeneratePress 3.6.1** (theme) + **GP Premium 2.5.6** (plugin), both GPL-2.0-or-later.

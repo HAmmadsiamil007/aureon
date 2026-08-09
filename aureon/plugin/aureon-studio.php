@@ -3,7 +3,7 @@
  * Plugin Name: Aureon Studio
  * Plugin URI: https://aureonstudio.com
  * Description: The entire collection of Aureon premium modules.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Requires at least: 6.1
  * Requires PHP: 7.2
  * Author: Aureon Studio

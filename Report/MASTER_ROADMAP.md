@@ -7,7 +7,7 @@
 | Project | Lumina Theme (standalone premium frontend framework for WordPress) |
 | Core deliverable | **Lumina Core** — framework layer (service container, tokens, render engine, component registry, bridges) + **Lumina Companion** plugin |
 | Root scope | `wp-content/themes/lumina` (standalone theme, no parent) + `wp-content/plugins/lumina-companion` |
-| Last updated | 2026-08-04 |
+| Last updated | 2026-08-09 |
 | Status legend | `Not Started` · `In Progress` · `Completed` · `Blocked` |
 
 ---
@@ -72,7 +72,7 @@ Phase 15 (Testing) → Phase 16 (Rebranding plan only) → Phase 17 (Release)
 | 15 | QA, Validation & Production Readiness | `Completed` (2026-08-04) | 1–14 | §Phase 15 — report: `wp-content/themes/phantom/docs/PHASE_15_VERIFICATION_REPORT.md` | ↑ |
 | 15.5 | Production Freeze & Release Candidate | `Completed` (2026-08-04) | 15 | §Phase 15.5 — report: `wp-content/themes/phantom/docs/PHASE_15_5_PRODUCTION_FREEZE_REPORT.md` | ↑ |
 | 16 | Safe Rebranding — Lumina (standalone theme + companion plugin) | `Completed` (2026-08-04) | all | §Phase 16 — report: `wp-content/themes/lumina/docs/PHASE_16_VERIFICATION_REPORT.md` | ↑ |
-| 17 | Release | `Not Started` | 15, 16 | §Phase 17 | ↑ |
+| 17 | Release | `Completed` (2026-08-09) | 15, 16 | §Phase 17 — frontend closure: `docs/PHASE_17_FRONTEND_DYNAMIC_CLOSURE_REPORT.md` · v1.1.0 (AUREON) | ↑ |
 
 > Full acceptance criteria live in the per-phase sections of `PHASE_5_PHANTOM_CORE_IMPLEMENTATION_PLAN.md` — the arrow "↑" in the Acceptance column points to that document.
 
@@ -165,6 +165,7 @@ Phase 15 (Testing) → Phase 16 (Rebranding plan only) → Phase 17 (Release)
 | ADR-026 | Phase 16 Rebrand — `Lumina\Core` namespace, `lumina_`/`lumina-*` handles, `--lumina-*` tokens, `lumina_core:*` events, text domain `lumina`, v1.0.0 major bump (API_LEVEL 2), grep-zero gate | `Accepted` | Full record: `docs/architecture/ADR/ADR-026.md`. |
 | ADR-027 | Phase 16 Standalone — parent `Template:` removed, original shell files, resolver parent tier dropped, region hooks, self-integrity gate | `Accepted` | Full record: `docs/architecture/ADR/ADR-027.md`. |
 | ADR-028 | Phase 16 Lumina Companion plugin — original implementation, theme-gated, zero runtime deps, no commercial code copied | `Accepted` | Full record: `docs/architecture/ADR/ADR-028.md`. |
+| ADR-029 | Phase 17 Release — frontend dynamic closure on AUREON: A) animation guard-first (Rule 7 fail-secure, `@media (scripting:none)` fallback); B) adapter WC guards; C) settings-bound announcement/footer/contact; D) `aether_demo_content` master toggle (default on); E) committed Playwright suite = release gate; F) styleguide manifest-only. Gates: `frontend/tests/verify.sh`, CI `static` + optional `e2e`. | `Accepted` | Record: `docs/PHASE_17_FRONTEND_DYNAMIC_CLOSURE_REPORT.md` · CI: `.github/workflows/ci.yml`. |
 
 > **Future ADRs go here — always append, never rewrite history.**
 

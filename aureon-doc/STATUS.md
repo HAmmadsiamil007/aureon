@@ -1,6 +1,6 @@
 # Aureon — Update Status Report
 
-> **As of:** 2026-08-05. This is the authoritative "where are we" document for the Aureon theme + Aureon Studio plugin.
+> **As of:** 2026-08-09. This is the authoritative "where are we" document for the Aureon theme + Aureon Studio plugin.
 
 ---
 
@@ -10,16 +10,17 @@
 |---|---|---|---|---|---|
 | **Aureon theme** | ✅ Done | ✅ Zero | ✅ Done | ✅ (Docker) | ✅ Yes |
 | **Aureon Studio plugin** | ✅ Done | ✅ Zero | ✅ Done | ✅ (Docker) | ✅ Yes |
+| **AETHER frontend engine** | ✅ Done | ✅ Zero | ✅ Done | ✅ (Docker, 69/70 E2E) | ✅ Yes |
 
 **Detection problem: SOLVED.** Every GeneratePress brand string, camelCase identifier, and GP-named file has been removed — verified by scan (0 hits outside intentional `license.txt` attribution). Details: §4 + [`Report/DETECTION.md`](../Report/DETECTION.md).
 
 ---
 
-## 2. Theme status — Aureon v1.0.0
+## 2. Theme status — Aureon v1.1.0
 
 | Area | Status | Notes |
 |---|---|---|
-| Identity | ✅ | `style.css` → Aureon, v1.0.0, text domain `aureon`, `AUREON_VERSION = 3.6.1` internal |
+| Identity | ✅ | `style.css` → Aureon, v1.1.0, text domain `aureon`, `AUREON_VERSION = 3.6.1` internal |
 | Templates & structure engine | ✅ | Full hook-based layout engine, 9 widget areas, microdata |
 | Options (60+ colors, typography, layout) | ✅ | `aureon_settings` option bucket + defaults, all filterable |
 | Dynamic CSS pipeline | ✅ | `Aureon_CSS` builder, inline or external-file (plugin) |
@@ -33,11 +34,11 @@
 
 **Theme verdict: complete and verified.**
 
-## 3. Plugin status — Aureon Studio v1.0.0
+## 3. Plugin status — Aureon Studio v1.1.0
 
 | Area | Status | Notes |
 |---|---|---|
-| Identity | ✅ | `aureon-studio.php` → Aureon Studio, v1.0.0, `AUREON_STUDIO_VERSION = 3.0.0` internal |
+| Identity | ✅ | `aureon-studio.php` → Aureon Studio, v1.1.0, `AUREON_STUDIO_VERSION = 3.0.0` internal |
 | Module system (16 modules) | ✅ | Option/constant toggles, forced via `AUREON_*` constants |
 | Modules 1–17 | ✅ | All load/activate; **Sections metabox assets renamed** (editor UI functional) |
 | Shared library & customizer helpers | ✅ | `aureonProCustomizerControls` (was shared-global collision) — distinct from theme |
@@ -461,3 +462,17 @@ The repo-root `frontend/` framework (the "AETHER" dark-mode storefront design fr
 - **Live verification (Playwright):** `/` search overlay opens with `/shop/` suggestion links; typing + Enter → `/ ?s=sneaker` renders search results (0 errors); product-card body click on `/shop/` → `/product/midnight-sneakers/` (0 errors); full route suite: `/` `/shop/` `/cart/` `/my-account/` `/blog/` `/sample-post/` `/about/` `/contact/` `/team/` `/faq/` `/wishlist/` `/login/` `/register/` `/coming-soon/` `/checkout/`(empty→302 to `/cart/`) all OK, `/no-such-page/` → 404 AETHER.
 - **Gates:** `node --check` main.js clean, `php -l` inc/frontend.php clean, 0 console errors / 0 warnings across tested routes.
 - **Handoff:** ALL pending work committed + pushed — `44ea0c5` (546 files: frontend engine, mu-plugins, theme WC overrides, docs, memories; legacy `assets/aether/*` removed) + `33b5bef` (dupe root screenshot). `db539f8..33b5bef main -> main`. `.playwright-mcp/` now gitignored (test snapshots held local dev creds). Repo in sync with origin/main.
+
+### Stage 14 - Phase 17 dynamic closure + CI gate (2026-08-09) ✅ COMPLETE
+
+- **Dynamic conversion closed (Phases A–F, see `docs/PHASE_17_FRONTEND_DYNAMIC_CLOSURE_REPORT.md`):**
+  - A — animation guard-first + watchdog + try/catch (Rule 7: GSAP failure no longer hides content; `@media (scripting:none)` fallback).
+  - B — WC guards in adapters (product/wc-products/wishlist/cart — zero unguarded calls, incl. last `wc_attribute_taxonomy_name` hardening).
+  - C — announcement/footer/contact settings-bound (G1/G4/G5); hero CTA defaults to shop.
+  - D — `aether_demo_content` toggle gates all fallbacks (default true).
+  - E — Playwright suite committed: 5 specs (routes, interactions, failure-injection, a11y, visual). Clone run **69 passed / 1 skipped (desktop mobile-drawer) / 0 failed**; 3 harness bugs fixed.
+  - F — `page-styleguide.php` (manifest components only).
+- **Gates:** `verify.sh` PASSED (php lint, JS check, component grep gate, 23 adapters, tokens/manifest/renderer present). **Fixed gate bugs:** grep gate now matches WP/WC function *calls* only (docblock mentions no longer false-fail); error counters no longer lost in pipe subshells.
+- **CI:** `.github/workflows/ci.yml` rewritten to gate the real repo (was: Lumina `wp-content/themes/lumina` phantom paths — broke every push): static job = php lint + JS check + verify.sh on push/PR; optional `workflow_dispatch` e2e job runs the Playwright suite. First green CI run after fix.
+- **Docs (11 files in `docs/`):** closure report, dynamic conversion baseline, data contract, component dynamicity matrix, customizer + woo binding matrices, failure mode report, conversion report, API usage, implementation plan, visual regression report.
+- **Version:** theme + plugin bumped `1.0.0 → 1.1.0`; tag `v1.1.0-aureon` (2026-08-09).
