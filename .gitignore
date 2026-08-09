@@ -42,3 +42,6 @@ temp/
 # Playwright MCP test artifacts (may contain local dev credentials)
 .playwright-mcp/
 
+# Playwright test output
+frontend/tests/results/
+
