@@ -66,6 +66,31 @@ function aether_viewmodel_resolve_image( $src ) {
 }
 
 /**
+ * Sanitize an overlay color: hex (#rgb/#rgba/#rrggbb/#rrggbbaa) or
+ * rgb()/rgba(). Anything else resolves to '' (component default overlay).
+ *
+ * @param string $color Raw overlay value.
+ * @return string
+ */
+function aether_sanitize_overlay_color( $color ) {
+	$color = trim( (string) $color );
+
+	if ( '' === $color ) {
+		return '';
+	}
+
+	if ( preg_match( '~^#([A-Fa-f0-9]{3,4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$~', $color ) ) {
+		return $color;
+	}
+
+	if ( preg_match( '|^rgba?\([0-9.,\s]+\)$|', $color ) ) {
+		return $color;
+	}
+
+	return '';
+}
+
+/**
  * Merge component defaults with supplied data.
  *
  * @param array $data      Supplied data.

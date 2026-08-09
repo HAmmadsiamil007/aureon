@@ -25,13 +25,21 @@ function aether_adapter_hero() {
 			continue;
 		}
 
+		// Visibility: a hidden slide never reaches the component.
+		if ( isset( $slide['visible'] ) && false === $slide['visible'] ) {
+			continue;
+		}
+
 		// Normalize both shapes: editor repeater (title/subtitle/cta/url)
 		// and legacy/phantom shape (headline/subline/buttons).
 		$title    = isset( $slide['title'] )    ? $slide['title']    : ( isset( $slide['headline'] ) ? $slide['headline'] : '' );
 		$subtitle = isset( $slide['subtitle'] ) ? $slide['subtitle'] : ( isset( $slide['subline'] )  ? $slide['subline']  : '' );
 		$image    = isset( $slide['image'] ) ? $slide['image'] : '';
-		$alt      = isset( $slide['alt'] )      ? sanitize_text_field( $slide['alt'] ) : ( isset( $slide['label'] ) ? sanitize_text_field( $slide['label'] ) : '' );
+		$alt      = isset( $slide['image_alt'] ) ? sanitize_text_field( $slide['image_alt'] ) : ( isset( $slide['alt'] ) ? sanitize_text_field( $slide['alt'] ) : ( isset( $slide['label'] ) ? sanitize_text_field( $slide['label'] ) : '' ) );
 		$accent   = isset( $slide['accent'] )   ? sanitize_text_field( $slide['accent'] ) : '';
+		$badge    = isset( $slide['badge'] )    ? sanitize_text_field( $slide['badge'] ) : '';
+		$overlay  = isset( $slide['overlay'] )  ? $slide['overlay'] : '';
+		$mobile   = isset( $slide['mobile_image'] ) ? $slide['mobile_image'] : '';
 
 		// Default CTA destination: the shop archive — hero buttons are never dead links.
 		$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
@@ -44,6 +52,22 @@ function aether_adapter_hero() {
 				'label' => $slide['cta'],
 				'url'   => isset( $slide['url'] ) ? $slide['url'] : '',
 				'style' => 'primary',
+			);
+		}
+
+		// Editor repeater shape: explicit CTA pairs.
+		if ( ! empty( $slide['primary_cta'] ) && is_array( $slide['primary_cta'] ) ) {
+			$buttons[] = array(
+				'label' => isset( $slide['primary_cta']['label'] ) ? $slide['primary_cta']['label'] : '',
+				'url'   => isset( $slide['primary_cta']['url'] ) ? $slide['primary_cta']['url'] : '',
+				'style' => 'primary',
+			);
+		}
+		if ( ! empty( $slide['secondary_cta'] ) && is_array( $slide['secondary_cta'] ) ) {
+			$buttons[] = array(
+				'label' => isset( $slide['secondary_cta']['label'] ) ? $slide['secondary_cta']['label'] : '',
+				'url'   => isset( $slide['secondary_cta']['url'] ) ? $slide['secondary_cta']['url'] : '',
+				'style' => 'outline',
 			);
 		}
 
@@ -69,6 +93,9 @@ function aether_adapter_hero() {
 			'image'    => aether_viewmodel_resolve_image( $image ),
 			'alt'      => $alt,
 			'buttons'  => $buttons,
+			'badge'    => $badge,
+			'overlay'  => aether_sanitize_overlay_color( $overlay ),
+			'mobile_image' => $mobile ? aether_viewmodel_resolve_image( $mobile ) : '',
 		);
 	}
 

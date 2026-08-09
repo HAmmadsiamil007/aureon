@@ -53,6 +53,7 @@ if ( ! function_exists( 'aureon_customize_register' ) ) {
 		if ( method_exists( $wp_customize, 'register_control_type' ) ) {
 			$wp_customize->register_control_type( 'Aureon_Customize_Misc_Control' );
 			$wp_customize->register_control_type( 'Aureon_Range_Slider_Control' );
+			$wp_customize->register_control_type( 'Aureon_Customize_Repeater_Control' );
 		}
 
 		if ( method_exists( $wp_customize, 'register_section_type' ) ) {

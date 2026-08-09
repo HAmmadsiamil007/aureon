@@ -476,3 +476,19 @@ The repo-root `frontend/` framework (the "AETHER" dark-mode storefront design fr
 - **CI:** `.github/workflows/ci.yml` rewritten to gate the real repo (was: Lumina `wp-content/themes/lumina` phantom paths — broke every push): static job = php lint + JS check + verify.sh on push/PR; optional `workflow_dispatch` e2e job runs the Playwright suite. First green CI run after fix.
 - **Docs (11 files in `docs/`):** closure report, dynamic conversion baseline, data contract, component dynamicity matrix, customizer + woo binding matrices, failure mode report, conversion report, API usage, implementation plan, visual regression report.
 - **Version:** theme + plugin bumped `1.0.0 → 1.1.0`; tag `v1.1.0-aureon` (2026-08-09).
+
+### G6 - Hero Slides Repeater (Aureon v1.2.0) ✅ COMPLETE
+
+- **Gap closed:** `aureon_settings['aether_hero_slides']` was settable only via token defaults / raw option writes — no Customizer control existed (STATUS line 270's claimed "hero-slides JSON textarea + `aureon_sanitize_json`" was aspirational: grep proved no control and no such sanitizer function). Now the slides are fully editable in the Customizer.
+- **Architecture (decisions locked with user):**
+  - **Schema-driven generic repeater** `Aureon_Customize_Repeater_Control` (`theme/inc/customizer/controls/class-repeater-control.php`) — domain-agnostic; the hero schema is its first consumer, registered by the frontend engine on the `aether_repeater_schemas` filter (`frontend/tokens/tokens.php`). Future repeaters (testimonials/team/FAQ) register a schema — no new control classes.
+  - **Stable slide IDs** (`slide_<8-hex>`) generated once per row, preserved across reorder/save (sanitizer validates `^slide_[a-f0-9]{8}$` and backfills only missing/invalid ones).
+  - **Full per-slide model, all fields optional:** visible, headline, accent, subline, badge, image, mobile_image, image_alt, overlay, primary_cta{label,url}, secondary_cta{label,url}.
+  - **Sanitizer** `aureon_sanitize_repeater()` (`helpers.php`): whitelists keys from the schema, sanitizes per field type (text/textarea/url/image/checkbox/color/cta), drops unknown keys and malformed nested arrays, reindexes; adapter still re-escapes at output (double safety).
+  - **Minimal additive render** (`frontend/components/hero/slide.php`): badge → `.hero-eyebrow` (existing tokenized style), mobile image → `<picture>` swap at ≤767px, overlay → inline `background:` only when set. Nothing set → **byte-identical markup** (visual regression gates stay green). Swiper/animations untouched.
+  - **Adapter** (`adapter-hero.php`): visibility filter (hidden slides never reach the component), new-key pass-through (`badge/mobile_image/image_alt/overlay`), `primary_cta/secondary_cta` → buttons array (secondary = outline style). Legacy shapes still normalized. `aether_sanitize_overlay_color()` added to `viewmodel.php`.
+- **Preload hardening (bug found during audit):** `aether-performance.php` read `$slides[0]['image']` raw — would misbehave on the JSON string the Customizer stores. Now decodes JSON first (same pattern as the adapter).
+- **JS/CSS:** `controls/js/repeater.js` (sortable via jQuery UI — already a customize-controls dep, media picker via `wp.media`, visibility eye, add/remove, debounced flush) + `controls/css/repeater.css`; enqueued from the control class.
+- **Verification:** `php -l` clean (10 files), `node --check` clean (repeater.js); live smoke pending deploy in plan §8.
+- **Docs:** `aureon-doc/plans/2026-08-09-hero-repeater.md` (schema contract, sanitizer rules, file list, acceptance criteria, rollback).
+- **Version:** theme bumped `1.1.0 → 1.2.0` (`style.css` display header; `AUREON_VERSION` internal gate constant unchanged at `3.6.1`).

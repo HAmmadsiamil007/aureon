@@ -203,6 +203,45 @@ Aureon_Customize_Field::add_field(
 );
 
 // ──────────────────────────────────────────────────────────────────
+// Hero Slides (G6): schema-driven repeater backed by the generic
+// Aureon_Customize_Repeater_Control. The field schema is registered by
+// the frontend engine (frontend/tokens/tokens.php → aether_repeater_schemas
+// filter); the sanitizer whitelists keys from the same source.
+// ──────────────────────────────────────────────────────────────────
+Aureon_Customize_Field::add_title(
+	'aureon_aether_hero_slides_title',
+	array(
+		'section' => 'aureon_aether_section',
+		'title'   => __( 'Hero Slides', 'aureon' ),
+	)
+);
+
+$repeater_schemas = apply_filters( 'aether_repeater_schemas', array() );
+$hero_schema      = isset( $repeater_schemas['hero'] ) ? $repeater_schemas['hero'] : array();
+
+Aureon_Customize_Field::add_field(
+	'aureon_settings[aether_hero_slides]',
+	'Aureon_Customize_Repeater_Control',
+	array(
+		'default'           => isset( $defaults['aether_hero_slides'] ) ? $defaults['aether_hero_slides'] : array(),
+		'sanitize_callback' => function ( $input ) {
+			return aureon_sanitize_repeater( $input, 'hero' );
+		},
+		'transport'         => 'refresh',
+	),
+	array(
+		'label'       => __( 'Hero slides', 'aureon' ),
+		'section'     => 'aureon_aether_section',
+		'description' => __( 'Reorder by dragging; hide slides with the eye. Empty CTA URLs fall back to the shop.', 'aureon' ),
+		'choices'     => array(
+			'schema'     => $hero_schema,
+			'item_label' => isset( $hero_schema['label'] ) ? $hero_schema['label'] : __( 'Slide', 'aureon' ),
+			'title_key'  => isset( $hero_schema['title_key'] ) ? $hero_schema['title_key'] : 'headline',
+		),
+	)
+);
+
+// ──────────────────────────────────────────────────────────────────
 // Design — Colors (G2/G3): AETHER-native color controls seeded from
 // the theme palette. Empty value = inherit the theme palette (or the
 // AETHER default) — see aether_resolve_color() in inc/aether-tokens.php.

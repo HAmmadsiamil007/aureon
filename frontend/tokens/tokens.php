@@ -127,34 +127,70 @@ function aether_frontend_defaults( $defaults ) {
 		'aether_section_auth'        => true,
 		'aether_section_wishlist'    => true,
 		'aether_section_coming_soon' => true,
-		// Hero slides (default = three static slides; paths resolve via content_url()).
+		// Hero slides (default = three static slides; paths resolve via
+		// content_url()). Keys mirror the 'hero' repeater schema registered by
+		// aether_register_hero_repeater_schema() below — IDs must match
+		// slide_[a-f0-9]{8} for the sanitizer to keep them stable.
 		'aether_hero_slides'         => array(
 			array(
-				'label'    => 'Void Series',
-				'title'    => 'Step into the void',
-				'accent'   => 'Void Series',
-				'subtitle' => 'Precision-cut garments engineered in the dark.',
-				'image'    => 'frontend/assets/images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg',
-				'cta'      => 'Shop the collection',
-				'url'      => '',
+				'id'           => 'slide_0a1f2b3c',
+				'visible'      => true,
+				'headline'     => 'Step into the void',
+				'accent'       => 'Void Series',
+				'subline'      => 'Precision-cut garments engineered in the dark.',
+				'badge'        => 'New Drop',
+				'image'        => 'frontend/assets/images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg',
+				'mobile_image' => '',
+				'image_alt'    => '',
+				'overlay'      => '',
+				'primary_cta'  => array(
+					'label' => 'Shop the collection',
+					'url'   => '',
+				),
+				'secondary_cta' => array(
+					'label' => 'Explore',
+					'url'   => '',
+				),
 			),
 			array(
-				'label'    => 'Shadow Drop',
-				'title'    => 'Forged in the dark',
-				'accent'   => 'Shadow Drop',
-				'subtitle' => 'Limited silhouettes, built for the bold.',
-				'image'    => 'frontend/assets/images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg',
-				'cta'      => 'Explore the drop',
-				'url'      => '',
+				'id'           => 'slide_4d5e6f70',
+				'visible'      => true,
+				'headline'     => 'Forged in the dark',
+				'accent'       => 'Shadow Drop',
+				'subline'      => 'Limited silhouettes, built for the bold.',
+				'badge'        => 'Limited Drop',
+				'image'        => 'frontend/assets/images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg',
+				'mobile_image' => '',
+				'image_alt'    => '',
+				'overlay'      => '',
+				'primary_cta'  => array(
+					'label' => 'Explore the drop',
+					'url'   => '',
+				),
+				'secondary_cta' => array(
+					'label' => 'Discover',
+					'url'   => '',
+				),
 			),
 			array(
-				'label'    => 'Midnight Run',
-				'title'    => 'Engineered to move',
-				'accent'   => 'Midnight Run',
-				'subtitle' => 'Responsive comfort that disappears underfoot.',
-				'image'    => 'frontend/assets/images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg',
-				'cta'      => 'Find your fit',
-				'url'      => '',
+				'id'           => 'slide_8a9b0c1d',
+				'visible'      => true,
+				'headline'     => 'Engineered to move',
+				'accent'       => 'Midnight Run',
+				'subline'      => 'Responsive comfort that disappears underfoot.',
+				'badge'        => 'Performance',
+				'image'        => 'frontend/assets/images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg',
+				'mobile_image' => '',
+				'image_alt'    => '',
+				'overlay'      => '',
+				'primary_cta'  => array(
+					'label' => 'Find your fit',
+					'url'   => '',
+				),
+				'secondary_cta' => array(
+					'label' => 'Shop now',
+					'url'   => '',
+				),
 			),
 		),
 		// Master switch for demo fallback content. TRUE keeps the store visually
@@ -467,4 +503,99 @@ function aether_frontend_font_defaults( $defaults ) {
 		'aether_font_heading' => 'Cabinet Grotesk',
 		'aether_font_body'    => 'Satoshi',
 	) );
+}
+
+add_filter( 'aether_repeater_schemas', 'aether_register_hero_repeater_schema' );
+/**
+ * Register the hero slides repeater schema (first consumer of the generic
+ * repeater control). The control is domain-agnostic — it only reads this
+ * contract; the sanitizer whitelists keys from the same source.
+ *
+ * Every field is optional and backward-compatible; unknown keys submitted
+ * by the Customizer are dropped at save time.
+ *
+ * @param array $schemas Registered repeater schemas (theme infra).
+ * @return array Merged schemas.
+ */
+function aether_register_hero_repeater_schema( $schemas ) {
+	$schemas['hero'] = array(
+		'id'        => 'hero',
+		'label'     => __( 'Slide', 'aureon' ),
+		'add_label' => __( 'Add slide', 'aureon' ),
+		'title_key' => 'headline',
+		'visible'   => true,
+		'fields'    => array(
+			array(
+				'key'         => 'visible',
+				'type'        => 'checkbox',
+				'label'       => __( 'Visible on the homepage', 'aureon' ),
+			),
+			array(
+				'key'         => 'headline',
+				'type'        => 'text',
+				'label'       => __( 'Headline', 'aureon' ),
+				'placeholder' => __( 'Step into the void', 'aureon' ),
+			),
+			array(
+				'key'         => 'accent',
+				'type'        => 'text',
+				'label'       => __( 'Accent', 'aureon' ),
+				'placeholder' => __( 'Void Series', 'aureon' ),
+			),
+			array(
+				'key'         => 'subline',
+				'type'        => 'textarea',
+				'label'       => __( 'Subline', 'aureon' ),
+				'placeholder' => __( 'Precision-cut garments engineered in the dark.', 'aureon' ),
+			),
+			array(
+				'key'         => 'badge',
+				'type'        => 'text',
+				'label'       => __( 'Badge / eyebrow', 'aureon' ),
+				'placeholder' => __( 'New drop', 'aureon' ),
+			),
+			array(
+				'key'         => 'image',
+				'type'        => 'image',
+				'label'       => __( 'Background image', 'aureon' ),
+			),
+			array(
+				'key'         => 'mobile_image',
+				'type'        => 'image',
+				'label'       => __( 'Mobile background image', 'aureon' ),
+			),
+			array(
+				'key'         => 'image_alt',
+				'type'        => 'text',
+				'label'       => __( 'Image alt text', 'aureon' ),
+				'placeholder' => __( 'Describe the image', 'aureon' ),
+			),
+			array(
+				'key'         => 'overlay',
+				'type'        => 'color',
+				'label'       => __( 'Overlay (hex with alpha)', 'aureon' ),
+				'placeholder' => __( '#00000099', 'aureon' ),
+			),
+			array(
+				'key'         => 'primary_cta',
+				'type'        => 'cta',
+				'label'       => __( 'Primary button', 'aureon' ),
+				'sub'         => array(
+					array( 'value' => 'label', 'label' => __( 'Label', 'aureon' ) ),
+					array( 'value' => 'url', 'label' => __( 'URL', 'aureon' ) ),
+				),
+			),
+			array(
+				'key'         => 'secondary_cta',
+				'type'        => 'cta',
+				'label'       => __( 'Secondary button', 'aureon' ),
+				'sub'         => array(
+					array( 'value' => 'label', 'label' => __( 'Label', 'aureon' ) ),
+					array( 'value' => 'url', 'label' => __( 'URL', 'aureon' ) ),
+				),
+			),
+		),
+	);
+
+	return $schemas;
 }

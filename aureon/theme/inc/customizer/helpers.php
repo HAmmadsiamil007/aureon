@@ -203,8 +203,8 @@ if ( ! function_exists( 'aureon_sanitize_hex_color' ) ) {
 			return '';
 		}
 
-		// 3 or 6 hex digits, or the empty string.
-		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
+		// 3, 4, 6 or 8 hex digits, or the empty string.
+		if ( preg_match( '~^#([A-Fa-f0-9]{3,4}|[A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$~', $color ) ) {
 			return $color;
 		}
 
@@ -252,6 +252,168 @@ function aureon_sanitize_rgba_color( $color ) {
 	sscanf( $color, 'rgba(%d,%d,%d,%f)', $red, $green, $blue, $alpha );
 
 	return 'rgba(' . $red . ',' . $green . ',' . $blue . ',' . $alpha . ')';
+}
+
+/**
+ * Migrate a pre-v1.2 hero slide item onto the current schema contract.
+ *
+ * Legacy shape (title/subtitle/cta/url/label) is mapped to the schema keys
+ * (headline/subline/primary_cta/secondary_cta/image_alt) before whitelisting,
+ * so existing customization survives the first v1.2 save. Explicit new-shape
+ * values always win.
+ *
+ * @since 1.2.0
+ * @param array $item Raw repeater item.
+ * @return array Migrated item.
+ */
+function aureon_repeater_migrate_legacy( $item ) {
+	if ( empty( $item['headline'] ) && ! empty( $item['title'] ) ) {
+		$item['headline'] = $item['title'];
+	}
+	if ( empty( $item['subline'] ) && ! empty( $item['subtitle'] ) ) {
+		$item['subline'] = $item['subtitle'];
+	}
+	if ( empty( $item['image_alt'] ) && ! empty( $item['label'] ) ) {
+		$item['image_alt'] = $item['label'];
+	}
+	if ( empty( $item['primary_cta'] ) && ( ! empty( $item['cta'] ) || isset( $item['url'] ) ) ) {
+		$item['primary_cta'] = array(
+			'label' => isset( $item['cta'] ) ? $item['cta'] : '',
+			'url'   => isset( $item['url'] ) ? $item['url'] : '',
+		);
+	}
+	return $item;
+}
+
+/**
+ * Sanitize a schema-driven repeater value.
+ *
+ * Whitelists keys from the consumer-registered schema (see the
+ * 'aether_repeater_schemas' filter), sanitizes each field by its declared
+ * type, drops unknown/malformed entries, preserves stable slide IDs, and
+ * reindexes the collection. Customizer sanitization is the trust boundary;
+ * callers still escape at output.
+ *
+ * @since 1.2.0
+ * @param mixed  $input      The submitted value (JSON string or array).
+ * @param string $schema_key The registered schema key this setting belongs to.
+ * @return array Sanitized, reindexed collection.
+ */
+function aureon_sanitize_repeater( $input, $schema_key = '' ) {
+	if ( '' === $schema_key ) {
+		return array();
+	}
+
+	$schemas = apply_filters( 'aether_repeater_schemas', array() );
+
+	if ( ! isset( $schemas[ $schema_key ] ) || empty( $schemas[ $schema_key ]['fields'] ) || ! is_array( $schemas[ $schema_key ]['fields'] ) ) {
+		return array();
+	}
+
+	if ( is_string( $input ) ) {
+		$input = json_decode( $input, true );
+	}
+
+	if ( ! is_array( $input ) ) {
+		return array();
+	}
+
+	$schema  = $schemas[ $schema_key ];
+	$allowed = array( 'id' => 'id' );
+
+	foreach ( $schema['fields'] as $field ) {
+		if ( isset( $field['key'] ) ) {
+			$allowed[ $field['key'] ] = isset( $field['type'] ) ? $field['type'] : 'text';
+		}
+	}
+
+	$output = array();
+
+	foreach ( $input as $item ) {
+		if ( ! is_array( $item ) ) {
+			continue;
+		}
+
+		// Migrate pre-v1.2 (legacy) keys onto the schema contract so an
+		// existing user's hero survives their first v1.2 save. New keys win
+		// when both shapes are present.
+		$item = aureon_repeater_migrate_legacy( $item );
+
+		$clean = array();
+
+		foreach ( $allowed as $key => $type ) {
+			if ( ! isset( $item[ $key ] ) ) {
+				continue;
+			}
+
+			switch ( $type ) {
+				case 'id':
+					if ( preg_match( '|^slide_[a-f0-9]{8}$|', $item[ $key ] ) ) {
+						$clean['id'] = $item[ $key ];
+					}
+					break;
+
+				case 'url':
+				case 'image':
+					$value = trim( (string) $item[ $key ] );
+					// Relative frontend asset paths (frontend/…) stay relative —
+					// the frontend resolves them via content_url(). esc_url_raw()
+					// would mangle them into http://frontend/… hosts.
+					if ( '' !== $value && 0 === strpos( $value, 'frontend/' ) ) {
+						$clean[ $key ] = $value;
+					} elseif ( '' !== $value ) {
+						$value = esc_url_raw( $value );
+						if ( '' !== $value ) {
+							$clean[ $key ] = $value;
+						}
+					}
+					break;
+
+				case 'checkbox':
+					$clean[ $key ] = (bool) aureon_sanitize_checkbox( $item[ $key ] );
+					break;
+
+				case 'color':
+					$color = aureon_sanitize_rgba_color( $item[ $key ] );
+					if ( '' !== $color ) {
+						$clean[ $key ] = $color;
+					}
+					break;
+
+				case 'cta':
+					$cta = $item[ $key ];
+					if ( ! is_array( $cta ) || ( ! isset( $cta['label'] ) && ! isset( $cta['url'] ) ) ) {
+						break;
+					}
+					if ( isset( $cta['label'] ) ) {
+						$clean[ $key ]['label'] = sanitize_text_field( $cta['label'] );
+					}
+					if ( isset( $cta['url'] ) && '' !== esc_url_raw( $cta['url'] ) ) {
+						$clean[ $key ]['url'] = esc_url_raw( $cta['url'] );
+					} elseif ( isset( $cta['label'] ) && empty( $cta['url'] ) ) {
+						$clean[ $key ]['url'] = '';
+					}
+					break;
+
+				case 'textarea':
+				default:
+					$value = 'textarea' === $type ? sanitize_textarea_field( $item[ $key ] ) : sanitize_text_field( $item[ $key ] );
+					if ( '' !== $value ) {
+						$clean[ $key ] = $value;
+					}
+					break;
+			}
+		}
+
+		// Preserve stable IDs; backfill for rows without a valid one.
+		if ( empty( $clean['id'] ) ) {
+			$clean['id'] = 'slide_' . substr( wp_hash( wp_json_encode( $clean ) . microtime(), 'nonce' ), 0, 8 );
+		}
+
+		$output[] = $clean;
+	}
+
+	return $output;
 }
 
 if ( ! function_exists( 'aureon_sanitize_choices' ) ) {

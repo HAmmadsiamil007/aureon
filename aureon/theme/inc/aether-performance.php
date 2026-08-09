@@ -48,12 +48,19 @@ function aether_preload_assets() {
 	}
 	echo '<link rel="preload" href="' . esc_url( $fonts_url ) . '" as="style">' . "\n";
 
-	// First hero slide image on the front page.
+	// First visible hero slide image on the front page. Uses the adapter so
+	// hidden slides and unresolved raw paths never leak into a preload.
 	if ( is_front_page() && function_exists( 'aether_viewmodel_resolve_image' ) ) {
-		$slides = (array) aureon_get_option( 'aether_hero_slides', array() );
-		if ( ! empty( $slides[0]['image'] ) ) {
-			printf( '<link rel="preload" href="%s" as="image">', esc_url( aether_viewmodel_resolve_image( $slides[0]['image'] ) ) );
-			echo "\n";
+		$hero = function_exists( 'aether_adapter_hero' ) ? aether_adapter_hero() : array();
+		$slides = isset( $hero['slides'] ) ? (array) $hero['slides'] : array();
+
+		foreach ( $slides as $slide ) {
+			$image = isset( $slide['image'] ) ? $slide['image'] : '';
+			if ( '' !== $image ) {
+				printf( '<link rel="preload" href="%s" as="image">', esc_url( $image ) );
+				echo "\n";
+				break;
+			}
 		}
 	}
 }
