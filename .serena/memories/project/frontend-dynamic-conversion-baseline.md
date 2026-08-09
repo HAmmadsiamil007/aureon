@@ -9,6 +9,7 @@ Forensic baseline COMPLETE (2026-08-08, audit-only). **CLOSED 2026-08-09** — P
 - E: Playwright suite committed; pre-fix 9 failures root-caused + fixed; live re-run NOT VERIFIED (Docker down).
 - F: styleguide `aureon/theme/page-styleguide.php` (manifest components only).
 - Gates: `frontend/tests/verify.sh` PASSED. Theme files touched (documented stop-condition): `inc/aether-tokens.php`, `inc/customizer/fields/frontend.php`, `inc/frontend.php`.
+- CI (2026-08-09): rewrote `.github/workflows/ci.yml` to gate the REAL repo (old file referenced dead Lumina paths `wp-content/themes/lumina`/`bin/smoke-phase*` and failed every push). New: static job (php -l all tracked PHP + node --check tracked JS + verify.sh) on push/PR; optional `workflow_dispatch` e2e job runs Playwright (`WEB_BASE_URL`). verify.sh bugfix: grep gate flags WP/WC function CALLS only (docblock mentions no longer false-fail), error counters moved out of pipe subshells.
 - **Open:** start Docker (`docker start aureon_wp`) → `npx playwright test` to close the last NOT VERIFIED item; commit the working tree in small batches.
 
 ## Mission
