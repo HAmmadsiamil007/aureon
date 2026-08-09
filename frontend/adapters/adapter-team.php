@@ -31,8 +31,8 @@ function aether_adapter_team() {
         wp_reset_postdata();
     }
 
-    // Demo fallback — no team posts yet.
-    if ( empty( $items ) ) {
+    // Demo fallback — no team posts yet (gated by aether_demo_content).
+    if ( empty( $items ) && aureon_get_option( 'aether_demo_content', true ) ) {
         foreach ( (array) aureon_get_option( 'aether_team_items', array() ) as $demo ) {
             $items[] = array(
                 'name'     => isset( $demo['name'] ) ? $demo['name'] : '',

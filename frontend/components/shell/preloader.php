@@ -24,6 +24,7 @@ $componentData = isset( $componentData ) ? (array) $componentData : array();
 $brand = isset( $componentData['brand'] ) ? $componentData['brand'] : 'AETHER';
 ?>
 <div id="preloader" aria-hidden="true">
+	<noscript><style>#preloader{display:none!important}</style></noscript>
 	<div class="preloader-inner">
 		<div class="preloader-logo"><?php echo esc_html( $brand ); ?></div>
 		<div class="preloader-bar">

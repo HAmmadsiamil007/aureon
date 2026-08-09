@@ -16,6 +16,15 @@
     --section-padding: 100px 0;
     --container-max: 1200px;
 
+    /* Radii */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 24px;
+    --radius-pill: 999px;
+
+    /* Grid */
+    --grid-gap: 24px;
+
     /* Announcement & Header Heights */
     --announcement-height: 40px;
     --header-height: 80px;
@@ -55,7 +64,7 @@ html {
 body {
     font-family: var(--font-body);
     background-color: var(--void);
-    color: var(--white);
+    color: var(--text);
     line-height: 1.6;
     overflow-x: hidden;
 }
@@ -376,7 +385,7 @@ ul {
 }
 
 .btn-primary:hover {
-    background-color: #D4A574;
+    background-color: var(--gold-alt);
     transform: translateY(-2px);
 }
 
@@ -391,39 +400,85 @@ ul {
     color: var(--void);
 }
 
-/* Announcement Bar — Always fixed at top, never changes */
+/* Announcement Bar — Premium marquee */
 .announcement-bar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     height: var(--announcement-height);
-    background: rgba(9, 9, 11, 0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(90deg, rgba(9,9,11,0.95) 0%, rgba(20,20,22,0.95) 50%, rgba(9,9,11,0.95) 100%);
+    border-bottom: 1px solid rgba(200, 149, 108, 0.08);
     display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: var(--z-announcement);
-}
-.announcement-bar .announcement-content {
-    opacity: 1;
+    z-index: 999999;
+    overflow: hidden;
 }
 
-.announcement-content {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
+/* When WP admin bar is visible, push announcement below it */
+body.admin-bar .announcement-bar {
+    top: 32px;
+}
+
+/* Also adjust header position when admin bar is present */
+body.admin-bar .header {
+    top: calc(var(--announcement-height) + 32px);
+}
+
+.announcement-marquee {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+.announcement-track {
+    display: flex;
+    align-items: center;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.announcement-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.announcement-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 32px;
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--white);
+    color: var(--gold);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-.announcement-content .separator {
-    margin: 0 15px;
+.announcement-item .dot {
+    width: 3px;
+    height: 3px;
+    background: var(--gold);
+    border-radius: 50%;
     opacity: 0.5;
+    flex-shrink: 0;
 }
 
-/* Header — Fixed below announcement, smart sticky on scroll */
+.announcement-item .star {
+    font-size: 0.5rem;
+    opacity: 0.4;
+    flex-shrink: 0;
+}
+
+/* Header — Transparent overlay, premium feel */
 .header {
     position: fixed;
     top: var(--announcement-height);
@@ -434,52 +489,48 @@ ul {
     align-items: center;
     z-index: var(--z-header);
     background-color: transparent;
-    transform: translateY(0);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.35s ease;
-    will-change: transform;
-}
-
-.header.header--hidden {
-    transform: translateY(calc(-100% - var(--announcement-height)));
+    transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
 }
 
 .header.header--scrolled {
-    background-color: rgba(9, 9, 11, 0.92);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    background-color: rgba(9, 9, 11, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(200, 149, 108, 0.08);
 }
 
 .header-container {
     width: 100%;
-    max-width: var(--container-max);
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
 }
 
 .brand-logo {
     font-family: var(--font-heading);
-    font-size: 1.8rem;
-    font-weight: 800;
-    letter-spacing: 0.3em;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
     color: var(--white);
     text-transform: uppercase;
     display: flex;
     align-items: center;
     gap: 10px;
     text-decoration: none;
+    justify-self: start;
 }
 .brand-logo img {
-    height: 36px;
+    height: 32px;
     width: auto;
     display: block;
 }
 
 .main-nav {
     display: flex;
+    justify-self: center;
 }
 
 /* Mobile-only elements inside nav — hidden on desktop */
@@ -490,33 +541,41 @@ ul {
 
 .nav-links {
     display: flex;
-    gap: 40px;
+    gap: 36px;
+    align-items: center;
 }
 
 .nav-link {
-    font-size: 0.85rem;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
     font-weight: 500;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--white);
+    color: rgba(255, 255, 255, 0.85);
     position: relative;
     padding: 5px 0;
+    transition: color var(--transition-fast);
+}
+
+.nav-link:hover {
+    color: var(--gold);
 }
 
 .nav-link::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 50%;
     width: 0;
     height: 1px;
     background-color: var(--gold);
-    transition: width var(--transition-normal);
+    transition: width var(--transition-normal), left var(--transition-normal);
 }
 
 .nav-link:hover::after,
 .nav-link.active::after {
     width: 100%;
+    left: 0;
 }
 
 /* ─── Nav Dropdown ────────────────────────────── */
@@ -542,7 +601,7 @@ ul {
     min-width: 200px;
     background: rgba(15, 15, 17, 0.97);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     padding: 8px 0;
     opacity: 0;
     visibility: hidden;
@@ -577,14 +636,15 @@ ul {
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
+    justify-self: end;
 }
 
 .header-icon {
     background: none;
     border: none;
-    color: var(--white);
-    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
     cursor: pointer;
     position: relative;
     transition: color var(--transition-fast);
@@ -679,7 +739,7 @@ ul {
     border-bottom: none;
 }
 
-/* ─── Hero Slider ───────────────────────────────────────────── */
+/* ─── Hero Slider — Premium Full-Viewport ─────────────────── */
 .hero-slider {
     position: relative;
     height: 100vh;
@@ -707,6 +767,7 @@ ul {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 30%;
 }
 
 .hero-slide--solid .hero-slide-bg {
@@ -718,9 +779,10 @@ ul {
     inset: 0;
     background: linear-gradient(
         135deg,
-        rgba(9,9,11,0.85) 0%,
-        rgba(9,9,11,0.5) 40%,
-        rgba(9,9,11,0.3) 100%
+        rgba(9,9,11,0.9) 0%,
+        rgba(9,9,11,0.6) 35%,
+        rgba(9,9,11,0.2) 60%,
+        rgba(9,9,11,0.4) 100%
     );
 }
 
@@ -730,32 +792,35 @@ ul {
     height: 100%;
     display: flex;
     align-items: center;
-    padding-top: calc(var(--announcement-height) + var(--header-height) + 60px);
-    padding-bottom: 100px;
+    padding-top: calc(var(--announcement-height) + var(--header-height) + 40px);
+    padding-bottom: 120px;
 }
 
 .hero-slide-text {
-    max-width: 650px;
+    max-width: 700px;
 }
 
 .hero-eyebrow {
     display: inline-block;
-    font-size: 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
     font-weight: 500;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 20px;
-    padding: 8px 20px;
-    border: 1px solid rgba(200,149,108,0.4);
+    margin-bottom: 24px;
+    padding: 0;
+    border: none;
+    opacity: 0.9;
 }
 
 .hero-headline {
-    font-size: clamp(3rem, 7vw, 6rem);
-    font-weight: 800;
-    letter-spacing: 0.05em;
-    line-height: 1;
-    margin-bottom: 20px;
+    font-family: var(--font-heading);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+    margin-bottom: 28px;
     color: var(--white);
 }
 
@@ -765,11 +830,13 @@ ul {
 }
 
 .hero-subline {
-    font-size: 1.1rem;
-    color: var(--chrome);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(168, 181, 192, 0.8);
     line-height: 1.7;
-    margin-bottom: 32px;
-    max-width: 480px;
+    margin-bottom: 40px;
+    max-width: 440px;
 }
 
 .hero-cta-group {
@@ -780,8 +847,8 @@ ul {
 
 .hero-slider-nav {
     position: absolute;
-    bottom: 80px;
-    right: 40px;
+    bottom: 60px;
+    right: 60px;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -789,12 +856,12 @@ ul {
 }
 
 .hero-nav-btn {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.3);
-    color: var(--white);
-    font-size: 0.9rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85rem;
     cursor: pointer;
     transition: all var(--transition-normal);
     display: flex;
@@ -805,19 +872,19 @@ ul {
 .hero-nav-btn:hover {
     border-color: var(--gold);
     color: var(--gold);
-    background: rgba(200,149,108,0.1);
+    background: rgba(200,149,108,0.08);
 }
 
 .hero-slide-counter {
     font-family: var(--font-heading);
-    font-size: 0.9rem;
-    color: var(--chrome);
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
     letter-spacing: 0.1em;
 }
 
 .hero-current-slide {
     color: var(--gold);
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .hero-slider-progress {
@@ -843,7 +910,7 @@ ul {
 
 .scroll-indicator {
     position: absolute;
-    bottom: 30px;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
@@ -853,31 +920,32 @@ ul {
 }
 
 .mouse {
-    width: 24px;
-    height: 40px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 12px;
-    margin: 0 auto 8px;
+    width: 22px;
+    height: 36px;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 11px;
+    margin: 0 auto 10px;
     position: relative;
 }
 
 .wheel {
-    width: 4px;
-    height: 8px;
+    width: 3px;
+    height: 6px;
     background-color: var(--gold);
     border-radius: 2px;
     position: absolute;
-    top: 8px;
+    top: 7px;
     left: 50%;
     transform: translateX(-50%);
     animation: scrollWheel 1.5s infinite;
 }
 
 .scroll-indicator p {
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
+    font-family: var(--font-body);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
+    color: rgba(255,255,255,0.35);
 }
 
 @keyframes scrollWheel {
@@ -889,7 +957,7 @@ ul {
     to { opacity: 1; }
 }
 
-/* ─── Categories ────────────────────────────────────────────── */
+/* ─── Categories — Bento Grid ───────────────────────────────── */
 .categories {
     padding: var(--section-padding);
     background-color: transparent;
@@ -897,26 +965,43 @@ ul {
 
 .category-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 20px;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+    min-height: 560px;
+}
+
+.category-grid-item {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-md);
+}
+
+/* Large item — spans left column, full height of the 2 rows */
+.category-grid-item--large {
+    grid-column: 1;
+    grid-row: 1 / 3;
 }
 
 .category-card {
     position: relative;
     overflow: hidden;
-    aspect-ratio: 4/5;
     display: block;
     cursor: pointer;
+    border-radius: var(--radius-md);
+    background: #111;
+    height: 100%;
 }
 
+/* Large card sizing (placement lives on .category-grid-item--large) */
 .category-card--large {
-    grid-row: span 2;
-    aspect-ratio: auto;
+    min-height: 560px;
+    height: 100%;
 }
 
-.category-card--accent {
-    background: linear-gradient(135deg, var(--gold), #D4A574);
+/* Small card sizing */
+.category-card:not(.category-card--large) {
+    min-height: 260px;
 }
 
 .category-card-bg {
@@ -928,22 +1013,32 @@ ul {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--transition-slow);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .category-card:hover .category-card-bg img {
-    transform: scale(1.08);
+    transform: scale(1.06);
 }
 
 .category-card-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(9,9,11,0.9) 0%, rgba(9,9,11,0.2) 100%);
-    transition: background var(--transition-normal);
+    background: linear-gradient(
+        to top,
+        rgba(9, 9, 11, 0.85) 0%,
+        rgba(9, 9, 11, 0.1) 40%,
+        rgba(9, 9, 11, 0) 100%
+    );
+    transition: background 0.4s ease;
 }
 
 .category-card:hover .category-card-overlay {
-    background: linear-gradient(to top, rgba(9,9,11,0.95) 0%, rgba(9,9,11,0.4) 100%);
+    background: linear-gradient(
+        to top,
+        rgba(9, 9, 11, 0.92) 0%,
+        rgba(9, 9, 11, 0.25) 50%,
+        rgba(9, 9, 11, 0.05) 100%
+    );
 }
 
 .category-card-content {
@@ -951,33 +1046,54 @@ ul {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 30px;
+    padding: 28px;
     z-index: 1;
 }
 
+/* Large card gets more padding */
+.category-card--large .category-card-content {
+    padding: 36px;
+}
+
 .category-count {
-    display: block;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    opacity: 0.9;
 }
 
 .category-name {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--white);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    line-height: 1.2;
+    transition: color 0.3s ease;
+}
+
+.category-card--large .category-name {
+    font-size: 2.2rem;
+}
+
+.category-card:hover .category-name {
+    color: var(--gold);
 }
 
 .category-cta {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--chrome);
-    transition: color var(--transition-fast);
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
 }
 
 .category-card:hover .category-cta {
@@ -985,12 +1101,48 @@ ul {
 }
 
 .category-cta i {
-    margin-left: 8px;
-    transition: transform var(--transition-fast);
+    font-size: 0.7rem;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .category-card:hover .category-cta i {
-    transform: translateX(4px);
+    transform: translateX(6px);
+}
+
+.category-card--accent {
+    background: linear-gradient(135deg, var(--gold), var(--gold-alt));
+}
+
+/* View All button */
+.category-grid-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+}
+
+.categories-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border-color: rgba(255, 255, 255, 0.25);
+    padding: 14px 36px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.categories-view-all i {
+    font-size: 0.75rem;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.categories-view-all:hover {
+    border-color: var(--gold);
+    background: var(--gold);
+    color: var(--void);
+    transform: translateY(-2px);
+}
+
+.categories-view-all:hover i {
+    transform: translateX(6px);
 }
 
 /* ─── Products Grid ─────────────────────────────────────────── */
@@ -1002,11 +1154,11 @@ ul {
 .products-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: var(--grid-gap);
 }
 
 .product-card {
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     transition: all var(--transition-normal);
     background: var(--void);
     cursor: pointer;
@@ -1050,7 +1202,7 @@ ul {
 }
 
 .badge-new {
-    background-color: #4CAF50;
+    background-color: var(--success);
 }
 
 .badge-limited {
@@ -1181,7 +1333,7 @@ ul {
 .review-card {
     padding: 30px;
     background: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     height: 100%;
     transition: border-color var(--transition-normal);
 }
@@ -1201,7 +1353,7 @@ ul {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), #D4A574);
+    background: linear-gradient(135deg, var(--gold), var(--gold-alt));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1229,7 +1381,7 @@ ul {
 
 .review-verified {
     font-size: 0.7rem;
-    color: #4CAF50;
+    color: var(--success);
 }
 
 .review-verified i {
@@ -1294,13 +1446,13 @@ ul {
 .faq-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: var(--grid-gap);
     max-width: 1000px;
     margin: 0 auto;
 }
 
 .faq-item {
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     margin-bottom: 12px;
     transition: border-color var(--transition-normal);
 }
@@ -1463,7 +1615,7 @@ ul {
 }
 
 .newsletter-btn:hover {
-    background: #D4A574;
+    background: var(--gold-alt);
     transform: translateY(-1px);
     box-shadow: 0 4px 16px rgba(200,149,108,0.3);
 }
@@ -1640,7 +1792,7 @@ ul {
 .footer {
     padding: 80px 0 0;
     background-color: var(--void);
-    border-top: 1px solid #1A1A1A;
+    border-top: 1px solid var(--line);
     position: relative;
     z-index: var(--z-footer);
 }
@@ -1676,7 +1828,7 @@ ul {
 .footer-social a {
     width: 40px;
     height: 40px;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1722,7 +1874,7 @@ ul {
 
 .footer-newsletter-form {
     display: flex;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
 }
 
 .footer-newsletter-form input {
@@ -1754,7 +1906,7 @@ ul {
 }
 
 .footer-newsletter-form button:hover {
-    background: #D4A574;
+    background: var(--gold-alt);
 }
 
 .footer-bottom {
@@ -1762,7 +1914,7 @@ ul {
     align-items: center;
     justify-content: space-between;
     padding: 24px 0;
-    border-top: 1px solid #1A1A1A;
+    border-top: 1px solid var(--line);
 }
 
 .footer-legal {
@@ -1790,13 +1942,14 @@ ul {
 
 /* ─── Buttons (supplemental) ────────────────────────────────── */
 .btn-lg {
-    padding: 18px 44px;
-    font-size: 0.9rem;
+    padding: 18px 48px;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
 }
 
 .btn-sm {
     padding: 10px 20px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
 }
 
 /* Content Pages (Privacy, Terms, Cookies) — short hero with flex centering */
@@ -2039,7 +2192,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .filter-bar {
     padding: 30px 0;
     background-color: var(--void);
-    border-bottom: 1px solid #1A1A1A;
+    border-bottom: 1px solid var(--line);
 }
 
 .filter-buttons {
@@ -2052,7 +2205,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .filter-btn {
     padding: 10px 24px;
     background: transparent;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     color: var(--chrome);
     font-family: var(--font-body);
     font-size: 0.85rem;
@@ -2095,7 +2248,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 }
 
 .badge-sale {
-    background-color: #C44;
+    background-color: var(--error);
 }
 
 .product-info {
@@ -2180,7 +2333,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 /* ── Gallery ─────────────────────────────────────────────── */
 .pd-gallery-main {
     position: relative;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     overflow: hidden;
     background: var(--void);
     aspect-ratio: 1 / 1;
@@ -2217,7 +2370,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     right: 16px;
     width: 40px;
     height: 40px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     background: rgba(0,0,0,0.5);
     border: 1px solid rgba(200,149,108,0.3);
     color: var(--white);
@@ -2242,7 +2395,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     gap: 12px;
 }
 .pd-gallery-thumbs .swiper-slide {
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     overflow: hidden;
     cursor: pointer;
     opacity: 0.5;
@@ -2379,7 +2532,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .pd-size-btn {
     padding: 12px 8px;
     background: transparent;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     color: var(--chrome);
     font-family: var(--font-body);
     font-size: 0.82rem;
@@ -2398,7 +2551,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .pd-qty {
     display: inline-flex;
     align-items: center;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
 }
 .pd-qty-btn {
     width: 48px;
@@ -2438,7 +2591,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .pd-wishlist-btn {
     width: 54px;
     height: 54px;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     background: transparent;
     color: var(--white);
     font-size: 1.1rem;
@@ -2459,7 +2612,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     display: flex;
     gap: 24px;
     padding-top: 20px;
-    border-top: 1px solid #1A1A1A;
+    border-top: 1px solid var(--line);
 }
 .pd-trust-item {
     display: flex;
@@ -2499,7 +2652,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .pd-sticky-product img {
     width: 48px;
     height: 48px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     object-fit: cover;
 }
 .pd-sticky-name {
@@ -2522,7 +2675,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .pd-sticky-size-select {
     padding: 10px 30px 10px 14px;
     background: var(--void);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     color: var(--white);
     font-family: var(--font-body);
     font-size: 0.85rem;
@@ -2561,9 +2714,9 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 }
 .pd-accordion { max-width: 800px; margin: 0 auto; }
 .pd-accordion-item {
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     margin-bottom: 8px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     overflow: hidden;
     transition: border-color var(--transition-fast);
 }
@@ -2625,15 +2778,15 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 }
 .pd-reviews-summary {
     padding: 30px;
-    border: 1px solid #1A1A1A;
-    border-radius: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
     background: rgba(26,26,26,0.4);
 }
 .pd-reviews-score {
     text-align: center;
     margin-bottom: 24px;
     padding-bottom: 24px;
-    border-bottom: 1px solid #1A1A1A;
+    border-bottom: 1px solid var(--line);
 }
 .pd-score-number {
     display: block;
@@ -2679,8 +2832,8 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .pd-reviews-list { display: flex; flex-direction: column; gap: 20px; }
 .pd-review-card {
     padding: 28px;
-    border: 1px solid #1A1A1A;
-    border-radius: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
     background: rgba(26,26,26,0.4);
     transition: border-color var(--transition-fast);
 }
@@ -2762,7 +2915,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 }
 .pd-modal {
     background: #111;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     border-radius: 16px;
     padding: 40px;
     max-width: 560px;
@@ -2781,7 +2934,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     background: transparent;
     color: var(--chrome);
     display: flex;
@@ -2819,7 +2972,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     text-align: left;
     font-weight: 600;
     color: var(--gold);
-    border-bottom: 1px solid #1A1A1A;
+    border-bottom: 1px solid var(--line);
     text-transform: uppercase;
     font-size: 0.75rem;
     letter-spacing: 0.05em;
@@ -2836,7 +2989,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     gap: 12px;
     padding: 14px;
     background: rgba(200,149,108,0.08);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     border: 1px solid rgba(200,149,108,0.15);
 }
 .pd-modal-tip i {
@@ -2864,7 +3017,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 
 .blog-card {
     display: block;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     overflow: hidden;
     transition: all var(--transition-normal);
 }
@@ -3040,7 +3193,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     align-items: center;
     padding: 30px;
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     margin-top: 50px;
 }
 
@@ -3135,7 +3288,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 
 .faq-section .accordion-item {
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     margin-bottom: 10px;
 }
 
@@ -3254,7 +3407,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 
 .review-card {
     padding: 30px;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     transition: border-color var(--transition-normal);
 }
 
@@ -3336,7 +3489,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .team-card {
     text-align: center;
     padding: 30px;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     transition: all var(--transition-normal);
 }
 
@@ -3350,7 +3503,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     border-radius: 50%;
     overflow: hidden;
     margin: 0 auto 20px;
-    border: 2px solid #1A1A1A;
+    border: 2px solid var(--line);
 }
 
 .team-image img {
@@ -3404,7 +3557,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     display: flex;
     gap: 20px;
     padding: 24px 0;
-    border-bottom: 1px solid #1A1A1A;
+    border-bottom: 1px solid var(--line);
 }
 
 .cart-item-image {
@@ -3455,13 +3608,13 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 }
 
 .cart-item-remove:hover {
-    color: #C44;
+    color: var(--error);
 }
 
 .cart-summary {
     padding: 30px;
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     position: sticky;
     top: 140px;
 }
@@ -3485,7 +3638,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     display: flex;
     justify-content: space-between;
     padding-top: 15px;
-    border-top: 1px solid #1A1A1A;
+    border-top: 1px solid var(--line);
     margin-top: 15px;
     font-size: 1.1rem;
     font-weight: 700;
@@ -3533,7 +3686,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     color: var(--white);
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #1A1A1A;
+    border-bottom: 1px solid var(--line);
 }
 
 .form-group {
@@ -3555,7 +3708,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     width: 100%;
     padding: 14px 16px;
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     color: var(--white);
     font-family: var(--font-body);
     font-size: 0.9rem;
@@ -3586,7 +3739,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     gap: 12px;
     padding: 14px 16px;
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     cursor: pointer;
     transition: border-color var(--transition-fast);
 }
@@ -3642,7 +3795,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     width: 100%;
     padding: 14px 16px;
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     color: var(--white);
     font-family: var(--font-body);
     font-size: 0.9rem;
@@ -3665,7 +3818,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .contact-info-card {
     padding: 24px;
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
 }
 
 .contact-info-card h4 {
@@ -3692,7 +3845,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .contact-social a {
     width: 40px;
     height: 40px;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3709,7 +3862,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     margin-top: 40px;
     height: 200px;
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3732,7 +3885,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     max-width: 440px;
     padding: 50px 40px;
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     text-align: center;
 }
 
@@ -3775,7 +3928,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     width: 100%;
     padding: 14px;
     background-color: var(--void);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     color: var(--white);
     font-family: var(--font-body);
     font-size: 0.9rem;
@@ -3892,7 +4045,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     flex: 1;
     padding: 14px 18px;
     background-color: var(--surface);
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     color: var(--white);
     font-family: var(--font-body);
     font-size: 0.9rem;
@@ -3971,7 +4124,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     align-items: center;
     justify-content: center;
     background: transparent;
-    border: 1px solid #1A1A1A;
+    border: 1px solid var(--line);
     color: var(--chrome);
     font-size: 0.9rem;
     cursor: pointer;

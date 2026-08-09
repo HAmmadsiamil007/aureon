@@ -20,6 +20,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array Array with items/status/count/links.
  */
 function aether_adapter_wishlist() {
+	// WooCommerce must be active — wishlist items are WC products.
+	if ( ! function_exists( 'wc_get_product' ) || ! function_exists( 'wc_price' ) ) {
+		return array(
+			'items'       => array(),
+			'status'      => 'empty',
+			'count'       => 0,
+			'shop_url'    => home_url( '/shop/' ),
+			'account_url' => wp_login_url(),
+		);
+	}
+
 	$shop_url    = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/' );
 	$account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : wp_login_url();
 

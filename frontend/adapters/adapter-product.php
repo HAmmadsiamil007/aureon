@@ -10,6 +10,13 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 function aether_adapter_product() {
+    // WooCommerce must be present — this adapter only runs on product pages,
+    // but guard anyway so a degraded stack (WC disabled/mid-upgrade) can
+    // never fatal on is_product() or wc_get_product().
+    if ( ! function_exists( 'is_product' ) || ! function_exists( 'wc_get_product' ) ) {
+        return array();
+    }
+
     $product_id = is_product() ? get_queried_object_id() : 0;
     $product    = $product_id ? wc_get_product( $product_id ) : false;
 
@@ -35,10 +42,11 @@ function aether_adapter_product() {
         $old_price_plain = wp_strip_all_tags( wc_price( (float) $product->get_regular_price() ) );
     }
 
-    // Rating — real reviews when present, demo fallback otherwise.
+    // Rating — real reviews when present, demo fallback otherwise
+    // (demo rating gated by aether_demo_content).
     $rating = (float) $product->get_average_rating();
     $count  = (int) $product->get_review_count();
-    if ( ! $rating && ! $count ) {
+    if ( ! $rating && ! $count && aureon_get_option( 'aether_demo_content', true ) ) {
         $rating = (float) aureon_get_option( 'aether_product_score', 4.8 );
         $count  = (int) aureon_get_option( 'aether_product_score_count', 128 );
     }
@@ -134,7 +142,8 @@ function aether_adapter_product() {
                 'text'     => wp_trim_words( $comment->comment_content, 40 ),
             );
         }
-    } else {
+    } elseif ( aureon_get_option( 'aether_demo_content', true ) ) {
+        // Demo review cards only when the demo-content policy allows it.
         $review_items = (array) aureon_get_option( 'aether_product_reviews', array() );
     }
 
@@ -151,7 +160,8 @@ function aether_adapter_product() {
                 'count'   => $n,
             );
         }
-    } else {
+    } elseif ( aureon_get_option( 'aether_demo_content', true ) ) {
+        // Demo score distribution only when the demo-content policy allows it.
         $bars = (array) aureon_get_option( 'aether_product_score_bars', array() );
     }
 

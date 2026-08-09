@@ -54,7 +54,10 @@ $buttons  = isset( $componentData['buttons'] ) ? (array) $componentData['buttons
 						$url   = isset( $button['url'] ) ? $button['url'] : '#';
 						$style = isset( $button['style'] ) ? $button['style'] : 'primary';
 						?>
-						<a href="<?php echo esc_url( $url ); ?>" class="btn <?php echo 'outline' === $style ? 'btn-outline' : 'btn-primary'; ?> btn-lg" data-magnetic="0.12"><?php echo esc_html( $label ); ?></a>
+						<a href="<?php echo esc_url( $url ); ?>" class="btn <?php echo 'outline' === $style ? 'btn-outline' : 'btn-primary'; ?> btn-lg" data-magnetic="0.12">
+							<?php if ( 'outline' === $style ) : ?><i class="fas fa-play" style="margin-right: 8px; font-size: 0.7rem;"></i><?php endif; ?>
+							<?php echo esc_html( $label ); ?>
+						</a>
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>

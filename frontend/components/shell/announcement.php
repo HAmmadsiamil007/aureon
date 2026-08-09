@@ -1,6 +1,6 @@
 <?php
 /**
- * Announcement bar — marquee of rotating promo messages.
+ * Announcement bar — premium marquee with continuous scroll.
  *
  * Key:    'shell/announcement'
  * Source: engine-native (global chrome — all 21 source pages)
@@ -16,7 +16,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit;
 }
 
 $componentData = isset( $componentData ) ? (array) $componentData : array();
@@ -25,19 +25,36 @@ $items         = isset( $componentData['items'] ) ? (array) $componentData['item
 if ( empty( $items ) ) {
 	return;
 }
+
+// Flatten items to text strings.
+$texts = array();
+foreach ( $items as $item ) {
+	$text = isset( $item['text'] ) ? $item['text'] : '';
+	if ( '' !== $text ) {
+		$texts[] = $text;
+	}
+}
+
+if ( empty( $texts ) ) {
+	return;
+}
 ?>
-<div class="announcement-bar" id="announcementBar">
-	<div class="announcement-content">
-		<?php foreach ( $items as $index => $item ) : ?>
-			<?php if ( $index > 0 ) : ?>
-				<span class="separator">|</span>
-			<?php endif; ?>
-			<span>
-				<?php if ( ! empty( $item['icon'] ) ) : ?>
-					<i class="<?php echo esc_attr( $item['icon'] ); ?>" aria-hidden="true"></i>
-				<?php endif; ?>
-				<?php echo esc_html( isset( $item['text'] ) ? $item['text'] : '' ); ?>
-			</span>
-		<?php endforeach; ?>
+<div class="announcement-bar" id="announcementBar" role="region" aria-label="Site announcements">
+	<div class="announcement-marquee">
+		<div class="announcement-track">
+			<?php
+			// Render items twice for seamless infinite loop.
+			for ( $pass = 0; $pass < 2; $pass++ ) :
+				foreach ( $texts as $index => $text ) :
+					?>
+					<span class="announcement-item">
+						<span class="star">&#10022;</span>
+						<?php echo esc_html( $text ); ?>
+					</span>
+					<?php
+				endforeach;
+			endfor;
+			?>
+		</div>
 	</div>
 </div>

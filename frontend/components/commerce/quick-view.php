@@ -14,7 +14,7 @@
  * @package Aureon
  */
 ?>
-<div class="quick-view-modal" id="aetherQuickView" role="dialog" aria-modal="true" aria-labelledby="aetherQuickViewTitle" hidden>
+<div class="quick-view-modal" id="aetherQuickView" role="dialog" aria-modal="true" aria-label="<?php esc_attr_e( 'Quick view', 'aureon' ); ?>" hidden>
 	<div class="quick-view-backdrop" data-quickview-close></div>
 	<div class="quick-view-panel" role="document">
 		<button class="quick-view-close" type="button" data-quickview-close aria-label="<?php esc_attr_e( 'Close', 'aureon' ); ?>"><i class="fas fa-times"></i></button>

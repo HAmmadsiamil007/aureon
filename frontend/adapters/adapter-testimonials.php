@@ -33,8 +33,8 @@ function aether_adapter_testimonials() {
         wp_reset_postdata();
     }
 
-    // Demo fallback — no testimonial posts yet.
-    if ( empty( $items ) ) {
+    // Demo fallback — no testimonial posts yet (gated by aether_demo_content).
+    if ( empty( $items ) && aureon_get_option( 'aether_demo_content', true ) ) {
         foreach ( (array) aureon_get_option( 'aether_testimonial_items', array() ) as $demo ) {
             $items[] = array(
                 'stars'    => isset( $demo['stars'] ) ? (float) $demo['stars'] : 5,

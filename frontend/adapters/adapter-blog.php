@@ -15,7 +15,19 @@ function aether_adapter_blog( $query_args = array() ) {
 	);
 
 	$query_args = wp_parse_args( $query_args, $defaults );
-	$query      = new WP_Query( $query_args );
+
+	// Whitelist query keys — the renderer merges section data (label, title,
+	// subtitle...) into $query_args, and WP_Query would interpret 'title' as
+	// a post-title search, silently emptying the grid.
+	$allowed = array(
+		'post_type', 'posts_per_page', 'post_status', 'paged',
+		'category_name', 'tag', 'author', 's', 'orderby', 'order',
+		'post__in', 'post__not_in', 'tax_query', 'meta_key', 'meta_value',
+		'ignore_sticky_posts',
+	);
+	$query_args = array_intersect_key( $query_args, array_flip( $allowed ) );
+
+	$query = new WP_Query( $query_args );
 	$items      = array();
 
 	if ( $query->have_posts() ) {

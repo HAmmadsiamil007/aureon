@@ -86,7 +86,7 @@ function aether_adapter_cart( $args = array() ) {
 				if ( '' === $value ) {
 					continue;
 				}
-				$tax = wc_attribute_taxonomy_name( 'pa_color' );
+				$tax = function_exists( 'wc_attribute_taxonomy_name' ) ? wc_attribute_taxonomy_name( 'pa_color' ) : 'pa_color';
 				if ( $attr === $tax ) {
 					$parts[] = ucfirst( $value );
 				} else {

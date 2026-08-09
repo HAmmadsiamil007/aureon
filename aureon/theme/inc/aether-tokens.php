@@ -6,6 +6,17 @@
  * the Aureon option bucket (aureon_get_option), overriding the
  * hardcoded defaults in style.css.
  *
+ * WS-1 (AETHER × Aureon integration plan):
+ * - Emits the FULL token set: 12 colors, 2 font stacks (bridged to the
+ *   dynamic Typography Manager), and 9 layout tokens (container, section
+ *   padding, announcement/header heights, grid gap, radii).
+ * - Customizer-aware: tokens render in the Customizer preview iframe
+ *   (the old is_customize_preview() bail hid every dynamic token).
+ * - Color resolution precedence: explicit `aether_color_*` option →
+ *   customized `global_colors` palette (React Color Manager) → AETHER
+ *   default. Fonts: explicit `aether_font_*` → Typography Manager entry
+ *   (body / all-headings) → classic font option → default.
+ *
  * @package Aureon
  */
 
@@ -14,14 +25,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action( 'wp_enqueue_scripts', 'aether_enqueue_tokens', 98 );
+
 /**
  * Enqueue inline CSS that overrides :root custom properties.
  *
  * Priority 98 ensures this loads after the engine styles (20) but is
  * printed after them, so the dynamic tokens take effect.
+ *
+ * NOTE: is_customize_preview() is intentionally NOT bailed — the
+ * Customizer preview iframe is a normal front-end render and must see
+ * live tokens so every control round-trips (G10).
  */
 function aether_enqueue_tokens() {
-	if ( is_customize_preview() || is_admin() ) {
+	if ( is_admin() ) {
 		return;
 	}
 
@@ -39,8 +55,9 @@ function aether_enqueue_tokens() {
 /**
  * Generate CSS custom properties from the Aureon option bucket.
  *
- * Falls back to the hardcoded defaults in style.css for anything not
- * explicitly set. Font stacks are quoted when they contain spaces.
+ * Every value flows through a sanitizer and falls back to the same
+ * default that style.css :root declares, so removing this block never
+ * breaks the design.
  *
  * @return string CSS custom property block.
  */
@@ -49,36 +66,220 @@ function aether_generate_tokens_css() {
 		return '';
 	}
 
+	// Read the raw option bucket ONCE and pass it down — every resolver
+	// needs to distinguish "explicitly saved" from "default", and this
+	// avoids N+1 get_option() calls on every page render.
+	$saved  = get_option( 'aureon_settings', array() );
 	$tokens = array();
 
 	// ─── Colors ──────────────────────────────────────────────
-	$void    = aureon_get_option( 'aether_color_bg', '#09090B' );
-	$surface = aureon_get_option( 'aether_color_surface', '#141416' );
-	$accent  = aureon_get_option( 'aether_color_accent', '#C8956C' );
-	$muted   = aureon_get_option( 'aether_color_muted', '#A8B5C0' );
+	// CSS var => [ option key, palette slug fallbacks, default ].
+	$colors = array(
+		'--void'        => array( 'aether_color_bg', array( 'base', 'base-2' ), '#09090B' ),
+		'--surface'     => array( 'aether_color_surface', array( 'base-2', 'base-3' ), '#141416' ),
+		'--surface-2'   => array( 'aether_color_surface_2', array( 'base-3' ), '#1a1a1d' ),
+		'--surface-3'   => array( 'aether_color_surface_3', array(), '#232327' ),
+		'--text'        => array( 'aether_color_text', array( 'contrast' ), '#FFFFFF' ),
+		'--muted'       => array( 'aether_color_muted', array( 'contrast-2' ), '#A8B5C0' ),
+		'--chrome'      => array( 'aether_color_muted', array( 'contrast-2' ), '#A8B5C0' ), // Alias kept for existing CSS.
+		'--gold'        => array( 'aether_color_accent', array( 'accent' ), '#C8956C' ),
+		'--gold-alt'    => array( 'aether_color_accent_hover', array(), '#D4A574' ),
+		'--line'        => array( 'aether_color_border', array(), '#1A1A1A' ),
+		'--error'       => array( 'aether_color_error', array(), '#CC4444' ),
+		'--success'     => array( 'aether_color_success', array(), '#4CAF50' ),
+	);
 
-	$tokens[] = '--void: ' . sanitize_hex_color( $void ) . ';';
-	$tokens[] = '--surface: ' . sanitize_hex_color( $surface ) . ';';
-	$tokens[] = '--gold: ' . sanitize_hex_color( $accent ) . ';';
-	$tokens[] = '--chrome: ' . sanitize_hex_color( $muted ) . ';';
+	foreach ( $colors as $var => $def ) {
+		$tokens[] = $var . ': ' . aether_resolve_color( $def[0], $def[1], $def[2], $saved ) . ';';
+	}
 
-	// ─── Typography ──────────────────────────────────────────
-	$heading = aureon_get_option( 'aether_font_heading', 'Cabinet Grotesk' );
-	$body    = aureon_get_option( 'aether_font_body', 'Satoshi' );
+	// ─── Typography (bridged to the dynamic Typography Manager) ──
+	$heading = aether_font_for( 'heading', $saved );
+	$body    = aether_font_for( 'body', $saved );
 
 	$tokens[] = '--font-heading: ' . aether_token_css_value( aether_token_font_stack( $heading ) ) . ';';
 	$tokens[] = '--font-body: ' . aether_token_css_value( aether_token_font_stack( $body ) ) . ';';
 
 	// ─── Layout ──────────────────────────────────────────────
-	$container = aureon_get_option( 'aether_container_max', '1200px' );
+	$layout = array(
+		'--container-max'       => array( 'aether_container_max', '1200px' ),
+		'--section-padding'     => array( 'aether_section_padding', '100px 0' ),
+		'--announcement-height' => array( 'aether_announcement_height', '40px' ),
+		'--header-height'       => array( 'aether_header_height', '80px' ),
+		'--grid-gap'            => array( 'aether_grid_gap', '24px' ),
+		'--radius-sm'           => array( 'aether_radius_sm', '8px' ),
+		'--radius-md'           => array( 'aether_radius_md', '12px' ),
+		'--radius-lg'           => array( 'aether_radius_lg', '24px' ),
+		'--radius-pill'         => array( 'aether_radius_pill', '999px' ),
+	);
 
-	if ( is_numeric( $container ) ) {
-		$container .= 'px';
+	foreach ( $layout as $var => $def ) {
+		$value = aureon_get_option( $def[0] );
+
+		if ( null === $value || '' === $value ) {
+			$value = $def[1];
+		}
+
+		// Normalize bare numbers to px (matching the option pattern).
+		if ( is_numeric( $value ) ) {
+			$value .= 'px';
+		}
+
+		$tokens[] = $var . ': ' . aether_token_css_value( $value ) . ';';
 	}
 
-	$tokens[] = '--container-max: ' . aether_token_css_value( $container ) . ';';
-
 	return ':root {' . implode( "\n\t", $tokens ) . '}';
+}
+
+/**
+ * Resolve a color token.
+ *
+ * Precedence:
+ * 1. Explicit `aether_color_*` option saved in the DB.
+ * 2. A customized `global_colors` palette (React Color Manager), mapped
+ *    by palette slug — only when the palette differs from the theme
+ *    defaults, so the dark AETHER design can't be clobbered by the
+ *    default light palette.
+ * 3. The AETHER default (registered in frontend/tokens/tokens.php).
+ *
+ * @param string $option_key    Option key (e.g. 'aether_color_bg').
+ * @param array  $palette_slugs Palette slugs that may map to this token.
+ * @param string $default       Fallback color.
+ * @param array  $saved         Raw aureon_settings bucket (read once by the caller).
+ * @return string Safe CSS color value.
+ */
+function aether_resolve_color( $option_key, $palette_slugs, $default, $saved ) {
+	if ( is_array( $saved ) && isset( $saved[ $option_key ] ) && '' !== $saved[ $option_key ] && null !== $saved[ $option_key ] ) {
+		return aether_sanitize_color( $saved[ $option_key ], $default );
+	}
+
+	$palette = aether_get_custom_palette( $saved );
+
+	if ( ! empty( $palette ) ) {
+		foreach ( (array) $palette_slugs as $slug ) {
+			if ( isset( $palette[ $slug ] ) ) {
+				return aether_sanitize_color( $palette[ $slug ], $default );
+			}
+		}
+	}
+
+	return $default;
+}
+
+/**
+ * Get the palette from the React Color Manager — only when the user
+ * actually customized it (saved value differs from the theme defaults).
+ *
+ * @param array $saved Raw aureon_settings bucket (read once by the caller).
+ * @return array Slug => color map, empty when not customized.
+ */
+function aether_get_custom_palette( $saved ) {
+	if ( empty( $saved['global_colors'] ) || ! is_array( $saved['global_colors'] ) ) {
+		return array();
+	}
+
+	$default_palette = function_exists( 'aureon_get_defaults' ) ? aureon_get_defaults() : array();
+	$default_palette = isset( $default_palette['global_colors'] ) ? $default_palette['global_colors'] : array();
+
+	// Identical to the default palette → not a real customization.
+	if ( $saved['global_colors'] === $default_palette ) {
+		return array();
+	}
+
+	$map = array();
+
+	foreach ( $saved['global_colors'] as $entry ) {
+		if ( ! empty( $entry['slug'] ) && ! empty( $entry['color'] ) ) {
+			$map[ $entry['slug'] ] = $entry['color'];
+		}
+	}
+
+	return $map;
+}
+
+/**
+ * Resolve a font stack role to a family name.
+ *
+ * Precedence:
+ * 1. Explicit `aether_font_heading` / `aether_font_body` override.
+ * 2. Dynamic Typography Manager entries (selector `body` for body;
+ *    `all-headings` for headings).
+ * 3. Classic font options when dynamic typography is disabled.
+ * 4. AETHER defaults (Cabinet Grotesk / Satoshi).
+ *
+ * @param string $role  'heading' | 'body'.
+ * @param array  $saved Raw aureon_settings bucket (read once by the caller).
+ * @return string Bare font family name.
+ */
+function aether_font_for( $role, $saved ) {
+	$option = 'aether_font_' . $role;
+
+	// 1. Explicit AETHER override.
+	if ( is_array( $saved ) && isset( $saved[ $option ] ) && '' !== $saved[ $option ] ) {
+		return $saved[ $option ];
+	}
+
+	// 2. Dynamic typography entries.
+	if ( function_exists( 'aureon_is_using_dynamic_typography' ) && aureon_is_using_dynamic_typography() ) {
+		$typography = aureon_get_option( 'typography' );
+		$selectors  = ( 'body' === $role ) ? array( 'body' ) : array( 'all-headings' );
+
+		foreach ( (array) $typography as $entry ) {
+			if ( ! empty( $entry['fontFamily'] ) && in_array( $entry['selector'], $selectors, true ) ) {
+				return $entry['fontFamily'];
+			}
+		}
+	} elseif ( function_exists( 'aureon_get_option' ) ) {
+		// 3. Classic fonts (legacy path when dynamic typography is off).
+		$classic = ( 'body' === $role ) ? 'font_body' : 'font_heading_1';
+		$family  = aureon_get_option( $classic );
+
+		if ( $family && 'inherit' !== $family && 'System Stack' !== $family ) {
+			return $family;
+		}
+	}
+
+	// 4. AETHER defaults (defensive: tokens.php may not be loaded yet).
+	$default = aureon_get_option( $option );
+
+	if ( ! is_string( $default ) || '' === $default ) {
+		$default = ( 'heading' === $role ) ? 'Cabinet Grotesk' : 'Satoshi';
+	}
+
+	return $default;
+}
+
+/**
+ * Sanitize a color value for use inside a CSS declaration.
+ *
+ * Accepts hex, rgb()/rgba(), and var() references. Anything else falls
+ * back to $fallback. (Core sanitize_hex_color() rejects rgba strings,
+ * so this is the CSS-value-safe alternative used on the front end.)
+ *
+ * @param string $value    Raw color value.
+ * @param string $fallback Safe fallback color.
+ * @return string Safe CSS color value.
+ */
+function aether_sanitize_color( $value, $fallback ) {
+	$value = trim( (string) $value );
+
+	if ( '' === $value ) {
+		return $fallback;
+	}
+
+	if ( preg_match( '/^#([A-Fa-f0-9]{3}){1,2}$/', $value ) ) {
+		return $value;
+	}
+
+	if ( 0 === strpos( $value, 'rgb' ) || 0 === strpos( $value, 'var(' ) ) {
+		$clean = aether_token_css_value( $value );
+
+		if ( '' !== $clean ) {
+			return $clean;
+		}
+	}
+
+	return $fallback;
 }
 
 /**

@@ -7,7 +7,7 @@
  *
  * Props:  (all keys optional; escaped at render; missing key → default listed)
  * - `string $name      Category name. Default ''.`
- * - `int $count     Item count. Default 0.`
+ * - `string $count     Item count label. Default ''.`
  * - `string $image     Image URL. Default ''.`
  * - `string $alt       Image alt text. Default $name.`
  * - `string $url       Category link. Default '#'.`
@@ -37,17 +37,28 @@ if ( ! $name ) {
 	return;
 }
 
+// Build CSS classes.
 $class = 'category-card';
 if ( 'large' === $modifier ) {
 	$class .= ' category-card--large';
 } elseif ( 'accent' === $modifier ) {
 	$class .= ' category-card--accent';
 }
+
+// Descriptive link text for screen readers.
+$screen_reader_text = sprintf( __( 'Shop %s', 'aureon' ), $name );
 ?>
-<a href="<?php echo esc_url( $url ); ?>" class="<?php echo esc_attr( $class ); ?>" data-tilt data-reveal-item>
+<a href="<?php echo esc_url( $url ); ?>" class="<?php echo esc_attr( $class ); ?>" data-tilt data-reveal-item aria-label="<?php echo esc_attr( $screen_reader_text ); ?>">
 	<div class="category-card-bg">
 		<?php if ( $image ) : ?>
-			<img loading="lazy" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $alt ); ?>">
+			<img
+				loading="lazy"
+				src="<?php echo esc_url( $image ); ?>"
+				alt="<?php echo esc_attr( $alt ); ?>"
+				width="400"
+				height="300"
+				decoding="async"
+			>
 		<?php endif; ?>
 		<div class="category-card-overlay"></div>
 	</div>
@@ -56,6 +67,9 @@ if ( 'large' === $modifier ) {
 			<span class="category-count"><?php echo esc_html( $count ); ?></span>
 		<?php endif; ?>
 		<h3 class="category-name"><?php echo esc_html( $name ); ?></h3>
-		<span class="category-cta">Shop <?php echo esc_html( $name ); ?> <i class="fas fa-arrow-right"></i></span>
+		<span class="category-cta">
+			<span class="category-cta-text"><?php echo esc_html( $screen_reader_text ); ?></span>
+			<i class="fas fa-arrow-right" aria-hidden="true"></i>
+		</span>
 	</div>
 </a>

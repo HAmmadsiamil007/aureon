@@ -1,6 +1,26 @@
 // AETHER — Main JavaScript
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Preloader MUST resolve independently — even if a later module throws
+    // (e.g. Swiper CDN blocked), the splash must never stay on screen.
+    try {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            const progress = preloader.querySelector('.preloader-progress');
+            let p = 0;
+            const interval = setInterval(() => {
+                p += Math.random() * 25 + 5;
+                if (p >= 100) {
+                    p = 100;
+                    clearInterval(interval);
+                    preloader.classList.add('loaded');
+                    setTimeout(() => { preloader.remove(); }, 700);
+                }
+                if (progress) progress.style.width = p + '%';
+            }, 200);
+        }
+    } catch (err) { /* Rule 7: never block the page on preloader failures */ }
+
     // Register GSAP plugins (if available)
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
@@ -15,29 +35,19 @@ document.addEventListener('DOMContentLoaded', () => {
         let lastScrollY = 0;
         let ticking = false;
         const SCROLL_THRESHOLD = 10;
-        const HOME_HERO_HEIGHT = 600;
 
         function updateHeader() {
             const scrollY = window.scrollY;
-            const isHome = document.body.classList.contains('home-page');
             const isMobile = window.innerWidth <= 768;
             if (isMobile) { ticking = false; return; }
+
+            // Premium scroll: transparent → solid background, never hide
             if (scrollY > 80) {
                 header.classList.add('header--scrolled');
             } else {
                 header.classList.remove('header--scrolled');
             }
-            const hideStart = isHome ? HOME_HERO_HEIGHT : 100;
-            if (scrollY > hideStart) {
-                const delta = scrollY - lastScrollY;
-                if (delta > SCROLL_THRESHOLD) {
-                    header.classList.add('header--hidden');
-                } else if (delta < -SCROLL_THRESHOLD) {
-                    header.classList.remove('header--hidden');
-                }
-            } else {
-                header.classList.remove('header--hidden');
-            }
+
             lastScrollY = scrollY;
             ticking = false;
         }
@@ -140,7 +150,7 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     // ─── Hero Swiper ─────────────────────────────────────────
     const heroSwiperEl = document.querySelector('.hero-swiper');
 
-    if (heroSwiperEl) {
+    if (heroSwiperEl && typeof Swiper !== 'undefined') {
         const heroSwiper = new Swiper('.hero-swiper', {
             loop: true,
             speed: 1200,
@@ -216,7 +226,7 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     // ─── Reviews Swiper ──────────────────────────────────────
     const reviewsSwiperEl = document.querySelector('.reviews-swiper');
 
-    if (reviewsSwiperEl) {
+    if (reviewsSwiperEl && typeof Swiper !== 'undefined') {
         new Swiper('.reviews-swiper', {
             slidesPerView: 1,
             spaceBetween: 24,
@@ -562,7 +572,7 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     }
 
     // ─── Product Detail: Gallery Swiper ──────────────────────
-    if (document.querySelector('.pd-gallery-thumbs-swiper')) {
+    if (typeof Swiper !== 'undefined' && document.querySelector('.pd-gallery-thumbs-swiper')) {
         const thumbsSwiper = new Swiper('.pd-gallery-thumbs-swiper', {
             spaceBetween: 12, slidesPerView: 4, freeMode: true, watchSlidesProgress: true
         });
@@ -572,7 +582,7 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     }
 
     // ─── Product Detail: Related Swiper ──────────────────────
-    if (document.querySelector('.pd-related-swiper')) {
+    if (typeof Swiper !== 'undefined' && document.querySelector('.pd-related-swiper')) {
         new Swiper('.pd-related-swiper', {
             slidesPerView: 1.2, spaceBetween: 20,
             breakpoints: { 576: { slidesPerView: 2 }, 992: { slidesPerView: 3.2 } }
@@ -664,30 +674,47 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     }
 
     // ─── Search Overlay ─────────────────────────────────────
+    // Shared open routine — desktop header icons and the mobile drawer's
+    // search box both open the same overlay (mobile search was previously
+    // inert; it is now wired here).
+    function aetherOpenSearchOverlay() {
+        let overlay = document.getElementById('searchOverlay');
+        if (!overlay) {
+            const searchUrl = (window.aetherAjax && window.aetherAjax.searchUrl) ? window.aetherAjax.searchUrl : '/?s=';
+            const shopUrl = (window.aetherAjax && window.aetherAjax.shopUrl) ? window.aetherAjax.shopUrl : '/shop/';
+            overlay = document.createElement('div');
+            overlay.id = 'searchOverlay';
+            overlay.innerHTML = '<div class="search-overlay"><div class="search-container"><button class="search-close" aria-label="Close search"><i class="fas fa-times"></i></button><div class="search-input-wrap"><i class="fas fa-search"></i><input type="text" class="search-input" placeholder="Search AETHER..." autofocus></div><div class="search-suggestions"><p class="search-suggestion-label">Popular Searches</p><a href="' + shopUrl + '" class="search-suggestion"><i class="fas fa-fire"></i> Void Runner</a><a href="' + shopUrl + '" class="search-suggestion"><i class="fas fa-bolt"></i> Cloud Stride</a><a href="' + shopUrl + '" class="search-suggestion"><i class="fas fa-star"></i> New Arrivals</a></div></div></div>';
+            document.body.appendChild(overlay);
+            overlay.querySelector('.search-close').addEventListener('click', () => overlay.classList.remove('active'));
+            overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+            const searchInput = overlay.querySelector('.search-input');
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') overlay.classList.remove('active');
+                if (e.key === 'Enter' && searchInput.value.trim()) window.location.href = searchUrl + encodeURIComponent(searchInput.value.trim());
+            });
+        }
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => { const inp = overlay.querySelector('.search-input'); if (inp) inp.focus(); }, 100);
+    }
+
     document.querySelectorAll('[aria-label="Search"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            let overlay = document.getElementById('searchOverlay');
-            if (!overlay) {
-                const searchUrl = (window.aetherAjax && window.aetherAjax.searchUrl) ? window.aetherAjax.searchUrl : '/?s=';
-                const shopUrl = (window.aetherAjax && window.aetherAjax.shopUrl) ? window.aetherAjax.shopUrl : 'shop.html';
-                overlay = document.createElement('div');
-                overlay.id = 'searchOverlay';
-                overlay.innerHTML = '<div class="search-overlay"><div class="search-container"><button class="search-close" aria-label="Close search"><i class="fas fa-times"></i></button><div class="search-input-wrap"><i class="fas fa-search"></i><input type="text" class="search-input" placeholder="Search AETHER..." autofocus></div><div class="search-suggestions"><p class="search-suggestion-label">Popular Searches</p><a href="' + shopUrl + '" class="search-suggestion"><i class="fas fa-fire"></i> Void Runner</a><a href="' + shopUrl + '" class="search-suggestion"><i class="fas fa-bolt"></i> Cloud Stride</a><a href="' + shopUrl + '" class="search-suggestion"><i class="fas fa-star"></i> New Arrivals</a></div></div></div>';
-                document.body.appendChild(overlay);
-                overlay.querySelector('.search-close').addEventListener('click', () => overlay.classList.remove('active'));
-                overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
-                const searchInput = overlay.querySelector('.search-input');
-                searchInput.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape') overlay.classList.remove('active');
-                    if (e.key === 'Enter' && searchInput.value.trim()) window.location.href = searchUrl + encodeURIComponent(searchInput.value.trim());
-                });
-            }
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => overlay.querySelector('.search-input').focus(), 100);
+            aetherOpenSearchOverlay();
         });
     });
+
+    // Mobile drawer search box — opens the same overlay (drawer closes first).
+    const mobileSearch = document.querySelector('.mobile-search');
+    if (mobileSearch) {
+        mobileSearch.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeMobileMenu();
+            aetherOpenSearchOverlay();
+        });
+    }
 
     // ─── Product Detail: Magnifying Glass Zoom ──────────────
     document.querySelectorAll('.pd-gallery-main').forEach(gallery => {
@@ -738,20 +765,4 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         });
     });
 
-    // ─── Preloader Fade-Out ────────────────────────
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        const progress = preloader.querySelector('.preloader-progress');
-        let p = 0;
-        const interval = setInterval(() => {
-            p += Math.random() * 25 + 5;
-            if (p >= 100) {
-                p = 100;
-                clearInterval(interval);
-                preloader.classList.add('loaded');
-                setTimeout(() => { preloader.remove(); }, 700);
-            }
-            if (progress) progress.style.width = p + '%';
-        }, 200);
-    }
 });

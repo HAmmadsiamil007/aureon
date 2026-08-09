@@ -11,6 +11,15 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 function aether_adapter_wc_products( $query_args = array() ) {
+    // WooCommerce guards: this adapter is loaded on every request. Without WC
+    // there are no products and wc_get_product()/wc_price() would fatal.
+    if ( ! function_exists( 'wc_get_product' ) || ! function_exists( 'wc_price' ) ) {
+        return array(
+            'items'      => array(),
+            'pagination' => array( 'current' => 1, 'total' => 1 ),
+        );
+    }
+
     $defaults = array(
         'post_type'      => 'product',
         'posts_per_page' => 8,
@@ -25,16 +34,29 @@ function aether_adapter_wc_products( $query_args = array() ) {
     $with_cta   = ! empty( $query_args['with_cta'] );
     unset( $query_args['with_cta'] );
 
+    // Whitelist query keys — the renderer merges section data (label, title,
+    // subtitle...) into $query_args; WP_Query would interpret 'title' as a
+    // post-title search and 'layout'/other UI keys are invalid. Only known
+    // keys (plus the custom ones handled below) reach WP_Query.
+    $allowed = array(
+        'post_type', 'posts_per_page', 'post_status', 'paged',
+        'orderby', 'order', 'meta_key', 'meta_value', 'meta_query',
+        'tax_query', 'post__in', 'post__not_in', 's', 'on_sale', 'related_to', 'orderby_shop',
+    );
+    $query_args = array_intersect_key( $query_args, array_flip( $allowed ) );
+
     // On-sale filter: only products with an active sale price.
     if ( ! empty( $query_args['on_sale'] ) ) {
-        $sale_ids = wc_get_product_ids_on_sale();
+        $sale_ids = function_exists( 'wc_get_product_ids_on_sale' ) ? wc_get_product_ids_on_sale() : array();
         $query_args['post__in'] = ! empty( $sale_ids ) ? $sale_ids : array( 0 );
         unset( $query_args['on_sale'] );
     }
 
     // Related products: WC's related engine (shared category/tag), excludes self.
     if ( ! empty( $query_args['related_to'] ) ) {
-        $related_ids = wc_get_related_products( (int) $query_args['related_to'], (int) $query_args['posts_per_page'] );
+        $related_ids = function_exists( 'wc_get_related_products' )
+            ? wc_get_related_products( (int) $query_args['related_to'], (int) $query_args['posts_per_page'] )
+            : array();
         $query_args['post__in'] = ! empty( $related_ids ) ? $related_ids : array( 0 );
         unset( $query_args['related_to'] );
     }
@@ -95,8 +117,8 @@ function aether_adapter_wc_products( $query_args = array() ) {
         wp_reset_postdata();
     }
 
-    // Demo fallback — no products in the store yet.
-    if ( empty( $items ) ) {
+    // Demo fallback — no products in the store yet (gated by aether_demo_content).
+    if ( empty( $items ) && aureon_get_option( 'aether_demo_content', true ) ) {
         foreach ( (array) aureon_get_option( 'aether_product_items', array() ) as $demo ) {
             $items[] = array(
                 'id'             => isset( $demo['id'] ) ? (int) $demo['id'] : 0,

@@ -33,16 +33,34 @@ function aether_adapter_hero() {
 		$alt      = isset( $slide['alt'] )      ? sanitize_text_field( $slide['alt'] ) : ( isset( $slide['label'] ) ? sanitize_text_field( $slide['label'] ) : '' );
 		$accent   = isset( $slide['accent'] )   ? sanitize_text_field( $slide['accent'] ) : '';
 
+		// Default CTA destination: the shop archive — hero buttons are never dead links.
+		$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
+
 		$buttons = array();
 		if ( ! empty( $slide['buttons'] ) && is_array( $slide['buttons'] ) ) {
 			$buttons = $slide['buttons'];
 		} elseif ( ! empty( $slide['cta'] ) ) {
 			$buttons[] = array(
 				'label' => $slide['cta'],
-				'url'   => isset( $slide['url'] ) ? esc_url_raw( $slide['url'] ) : '',
+				'url'   => isset( $slide['url'] ) ? $slide['url'] : '',
 				'style' => 'primary',
 			);
 		}
+
+		// Normalize every button; an empty URL falls back to the shop archive.
+		foreach ( (array) $buttons as $i => $button ) {
+			if ( ! is_array( $button ) ) {
+				unset( $buttons[ $i ] );
+				continue;
+			}
+			$url = isset( $button['url'] ) ? $button['url'] : '';
+			$buttons[ $i ] = array(
+				'label' => isset( $button['label'] ) ? sanitize_text_field( $button['label'] ) : '',
+				'url'   => ! empty( $url ) ? esc_url_raw( $url ) : $shop_url,
+				'style' => isset( $button['style'] ) ? sanitize_key( $button['style'] ) : 'primary',
+			);
+		}
+		$buttons = array_values( $buttons );
 
 		$data[] = array(
 			'headline' => sanitize_text_field( $title ),

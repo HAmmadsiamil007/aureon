@@ -32,7 +32,9 @@ function aether_adapter_site() {
 function aether_adapter_footer() {
 	$site = aether_adapter_site();
 
-	$columns = array(
+	// Default column structure — the current premium design. Empty URLs in a
+	// saved setting resolve against this map so output always stays valid.
+	$default_columns = array(
 		array(
 			'heading' => 'Shop',
 			'links'   => array(
@@ -50,7 +52,7 @@ function aether_adapter_footer() {
 				array( 'label' => 'Contact Us', 'url' => home_url( '/contact/' ) ),
 				array( 'label' => 'Shipping Info', 'url' => home_url( '/faq/#shipping' ) ),
 				array( 'label' => 'Returns & Exchanges', 'url' => home_url( '/faq/#returns' ) ),
-				array( 'label' => 'Size Guide', 'url' => home_url( '/product-detail/#size-guide' ) ),
+				array( 'label' => 'Size Guide', 'url' => home_url( '/shop/' ) ),
 			),
 		),
 		array(
@@ -58,11 +60,44 @@ function aether_adapter_footer() {
 			'links'   => array(
 				array( 'label' => 'About Us', 'url' => home_url( '/about/' ) ),
 				array( 'label' => 'Blog', 'url' => home_url( '/blog/' ) ),
-				array( 'label' => 'Careers', 'url' => home_url( '/about/#careers' ) ),
-				array( 'label' => 'Press', 'url' => home_url( '/about/#press' ) ),
+				array( 'label' => 'Careers', 'url' => home_url( '/about/' ) ),
+				array( 'label' => 'Press', 'url' => home_url( '/about/' ) ),
 			),
 		),
 	);
+
+	// Footer columns from settings (aether_footer_columns) — defaults equal the
+	// current design, so the initial render is pixel-identical.
+	$columns = aureon_get_option( 'aether_footer_columns', array() );
+
+	if ( is_string( $columns ) && '' !== trim( $columns ) ) {
+		$columns = json_decode( $columns, true );
+	}
+
+	if ( empty( $columns ) || ! is_array( $columns ) ) {
+		$columns = $default_columns;
+	} else {
+		// Resolve empty URLs against the default map (label → url).
+		$default_urls = array();
+		foreach ( $default_columns as $col ) {
+			foreach ( (array) $col['links'] as $link ) {
+				if ( ! empty( $link['label'] ) ) {
+					$default_urls[ strtolower( $link['label'] ) ] = $link['url'];
+				}
+			}
+		}
+
+		foreach ( $columns as $ci => $col ) {
+			if ( empty( $col['links'] ) || ! is_array( $col['links'] ) ) {
+				continue;
+			}
+			foreach ( $col['links'] as $li => $link ) {
+				if ( empty( $link['url'] ) && ! empty( $link['label'] ) && ! empty( $default_urls[ strtolower( $link['label'] ) ] ) ) {
+					$columns[ $ci ]['links'][ $li ]['url'] = $default_urls[ strtolower( $link['label'] ) ];
+				}
+			}
+		}
+	}
 
 	return array(
 		'brand'       => $site['brand'],

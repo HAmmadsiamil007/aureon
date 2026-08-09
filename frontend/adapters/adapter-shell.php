@@ -28,27 +28,33 @@ function aether_wishlist_url() {
  * @return array
  */
 function aether_adapter_announcement() {
-	$items = aureon_get_option( 'aether_announcement_items' );
+	// Resolve from settings — defaults are the premium marquee strings
+	// registered in tokens.php, so default output is unchanged.
+	$items = aureon_get_option( 'aether_announcement_items', array() );
 
-	if ( ! is_array( $items ) || empty( $items ) ) {
-		$items = array(
-			array(
-				'icon' => 'fas fa-truck',
-				'text' => __( 'Free Shipping On Orders Over $200', 'aureon' ),
-			),
-			array(
-				'icon' => 'fas fa-bolt',
-				'text' => __( 'New Collection Dropping Soon', 'aureon' ),
-			),
-			array(
-				'icon' => 'fas fa-undo',
-				'text' => __( '30-Day Free Returns', 'aureon' ),
-			),
-		);
+	// Repeater may be stored as JSON (Customizer) or PHP array (tokens default).
+	if ( is_string( $items ) && '' !== trim( $items ) ) {
+		$items = json_decode( $items, true );
+	}
+
+	// Single-text control (aether_announcement_text) as a one-item marquee.
+	if ( empty( $items ) || ! is_array( $items ) ) {
+		$text  = aureon_get_option( 'aether_announcement_text', '' );
+		$items = $text ? array( array( 'text' => $text ) ) : array();
+	}
+
+	$normalized = array();
+
+	foreach ( (array) $items as $item ) {
+		if ( is_array( $item ) && ! empty( $item['text'] ) ) {
+			$normalized[] = array( 'text' => sanitize_text_field( $item['text'] ) );
+		} elseif ( is_string( $item ) && '' !== trim( $item ) ) {
+			$normalized[] = array( 'text' => sanitize_text_field( $item ) );
+		}
 	}
 
 	return array(
-		'items' => $items,
+		'items' => $normalized,
 	);
 }
 
@@ -101,22 +107,6 @@ function aether_adapter_mobile() {
 	);
 
 	$contact_items = array();
-	$contact_page  = get_page_by_path( 'contact' );
-	$about_page    = get_page_by_path( 'about' );
-
-	if ( $about_page ) {
-		$contact_items[] = array(
-			'label' => __( 'About', 'aureon' ),
-			'url'   => get_permalink( $about_page ),
-		);
-	}
-
-	if ( $contact_page ) {
-		$contact_items[] = array(
-			'label' => __( 'Contact', 'aureon' ),
-			'url'   => get_permalink( $contact_page ),
-		);
-	}
 
 	$announcement_items = aether_adapter_announcement();
 	$announcement_texts = array_map(
@@ -138,10 +128,6 @@ function aether_adapter_mobile() {
 			array(
 				'heading' => '',
 				'items'   => $account_items,
-			),
-			array(
-				'heading' => '',
-				'items'   => $contact_items,
 			),
 		),
 		'cta'          => array(

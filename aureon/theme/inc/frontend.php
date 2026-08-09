@@ -51,6 +51,10 @@ add_action( 'after_setup_theme', 'aureon_aether_frontend_boot', 30 );
  */
 function aureon_aether_suppress_theme_output() {
 	// Theme layout styles.
+	// NOTE: 'aureon-google-fonts' is deliberately NOT suppressed — the
+	// dynamic Typography Manager (Font Manager) enqueues it, and AETHER
+	// bridges those families into --font-heading / --font-body tokens.
+	// 'aureon-fonts' (the legacy non-dynamic handle) stays suppressed.
 	$theme_styles = array(
 		'aureon-comments',
 		'aureon-widget-areas',
@@ -60,7 +64,6 @@ function aureon_aether_suppress_theme_output() {
 		'aureon-font-icons',
 		'font-awesome', // Theme's own FA 4.7 — AETHER loads FA 6.5.1.
 		'aureon-rtl',
-		'aureon-google-fonts',
 		'aureon-fonts',
 		'aureon-child',
 	);
@@ -138,12 +141,13 @@ function aureon_aether_enqueue_assets() {
 	wp_enqueue_script( 'aether-swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), '11', true );
 	wp_enqueue_script( 'aether-gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', true );
 	wp_enqueue_script( 'aether-scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', array( 'aether-gsap' ), '3.12.5', true );
-	wp_enqueue_script( 'aether-lenis', 'https://unpkg.com/lenis@1.1.18/dist/lenis.min.js', array(), '1.1.18', true );
+	wp_enqueue_script( 'aether-lenis', 'https://unpkg.com/lenis@1.1.19/dist/lenis.min.js', array(), '1.1.19', true );
 
 	wp_enqueue_script( 'aether-lenis-scroll', $uri . '/js/lenis-scroll.js', array( 'aether-lenis' ), filemtime( $dir . '/js/lenis-scroll.js' ), true );
 	wp_enqueue_script( 'aether-animations', $uri . '/js/animations.js', array( 'aether-bootstrap-js', 'aether-gsap' ), filemtime( $dir . '/js/animations.js' ), true );
 	wp_enqueue_script( 'aether-main', $uri . '/js/main.js', array( 'aether-animations' ), filemtime( $dir . '/js/main.js' ), true );
 	wp_enqueue_script( 'aether-phantom-bridge', $uri . '/js/phantom-bridge.js', array( 'aether-main' ), filemtime( $dir . '/js/phantom-bridge.js' ), true );
+	wp_enqueue_script( 'aether-countdown', $uri . '/js/countdown.js', array(), filemtime( $dir . '/js/countdown.js' ), true );
 
 	// AJAX + REST context for the engine scripts (shared aether_nonce).
 	wp_localize_script(

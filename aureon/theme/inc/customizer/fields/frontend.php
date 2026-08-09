@@ -201,3 +201,180 @@ Aureon_Customize_Field::add_field(
 		),
 	)
 );
+
+// ──────────────────────────────────────────────────────────────────
+// Design — Colors (G2/G3): AETHER-native color controls seeded from
+// the theme palette. Empty value = inherit the theme palette (or the
+// AETHER default) — see aether_resolve_color() in inc/aether-tokens.php.
+// ──────────────────────────────────────────────────────────────────
+Aureon_Customize_Field::add_title(
+	'aureon_aether_design_colors_title',
+	array(
+		'section' => 'aureon_aether_section',
+		'title'   => __( 'Design — Colors', 'aureon' ),
+	)
+);
+
+$aether_color_controls = array(
+	'aether_color_bg'           => __( 'Background', 'aureon' ),
+	'aether_color_surface'      => __( 'Surface', 'aureon' ),
+	'aether_color_surface_2'    => __( 'Surface 2', 'aureon' ),
+	'aether_color_surface_3'    => __( 'Surface 3', 'aureon' ),
+	'aether_color_text'         => __( 'Text', 'aureon' ),
+	'aether_color_muted'        => __( 'Muted', 'aureon' ),
+	'aether_color_accent'       => __( 'Accent', 'aureon' ),
+	'aether_color_accent_hover' => __( 'Accent hover', 'aureon' ),
+	'aether_color_border'       => __( 'Border', 'aureon' ),
+	'aether_color_error'        => __( 'Error', 'aureon' ),
+	'aether_color_success'      => __( 'Success', 'aureon' ),
+);
+
+foreach ( $aether_color_controls as $option_key => $label ) {
+	if ( ! isset( $defaults[ $option_key ] ) ) {
+		continue;
+	}
+
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[' . $option_key . ']',
+		'Aureon_Customize_Color_Control',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'aureon_sanitize_hex_color',
+			'transport'         => 'refresh',
+		),
+		array(
+			'label'       => $label,
+			'section'     => 'aureon_aether_section',
+			'settings'    => 'aureon_settings[' . $option_key . ']',
+			'description' => __( 'Leave empty to inherit the theme palette.', 'aureon' ),
+			'choices'     => array(
+				'alpha' => true,
+			),
+		)
+	);
+}
+
+// ──────────────────────────────────────────────────────────────────
+// Design — Layout (G4): token-driven sizes exposed as range sliders.
+// Values are emitted by inc/aether-tokens.php as :root CSS variables.
+// ──────────────────────────────────────────────────────────────────
+Aureon_Customize_Field::add_title(
+	'aureon_aether_design_layout_title',
+	array(
+		'section' => 'aureon_aether_section',
+		'title'   => __( 'Design — Layout', 'aureon' ),
+	)
+);
+
+$layout_sliders = array(
+	'aether_container_max'       => array(
+		'label'   => __( 'Container max width', 'aureon' ),
+		'min'     => 960,
+		'max'     => 1920,
+		'step'    => 10,
+		'unit'    => 'px',
+		'default' => '1200',
+	),
+	'aether_announcement_height' => array(
+		'label'   => __( 'Announcement bar height', 'aureon' ),
+		'min'     => 32,
+		'max'     => 80,
+		'step'    => 2,
+		'unit'    => 'px',
+		'default' => '40',
+	),
+	'aether_header_height'       => array(
+		'label'   => __( 'Header height', 'aureon' ),
+		'min'     => 60,
+		'max'     => 120,
+		'step'    => 2,
+		'unit'    => 'px',
+		'default' => '80',
+	),
+	'aether_grid_gap'            => array(
+		'label'   => __( 'Grid gap', 'aureon' ),
+		'min'     => 8,
+		'max'     => 48,
+		'step'    => 2,
+		'unit'    => 'px',
+		'default' => '24',
+	),
+	'aether_radius_sm'           => array(
+		'label'   => __( 'Radius — small', 'aureon' ),
+		'min'     => 0,
+		'max'     => 20,
+		'step'    => 1,
+		'unit'    => 'px',
+		'default' => '8',
+	),
+	'aether_radius_md'           => array(
+		'label'   => __( 'Radius — medium', 'aureon' ),
+		'min'     => 0,
+		'max'     => 40,
+		'step'    => 1,
+		'unit'    => 'px',
+		'default' => '12',
+	),
+	'aether_radius_lg'           => array(
+		'label'   => __( 'Radius — large', 'aureon' ),
+		'min'     => 0,
+		'max'     => 60,
+		'step'    => 1,
+		'unit'    => 'px',
+		'default' => '24',
+	),
+);
+
+foreach ( $layout_sliders as $option_key => $cfg ) {
+	$id = 'aureon_settings[' . $option_key . ']';
+
+	$wp_customize->add_setting(
+		$id,
+		array(
+			'default'           => $cfg['default'],
+			'type'              => 'option',
+			'sanitize_callback' => 'aureon_sanitize_integer',
+			'transport'         => 'refresh',
+		)
+	);
+
+	$wp_customize->add_control(
+		new Aureon_Range_Slider_Control(
+			$wp_customize,
+			$id,
+			array(
+				'type'     => 'aureon-range-slider',
+				'label'    => $cfg['label'],
+				'section'  => 'aureon_aether_section',
+				'settings' => array(
+					'desktop' => $id,
+				),
+				'choices'  => array(
+					'desktop' => array(
+						'min'  => $cfg['min'],
+						'max'  => $cfg['max'],
+						'step' => $cfg['step'],
+						'edit' => true,
+						'unit' => $cfg['unit'],
+					),
+				),
+			)
+		)
+	);
+}
+
+Aureon_Customize_Field::add_field(
+	'aureon_settings[aether_section_padding]',
+	'',
+	array(
+		'default'           => isset( $defaults['aether_section_padding'] ) ? $defaults['aether_section_padding'] : '100px 0',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'refresh',
+	),
+	array(
+		'type'        => 'text',
+		'label'       => __( 'Section padding (e.g. 100px 0)', 'aureon' ),
+		'section'     => 'aureon_aether_section',
+		'description' => __( 'Vertical rhythm for front-page sections.', 'aureon' ),
+	)
+);

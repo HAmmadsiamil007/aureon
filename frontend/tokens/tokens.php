@@ -35,21 +35,65 @@ function aether_frontend_defaults( $defaults ) {
 		'aether_announcement_url'    => '',
 		'aether_announcement_items'  => array(
 			array(
-				'icon' => 'fas fa-truck',
-				'text' => __( 'Free Shipping On Orders Over $200', 'aureon' ),
+				'icon' => '',
+				'text' => __( 'Worldwide Shipping', 'aureon' ),
 			),
 			array(
-				'icon' => 'fas fa-bolt',
-				'text' => __( 'New Collection Dropping Soon', 'aureon' ),
+				'icon' => '',
+				'text' => __( 'Join the Chronicle for 10% Off Your First Order', 'aureon' ),
 			),
 			array(
-				'icon' => 'fas fa-undo',
+				'icon' => '',
 				'text' => __( '30-Day Free Returns', 'aureon' ),
+			),
+			array(
+				'icon' => '',
+				'text' => __( 'Complimentary Gift Wrapping', 'aureon' ),
 			),
 		),
 		'aether_newsletter_enabled'  => true,
 		'aether_newsletter_text'     => __( 'Stay Connected', 'aureon' ),
 		'aether_newsletter_subtitle' => __( 'Get 10% off your first order. No spam, ever.', 'aureon' ),
+		// Editable shell copy (defaults = current premium design strings).
+		'aether_categories_label'    => __( 'Shop by Category', 'aureon' ),
+		'aether_categories_title'    => __( 'Find Your Fit', 'aureon' ),
+		'aether_categories_subtitle' => '',
+		'aether_contact_address'     => array(
+			__( '123 Innovation Drive', 'aureon' ),
+			__( 'San Francisco, CA 94102', 'aureon' ),
+		),
+		'aether_contact_hours'       => __( 'Mon—Fri 9am—6pm PST', 'aureon' ),
+		'aether_footer_columns'      => array(
+			array(
+				'heading' => 'Shop',
+				'links'   => array(
+					array( 'label' => 'Men', 'url' => '' ),
+					array( 'label' => 'Women', 'url' => '' ),
+					array( 'label' => 'Kids', 'url' => '' ),
+					array( 'label' => 'New Arrivals', 'url' => '' ),
+					array( 'label' => 'Bestsellers', 'url' => '' ),
+				),
+			),
+			array(
+				'heading' => 'Support',
+				'links'   => array(
+					array( 'label' => 'FAQ', 'url' => '' ),
+					array( 'label' => 'Contact Us', 'url' => '' ),
+					array( 'label' => 'Shipping Info', 'url' => '' ),
+					array( 'label' => 'Returns & Exchanges', 'url' => '' ),
+					array( 'label' => 'Size Guide', 'url' => '' ),
+				),
+			),
+			array(
+				'heading' => 'Company',
+				'links'   => array(
+					array( 'label' => 'About Us', 'url' => '' ),
+					array( 'label' => 'Blog', 'url' => '' ),
+					array( 'label' => 'Careers', 'url' => '' ),
+					array( 'label' => 'Press', 'url' => '' ),
+				),
+			),
+		),
 		// Layout tokens.
 		'aether_container_max'       => '1200px',
 		'aether_section_padding'     => '100px 0',
@@ -113,9 +157,15 @@ function aether_frontend_defaults( $defaults ) {
 				'url'      => '',
 			),
 		),
+		// Master switch for demo fallback content. TRUE keeps the store visually
+		// populated before real products/CPTs exist (default, preserves the
+		// current out-of-the-box appearance). Set FALSE in production to show
+		// only real data — sections then render their graceful empty states.
+		'aether_demo_content'        => true,
 		// Demo content fallbacks — used ONLY when the store has no real
-		// categories/products/CPT posts yet. Mirrors the source demo content
-		// so the design is pixel-visible before content exists. Real data wins.
+		// categories/products/CPT posts yet AND aether_demo_content is true.
+		// Mirrors the source demo content so the design is pixel-visible
+		// before content exists. Real data always wins.
 		'aether_category_items'      => array(
 			array(
 				'name'     => 'Men',
@@ -372,10 +422,10 @@ function aether_frontend_defaults( $defaults ) {
 		'aether_color_text'         => '#FFFFFF',
 		'aether_color_muted'        => '#A8B5C0',
 		'aether_color_accent'       => '#C8956C',
-		'aether_color_accent_hover' => '#d9a87e',
-		'aether_color_border'       => 'rgba(255,255,255,0.08)',
-		'aether_color_error'        => '#e5484d',
-		'aether_color_success'      => '#46a758',
+		'aether_color_accent_hover' => '#D4A574',
+		'aether_color_border'       => '#1A1A1A',
+		'aether_color_error'        => '#CC4444',
+		'aether_color_success'      => '#4CAF50',
 		// Font stacks.
 		'aether_font_heading'       => 'Cabinet Grotesk',
 		'aether_font_body'          => 'Satoshi',
@@ -398,7 +448,7 @@ function aether_frontend_color_defaults( $defaults ) {
 		'aether_color_text'    => '#FFFFFF',
 		'aether_color_muted'   => '#A8B5C0',
 		'aether_color_accent'  => '#C8956C',
-		'aether_color_accent_hover' => '#d9a87e',
+		'aether_color_accent_hover' => '#D4A574',
 		'aether_color_border'  => 'rgba(255,255,255,0.08)',
 		'aether_color_error'   => '#e5484d',
 		'aether_color_success' => '#46a758',

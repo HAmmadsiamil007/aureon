@@ -149,3 +149,46 @@ html.no-motion .text-reveal {
     html.has-motion [data-reveal] { will-change: auto; }
     .page-load { animation: none; opacity: 1; }
 }
+
+/* ─── Rule 7: never hide content when scripting is unavailable ───
+   has-motion is only ever added by JS, so JS-disabled pages already
+   stay visible; this block is belt-and-braces for engines that run
+   CSS without script permission contexts. */
+@media (scripting: none) {
+    html [data-motion-text],
+    html [data-reveal],
+    html [data-reveal-item],
+    html [data-image-reveal],
+    html .reveal-right-premium,
+    html .reveal-fade-up,
+    html .reveal-left,
+    html .reveal-right,
+    html .reveal-scale,
+    html .reveal,
+    html .footer-reveal,
+    html .text-reveal {
+        visibility: visible !important;
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+        clip-path: none !important;
+    }
+}
+
+/* ─── Visually-hidden accessible text ─────────────────────────────
+   Injected by the motion-text splitter (animations.js splitWords) to
+   expose the full string to assistive tech while the word fragments
+   are aria-hidden decorative animation. Replaces aria-label on generic
+   elements (axe WCAG violation). */
+.motion-sr-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}

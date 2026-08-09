@@ -7,7 +7,7 @@
 @media (min-width: 1920px) {
     :root {
         --section-padding: 140px 0;
-        --container-max: 1400px;
+
     }
 
     .hero-headline {
@@ -44,7 +44,7 @@
 @media (min-width: 1440px) and (max-width: 1919px) {
     :root {
         --section-padding: 120px 0;
-        --container-max: 1300px;
+
     }
 
     .hero-headline {
@@ -60,7 +60,7 @@
 @media (min-width: 1200px) and (max-width: 1439px) {
     :root {
         --section-padding: 100px 0;
-        --container-max: 1140px;
+
     }
 }
 
@@ -68,7 +68,7 @@
 @media (max-width: 1024px) {
     :root {
         --section-padding: 80px 0;
-        --container-max: 100%;
+
     }
 
     /* Header */
@@ -217,14 +217,36 @@
         font-size: clamp(2.5rem, 5vw, 4rem);
     }
 
-    /* Categories */
+        /* Categories - Tablet: single-column stacked, big cards (mobile UX, tablet size) */
     .category-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 20px;
+        min-height: auto;
     }
 
-    .category-card--large {
-        grid-row: span 1;
-        aspect-ratio: 4/5;
+.category-card--large,
+    .category-grid-item--large {
+        grid-column: auto;
+        grid-row: auto;
+        min-height: 480px;
+        height: auto;
+    }
+
+    .category-card:not(.category-card--large) {
+        min-height: 380px;
+    }
+
+    .category-card-content {
+        padding: 32px;
+    }
+
+    .category-name {
+        font-size: 1.8rem;
+    }
+
+    .category-card--large .category-name {
+        font-size: 2.4rem;
     }
 
     /* Products */
@@ -582,7 +604,7 @@
     }
 
     .mobile-cta:hover {
-        background: #D4A574;
+        background: var(--gold-alt);
         transform: translateY(-1px);
     }
 
@@ -650,12 +672,11 @@
         grid-template-columns: 1fr;
     }
 
-    .category-card {
-        aspect-ratio: 16/9;
-    }
-
+    /* No aspect-ratio on phone: tablet min-heights already size the cards,
+       and aspect-ratio + min-height explodes the track (480px × 16/9 ≈ 853px). */
+    .category-card,
     .category-card--large {
-        aspect-ratio: 16/9;
+        aspect-ratio: auto;
     }
 
     .category-card-content {

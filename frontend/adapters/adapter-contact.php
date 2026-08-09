@@ -9,6 +9,22 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 function aether_adapter_contact() {
     $socials = aether_adapter_socials();
 
+    // Editable contact copy — defaults equal the current premium design.
+    $address_lines = (array) aureon_get_option( 'aether_contact_address', array(
+        __( '123 Innovation Drive', 'aureon' ),
+        __( 'San Francisco, CA 94102', 'aureon' ),
+    ) );
+    $hours = (string) aureon_get_option( 'aether_contact_hours', __( 'Mon—Fri 9am—6pm PST', 'aureon' ) );
+
+    if ( is_string( $address_lines ) && '' !== trim( $address_lines ) ) {
+        $decoded = json_decode( $address_lines, true );
+        if ( is_array( $decoded ) ) {
+            $address_lines = $decoded;
+        } else {
+            $address_lines = array( $address_lines );
+        }
+    }
+
     return array(
         'fields' => array(
             array( 'name' => 'aether_name', 'label' => __( 'Name', 'aureon' ), 'type' => 'text', 'required' => true, 'placeholder' => __( 'Your full name', 'aureon' ) ),
@@ -33,10 +49,7 @@ function aether_adapter_contact() {
             array(
                 'icon'  => 'fa-location-dot',
                 'title' => __( 'Address', 'aureon' ),
-                'lines' => array(
-                    __( '123 Innovation Drive', 'aureon' ),
-                    __( 'San Francisco, CA 94102', 'aureon' ),
-                ),
+                'lines' => array_map( 'sanitize_text_field', $address_lines ),
             ),
             array(
                 'icon'  => 'fa-envelope',
@@ -47,7 +60,7 @@ function aether_adapter_contact() {
             array(
                 'icon'  => 'fa-clock',
                 'title' => __( 'Hours', 'aureon' ),
-                'lines' => array( __( 'Mon—Fri 9am—6pm PST', 'aureon' ) ),
+                'lines' => array( sanitize_text_field( $hours ) ),
             ),
         ),
         'socials' => $socials,

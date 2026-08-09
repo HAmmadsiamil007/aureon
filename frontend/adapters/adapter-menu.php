@@ -25,7 +25,13 @@ function aether_adapter_menu( $location = 'primary' ) {
 		$items = wp_get_nav_menu_items( (int) $locations[ $location ] );
 
 		if ( is_array( $items ) && ! empty( $items ) ) {
-			return aether_build_menu_tree( $items );
+			$tree = aether_build_menu_tree( $items );
+
+			// If the assigned menu is too sparse (< 4 root items), use the
+			// comprehensive fallback so the header always looks complete.
+			if ( count( $tree ) >= 4 ) {
+				return $tree;
+			}
 		}
 	}
 
@@ -94,6 +100,7 @@ function aether_fallback_menu( $location ) {
 			array( 'label' => 'Shop', 'url' => $shop, 'active' => false, 'children' => array() ),
 			array( 'label' => 'About', 'url' => home_url( '/about/' ), 'active' => false, 'children' => array() ),
 			array( 'label' => 'Blog', 'url' => home_url( '/blog/' ), 'active' => false, 'children' => array() ),
+			array( 'label' => 'FAQ', 'url' => home_url( '/faq/' ), 'active' => false, 'children' => array() ),
 			array( 'label' => 'Contact', 'url' => home_url( '/contact/' ), 'active' => false, 'children' => array() ),
 		);
 	}
@@ -106,20 +113,35 @@ function aether_fallback_menu( $location ) {
 			'children' => array(),
 		),
 		array(
-			'label'    => 'Collection',
+			'label'    => 'Shop',
 			'url'      => $shop,
-			'active'   => false,
+			'active'   => is_post_type_archive( 'product' ) || is_page( 'shop' ),
 			'children' => array(
 				array( 'label' => 'Men', 'url' => $shop, 'active' => false, 'children' => array() ),
 				array( 'label' => 'Women', 'url' => $shop, 'active' => false, 'children' => array() ),
-				array( 'label' => 'Kid', 'url' => $shop, 'active' => false, 'children' => array() ),
+				array( 'label' => 'Kids', 'url' => $shop, 'active' => false, 'children' => array() ),
 				array( 'label' => 'New Arrivals', 'url' => $shop, 'active' => false, 'children' => array() ),
 				array( 'label' => 'Bestsellers', 'url' => $shop, 'active' => false, 'children' => array() ),
 			),
 		),
-		array( 'label' => 'About', 'url' => home_url( '/about/' ), 'active' => is_page( 'about' ), 'children' => array() ),
-		array( 'label' => 'Blog', 'url' => home_url( '/blog/' ), 'active' => false, 'children' => array() ),
-		array( 'label' => 'Contact', 'url' => home_url( '/contact/' ), 'active' => is_page( 'contact' ), 'children' => array() ),
+		array(
+			'label'    => 'About',
+			'url'      => home_url( '/about/' ),
+			'active'   => is_page( 'about' ),
+			'children' => array(),
+		),
+		array(
+			'label'    => 'Blog',
+			'url'      => home_url( '/blog/' ),
+			'active'   => is_page( 'blog' ) || is_singular( 'post' ),
+			'children' => array(),
+		),
+		array(
+			'label'    => 'Contact',
+			'url'      => home_url( '/contact/' ),
+			'active'   => is_page( 'contact' ),
+			'children' => array(),
+		),
 	);
 }
 

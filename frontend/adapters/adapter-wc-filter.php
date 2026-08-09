@@ -36,7 +36,9 @@ function aether_adapter_wc_filter() {
         }
     }
 
-    if ( ! empty( wc_get_product_ids_on_sale() ) ) {
+    $sale_ids = function_exists( 'wc_get_product_ids_on_sale' ) ? wc_get_product_ids_on_sale() : array();
+
+    if ( ! empty( $sale_ids ) ) {
         $buttons[] = array(
             'label'  => __( 'Sale', 'aureon' ),
             'url'    => add_query_arg( 'on_sale', '1', $shop_url ),

@@ -27,7 +27,8 @@ if ( empty( $items ) ) {
 }
 
 // Pagination base keeps the current query (on_sale, tax) minus paged.
-$base = remove_query_arg( 'paged', home_url( isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '/' ) );
+$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/'; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+$base = remove_query_arg( 'paged', esc_url_raw( home_url( $request_uri ) ) );
 ?>
 <section class="shop-grid-section">
 	<div class="container">

@@ -6,17 +6,36 @@
   'use strict';
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reducedMotion) {
+  var MOTION_READY_TIMEOUT = 2500; // ms — if init has not finished by now, stop hiding content.
+
+  // Rule 7 kill switch: remove the motion state and let CSS force content visible.
+  function disableMotion() {
+    document.documentElement.classList.remove('has-motion');
     document.documentElement.classList.add('no-motion');
+  }
+
+  if (reducedMotion) {
+    disableMotion();
     return;
   }
+
+  // Library gate FIRST — without GSAP/ScrollTrigger there is no reveal engine,
+  // so content must remain visible (has-motion is never applied).
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    console.warn('AETHER Motion: GSAP or ScrollTrigger not loaded — content left visible.');
+    disableMotion();
+    return;
+  }
+
+  var motionInitDone = false;
+  var motionWatchdog = setTimeout(function () {
+    if (!motionInitDone) {
+      console.warn('AETHER Motion: init timeout — content left visible.');
+      disableMotion();
+    }
+  }, MOTION_READY_TIMEOUT);
 
   document.documentElement.classList.add('has-motion');
-
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-    console.warn('AETHER Motion: GSAP or ScrollTrigger not loaded');
-    return;
-  }
 
   gsap.registerPlugin(ScrollTrigger);
   gsap.defaults({ ease: 'power3.out', duration: 0.85 });
@@ -65,7 +84,14 @@
     var text = element.textContent || '';
     var parts = text.split(/(\s+)/);
     element.textContent = '';
-    element.setAttribute('aria-label', text.trim());
+    // Accessible name: the split word masks are aria-hidden (purely visual),
+    // so expose the full string once via a visually-hidden span. This is the
+    // standards-compliant replacement for aria-label on a bare <span> —
+    // aria-label on a generic element is an axe WCAG violation.
+    var srText = document.createElement('span');
+    srText.className = 'motion-sr-text';
+    srText.textContent = text.trim();
+    element.appendChild(srText);
     var index = 0;
     parts.forEach(function (part) {
       if (!part.trim()) {
@@ -105,8 +131,31 @@
     // Line-by-line staggered entrance
     gsap.utils.toArray('[data-motion-text="lines"]').forEach(function (element) {
       var lines = element.querySelectorAll('.motion-line');
-      var targets = lines.length ? lines : element.children;
-      if (!targets.length) return;
+      // Exclude the injected visually-hidden full-text span from the line
+      // targets so it can never be animated (it must stay readable).
+      var targets = lines.length
+        ? lines
+        : Array.prototype.slice.call(element.children).filter(function (child) {
+            return !child.classList.contains('motion-sr-text');
+          });
+
+      // Plain-text element (no .motion-line masks, no element children — e.g.
+      // a <p> holding only a text node). No trigger can ever be built for
+      // child targets, so the CSS visibility:hidden would persist forever.
+      // Reveal it as a single block (Rule 7: content must never stay hidden).
+      if (!targets.length) {
+        gsap.set(element, { autoAlpha: 1 });
+        gsap.fromTo(element,
+          { yPercent: 30, autoAlpha: 0, filter: 'blur(8px)' },
+          {
+            yPercent: 0, autoAlpha: 1, filter: 'blur(0px)',
+            duration: 1, ease: 'power4.out',
+            scrollTrigger: { trigger: element, start: 'top 84%', once: true }
+          }
+        );
+        return;
+      }
+
       gsap.set(element, { autoAlpha: 1 });
       gsap.fromTo(targets,
         { yPercent: 100, autoAlpha: 0, filter: 'blur(8px)' },
@@ -906,6 +955,39 @@
   }
 
   // ═══════════════════════════════════════════════════════════════
+  // 18. REVEAL REACHABILITY — Rule 7 guarantee for bottom-of-page elements
+  // ═══════════════════════════════════════════════════════════════
+  // Reveal triggers fire when an element's top crosses a fraction of the
+  // viewport (82-86%). Short elements at the very bottom of a page can sit
+  // past that line even at maximum scroll, so their trigger NEVER fires and
+  // motion CSS would keep them hidden forever. Force those reachable-but-
+  // un-triggerable elements visible. Conservative threshold (80%) covers
+  // every start fraction used above, so nothing that can trigger is touched.
+
+  function ensureRevealsReachable() {
+    var maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    var triggerLine = window.innerHeight * 0.80;
+
+    // Orphan reveal items — [data-reveal-item] NOT inside a [data-reveal-group]
+    // never receive a ScrollTrigger (group reveals only target in-group items),
+    // so they would stay hidden forever. Force them visible.
+    gsap.utils.toArray('[data-reveal-item]:not([data-reveal-group] [data-reveal-item])').forEach(function (el) {
+      gsap.set(el, { autoAlpha: 1 });
+    });
+
+    if (maxScroll <= 0) return;
+
+    // Elements whose trigger start line is beyond the maximum scroll position
+    // can never fire — force them visible (conservative 80% threshold).
+    gsap.utils.toArray('[data-reveal]:not([data-reveal-item]), [data-reveal-item], [data-motion-text], [data-image-reveal]').forEach(function (el) {
+      var top = el.getBoundingClientRect().top + window.scrollY;
+      if (top > maxScroll + triggerLine) {
+        gsap.set(el, { autoAlpha: 1 });
+      }
+    });
+  }
+
+  // ═══════════════════════════════════════════════════════════════
   // INIT
   // ═══════════════════════════════════════════════════════════════
 
@@ -913,24 +995,46 @@
   // to avoid double-fire of scrollIntoView on anchor link clicks.
 
   function init() {
-    initHeroEntrance();
-    initTextReveals();
-    initScrollReveals();
-    initImageReveals();
-    initSectionSnapping();
-    initMagnetic();
-    initImageParallax();
-    initProgressBars();
-    initTilt();
-    initParallaxAttr();
-    initImageZoom();
-    initCountup();
-    initScrubHorizontal();
-    initStickyPin();
-    initParallaxLayer();
-    initButtonRipple();
+    try {
+      initHeroEntrance();
+      initTextReveals();
+      initScrollReveals();
+      initImageReveals();
+      initSectionSnapping();
+      initMagnetic();
+      initImageParallax();
+      initProgressBars();
+      initTilt();
+      initParallaxAttr();
+      initImageZoom();
+      initCountup();
+      initScrubHorizontal();
+      initStickyPin();
+      initParallaxLayer();
+      initButtonRipple();
 
-    ScrollTrigger.refresh();
+      ScrollTrigger.refresh();
+      ensureRevealsReachable();
+
+      // Re-run after late layout shifts (images/fonts settling) and on load:
+      // refresh recomputes trigger start positions, then the sweep force-
+      // reveals anything still unreachable.
+      window.addEventListener('load', function () {
+        ScrollTrigger.refresh();
+        ensureRevealsReachable();
+      });
+      setTimeout(function () {
+        ScrollTrigger.refresh();
+        ensureRevealsReachable();
+      }, 1000);
+    } catch (err) {
+      // Rule 7: an animation failure must never become a page failure.
+      console.error('AETHER Motion: init failed — content left visible.', err);
+      disableMotion();
+    } finally {
+      motionInitDone = true;
+      clearTimeout(motionWatchdog);
+    }
   }
 
   if (document.readyState === 'loading') {

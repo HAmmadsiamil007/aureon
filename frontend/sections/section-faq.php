@@ -50,7 +50,7 @@ $chunks = array_chunk( $items, (int) ceil( count( $items ) / max( 1, $columns ) 
 
 		<div class="faq-cta">
 			<p><?php echo esc_html( isset( $sectionData['cta_text'] ) ? $sectionData['cta_text'] : __( 'Still have questions?', 'aureon' ) ); ?></p>
-			<a href="<?php echo esc_url( isset( $sectionData['cta_url'] ) ? $sectionData['cta_url'] : '' ); ?>" class="btn btn-outline" data-magnetic="0.12"><?php echo esc_html( isset( $sectionData['cta_label'] ) ? $sectionData['cta_label'] : __( 'Contact Us', 'aureon' ) ); ?></a>
+			<a href="<?php echo esc_url( isset( $sectionData['cta_url'] ) && $sectionData['cta_url'] ? $sectionData['cta_url'] : home_url( '/contact/' ) ); ?>" class="btn btn-outline" data-magnetic="0.12"><?php echo esc_html( isset( $sectionData['cta_label'] ) ? $sectionData['cta_label'] : __( 'Contact Us', 'aureon' ) ); ?></a>
 		</div>
 	</div>
 </section>

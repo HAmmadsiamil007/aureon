@@ -45,7 +45,7 @@ $payments  = isset( $componentData['payments'] ) ? (array) $componentData['payme
 			<div class="footer-brand">
 				<a href="<?php echo esc_url( $brand_url ); ?>" class="footer-logo"><?php echo esc_html( $brand ); ?></a>
 				<p class="footer-tagline"><?php echo esc_html( $tagline ); ?></p>
-				<div class="footer-social" aria-label="Social media links">
+				<div class="footer-social" role="group" aria-label="Social media links">
 					<?php foreach ( $socials as $social ) : ?>
 						<a href="<?php echo esc_url( isset( $social['url'] ) ? $social['url'] : '#' ); ?>" target="_blank" rel="noopener noreferrer" aria-label="<?php echo esc_attr( isset( $social['label'] ) ? $social['label'] : '' ); ?>"><i class="<?php echo esc_attr( isset( $social['icon'] ) ? $social['icon'] : '' ); ?>"></i></a>
 					<?php endforeach; ?>

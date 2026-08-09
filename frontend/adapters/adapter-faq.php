@@ -30,8 +30,8 @@ function aether_adapter_faq() {
         wp_reset_postdata();
     }
 
-    // Demo fallback — no FAQ posts yet.
-    if ( empty( $items ) ) {
+    // Demo fallback — no FAQ posts yet (gated by aether_demo_content).
+    if ( empty( $items ) && aureon_get_option( 'aether_demo_content', true ) ) {
         foreach ( (array) aureon_get_option( 'aether_faq_items', array() ) as $demo ) {
             $items[] = array(
                 'question' => isset( $demo['question'] ) ? $demo['question'] : '',
