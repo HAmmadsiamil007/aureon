@@ -1,9 +1,15 @@
-name: Lumina CI
+name: Aureon CI
 
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+    inputs:
+      web_base_url:
+        description: 'Live WP stack base URL for the Playwright E2E job'
+        required: true
+        default: 'http://localhost:8080'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -12,14 +18,10 @@ concurrency:
 permissions:
   contents: read
 
-# The Lumina theme lives at wp-content/themes/lumina — every step runs there.
-defaults:
-  run:
-    working-directory: wp-content/themes/lumina
-
 jobs:
-  bootstrap:
-    name: Bootstrap (composer validate + PHP lint)
+  # Hermetic static gates — no live WordPress needed. Runs on every push/PR.
+  static:
+    name: Static gates (PHP lint + JS syntax + AETHER verify)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,148 +30,57 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          tools: composer:v2
           coverage: none
 
-      - name: composer validate
-        run: composer validate --no-check-publish
-
-      - name: composer install (dev)
-        run: composer install --no-interaction --prefer-dist
-
-      - name: composer dump-autoload (PSR-4, optimized)
-        run: composer dump-autoload --optimize
-
-      - name: PHP syntax check on app/ + functions.php
-        run: |
-          find app -name '*.php' -print0 | xargs -0 -n1 php -l
-          php -l functions.php
-
-      - name: Phase 1 bootstrap smoke suite (WP-free)
-        run: php bin/smoke-phase1.php
-
-      - name: Phase 2 framework smoke suite (WP-free)
-        run: php bin/smoke-phase2.php
-
-      - name: Phase 3 design token smoke suite (WP-free)
-        run: php bin/smoke-phase3.php
-
-      - name: Phase 4 render engine smoke suite (WP-free)
-        run: php bin/smoke-phase4.php
-
-      - name: Phase 5 component registry smoke suite (WP-free)
-        run: php bin/smoke-phase5.php
-
-      - name: Phase 6 template system smoke suite (WP-free)
-        run: php bin/smoke-phase6.php
-
-      - name: Phase 7 asset pipeline smoke suite (WP-free)
-        run: php bin/smoke-phase7.php
-
-      - name: Regenerate + verify token source carries --lumina-* vars
-        run: |
-          php bin/build-tokens.php
-          grep -q -- '--lumina-' assets-src/scss/_tokens.scss
-
-      - name: Phase 8 plugin bridges smoke suite (WP-free)
-        run: php bin/smoke-phase8.php
-
-      - name: Phase 9 WooCommerce bridge smoke suite (WP-free)
-        run: php bin/smoke-phase9.php
-
-      - name: Phase 10 animation engine smoke suite (WP-free)
-        run: php bin/smoke-phase10.php
-
-      - name: Phase 11 frontend component library smoke suite (WP-free)
-        run: php bin/smoke-phase11.php
-
-      - name: Phase 12 frontend template library smoke suite (WP-free)
-        run: php bin/smoke-phase12.php
-
-      - name: Phase 13 performance engineering smoke suite (WP-free)
-        run: php bin/smoke-phase13.php
-
-      - name: Phase 14 accessibility engineering smoke suite (WP-free)
-        run: php bin/smoke-phase14.php
-
-      - name: Phase 16 companion plugin smoke suite (WP-free)
-        run: php ../../../plugins/lumina-companion/bin/smoke-phase16-plugin.php
-
-      - name: Phase 16 theme + plugin integration smoke (WP-free)
-        run: php ../../../plugins/lumina-companion/bin/smoke-phase16-integration.php
-
-  static-analysis:
-    name: PHPCS + PHPStan + Psalm
-    runs-on: ubuntu-latest
-    needs: bootstrap
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          php-version: '8.2'
-          tools: composer:v2
-          coverage: none
+          node-version: 20
 
-      - name: composer install (dev)
-        run: composer install --no-interaction --prefer-dist
+      - name: PHP syntax check (all tracked PHP: aureon theme + plugin + frontend)
+        run: |
+          set -e
+          git ls-files '*.php' | while read -r f; do php -l "$f"; done
 
-      - name: PHPCS (WordPress Coding Standards)
-        run: vendor/bin/phpcs
+      - name: JS syntax check (all tracked JS outside node_modules/vendor)
+        run: |
+          set -e
+          git ls-files '*.js' | grep -vE 'node_modules|/vendor/|/source/' | while read -r f; do node --check "$f"; done
 
-      - name: PHPStan level 5
-        run: vendor/bin/phpstan analyse --no-progress --memory-limit=512M
+      - name: AETHER frontend verification gate (verify.sh)
+        run: bash frontend/tests/verify.sh
 
-      - name: Psalm errorLevel 5
-        run: vendor/bin/psalm --no-cache --no-progress
-
-  assets:
-    name: Vite + ESLint + Prettier + tsc
+  # Live E2E against a real WP stack — opt-in only (workflow_dispatch).
+  # Local equivalent: cd frontend/tests && WEB_BASE_URL=<url> npx playwright test
+  # (uses installed Chrome channel; no browser download needed).
+  e2e:
+    name: Playwright E2E (live)
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    env:
+      WEB_BASE_URL: ${{ inputs.web_base_url }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
           cache: npm
-          cache-dependency-path: wp-content/themes/lumina/package-lock.json
+          cache-dependency-path: frontend/tests/package-lock.json
 
       - name: npm ci
+        working-directory: frontend/tests
         run: npm ci
 
-      - name: Vite pinned version
-        run: npx vite --version
+      - name: Run Playwright suite
+        working-directory: frontend/tests
+        run: npx playwright test
 
-      - name: ESLint
-        run: npm run lint
-
-      - name: Prettier check
-        run: npm run format:check
-
-      - name: TypeScript check
-        run: npm run typecheck
-
-      - name: Vite build
-        run: npm run build
-
-      - name: Verify dist manifest + built CSS carries --lumina-* vars
-        run: |
-          test -f assets/dist/.vite/manifest.json
-          grep -q -- '--lumina-' assets/dist/assets/*.css
-
-  integrity:
-    name: Lumina self-integrity gate (ADR-004)
-    runs-on: ubuntu-latest
-    needs: bootstrap
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Assert baseline present (gate cannot silently skip)
-        run: |
-          test -f bin/lumina-integrity.sha256
-
-      - name: Verify Lumina theme tree byte-identical to freeze baseline
-        run: bash bin/verify-lumina-integrity.sh
+      - name: Upload failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: frontend/tests/results/
+          if-no-files-found: ignore

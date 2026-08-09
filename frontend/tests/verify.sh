@@ -11,33 +11,30 @@ echo "=== AETHER Frontend Verification ==="
 # 1. PHP syntax check on all PHP files in frontend/
 echo ""
 echo "--- PHP Syntax Check ---"
-find frontend/ -name "*.php" -not -path "*/source/*" | while read f; do
-    result=$(php -l "$f" 2>&1)
-    if [ $? -ne 0 ]; then
+while IFS= read -r f; do
+    if ! php -l -q "$f" >/dev/null 2>&1; then
         echo "FAIL: $f"
-        echo "$result"
         ERRORS=$((ERRORS + 1))
     fi
-done
+done < <(find frontend/ -name "*.php" -not -path "*/source/*")
 
 # 2. Node syntax check on JS files (if node available)
 if command -v node &> /dev/null; then
     echo ""
     echo "--- JS Syntax Check ---"
-    find frontend/ -name "*.js" -not -path "*/source/*" -not -path "*/vendor/*" | while read f; do
-        result=$(node --check "$f" 2>&1)
-        if [ $? -ne 0 ]; then
+    while IFS= read -r f; do
+        if ! node --check "$f" >/dev/null 2>&1; then
             echo "FAIL: $f"
-            echo "$result"
             ERRORS=$((ERRORS + 1))
         fi
-    done
+    done < <(find frontend/ -name "*.js" -not -path "*/source/*" -not -path "*/vendor/*")
 fi
 
-# 3. Grep gate — components must NOT call WP/WC functions
+# 3. Grep gate — components must NOT CALL WP/WC functions
+#    (call-syntax only: docblock mentions and data-attr values are allowed)
 echo ""
 echo "--- Grep Gate (components must not call WP/WC) ---"
-HITS=$(grep -rnl 'wc_\|get_option\|get_post\|WP_Query\|get_bloginfo\|get_theme_mod\|get_permalink\|home_url\|admin_url\|wp_get_attachment' frontend/components/ 2>/dev/null || true)
+HITS=$(grep -rnE 'wc_[a-z_]+\(|get_option\(|get_post\(|WP_Query\(|get_bloginfo\(|get_theme_mod\(|get_permalink\(|home_url\(|admin_url\(|wp_get_attachment\(' frontend/components/ 2>/dev/null || true)
 if [ -n "$HITS" ]; then
     echo "FAIL: WP/WC functions found in components:"
     echo "$HITS"
