@@ -3,7 +3,10 @@ const { test, expect } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
 const { expectHeaderVisible } = require('./helpers');
 
-const A11Y_PAGES = ['/', '/contact/', '/my-account/'];
+const A11Y_PAGES = [
+  '/', '/contact/', '/my-account/', '/shop/', '/about/', '/team/', '/faq/',
+  '/wishlist/', '/cart/', '/product/wh-denim-trucker-jacket-pitch-black-2/', '/?s=void',
+];
 
 test.describe('accessibility', { tag: '@a11y' }, () => {
   // axe scans on the full DOM can be slow on heavy pages; give them room.
@@ -13,6 +16,19 @@ test.describe('accessibility', { tag: '@a11y' }, () => {
     test(`axe scan: ${route} has no critical/serious violations`, async ({ page }) => {
       await page.goto(`${route}?nocache=a11y`, { waitUntil: 'domcontentloaded' });
       await page.waitForTimeout(1500);
+
+      // Scroll through the page so reveal-animated sections leave their
+      // pre-reveal hidden state — axe excludes visibility:hidden nodes,
+      // so unscanned below-the-fold sections would dodge detection (F11-2).
+      await page.evaluate(async () => {
+        const step = window.innerHeight / 2;
+        for (let y = 0; y <= document.body.scrollHeight; y += step) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 80));
+        }
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(800);
 
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa'])
