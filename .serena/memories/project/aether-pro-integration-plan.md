@@ -1,5 +1,9 @@
 # AETHER-PRO-INTEGRATION-PLAN — COMPLETE + fully re-verified live (2026-08-08)
 
+## FILE STATUS 2026-08-14: PLAN FILE MISSING FROM DISK
+- `C:\Users\hamma\Downloads\wordpress\AETHER-PRO-INTEGRATION-PLAN.md` **does NOT exist anymore** (glob + git log --all both return nothing; it was untracked per the original note and has since been deleted). This memory is now the SOLE surviving record of that plan.
+- **Relationship to current work:** this WAS the plan (WS-1..WS-7, done 2026-08-08) that built the Customizer-driven AETHER frontend. The CURRENT plan is the successor: `docs/plans/frontend-dynamic-completion/00_BASELINE.md` (Step 0, dated 2026-08-13, "Frontend Dynamic Completion & Integration Hardening") + the 16-phase verification task (see memory `project/verification-master-task-status`). The current task VERIFIES this plan's output live and closes its deferred P2/P3 queue: G8 WC color bridge (--engine-wc-*), G9 classic fonts, G11 Elements, G12 Blog plugin integration, demo import/packs, CSP hardening.
+
 ## Result: Plan DONE (100%). Independent re-verification confirms §8 claims. No gaps found beyond the documented deferred items.
 
 ## What the plan did (WS-1..WS-7, one pass)

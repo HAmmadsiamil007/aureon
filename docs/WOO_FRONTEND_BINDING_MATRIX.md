@@ -15,7 +15,7 @@
 | `/cart/` | `cart.php` | cart → newsletter | `cart` |
 | `/checkout/` | `checkout/form-checkout.php` | checkout | WC native (wrapped in shell) |
 | `/checkout/order-received/{id}/` | `woocommerce/checkout/thankyou.php` | order-confirmation → newsletter | `order` |
-| `/my-account/*` | `myaccount/my-account.php` | page-banner + account/profile + account/orders | `account` |
+| `/my-account/*` | `myaccount/my-account.php` | page-banner + 1 of 5 branches (dashboard → `account/profile`; orders → nav + `account/orders`; other endpoints → stock WC framed; lost-password → stock form; logged-out → custom login/register) | `account` |
 | `/wishlist/` | `page-wishlist.php` | wishlist → newsletter | `wishlist` |
 
 ## 2. Commerce surface binding
@@ -29,7 +29,7 @@
 | Shop filter | `aether_adapter_wc_filter` | `get_terms`, `wc_get_product_ids_on_sale` | → `section/filter-bar` | ✅ (hides when empty) |
 | Shop hero title | `aether_adapter_shop_hero` | `woocommerce_page_title`, `wc_get_page_id` | → `hero/page-title` | ✅ |
 | Single product | `aether_adapter_product` | `wc_get_product`, gallery ids, `pa_color`/`pa_size` terms, review comments, rating counts | SingleProductViewModel → `product/*` (9 components) | ✅ |
-| Cart page | `aether_adapter_cart` | `WC()->cart`, `wc_get_cart_remove_url`, totals | CartViewModel → `cart/items` + `cart/summary` | ✅ (empty state) |
+| Cart page | `aether_adapter_cart` | `WC()->cart`, `wc_get_cart_remove_url`, totals | CartViewModel → `cart/items` + `cart/summary` | ✅ (2026-08-14: real item + totals verified; qty/remove via JS posting `woocommerce-cart-form` with `update_cart` marker — plugin-owned JS) |
 | Header/mobile cart count | `aether_adapter_header/mobile` | `WC()->cart->get_cart_contents_count()` | → `shell/header`, `shell/mobile-chrome` | ✅ |
 | Add to cart | adapters | classic `?add-to-cart={id}` | `product/info`, `card/product` CTAs | ✅ (WC handles) |
 | Order confirmation | `aether_adapter_order` | `wc_get_order` | OrderViewModel → `order/confirmation` | ✅ |
@@ -43,6 +43,8 @@
 | State | Where | Behavior |
 |---|---|---|
 | Empty cart | `section-cart` | premium empty state + Continue Shopping |
+| Cart update/remove | `section-cart` inline JS + plugin `aureon-woocommerce-js` | posts real cart form with `update_cart` marker; swaps fresh form + summary |
+| Checkout order-review refresh | plugin `aureon-woocommerce-js` | WC checkout JS (AJAX order review) |
 | Empty shop (no products) | `adapter_wc_products` | demo fallback, gated by `aether_demo_content` (G2 closed) |
 | Empty categories | `adapter_wc_categories` | curated SKU fallback, gated by `aether_demo_content` (G2 closed) |
 | No sale products | `adapter_wc_filter` | Sale button hidden |
