@@ -20,6 +20,8 @@ require_once get_template_directory() . '/inc/aether-security.php';
 require_once get_template_directory() . '/inc/aether-seo.php';
 require_once get_template_directory() . '/inc/aether-newsletter.php';
 require_once get_template_directory() . '/inc/aether-ajax.php';
+require_once get_template_directory() . '/inc/aether-cart.php';
+require_once get_template_directory() . '/inc/aether-analytics.php';
 require_once get_template_directory() . '/inc/aether-performance.php';
 
 /**
@@ -160,6 +162,7 @@ function aureon_aether_enqueue_assets() {
 			'isUserLoggedIn'=> is_user_logged_in(),
 			'shopUrl'       => function_exists( 'wc_get_page_permalink' ) && wc_get_page_permalink( 'shop' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' ),
 			'searchUrl'     => home_url( '/?s=' ),
+			'wcAjaxUrl'     => function_exists( 'WC' ) ? add_query_arg( 'wc-ajax', 'add_to_cart', home_url( '/' ) ) : '',
 		)
 	);
 

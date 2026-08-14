@@ -223,16 +223,26 @@ function aureon_wc_scripts() {
 		return;
 	}
 
-	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-	wp_enqueue_style( 'aureon-woocommerce', plugin_dir_url( __FILE__ ) . "css/woocommerce{$suffix}.css", array(), AUREON_WOOCOMMERCE_VERSION );
-	wp_enqueue_style( 'aureon-woocommerce-mobile', plugin_dir_url( __FILE__ ) . "css/woocommerce-mobile{$suffix}.css", array(), AUREON_WOOCOMMERCE_VERSION, aureon_premium_get_media_query( 'mobile' ) );
-
-	if (
+	// F5-3: gate by page state, not function existence. WC styling/assets
+	// are only needed on WC surfaces — unless a page-agnostic feature
+	// (header cart menu item) is enabled, which keeps the assets loaded
+	// globally so the header icon keeps working on non-WC pages.
+	$needs_wc_js = (
 		aureon_wc_get_setting( 'cart_menu_item' ) ||
 		aureon_wc_get_setting( 'off_canvas_panel_on_add_to_cart' ) ||
 		aureon_wc_show_sticky_add_to_cart() ||
 		aureon_wc_get_setting( 'quantity_buttons' )
-	) {
+	);
+
+	if ( ! is_woocommerce() && ! is_cart() && ! is_checkout() && ! is_account_page() && ! $needs_wc_js ) {
+		return;
+	}
+
+	$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	wp_enqueue_style( 'aureon-woocommerce', plugin_dir_url( __FILE__ ) . "css/woocommerce{$suffix}.css", array(), AUREON_WOOCOMMERCE_VERSION );
+	wp_enqueue_style( 'aureon-woocommerce-mobile', plugin_dir_url( __FILE__ ) . "css/woocommerce-mobile{$suffix}.css", array(), AUREON_WOOCOMMERCE_VERSION, aureon_premium_get_media_query( 'mobile' ) );
+
+	if ( $needs_wc_js ) {
 		wp_enqueue_script( 'aureon-woocommerce', plugin_dir_url( __FILE__ ) . "js/woocommerce{$suffix}.js", array( 'jquery' ), AUREON_WOOCOMMERCE_VERSION, true );
 	}
 

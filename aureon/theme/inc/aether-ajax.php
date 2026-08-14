@@ -1,9 +1,10 @@
 <?php
 /**
- * AETHER AJAX Handlers — wishlist toggle/count + quick view.
+ * AETHER AJAX Handlers — wishlist toggle/count, quick view + contact.
  *
  * Newsletter subscription lives in aether-newsletter.php (DB-backed).
- * All handlers verify the shared aether_nonce.
+ * All handlers verify a nonce (shared aether_nonce; contact uses its own
+ * aether_contact nonce, matching the contact form's hidden field).
  *
  * @package Aureon
  */
@@ -99,6 +100,76 @@ function aether_quick_view() {
 			'short_desc' => wp_strip_all_tags( $product->get_short_description() ),
 			'url'        => $product->get_permalink(),
 			'rating'     => $product->get_average_rating(),
+		)
+	);
+}
+
+// ─── Contact Submit ──────────────────────────────────────────
+add_action( 'wp_ajax_aether_contact_submit', 'aether_contact_submit' );
+add_action( 'wp_ajax_nopriv_aether_contact_submit', 'aether_contact_submit' );
+/**
+ * Handle the AETHER contact form — validated + rate-limited, emailed to
+ * the site admin (or the configured recipient).
+ */
+function aether_contact_submit() {
+	check_ajax_referer( 'aether_contact', 'aether_contact_nonce' );
+
+	$name    = isset( $_POST['aether_name'] ) ? sanitize_text_field( wp_unslash( $_POST['aether_name'] ) ) : '';
+	$email   = isset( $_POST['aether_email'] ) ? sanitize_email( wp_unslash( $_POST['aether_email'] ) ) : '';
+	$subject = isset( $_POST['aether_subject'] ) ? sanitize_text_field( wp_unslash( $_POST['aether_subject'] ) ) : 'general';
+	$message = isset( $_POST['aether_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['aether_message'] ) ) : '';
+
+	$subject_labels = array(
+		'general'   => __( 'General Inquiry', 'aureon' ),
+		'order'     => __( 'Order Support', 'aureon' ),
+		'returns'   => __( 'Returns', 'aureon' ),
+		'wholesale' => __( 'Wholesale', 'aureon' ),
+	);
+
+	if ( '' === $name || '' === $message ) {
+		wp_send_json_error( array( 'message' => __( 'Please fill in every required field.', 'aureon' ) ) );
+	}
+
+	if ( ! is_email( $email ) ) {
+		wp_send_json_error( array( 'message' => __( 'Please enter a valid email address.', 'aureon' ) ) );
+	}
+
+	// Rate limit: one submission per IP per minute.
+	$ip_key = 'aether_contact_rate_' . md5( isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '0.0.0.0' );
+	if ( get_transient( $ip_key ) ) {
+		wp_send_json_error( array( 'message' => __( 'Please wait before sending another message.', 'aureon' ) ) );
+	}
+
+	$recipient = apply_filters( 'aether_contact_recipient', (string) aureon_get_option( 'aether_contact_recipient', get_option( 'admin_email' ) ) );
+	if ( ! is_email( $recipient ) ) {
+		$recipient = get_option( 'admin_email' );
+	}
+
+	$subject_label = isset( $subject_labels[ $subject ] ) ? $subject_labels[ $subject ] : $subject;
+
+	$mail_body  = sprintf( __( 'Name: %s', 'aureon' ), $name ) . "\n";
+	$mail_body .= sprintf( __( 'Email: %s', 'aureon' ), $email ) . "\n";
+	$mail_body .= sprintf( __( 'Subject: %s', 'aureon' ), $subject_label ) . "\n\n";
+	$mail_body .= $message . "\n";
+
+	$headers = array( 'Reply-To: ' . $name . ' <' . $email . '>' );
+
+	$sent = wp_mail(
+		$recipient,
+		sprintf( '[%s] %s', get_bloginfo( 'name' ), $subject_label ),
+		$mail_body,
+		$headers
+	);
+
+	if ( ! $sent ) {
+		wp_send_json_error( array( 'message' => __( 'The message could not be sent. Please try again.', 'aureon' ) ) );
+	}
+
+	set_transient( $ip_key, true, MINUTE_IN_SECONDS );
+
+	wp_send_json_success(
+		array(
+			'message' => __( 'Thank you — your message has been sent. We reply within one business day.', 'aureon' ),
 		)
 	);
 }

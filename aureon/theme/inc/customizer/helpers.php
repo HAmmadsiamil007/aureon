@@ -99,6 +99,50 @@ if ( ! function_exists( 'aureon_sanitize_integer' ) ) {
 	}
 }
 
+/**
+ * Sanitize the shop per-page count, clamped to the control's UI range (1–48).
+ *
+ * @since 1.1.0
+ * @param string $input The value to check.
+ * @return int
+ */
+function aureon_sanitize_shop_per_page( $input ) {
+	$value = (int) $input;
+
+	return min( 48, max( 1, $value ) );
+}
+
+/**
+ * Sanitize section padding — accepts 1–4 CSS lengths (e.g. "100px 0",
+ * "40px 24px 40px 24px") or an empty string (inherit). Anything else is
+ * rejected to keep raw CSS out of the emitted `:root` tokens (F4-4).
+ *
+ * @since 1.1.0
+ * @param string $input The value to check.
+ * @return string
+ */
+function aureon_sanitize_section_padding( $input ) {
+	$input = trim( (string) $input );
+
+	if ( '' === $input ) {
+		return '';
+	}
+
+	$parts = preg_split( '/\s+/', $input );
+
+	if ( count( $parts ) > 4 ) {
+		return '';
+	}
+
+	foreach ( $parts as $part ) {
+		if ( ! preg_match( '/^\d+(\.\d+)?(px|rem|em|vh|vw|%)?$/', $part ) ) {
+			return '';
+		}
+	}
+
+	return implode( ' ', $parts );
+}
+
 if ( ! function_exists( 'aureon_sanitize_decimal_integer' ) ) {
 	/**
 	 * Sanitize integers that can use decimals.

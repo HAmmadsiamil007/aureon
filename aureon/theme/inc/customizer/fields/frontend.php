@@ -187,7 +187,7 @@ Aureon_Customize_Field::add_field(
 	'',
 	array(
 		'default'           => isset( $defaults['aether_shop_per_page'] ) ? $defaults['aether_shop_per_page'] : 9,
-		'sanitize_callback' => 'absint',
+		'sanitize_callback' => 'aureon_sanitize_shop_per_page',
 		'transport'         => 'refresh',
 	),
 	array(
@@ -407,7 +407,7 @@ Aureon_Customize_Field::add_field(
 	'',
 	array(
 		'default'           => isset( $defaults['aether_section_padding'] ) ? $defaults['aether_section_padding'] : '100px 0',
-		'sanitize_callback' => 'sanitize_text_field',
+		'sanitize_callback' => 'aureon_sanitize_section_padding',
 		'transport'         => 'refresh',
 	),
 	array(
@@ -415,5 +415,22 @@ Aureon_Customize_Field::add_field(
 		'label'       => __( 'Section padding (e.g. 100px 0)', 'aureon' ),
 		'section'     => 'aureon_aether_section',
 		'description' => __( 'Vertical rhythm for front-page sections.', 'aureon' ),
+	)
+);
+
+// GA4 measurement ID — consumed by the AETHER analytics module (M10).
+Aureon_Customize_Field::add_field(
+	'aureon_settings[aether_analytics_ga4_id]',
+	'',
+	array(
+		'default'           => isset( $defaults['aether_analytics_ga4_id'] ) ? $defaults['aether_analytics_ga4_id'] : '',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'refresh',
+	),
+	array(
+		'type'        => 'text',
+		'label'       => __( 'GA4 Measurement ID', 'aureon' ),
+		'section'     => 'aureon_aether_section',
+		'description' => __( 'e.g. G-XXXXXXX. Fires view_item, add_to_cart, view_item_list and purchase events on the shop surfaces. Leave empty to disable.', 'aureon' ),
 	)
 );

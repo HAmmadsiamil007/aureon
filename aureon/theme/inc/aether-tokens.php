@@ -93,6 +93,41 @@ function aether_generate_tokens_css() {
 		$tokens[] = $var . ': ' . aether_resolve_color( $def[0], $def[1], $def[2], $saved ) . ';';
 	}
 
+	// ─── WooCommerce color bridge (M2) ─────────────────────────────
+	// Streams the WC Customizer palette into dedicated `--aether-wc-*`
+	// tokens consumed by the engine's shop surfaces (rating stars, price,
+	// badges). Bridged ONLY when the merchant explicitly set the palette —
+	// untouched WC options stay on the AETHER defaults (gold), so the
+	// engine accent survives out-of-the-box installs unchanged.
+	if ( class_exists( 'WooCommerce' ) ) {
+		$wc_primary   = get_option( 'woocommerce_primary_color' );
+		$wc_highlight = get_option( 'woocommerce_highlight_color' );
+		$wc_subtext   = get_option( 'woocommerce_subtext_color' );
+
+		$wc_bridge = array();
+		if ( is_string( $wc_primary ) && '' !== $wc_primary ) {
+			$wc_bridge['--aether-wc-primary'] = aether_sanitize_color( $wc_primary, '#C8956C' );
+		}
+		if ( is_string( $wc_highlight ) && '' !== $wc_highlight ) {
+			$wc_bridge['--aether-wc-highlight'] = aether_sanitize_color( $wc_highlight, '#CC4444' );
+		}
+		if ( is_string( $wc_subtext ) && '' !== $wc_subtext ) {
+			$wc_bridge['--aether-wc-subtext'] = aether_sanitize_color( $wc_subtext, '#A8B5C0' );
+		}
+
+		// Price follows primary unless WC stores an explicit price color.
+		if ( isset( $wc_bridge['--aether-wc-primary'] ) ) {
+			$wc_price = get_option( 'woocommerce_price_color' );
+			$wc_bridge['--aether-wc-price'] = ( is_string( $wc_price ) && '' !== $wc_price )
+				? aether_sanitize_color( $wc_price, $wc_bridge['--aether-wc-primary'] )
+				: $wc_bridge['--aether-wc-primary'];
+		}
+
+		foreach ( $wc_bridge as $var => $value ) {
+			$tokens[] = $var . ': ' . $value . ';';
+		}
+	}
+
 	// ─── Typography (bridged to the dynamic Typography Manager) ──
 	$heading = aether_font_for( 'heading', $saved );
 	$body    = aether_font_for( 'body', $saved );
