@@ -40,14 +40,17 @@ function aether_active_design() {
 
 	if ( defined( 'AETHER_DESIGN' ) && AETHER_DESIGN ) {
 		$design = sanitize_key( (string) AETHER_DESIGN );
-
-		return $design ? $design : 'luxury';
+	} else {
+		$stored = get_option( 'aether_active_design', '' );
+		$design = sanitize_key( (string) $stored );
 	}
 
-	$stored = get_option( 'aether_active_design', '' );
-	$design = sanitize_key( (string) $stored );
+	// Resolve the default BEFORE caching: a truthy slug is cached as-is,
+	// an empty one must fall back to 'luxury' on every call — caching the
+	// raw value would make later calls in the same request return ''.
+	$design = $design ? $design : 'luxury';
 
-	return $design ? $design : 'luxury';
+	return $design;
 }
 
 /**
@@ -118,4 +121,77 @@ add_filter( 'aureon_option_defaults', 'aether_apply_design_defaults', 20 );
  */
 function aether_apply_design_defaults( $defaults ) {
 	return array_merge( $defaults, aether_design_defaults() );
+}
+
+add_filter( 'body_class', 'aether_design_body_class' );
+/**
+ * Tag the frontend body with the active design (design-<slug>).
+ *
+ * Gives pack CSS a stable scoping hook and lets pack JS feature-detect.
+ *
+ * @param array $classes Body classes.
+ * @return array
+ */
+function aether_design_body_class( $classes ) {
+	$classes[] = 'design-' . aether_active_design();
+
+	return $classes;
+}
+
+/**
+ * Active design pack manifest (machine-readable mapping, M6).
+ *
+ * Reads manifest.json from the active pack directory. Malformed or missing
+ * manifests degrade to an empty array — never a fatal error. Keys are
+ * whitelisted by aether_sanitize_design_manifest().
+ *
+ * Schema: docs/frontend-platform/MAPPING_MANIFEST_SCHEMA.md
+ *
+ * @return array
+ */
+function aether_design_manifest() {
+	static $manifest = null;
+
+	if ( null !== $manifest ) {
+		return $manifest;
+	}
+
+	$manifest = array();
+
+	$design_dir = aether_active_design_dir();
+	if ( ! $design_dir ) {
+		return $manifest;
+	}
+
+	$manifest_file = $design_dir . 'manifest.json';
+	if ( ! file_exists( $manifest_file ) ) {
+		return $manifest;
+	}
+
+	$json = json_decode( (string) file_get_contents( $manifest_file ), true );
+	if ( is_array( $json ) ) {
+		$manifest = aether_sanitize_design_manifest( $json );
+	}
+
+	return $manifest;
+}
+
+/**
+ * Whitelist and normalize manifest keys.
+ *
+ * @param array $m Raw manifest array.
+ * @return array Sanitized manifest.
+ */
+function aether_sanitize_design_manifest( $m ) {
+	$allowed = array( 'id', 'label', 'version', 'assets', 'components', 'sections', 'mappings', 'data', 'integrations', 'js', 'customizer' );
+
+	$m = array_intersect_key( (array) $m, array_flip( $allowed ) );
+
+	if ( isset( $m['assets'] ) && is_array( $m['assets'] ) ) {
+		foreach ( array( 'css', 'js' ) as $kind ) {
+			$m['assets'][ $kind ] = isset( $m['assets'][ $kind ] ) && is_array( $m['assets'][ $kind ] ) ? array_values( $m['assets'][ $kind ] ) : array();
+		}
+	}
+
+	return $m;
 }

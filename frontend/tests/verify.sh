@@ -106,6 +106,17 @@ else
     ERRORS=$((ERRORS + 1))
 fi
 
+# 7c. Design pack contract validation (M8 — manifests, assets, mappings)
+if command -v node &> /dev/null; then
+    echo ""
+    echo "--- Manifest Contract Validation (M8) ---"
+    if node frontend/tests/validate-manifest.cjs; then
+        echo "PASS: design pack manifests valid"
+    else
+        ERRORS=$((ERRORS + 1))
+    fi
+fi
+
 # Summary
 echo ""
 echo "=== Verification Complete ==="
