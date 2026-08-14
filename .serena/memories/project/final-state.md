@@ -1,5 +1,11 @@
 # Aureon Project — Final State
 
+> **LATEST MILESTONE (2026-08-14):** M6–M10 design-pack milestone COMPLETE + PUSHED (tag `v1.3.0-m6-m10`) —
+> G4 newsletter flake resolved (server IP rate limit, not reveal), design.php static-cache fallback bug fixed,
+> luxury mode restored + smoke-verified (isolation 6/6, routes 32/32, verify.sh PASS). See
+> `.serena/memories/frontend-platform/M6-M10-lumen-proof-state.md` and
+> `.serena/memories/project/frontend-complete-status.md` §5 for the full record.
+
 ## Product Identity
 - **Aureon theme** v1.0.0 (internal: `AUREON_VERSION = 3.6.1`)
 - **Aureon Studio plugin** v1.0.0 (internal: `AUREON_STUDIO_VERSION = 3.0.0`)

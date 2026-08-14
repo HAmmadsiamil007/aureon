@@ -16,7 +16,7 @@
 - Full E2E suite: **56 passed / 1 skipped (expected) / 0 failed** per-spec: routes desktop 16/16; interactions+failure+a11y desktop 5+1skip; visual 3/3 `/`,`/shop/`,`/about/` ZERO pixel delta vs committed snapshots; mobile routes+interactions 22 total (21 + 1 flaky→green).
 - Live-gap spec `frontend/tests/specs/live-gaps.spec.js` **6/6 passed**: G1 card AJAX add-to-cart (wc-ajax POST, count +1, fragment `a.aether-cart-count`, NO navigation); G1 product page qty stepper (1→2, count +2); G3 contact form (admin-ajax, status rendered, no nav); G4 newsletter (JSON success); G1 no-JS classic fallback (native `?add-to-cart=` lands on cart); G1 cart page renders.
 - Zero page JS errors on all surfaces; CSP = report-only (INFO-only violations).
-- Container main.js synced (`docker cp frontend/assets/js/main.js aureon_wp:/var/www/html/wp-content/frontend/assets/js/main.js`) MD5 `316793241060172d13932307c22d3417`.
+- Container main.js synced (`docker cp frontend/assets/js/main.js aureon_wp:/var/www/html/wp-content/frontend/assets/js/main.js`) MD5 `316793241060172d13932307c22d3417` (platform core now FROZEN at `6d8f3b671333571508efcb53b1e39e60`, see M6-M10 section).
 
 ### Two REAL live bugs found & fixed (root-caused, evidence chains kept)
 1. **G1 add-to-cart full-page navigation** — dual defect: (a) `frontend.php:165` localized `?wc-ajax` with EMPTY value → WordPress rendered `…/?wc-ajax` (trailing `=` stripped) → old code concatenated to `?wc-ajaxadd_to_cart` (malformed); (b) main.js success-gated on `json.success`, and **WC 11.x removed the `success` key** (verified in container `class-wc-ajax.php add_to_cart()`: success = fragments+cart_hash only; failure = `{error:true, product_url}`). CDP `requestWillBeSent` initiator stack proved the navigation came from `main.js:420` (`window.location.href = btn.href`) — NOT the browser default (defaultPrevented=true was confirmed). Fix: `frontend.php` → `add_query_arg('wc-ajax','add_to_cart', home_url('/'))`; main.js → success by `json.fragments`, errors via `json.error`+`product_url`, last-resort fallback `btn.href`.
@@ -33,7 +33,7 @@ Master verification task CLOSED — see `docs/AETHER_DYNAMIC_FINAL_AUDIT.md` (16
 - Fixes shipped in phases 12–15: F11-1 + F11-2 (newsletter a11y + suite coverage), F3-1/F3-2/F7-1/F7-2/F8-1/F6-1+F5-3 (6 MED), F4-3/F4-4/F3-3 (LOW), F8-4 (dead template deleted), blog empty-state manifest entry + paged-array condition fix.
 - Deferred (documented, need owner decision): CSP enforcement, demo import packs (F5-8 auto-draft cleanup), real-MTA email verification, form.action vendor-bundle writer, checkout field-type cosmetics.
 - **DELIVERABLE**: `docs/AETHER_DYNAMIC_FINAL_AUDIT.md` — DONE.
-- Commit the uncommitted working tree (55 changed/untracked entries) in small batches — ONLY when the user asks.
+- Commit the uncommitted working tree (55 changed/untracked entries) in small batches — DONE 2026-08-14 (6 batches, all pushed; see M6-M10 section below).
 
 ## 3. WHAT IS MISSING / KNOWN GAPS (recorded, not blockers)
 
@@ -55,3 +55,34 @@ Master verification task CLOSED — see `docs/AETHER_DYNAMIC_FINAL_AUDIT.md` (16
 - Admin: admin/admin123 (admin-ajax tests pass nonce from live pages — works for logged-out flows too).
 - Host: Windows + PowerShell-only shell (no bash); Node v24.18.0, npm 11.18.0; Playwright 1.48.2 (chrome channel), axe-core 4.10.1.
 - git: branch main, HEAD `88ab98a`, working tree 21 changed files, NOTHING committed this session.
+
+## 5. M6–M10 DESIGN-PACK MILESTONE (COMPLETE — 2026-08-14, ALL VERIFIED + PUSHED)
+
+> Master record: `.serena/memories/frontend-platform/M6-M10-lumen-proof-state.md` (final state). Commits:
+> `901c1f6` (M7 asset engine), `9b54703` (M8 manifest contract + design.php cache fix), `1fcdaff` (M9 visual baselines),
+> `83533b8` (M10 lumen pack + isolation spec + schema doc), `ce96ec8` (G4 flake fix), `dda0ffd` (memory finalize). Tag: `v1.3.0-m6-m10`.
+
+### G4 newsletter flake — RESOLVED (root cause CORRECTED)
+- The reveal was never the failure (timeline diag proved visibility 10/10). REAL cause: server-side
+  per-minute IP rate limit in `aether_ajax_newsletter_subscribe()` (`aether-newsletter.php:210`) — rapid
+  hammer runs tripped it → `ajaxJson.success=false`. Container REMOTE_ADDR = 172.19.0.1 (Docker bridge).
+- Fix: private/reserved IP ranges exempt (`FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE`), IP
+  filterable via `aether_newsletter_rate_limit_ip`. Verified: G4 hammer 10/10 PASS, live-gaps 12/12.
+
+### design.php static-cache bug — FOUND + FIXED
+- `aether_active_design()` cached the raw sanitized option BEFORE the `?: 'luxury'` fallback → first call
+  per request returned 'luxury', every later call returned `''` (body class `design-`, bridge skipped luxury
+  assets). Invisible in lumen mode (truthy slug). Fix: apply fallback before caching. Root-caused via
+  container probes (sentinel function returns + return-value logging proved the executed file/logic).
+
+### Luxury mode — RESTORED + SMOKE-VERIFIED
+- `update_option('aether_active_design','')`; design-isolation 6/6 (body class `design-luxury`, luxury assets
+  only, wp-login clean), routes 32/32, verify.sh PASSED, main.js MD5 frozen `6d8f3b671333571508efcb53b1e39e60`.
+
+### Cleanup — DONE
+- Deleted all diag scripts (`diag-*.cjs` incl. reveal-timeline + rate-limit), `diag-fail-*.png`,
+  `frontend-m6.tar`/`.b64` (~48MB), `frontend/tests/results/`, container `/tmp` probes + logs.
+- Container lumen.js clean (settleReveals kept, `__settleCount` debug counter removed).
+
+### git — CLEAN + PUSHED
+- Working tree clean; `origin/main` = local main; 6 commits pushed; milestone tagged `v1.3.0-m6-m10`.
