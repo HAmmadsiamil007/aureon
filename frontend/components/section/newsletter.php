@@ -43,9 +43,11 @@ $subtitle = isset( $componentData['subtitle'] ) ? $componentData['subtitle'] : '
 			<p class="newsletter-text"><?php echo esc_html( $subtitle ); ?></p>
 		<?php endif; ?>
 		<?php aether_render_component( 'form/newsletter', array(
-			'button_text' => isset( $componentData['button_text'] ) ? $componentData['button_text'] : '',
-			'note'        => isset( $componentData['note'] ) ? $componentData['note'] : '',
-			'success_text' => isset( $componentData['success_text'] ) ? $componentData['success_text'] : '',
+			// Forward only when non-empty so the form's i18n defaults stay
+			// reachable — isset-defaults with '' shadowed them (F11-1).
+			'button_text' => ! empty( $componentData['button_text'] ) ? $componentData['button_text'] : '',
+			'note'        => ! empty( $componentData['note'] ) ? $componentData['note'] : '',
+			'success_text' => ! empty( $componentData['success_text'] ) ? $componentData['success_text'] : '',
 		) ); ?>
 	</div>
 </div>

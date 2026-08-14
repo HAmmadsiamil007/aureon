@@ -193,6 +193,8 @@ function aether_adapter_product() {
         'gallery'           => $gallery,
         'badge'             => $badge,
         'title'             => $name,
+        'id'                => $product_id,
+        'product_type'      => $product->get_type(),
         'price'             => $product->get_price_html(),
         'price_plain'       => $price_plain,
         'old_price_plain'   => $old_price_plain,

@@ -7,11 +7,17 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 function aether_adapter_about( $args = array() ) {
+	// Marketing copy is demo content — gated so production stores with
+	// aether_demo_content=false render the about page as empty sections
+	// (each section template bails on empty data), matching the rest of
+	// the engine (F3-1).
+	$demo = (bool) aureon_get_option( 'aether_demo_content', true );
+
 	return array(
 		'label'    => __( 'Our Technology', 'aureon' ),
 		'title'    => __( 'Engineered for the Void', 'aureon' ),
 		'subtitle' => __( 'Performance science meets relentless innovation', 'aureon' ),
-		'mission'  => array(
+		'mission'  => $demo ? array(
 			'label'  => __( 'Our Mission', 'aureon' ),
 			'title'  => __( 'Born from Performance Science', 'aureon' ),
 			'text'   => array(
@@ -20,8 +26,8 @@ function aether_adapter_about( $args = array() ) {
 			),
 			'image'  => '',
 			'alt'    => __( 'AETHER Technology', 'aureon' ),
-		),
-		'features' => array(
+		) : array(),
+		'features' => $demo ? array(
 			'label' => __( 'Innovation', 'aureon' ),
 			'title' => __( 'The Technology Inside', 'aureon' ),
 			'items' => array(
@@ -46,11 +52,11 @@ function aether_adapter_about( $args = array() ) {
 					'description' => __( '360° reflective yarn woven into the upper for visibility in low light conditions', 'aureon' ),
 				),
 			),
-		),
-		'story'    => array(
+		) : array(),
+		'story'    => $demo ? array(
 			'quote' => __( 'Founded in 2024 by performance engineers and biomechanists obsessed with defying gravity.', 'aureon' ),
-		),
-		'values'   => array(
+		) : array(),
+		'values'   => $demo ? array(
 			'label' => __( 'Our Values', 'aureon' ),
 			'title' => __( 'What Drives Us', 'aureon' ),
 			'items' => array(
@@ -70,14 +76,14 @@ function aether_adapter_about( $args = array() ) {
 					'description' => __( 'We are committed to zero-waste manufacturing and sustainable materials without sacrificing performance.', 'aureon' ),
 				),
 			),
-		),
-		'stats'    => array(
+		) : array(),
+		'stats'    => $demo ? array(
 			'items' => array(
 				array( 'number' => '280g', 'label' => __( 'Weight', 'aureon' ) ),
 				array( 'number' => '40mm', 'label' => __( 'Cushion', 'aureon' ) ),
 				array( 'number' => '40%',  'label' => __( 'More Responsive', 'aureon' ) ),
 				array( 'number' => '10K+', 'label' => __( 'Miles Tested', 'aureon' ) ),
 			),
-		),
+		) : array(),
 	);
 }

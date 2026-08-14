@@ -14,6 +14,8 @@
  * - `string $alt         Image alt text. Default $name.`
  * - `string $url         Product link. Default '#'.`
  * - `string $badge       Badge text (e.g. NEW/SALE). Default ''.`
+ * - `string $add_to_cart_url  Add-to-cart endpoint. Default ''.`
+ * - `string $product_type     WC product type: 'simple'|'variable'|... Default 'simple'.`
  * - `float $rating      Star score 0-5. Default 0.`
  * - `string $reviews     Review count label. Default ''.`
  * - `array $behavior    Behavior whitelist. Default [].`
@@ -42,6 +44,8 @@ $image    = isset( $componentData['image'] ) ? $componentData['image'] : '';
 $alt      = isset( $componentData['alt'] ) ? $componentData['alt'] : $name;
 $url      = isset( $componentData['url'] ) ? $componentData['url'] : '#';
 $badge    = isset( $componentData['badge'] ) ? $componentData['badge'] : '';
+$add_to_cart_url = isset( $componentData['add_to_cart_url'] ) ? $componentData['add_to_cart_url'] : '';
+$product_type    = isset( $componentData['product_type'] ) ? $componentData['product_type'] : 'simple';
 $rating   = isset( $componentData['rating'] ) ? (float) $componentData['rating'] : 0;
 $reviews  = isset( $componentData['reviews'] ) ? $componentData['reviews'] : '';
 $behavior = isset( $componentData['behavior'] ) ? (array) $componentData['behavior'] : array();
@@ -49,6 +53,17 @@ $layout   = isset( $componentData['layout'] ) ? $componentData['layout'] : 'home
 
 if ( ! $name ) {
 	return;
+}
+
+// Add-to-cart target: adapter URL when provided, else ?add-to-cart on the
+// product link (WC-native no-JS fallback). Never calls WP/WC here — the
+// view layer stays engine-pure; adapters supply the real endpoints.
+if ( $add_to_cart_url ) {
+	$aether_cta_url = $add_to_cart_url;
+} elseif ( $id ) {
+	$aether_cta_url = add_query_arg( 'add-to-cart', $id, $url );
+} else {
+	$aether_cta_url = $url;
 }
 
 $aether_badge_class = '';
@@ -77,7 +92,7 @@ if ( 'shop' === $layout ) {
 		<div class="product-info">
 			<h3 class="product-name"><a href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $name ); ?></a></h3>
 			<p class="product-price"><?php if ( $old_price_plain ) : ?><span class="price-old"><?php echo esc_html( $old_price_plain ); ?></span> <?php endif; ?><?php echo esc_html( $price_plain ); ?></p>
-			<a href="<?php echo esc_url( $url ); ?>" class="btn btn-primary btn-sm" data-magnetic="0.12">Add to Cart</a>
+			<a href="<?php echo esc_url( $aether_cta_url ); ?>" class="btn btn-primary btn-sm add-to-cart-btn" data-magnetic="0.12" <?php echo $id ? 'data-product-id="' . esc_attr( $id ) . '"' : ''; ?> data-product-type="<?php echo esc_attr( $product_type ); ?>">Add to Cart</a>
 		</div>
 	</div>
 	<?php
@@ -112,7 +127,7 @@ if ( 'shop' === $layout ) {
 		<?php endif; ?>
 		<div class="product-price-row">
 			<span class="product-price"><?php echo $price; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- may carry HTML from WC price_html. ?></span>
-			<a href="<?php echo esc_url( $url ); ?>" class="btn btn-sm btn-primary" data-magnetic="0.12">Add to Cart</a>
+			<a href="<?php echo esc_url( $aether_cta_url ); ?>" class="btn btn-sm btn-primary add-to-cart-btn" data-magnetic="0.12" <?php echo $id ? 'data-product-id="' . esc_attr( $id ) . '"' : ''; ?> data-product-type="<?php echo esc_attr( $product_type ); ?>">Add to Cart</a>
 		</div>
 	</div>
 </div>

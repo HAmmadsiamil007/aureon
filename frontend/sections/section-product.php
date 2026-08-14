@@ -53,6 +53,8 @@ aether_render_component( 'product/sticky-bar', array(
 	'name'             => $title,
 	'price'            => isset( $sectionData['price_plain'] ) ? $sectionData['price_plain'] : '',
 	'sizes'            => isset( $sectionData['sizes'] ) ? $sectionData['sizes'] : array(),
+	'id'               => isset( $sectionData['id'] ) ? (int) $sectionData['id'] : 0,
+	'product_type'     => isset( $sectionData['product_type'] ) ? $sectionData['product_type'] : 'simple',
 	'add_to_cart_url'  => isset( $sectionData['add_to_cart_url'] ) ? $sectionData['add_to_cart_url'] : '#',
 ) );
 

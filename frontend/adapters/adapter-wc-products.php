@@ -111,6 +111,8 @@ function aether_adapter_wc_products( $query_args = array() ) {
                 'alt'            => get_post_meta( get_the_ID(), '_wp_attachment_image_alt', true ),
                 'url'            => get_permalink(),
                 'badge'          => $badge,
+                'add_to_cart_url'=> function_exists( 'wc_get_cart_url' ) ? add_query_arg( 'add-to-cart', $product->get_id(), wc_get_cart_url() ) : '',
+                'product_type'   => $product->get_type(),
                 'behavior'       => array( 'tilt' => true ),
             );
         }
@@ -132,6 +134,8 @@ function aether_adapter_wc_products( $query_args = array() ) {
                 'image'          => isset( $demo['image'] ) ? aether_viewmodel_resolve_image( $demo['image'] ) : '',
                 'alt'            => isset( $demo['alt'] ) ? $demo['alt'] : ( isset( $demo['name'] ) ? $demo['name'] : '' ),
                 'url'            => isset( $demo['url'] ) ? esc_url_raw( $demo['url'] ) : '',
+                'add_to_cart_url'=> '',
+                'product_type'   => '',
                 'badge'          => isset( $demo['badge'] ) ? $demo['badge'] : '',
                 'behavior'       => array( 'tilt' => true ),
             );

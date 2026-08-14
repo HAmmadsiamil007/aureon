@@ -58,7 +58,7 @@ $total    = isset( $componentData['total'] ) ? $componentData['total'] : '';
 			<div class="order-item-price" data-phantom="order_product_price"><?php echo esc_html( isset( $item['total'] ) ? $item['total'] : ( isset( $item['price'] ) ? $item['price'] : '' ) ); ?></div>
 		</div>
 	<?php endforeach; ?>
-	<div style="padding:16px 0;border-bottom:1px solid #1A1A1A;">
+	<div style="padding:16px 0;border-bottom:1px solid var(--line);">
 		<div class="summary-row" style="display:flex;justify-content:space-between;padding:8px 0;font-size:0.9rem;"><span style="color:var(--chrome);"><?php esc_html_e( 'Subtotal', 'aureon' ); ?></span><span><?php echo esc_html( $subtotal ); ?></span></div>
 		<div class="summary-row" style="display:flex;justify-content:space-between;padding:8px 0;font-size:0.9rem;"><span style="color:var(--chrome);"><?php esc_html_e( 'Shipping', 'aureon' ); ?></span><span><?php echo esc_html( $shipping ); ?></span></div>
 		<div class="summary-row" style="display:flex;justify-content:space-between;padding:8px 0;font-size:0.9rem;"><span style="color:var(--chrome);"><?php esc_html_e( 'Tax', 'aureon' ); ?></span><span><?php echo esc_html( $tax ); ?></span></div>

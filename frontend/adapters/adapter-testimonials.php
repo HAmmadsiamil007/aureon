@@ -50,9 +50,30 @@ function aether_adapter_testimonials() {
         }
     }
 
+    // Score/count: real WooCommerce aggregate wins once products have
+    // reviews; the option values (demo numbers) only apply as fallback (F3-3).
+    $score = (float) aureon_get_option( 'aether_reviews_score', 4.9 );
+    $count = (int) aureon_get_option( 'aether_reviews_count', 0 );
+
+    if ( class_exists( 'WooCommerce' ) ) {
+        global $wpdb;
+        $row = $wpdb->get_row(
+            "SELECT COUNT(*) AS cnt, AVG( CAST( cm.meta_value AS DECIMAL(3,1) ) ) AS avg_rating
+             FROM {$wpdb->comments} c
+             INNER JOIN {$wpdb->commentmeta} cm ON c.comment_ID = cm.comment_id AND cm.meta_key = 'rating'
+             WHERE c.comment_type = 'review' AND c.comment_approved = '1'"
+        );
+        if ( $row && (int) $row->cnt > 0 ) {
+            $count = (int) $row->cnt;
+            if ( null !== $row->avg_rating ) {
+                $score = (float) round( (float) $row->avg_rating, 1 );
+            }
+        }
+    }
+
     return array(
         'items' => $items,
-        'score' => (float) aureon_get_option( 'aether_reviews_score', 4.9 ),
-        'count' => (int) aureon_get_option( 'aether_reviews_count', 0 ),
+        'score' => $score,
+        'count' => $count,
     );
 }

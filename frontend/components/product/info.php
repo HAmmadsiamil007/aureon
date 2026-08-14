@@ -7,6 +7,8 @@
  *
  * Props:  (all keys optional; escaped at render; missing key → default listed)
  * - `string $badge        Badge text. Default ''.`
+ * - `int $id             WC product ID (AJAX add-to-cart wiring). Default 0.`
+ * - `string $product_type WC product type: 'simple'|'variable'|... Default 'simple'.`
  * - `string $title        Product title. Default ''.`
  * - `string $price        Formatted price. Default ''.`
  * - `string $price_plain  Raw numeric price. Default ''.`
@@ -35,6 +37,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 $componentData = isset( $componentData ) ? (array) $componentData : array();
 
 $badge        = isset( $componentData['badge'] ) ? $componentData['badge'] : '';
+$id           = isset( $componentData['id'] ) ? (int) $componentData['id'] : 0;
+$product_type = isset( $componentData['product_type'] ) ? $componentData['product_type'] : 'simple';
 $title        = isset( $componentData['title'] ) ? $componentData['title'] : '';
 $price        = isset( $componentData['price'] ) ? $componentData['price'] : '';
 $price_plain  = isset( $componentData['price_plain'] ) ? $componentData['price_plain'] : '';
@@ -112,13 +116,19 @@ if ( ! $title ) {
 		</div>
 
 		<div class="pd-actions">
-			<a class="btn btn-primary pd-add-to-cart" data-magnetic="0.12" href="<?php echo esc_url( $add_url ); ?>">
+			<a class="btn btn-primary pd-add-to-cart add-to-cart-btn" data-magnetic="0.12" href="<?php echo esc_url( $add_url ); ?>" <?php echo $id ? 'data-product-id="' . esc_attr( $id ) . '"' : ''; ?> data-product-type="<?php echo esc_attr( $product_type ); ?>">
 				<i class="fas fa-shopping-bag"></i>
 				<?php echo esc_html( $add_label ); ?>
 			</a>
-			<button class="pd-wishlist-btn" aria-label="Add to wishlist">
-				<i class="far fa-heart"></i>
-			</button>
+			<?php if ( $id ) : ?>
+				<button class="pd-wishlist-btn product-action-btn" aria-label="Add to wishlist" data-product-id="<?php echo esc_attr( $id ); ?>">
+					<i class="far fa-heart"></i>
+				</button>
+			<?php else : ?>
+				<button class="pd-wishlist-btn" aria-label="Add to wishlist">
+					<i class="far fa-heart"></i>
+				</button>
+			<?php endif; ?>
 		</div>
 
 		<?php if ( ! empty( $trust ) ) : ?>

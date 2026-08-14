@@ -54,6 +54,8 @@ function aether_frontend_defaults( $defaults ) {
 		'aether_newsletter_enabled'  => true,
 		'aether_newsletter_text'     => __( 'Stay Connected', 'aureon' ),
 		'aether_newsletter_subtitle' => __( 'Get 10% off your first order. No spam, ever.', 'aureon' ),
+		// Analytics (M10) — empty by default, GA4 events only fire when set.
+		'aether_analytics_ga4_id'    => '',
 		// Editable shell copy (defaults = current premium design strings).
 		'aether_categories_label'    => __( 'Shop by Category', 'aureon' ),
 		'aether_categories_title'    => __( 'Find Your Fit', 'aureon' ),
@@ -198,6 +200,10 @@ function aether_frontend_defaults( $defaults ) {
 		// current out-of-the-box appearance). Set FALSE in production to show
 		// only real data — sections then render their graceful empty states.
 		'aether_demo_content'        => true,
+		// Coming-soon countdown target (Y-m-d). Empty = not yet set; the
+		// adapter persists a fixed +14-day date on first render so the
+		// countdown never resets on every request (F3-2).
+		'aether_coming_soon_date'     => '',
 		// Demo content fallbacks — used ONLY when the store has no real
 		// categories/products/CPT posts yet AND aether_demo_content is true.
 		// Mirrors the source demo content so the design is pixel-visible
@@ -485,9 +491,9 @@ function aether_frontend_color_defaults( $defaults ) {
 		'aether_color_muted'   => '#A8B5C0',
 		'aether_color_accent'  => '#C8956C',
 		'aether_color_accent_hover' => '#D4A574',
-		'aether_color_border'  => 'rgba(255,255,255,0.08)',
-		'aether_color_error'   => '#e5484d',
-		'aether_color_success' => '#46a758',
+		'aether_color_border'  => '#1A1A1A',
+		'aether_color_error'   => '#CC4444',
+		'aether_color_success' => '#4CAF50',
 	) );
 }
 

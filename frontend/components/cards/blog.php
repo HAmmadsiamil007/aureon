@@ -13,6 +13,7 @@
  * - `string $image     Image URL. Default ''.`
  * - `string $alt       Image alt text. Default $title.`
  * - `string $url       Post link. Default '#'.`
+ * - `string $read_more Read-more label. Default 'Read More'.`
  * - `array $behavior  Behavior whitelist. Default [].`
  *
  * Slots:  none
@@ -35,6 +36,7 @@ $category = isset( $componentData['category'] ) ? $componentData['category'] : '
 $image    = isset( $componentData['image'] ) ? $componentData['image'] : '';
 $alt      = isset( $componentData['alt'] ) ? $componentData['alt'] : $title;
 $url      = isset( $componentData['url'] ) ? $componentData['url'] : '#';
+$read_more = isset( $componentData['read_more'] ) && '' !== $componentData['read_more'] ? $componentData['read_more'] : __( 'Read More', 'aureon' );
 $behavior = isset( $componentData['behavior'] ) ? (array) $componentData['behavior'] : array();
 
 if ( ! $title ) {
@@ -58,6 +60,6 @@ if ( ! $title ) {
 		<?php if ( $excerpt ) : ?>
 			<p class="blog-card-excerpt" data-phantom="blog_excerpt"><?php echo esc_html( $excerpt ); ?></p>
 		<?php endif; ?>
-		<span class="blog-read-more"><?php esc_html_e( 'Read More', 'aureon' ); ?> <i class="fas fa-arrow-right"></i></span>
+		<span class="blog-read-more"><?php echo esc_html( $read_more ); ?> <i class="fas fa-arrow-right"></i></span>
 	</div>
 </a>

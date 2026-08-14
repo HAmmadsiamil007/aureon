@@ -3,8 +3,15 @@
     /* Colors */
     --void: #09090B;
     --surface: #141416;
+    --surface-2: #1a1a1d;
+    --surface-3: #232327;
     --chrome: #A8B5C0;
+    --muted: #A8B5C0;
     --gold: #C8956C;
+    --gold-alt: #D4A574;
+    --line: #1A1A1A;
+    --error: #CC4444;
+    --success: #4CAF50;
     --white: #FFFFFF;
     --black: #000000;
     
@@ -1191,7 +1198,7 @@ body.admin-bar .header {
     position: absolute;
     top: 15px;
     left: 15px;
-    background-color: var(--gold);
+    background-color: var(--aether-wc-primary, var(--gold));
     color: var(--void);
     font-size: 0.65rem;
     font-weight: 700;
@@ -1317,7 +1324,7 @@ body.admin-bar .header {
 }
 
 .score-stars {
-    color: var(--gold);
+    color: var(--aether-wc-primary, var(--gold));
     font-size: 1.1rem;
 }
 
@@ -2237,7 +2244,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     position: absolute;
     top: 15px;
     left: 15px;
-    background-color: var(--gold);
+    background-color: var(--aether-wc-primary, var(--gold));
     color: var(--void);
     font-size: 0.7rem;
     font-weight: 700;
@@ -2248,7 +2255,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 }
 
 .badge-sale {
-    background-color: var(--error);
+    background-color: var(--aether-wc-highlight, var(--error));
 }
 
 .product-info {
@@ -2266,7 +2273,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .product-price {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--gold);
+    color: var(--aether-wc-price, var(--gold));
     margin-bottom: 15px;
 }
 
@@ -2426,8 +2433,8 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     display: inline-block;
     padding: 6px 14px;
     background: rgba(200,149,108,0.15);
-    border: 1px solid var(--gold);
-    color: var(--gold);
+    border: 1px solid var(--aether-wc-primary, var(--gold));
+    color: var(--aether-wc-primary, var(--gold));
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -2445,7 +2452,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
 .pd-price {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--gold);
+    color: var(--aether-wc-price, var(--gold));
     margin: 0 0 14px;
 }
 .pd-rating {
@@ -2455,7 +2462,7 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     margin-bottom: 20px;
 }
 .pd-stars {
-    color: var(--gold);
+    color: var(--aether-wc-primary, var(--gold));
     font-size: 0.85rem;
     display: flex;
     gap: 2px;
@@ -2587,6 +2594,21 @@ url('../images/Luxury_running_sneaker_on_pedestal_202607222032.jpeg') center/cov
     font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 0.04em;
+}
+.pd-add-to-cart.is-loading,
+.add-to-cart-btn.is-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+.add-to-cart-btn.is-added {
+    background-color: var(--gold-alt);
+    border-color: var(--gold-alt);
+}
+.aether-form-status.is-success {
+    color: var(--success);
+}
+.aether-form-status.is-error {
+    color: var(--error);
 }
 .pd-wishlist-btn {
     width: 54px;
@@ -4712,3 +4734,24 @@ html.has-motion [data-image-reveal] {
     }
 }
 
+
+/* Empty State (utility/empty-state — F8-1/F8-3) */
+.empty-state {
+    padding: 72px 24px;
+    text-align: center;
+}
+.empty-state .empty-state-icon {
+    font-size: 38px;
+    color: var(--gold);
+    opacity: 0.85;
+    margin-bottom: 14px;
+}
+.empty-state .empty-state-title {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+.empty-state .empty-state-description {
+    color: var(--muted);
+    max-width: 420px;
+    margin: 0 auto 22px;
+}

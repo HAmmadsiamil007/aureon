@@ -18,6 +18,12 @@ if ( ! isset( $sectionData ) || ! is_array( $sectionData ) ) {
 $items = isset( $sectionData['items'] ) ? (array) $sectionData['items'] : array();
 
 if ( empty( $items ) ) {
+	// Graceful empty state instead of a silent disappear (F8-3).
+	aether_render_component( 'utility/empty-state', array(
+		'title'       => __( 'No related products yet', 'aureon' ),
+		'description' => __( 'We have not curated any companions for this piece yet. Check back soon.', 'aureon' ),
+		'icon'        => 'fa-tags',
+	) );
 	return;
 }
 

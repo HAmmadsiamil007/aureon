@@ -14,7 +14,7 @@
  *
  * Slots:  none
  * Variants: none
- * Tokens:  one hardcoded success color #4CAF50 on the shipping line — replace with the `--aureon-success` token in M3.
+ * Tokens:  no hardcoded presentation values — theme uses `--aureon-*` custom props only.
  *
  * @package Aureon
  */
@@ -39,7 +39,7 @@ $shop_url     = isset( $componentData['shop_url'] ) ? $componentData['shop_url']
 	</div>
 	<div class="summary-row">
 		<span class="label"><?php esc_html_e( 'Shipping', 'aureon' ); ?></span>
-		<span class="value" style="color: #4CAF50;"><?php echo esc_html( $shipping ); ?></span>
+		<span class="value" style="color: var(--success);"><?php echo esc_html( $shipping ); ?></span>
 	</div>
 	<div class="summary-row total">
 		<span class="label"><?php esc_html_e( 'Total', 'aureon' ); ?></span>

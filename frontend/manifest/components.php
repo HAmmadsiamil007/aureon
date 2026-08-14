@@ -74,4 +74,5 @@ return array(
 	// Utility.
 	'error/404'             => array( 'template' => 'components/utility/error-404.php' ),
 	'soon/countdown'        => array( 'template' => 'components/utility/countdown.php' ),
+	'utility/empty-state'   => array( 'template' => 'components/utility/empty-state.php' ),
 );

@@ -28,7 +28,7 @@ $componentData = isset( $componentData ) ? (array) $componentData : array();
 	<div class="newsletter-input-wrap">
 		<input type="email" placeholder="<?php echo esc_attr( isset( $componentData['placeholder'] ) ? $componentData['placeholder'] : __( 'Enter your email', 'aureon' ) ); ?>" required class="newsletter-input" id="newsletterEmail" aria-label="<?php esc_attr_e( 'Email address', 'aureon' ); ?>">
 		<button type="submit" class="newsletter-btn">
-			<span class="newsletter-btn-text"><?php echo esc_html( isset( $componentData['button_text'] ) ? $componentData['button_text'] : __( 'Subscribe', 'aureon' ) ); ?></span>
+			<span class="newsletter-btn-text"><?php echo esc_html( ! empty( $componentData['button_text'] ) ? $componentData['button_text'] : __( 'Subscribe', 'aureon' ) ); ?></span>
 			<i class="fas fa-arrow-right newsletter-btn-icon"></i>
 		</button>
 	</div>

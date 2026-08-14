@@ -30,19 +30,33 @@ function aether_adapter_blog( $query_args = array() ) {
 	$query = new WP_Query( $query_args );
 	$items      = array();
 
+	// G12: bridge the theme's aureon_blog_settings bucket (excerpt length,
+	// read-more label, date/category/post-image toggles) so the blog
+	// surfaces honor the site's blog settings when the addon is present.
+	$blog_settings = array();
+	if ( function_exists( 'aureon_blog_get_defaults' ) ) {
+		$blog_settings = wp_parse_args( get_option( 'aureon_blog_settings', array() ), aureon_blog_get_defaults() );
+	}
+	$excerpt_length = isset( $blog_settings['excerpt_length'] ) ? absint( $blog_settings['excerpt_length'] ) : 20;
+	$read_more      = isset( $blog_settings['read_more'] ) ? (string) $blog_settings['read_more'] : '';
+	$show_date      = ! isset( $blog_settings['date'] ) || (bool) $blog_settings['date'];
+	$show_category  = ! isset( $blog_settings['categories'] ) || (bool) $blog_settings['categories'];
+	$show_image     = ! isset( $blog_settings['post_image'] ) || (bool) $blog_settings['post_image'];
+
 	if ( $query->have_posts() ) {
 		while ( $query->have_posts() ) {
 			$query->the_post();
 			$categories = get_the_category( get_the_ID() );
 			$items[] = array(
 				'title'    => get_the_title(),
-				'excerpt'  => wp_trim_words( get_the_excerpt(), 20 ),
-				'date'     => get_the_date(),
-				'category' => ! empty( $categories ) ? $categories[0]->name : '',
+				'excerpt'  => wp_trim_words( get_the_excerpt(), $excerpt_length ),
+				'date'     => $show_date ? get_the_date() : '',
+				'category' => $show_category && ! empty( $categories ) ? $categories[0]->name : '',
 				'author'   => get_the_author(),
-				'image'    => get_the_post_thumbnail_url( get_the_ID(), 'medium_large' ),
+				'image'    => $show_image ? get_the_post_thumbnail_url( get_the_ID(), 'medium_large' ) : '',
 				'alt'      => get_the_title(),
 				'url'      => get_permalink(),
+				'read_more' => $read_more,
 				'behavior' => array( 'reveal' => true ),
 			);
 		}

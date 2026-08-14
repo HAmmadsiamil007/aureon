@@ -19,8 +19,19 @@ if ( ! isset( $sectionData ) || ! is_array( $sectionData ) ) {
 $items    = isset( $sectionData['items'] ) ? (array) $sectionData['items'] : array();
 $behavior = isset( $sectionData['behavior'] ) ? aether_viewmodel_behavior( $sectionData['behavior'] ) : array();
 $paged    = isset( $sectionData['paged'] ) ? (array) $sectionData['paged'] : array();
+$total    = isset( $paged['total'] ) ? (int) $paged['total'] : 0;
 
-if ( empty( $items ) && empty( $paged ) ) {
+if ( empty( $items ) && 0 === $total ) {
+	// Graceful empty state instead of a silent return (F8-1) — search
+	// archives get contextual copy when a query was provided.
+	aether_render_component( 'utility/empty-state', array(
+		'title'       => ! empty( $sectionData['s'] ) ? __( 'Nothing found', 'aureon' ) : __( 'No stories yet', 'aureon' ),
+		'description' => ! empty( $sectionData['s'] )
+			? __( 'No posts matched your search. Try different keywords.', 'aureon' )
+			: __( 'There are no posts here yet. Check back soon — the void has plenty of stories to tell.', 'aureon' ),
+		'icon'        => ! empty( $sectionData['s'] ) ? 'fa-search' : 'fa-book-open',
+		'behavior'    => $behavior,
+	) );
 	return;
 }
 ?>

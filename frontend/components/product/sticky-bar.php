@@ -10,6 +10,8 @@
  * - `string $name             Product title. Default ''.`
  * - `string $price            Formatted price. Default ''.`
  * - `array $sizes            Size schema. Default [].`
+ * - `int $id                WC product ID (AJAX wiring). Default 0.`
+ * - `string $product_type   WC product type: 'simple'|'variable'|... Default 'simple'.`
  * - `string $add_to_cart_url  Add-to-cart endpoint. Default '#'.`
  *
  * Slots:  none
@@ -29,6 +31,8 @@ $image    = isset( $componentData['image'] ) ? $componentData['image'] : '';
 $name     = isset( $componentData['name'] ) ? $componentData['name'] : '';
 $price    = isset( $componentData['price'] ) ? $componentData['price'] : '';
 $sizes    = isset( $componentData['sizes'] ) ? (array) $componentData['sizes'] : array();
+$id       = isset( $componentData['id'] ) ? (int) $componentData['id'] : 0;
+$product_type = isset( $componentData['product_type'] ) ? $componentData['product_type'] : 'simple';
 $add_url  = isset( $componentData['add_to_cart_url'] ) ? $componentData['add_to_cart_url'] : '#';
 
 if ( ! $name ) {
@@ -58,7 +62,7 @@ if ( ! $name ) {
 						</select>
 					</div>
 				<?php endif; ?>
-				<a class="btn btn-primary pd-sticky-add" data-magnetic="0.12" href="<?php echo esc_url( $add_url ); ?>"><?php esc_html_e( 'Add to Cart', 'aureon' ); ?></a>
+				<a class="btn btn-primary pd-sticky-add add-to-cart-btn" data-magnetic="0.12" href="<?php echo esc_url( $add_url ); ?>" <?php echo $id ? 'data-product-id="' . esc_attr( $id ) . '"' : ''; ?> data-product-type="<?php echo esc_attr( $product_type ); ?>"><?php esc_html_e( 'Add to Cart', 'aureon' ); ?></a>
 			</div>
 		</div>
 	</div>

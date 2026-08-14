@@ -322,6 +322,122 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         });
     });
 
+    // ─── Contact Form (AJAX) ────────────────────────────────
+    // Posts the AETHER source form (hidden action + aether_contact_nonce)
+    // to admin-ajax; surfaces the JSON result in .aether-form-status.
+
+    document.querySelectorAll('.aether-contact-form').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var status = form.querySelector('.aether-form-status');
+            var btn = form.querySelector('button[type="submit"]');
+            var setStatus = function (message, isError) {
+                if (!status) return;
+                status.textContent = message;
+                status.classList.toggle('is-error', !!isError);
+                status.classList.toggle('is-success', !isError);
+                status.style.display = 'block';
+            };
+            setStatus('', false);
+            if (btn) btn.disabled = true;
+            var actionUrl = form.getAttribute('action') || (window.aetherAjax && window.aetherAjax.ajaxUrl) || '';
+            fetch(actionUrl, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+                body: new URLSearchParams(new FormData(form)).toString()
+            }).then(function (response) {
+                return response.json();
+            }).then(function (json) {
+                if (json && json.success) {
+                    setStatus(json.data && json.data.message ? json.data.message : 'Sent.', false);
+                    form.reset();
+                } else {
+                    setStatus(json && json.data && json.data.message ? json.data.message : 'Something went wrong — please try again.', true);
+                }
+            }).catch(function () {
+                setStatus('Network error — please try again.', true);
+            }).then(function () {
+                if (btn) btn.disabled = false;
+            });
+        });
+    });
+
+    // ─── Add to Cart (wc-ajax: AJAX without page reload) ────────
+    // Buttons carry .add-to-cart-btn + data-product-id + data-product-type.
+    // Simple products POST to ?wc-ajax=add_to_cart; the header count is
+    // refreshed from the a.aether-cart-count fragment. Variable/grouped
+    // products keep the native href flow (WC redirects to the product page).
+
+    function aetherAddToCart(btn) {
+        var id = btn.getAttribute('data-product-id');
+        if (!id || !window.aetherAjax || !window.aetherAjax.wcAjaxUrl) return;
+
+        var qty = 1;
+        var qtyValue = btn.closest('.pd-info') ? document.getElementById('qtyValue') : null;
+        if (qtyValue) {
+            var parsed = parseInt(qtyValue.textContent, 10);
+            if (!isNaN(parsed) && parsed > 0) qty = parsed;
+        }
+
+        var wcUrl = window.aetherAjax.wcAjaxUrl;
+        if (wcUrl.indexOf('wc-ajax') === -1) {
+            wcUrl += (wcUrl.indexOf('?') === -1 ? '?' : '&') + 'wc-ajax=add_to_cart';
+        }
+
+        var body = new URLSearchParams();
+        body.append('product_id', id);
+        body.append('quantity', qty);
+
+        btn.classList.add('is-loading');
+
+        fetch(wcUrl, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+            body: body.toString()
+        }).then(function (response) {
+            return response.json();
+        }).then(function (json) {
+            btn.classList.remove('is-loading');
+            if (json && json.error && json.product_url) {
+                window.location.href = json.product_url;
+            } else if (json && json.fragments) {
+                if (json.fragments['a.aether-cart-count']) {
+                    var doc = new DOMParser().parseFromString(json.fragments['a.aether-cart-count'], 'text/html');
+                    var count = doc.querySelector('.cart-count');
+                    if (count) {
+                        document.querySelectorAll('.cart-count').forEach(function (el) {
+                            el.textContent = count.textContent;
+                        });
+                    }
+                }
+                btn.classList.add('is-added');
+                var original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Added';
+                setTimeout(function () {
+                    btn.classList.remove('is-added');
+                    btn.innerHTML = original;
+                }, 2000);
+            } else {
+                window.location.href = btn.href;
+            }
+        }).catch(function () {
+            btn.classList.remove('is-loading');
+            window.location.href = btn.href;
+        });
+    }
+
+    document.addEventListener('click', function (e) {
+        var target = e.target;
+        var btn = target && target.closest ? target.closest('.add-to-cart-btn[data-product-id]') : null;
+        if (!btn) return;
+        var type = btn.getAttribute('data-product-type');
+        if (type && type !== 'simple') return;
+        e.preventDefault();
+        if (!btn.classList.contains('is-loading')) aetherAddToCart(btn);
+    });
+
     // ─── Wishlist Toggle (AJAX) ───────────────────────────────
     function aetherWishlistToggle(btn) {
         if (!window.aetherAjax || !window.aetherAjax.ajaxUrl || !window.aetherAjax.nonce) {
