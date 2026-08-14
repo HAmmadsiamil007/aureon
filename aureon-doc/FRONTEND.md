@@ -4,6 +4,11 @@
 **Version:** 1.0 (2026-08-06)
 **Status:** Approved-for-implementation reference. Companion docs: `../frontend/*.md` (10 reports).
 
+> **⚠️ 2026-08-15 — superseded for CURRENT state.** This document is the historical Phase 17 implementation guide. The engine has since moved to the **M6–M10 design-pack platform**. For current architecture use:
+> - [`AETHER-BRIDGE.md`](./AETHER-BRIDGE.md) — how the frontend connects to the theme core + all feature bridges
+> - [`FRONTEND-OPERATIONS.md`](./FRONTEND-OPERATIONS.md) — edit / replace / create dynamic frontends
+> - [`STATUS.md`](./STATUS.md) §0 — M6–M10 platform status + verification evidence
+
 ---
 
 ## Table of Contents

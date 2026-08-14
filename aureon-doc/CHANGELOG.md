@@ -6,6 +6,36 @@ Format: `[category] description`. Versioning follows the product display version
 
 ---
 
+## v1.3.0 — Frontend platform: M6–M10 design packs (2026-08-15)
+
+The AETHER frontend became a **design-pack platform** — one engine, multiple frontends, theme core untouched.
+
+### M6 — Design isolation
+- `aether_active_design()` resolution: option `''`/`'luxury'` → luxury engine (default), `'lumen'` → design pack; body class `design-<slug>`.
+- **Critical cache bug fixed:** the static cache stored the raw sanitized option (`''`) before the fallback applied — first call per request returned `'luxury'`, every later call returned `''` (broken body class `design-`, skipped luxury assets). Root-caused via container probes (whole-body sentinel returns proved the volume file executes; logic-logging build showed `ret='luxury'` while probe read `''`). Fix: resolve branch → apply fallback → cache → return. Verified through wp-load: `string(6) "luxury"`.
+
+### M7 — Asset engine + isolation by construction
+- `frontend/views/assets.php`: per-design asset pipeline; luxury assets never load alongside a pack (`theme/inc/frontend.php:111` guard); platform CDNs + contract JS still load for non-luxury designs.
+
+### M8 — Design manifest contract
+- `frontend/designs/<slug>/manifest/components.php` pack contract; manifest validation (`validate-manifest.cjs`).
+
+### M9 — Per-design visual baselines
+- `frontend/tests/` per-design baselines; `design-isolation.spec.js` 6/6.
+
+### M10 — Lumen pack (first shipped design pack)
+- `frontend/designs/lumen/` — full alternate presentation layer inside one engine; proof that a client frontend ships with zero theme-core changes.
+
+### G4 — Newsletter flake fix
+- Rate limit 1/IP/min in `inc/aether-newsletter.php` (deterministic test behavior; was flaky under burst).
+
+### Verification
+- design-isolation 6/6, routes 32/32, `verify.sh` PASSED, main.js MD5 frozen `6d8f3b671333571508efcb53b1e39e60`, 0 console errors.
+- Docs: `aureon-doc/AETHER-BRIDGE.md` (new), `aureon-doc/FRONTEND-OPERATIONS.md` (new), README/STATUS refreshed, `docs/AETHER_DYNAMIC_ARCHITECTURE_CURRENT_STATE.md` refreshed.
+- Commits `901c1f6..9dd4e21` (7), tag `v1.3.0-m6-m10`, pushed.
+
+---
+
 ## v1.1.0 — AETHER frontend dynamic closure & CI (2026-08-09)
 
 Frontend **v1.1.0** — closure of the Phase 17 dynamic-conversion loop (all gates VERIFIED, 69/69 E2E).

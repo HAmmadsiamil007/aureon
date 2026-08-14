@@ -11,6 +11,8 @@ This documentation folder contains:
 | [`PLUGIN.md`](./PLUGIN.md) | Complete reference for the **Aureon Studio plugin** — module system, all 16 modules in detail, shared library, Dashboard, compiled assets, legacy code, known issues. |
 | [`CHANGELOG.md`](./CHANGELOG.md) | Full change history — rebrand, fingerprint removal, i18n cleanup, collision fixes, deprecation fixes, WooCommerce session fix, verification. |
 | [`STATUS.md`](./STATUS.md) | Up-to-date status report: what is done, what is verified, what remains open — includes full Customizer deep verification. |
+| [`AETHER-BRIDGE.md`](./AETHER-BRIDGE.md) | **How the AETHER frontend connects to the core theme** — boot sequence, output suppression, asset/CDN contract, `aetherAjax` context, WC template routing, all 8 `inc/aether-*.php` feature bridges (SEO, security, analytics, newsletter, AJAX, cart, tokens, performance), design resolution. |
+| [`FRONTEND-OPERATIONS.md`](./FRONTEND-OPERATIONS.md) | **How to operate the AETHER frontend** — edit styling/data/markup/JS, add components, replace a frontend via design packs, create a dynamic client frontend (M11 pipeline + core-freeze rules), testing harness. |
 | `../Report/DETECTION.md` | GeneratePress fingerprint inventory + copyright/trademark analysis (now **RESOLVED**, see §10 addendum). |
 | `../Report/COMPARISON_AUREON_VS_GENERATEPRESS.md` | Pro audit: Aureon vs GeneratePress feature parity + bug report. |
 
@@ -28,6 +30,8 @@ This documentation folder contains:
 | License | GPL-2.0-or-later | GPL-2.0-or-later |
 | Derived from | GeneratePress 3.6.1 | GP Premium 2.5.6 |
 
+**AETHER frontend engine** (repo root `frontend/`, deployed to `wp-content/frontend/`): a self-contained, data-driven presentation engine — design packs (luxury = engine default, lumen = shipped pack) on top of one core. See [`AETHER-BRIDGE.md`](./AETHER-BRIDGE.md) + [`FRONTEND-OPERATIONS.md`](./FRONTEND-OPERATIONS.md).
+
 > **Why internal constants differ from the displayed version?** The plugin gates features on theme/plugin version numbers. Keeping internal constants at upstream-compatible values (3.6.1 / 3.0.0) guarantees every feature gate resolves correctly while the product displays "1.0.0". Do **not** lower these constants.
 
 ## Folder map (this repo)
@@ -35,10 +39,14 @@ This documentation folder contains:
 ```
 wordpress/
 ├── aureon/                  ← Aureon product (this documentation covers it)
-│   ├── theme/               ← Aureon theme (activate as "Aureon")
+│   ├── theme/               ← Aureon theme (activate as "Aureon") — includes the
+│   │                           AETHER bridge (inc/frontend.php + 8 inc/aether-*.php)
 │   └── plugin/              ← Aureon Studio plugin (activate as "Aureon Studio")
+├── frontend/                ← AETHER frontend engine (kernel, 23 adapters, 54 components,
+│                               26 sections, design packs in designs/, tokens, manifest, assets)
 ├── generatepress/           ← upstream reference (GeneratePress 3.6.1 + GP Premium 2.5.6) — gitignored
 ├── Report/                  ← engineering & audit reports
+├── docs/                    ← engineering & audit reports (forensics, phase reports, M11 plans)
 ├── aureon-doc/              ← this documentation
 └── .serena/memories/        ← persistent project memory
 ```
@@ -47,8 +55,10 @@ wordpress/
 
 1. Copy `aureon/theme/` into `wp-content/themes/aureon/` and activate **Aureon**.
 2. Copy `aureon/plugin/` into `wp-content/plugins/aureon-studio/` and activate **Aureon Studio**.
-3. Go to **Appearance → Aureon** (Dashboard) to enable modules, then **Appearance → Customize** to configure.
-4. All options live in the Customizer; per-page options live in the page/post editor meta boxes.
+3. Copy `frontend/` into `wp-content/frontend/` (**omit `source/`**) — this is the AETHER engine; the theme boots it via `inc/frontend.php`.
+4. Go to **Appearance → Aureon** (Dashboard) to enable modules, then **Appearance → Customize** to configure.
+5. All options live in the Customizer; per-page options live in the page/post editor meta boxes.
+6. Switch designs by setting the `aether_active_design` option (`''`/`'luxury'` = engine default, `'lumen'` = shipped design pack) — see [`FRONTEND-OPERATIONS.md`](./FRONTEND-OPERATIONS.md) §4.
 
 ## Licensing note
 
