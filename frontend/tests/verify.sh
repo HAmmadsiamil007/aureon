@@ -43,6 +43,19 @@ else
     echo "PASS: No WP/WC functions in components/"
 fi
 
+# 3b. Hex gate — components must NOT hardcode hex colors
+#     (design identity comes from tokens/CSS custom properties only)
+echo ""
+echo "--- Hex Gate (components must not hardcode colors) ---"
+HEX=$(grep -rnE '#[0-9a-fA-F]{3,8}\b' frontend/components/ 2>/dev/null | grep -vE '&#[0-9a-fA-F]+;' || true)
+if [ -n "$HEX" ]; then
+    echo "FAIL: Hardcoded hex colors found in components:"
+    echo "$HEX"
+    ERRORS=$((ERRORS + 1))
+else
+    echo "PASS: No hardcoded hex colors in components/"
+fi
+
 # 4. Adapters MUST call WP functions (spot check)
 echo ""
 echo "--- Adapter Verification ---"
@@ -80,6 +93,16 @@ if [ -f "frontend/views/renderer.php" ]; then
     echo "PASS: renderer.php exists"
 else
     echo "FAIL: renderer.php missing"
+    ERRORS=$((ERRORS + 1))
+fi
+
+# 7b. Design pack resolver exists (M3 — pack-first template resolution)
+echo ""
+echo "--- Design Pack Resolver Check ---"
+if [ -f "frontend/views/design.php" ]; then
+    echo "PASS: design.php exists"
+else
+    echo "FAIL: design.php missing"
     ERRORS=$((ERRORS + 1))
 fi
 

@@ -19,7 +19,8 @@ if ( ! isset( $sectionData ) || ! is_array( $sectionData ) ) {
 }
 
 $stats    = isset( $sectionData['stats'] ) ? (array) $sectionData['stats'] : array();
-$items    = isset( $stats['items'] ) ? (array) $stats['items'] : array();
+// Canonical stats is a list of {number,label}; legacy wrapper {items:[...]} tolerated.
+$items    = isset( $stats['items'] ) && is_array( $stats['items'] ) ? (array) $stats['items'] : $stats;
 $behavior = isset( $sectionData['behavior'] ) ? aether_viewmodel_behavior( $sectionData['behavior'] ) : array();
 
 if ( empty( $items ) ) {

@@ -27,6 +27,7 @@ if ( ! defined( 'AETHER_FRONTEND_DIR' ) ) {
  */
 function aether_frontend_boot() {
 	require_once AETHER_FRONTEND_DIR . 'tokens/tokens.php';
+	require_once AETHER_FRONTEND_DIR . 'views/design.php';
 	require_once AETHER_FRONTEND_DIR . 'views/registry.php';
 	require_once AETHER_FRONTEND_DIR . 'views/renderer.php';
 	require_once AETHER_FRONTEND_DIR . 'views/viewmodel.php';
@@ -45,6 +46,17 @@ function aether_frontend_boot() {
 	if ( is_array( $section_files ) ) {
 		foreach ( $section_files as $section_file ) {
 			require_once $section_file;
+		}
+	}
+
+	// Pack sections — active design's extra/override sections self-register too.
+	$design_dir = aether_active_design_dir();
+	if ( $design_dir ) {
+		$pack_sections = glob( $design_dir . 'sections/*.php' );
+		if ( is_array( $pack_sections ) ) {
+			foreach ( $pack_sections as $pack_section ) {
+				require_once $pack_section;
+			}
 		}
 	}
 }

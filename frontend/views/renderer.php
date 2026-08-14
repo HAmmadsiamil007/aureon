@@ -24,7 +24,9 @@ function aether_component_manifest() {
 		$manifest = include AETHER_FRONTEND_DIR . 'manifest/components.php';
 	}
 
-	return (array) $manifest;
+	// Design packs may register extra component ids (their templates live in
+	// the pack; resolution happens pack-first in aether_render_component()).
+	return (array) apply_filters( 'aether_component_manifest', (array) $manifest );
 }
 
 /**
@@ -40,7 +42,7 @@ function aether_render_component( $id, $data = array() ) {
 		return;
 	}
 
-	$template = AETHER_FRONTEND_DIR . $manifest[ $id ]['template'];
+	$template = aether_resolve_design_path( $manifest[ $id ]['template'] );
 
 	if ( ! file_exists( $template ) ) {
 		return;
@@ -90,7 +92,10 @@ function aether_render_section( $id, $data = array() ) {
 		}
 	}
 
-	$template = AETHER_FRONTEND_DIR . $registry[ $id ]['template'];
+	// Normalize ViewModel key aliases (canonical + legacy spellings).
+	$data = aether_normalize_viewmodel( $data );
+
+	$template = aether_resolve_design_path( $registry[ $id ]['template'] );
 
 	if ( ! file_exists( $template ) ) {
 		return;
@@ -99,6 +104,43 @@ function aether_render_section( $id, $data = array() ) {
 	$sectionData = apply_filters( 'aether_section_data', $data, $id );
 
 	include $template;
+}
+
+/**
+ * Normalize ViewModel key aliases to canonical spellings.
+ *
+ * Canonical: 'pagination', 'breadcrumb', stats as a list of {number,label}.
+ * Legacy aliases ('paged', 'crumbs', stats wrapped in 'items') are filled in
+ * so both existing templates and new design packs consume the same shape.
+ *
+ * @param array $data Section/adapter data.
+ * @return array Normalized data.
+ */
+function aether_normalize_viewmodel( $data ) {
+	$data = (array) $data;
+
+	// Pagination: canonical 'pagination', legacy 'paged' (blog).
+	if ( ! isset( $data['pagination'] ) && isset( $data['paged'] ) && is_array( $data['paged'] ) ) {
+		$data['pagination'] = $data['paged'];
+	}
+	if ( ! isset( $data['paged'] ) && isset( $data['pagination'] ) && is_array( $data['pagination'] ) ) {
+		$data['paged'] = $data['pagination'];
+	}
+
+	// Breadcrumb: canonical 'breadcrumb', legacy 'crumbs' (cart).
+	if ( ! isset( $data['breadcrumb'] ) && isset( $data['crumbs'] ) && is_array( $data['crumbs'] ) ) {
+		$data['breadcrumb'] = $data['crumbs'];
+	}
+	if ( ! isset( $data['crumbs'] ) && isset( $data['breadcrumb'] ) && is_array( $data['breadcrumb'] ) ) {
+		$data['crumbs'] = $data['breadcrumb'];
+	}
+
+	// Stats: canonical list of {number,label}; legacy wrapper {items:[...]} (about).
+	if ( isset( $data['stats'] ) && is_array( $data['stats'] ) && isset( $data['stats']['items'] ) && is_array( $data['stats']['items'] ) ) {
+		$data['stats'] = $data['stats']['items'];
+	}
+
+	return $data;
 }
 
 /**
