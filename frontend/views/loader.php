@@ -31,6 +31,7 @@ function aether_frontend_boot() {
 	require_once AETHER_FRONTEND_DIR . 'views/registry.php';
 	require_once AETHER_FRONTEND_DIR . 'views/renderer.php';
 	require_once AETHER_FRONTEND_DIR . 'views/viewmodel.php';
+	require_once AETHER_FRONTEND_DIR . 'views/assets.php';
 	require_once AETHER_FRONTEND_DIR . 'views/composer.php';
 
 	// Adapters — the only layer allowed to touch WP/WC.

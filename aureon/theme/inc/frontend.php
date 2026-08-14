@@ -104,6 +104,14 @@ add_action( 'wp_enqueue_scripts', 'aureon_aether_suppress_theme_output', 1000 );
  * Enqueue AETHER shell assets (source contract order).
  */
 function aureon_aether_enqueue_assets() {
+	// Design pack active → pack assets (aether_design_enqueue_assets) own the
+	// presentation layer. Luxury's design system never coexists with a pack
+	// (isolation by construction, M7). Platform CDNs + contract JS still load
+	// via aether_design_enqueue_assets for non-luxury designs.
+	if ( 'luxury' !== aether_active_design() ) {
+		return;
+	}
+
 	$uri = trailingslashit( content_url() ) . 'frontend/assets';
 	$dir = trailingslashit( WP_CONTENT_DIR ) . 'frontend/assets';
 
