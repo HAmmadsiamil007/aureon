@@ -3,6 +3,12 @@ const { test, expect } = require('@playwright/test');
 const revealAndWait = async (locator) => {
   await locator.evaluate((el) => el.scrollIntoView({ block: 'center' }));
   await locator.page().waitForTimeout(1500);
+  // Layout can still be settling (late font/image reflow) when the first
+  // scroll lands on a short page; a one-shot scrollIntoView never re-aims.
+  // Re-scroll once like a real user would, then still demand visibility.
+  if (!(await locator.isVisible())) {
+    await locator.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+  }
   await expect(locator).toBeVisible({ timeout: 15000 });
 };
 

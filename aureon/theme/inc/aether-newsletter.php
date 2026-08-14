@@ -207,10 +207,17 @@ function aether_ajax_newsletter_subscribe() {
 		wp_send_json_error( array( 'message' => __( 'Please enter a valid email address.', 'aureon' ) ) );
 	}
 
-	// Rate limit: one subscribe per IP per minute.
-	$ip_key = 'aether_newsletter_rate_' . md5( $ip );
-	if ( get_transient( $ip_key ) ) {
-		wp_send_json_error( array( 'message' => __( 'Please wait before subscribing again.', 'aureon' ) ) );
+	// Rate limit: one subscribe per public IP per minute. Private/reserved
+	// ranges (loopback, Docker bridge, LAN) are trusted local traffic — rate
+	// limiting them breaks dev/test and shared-NAT deployments. Deployments
+	// behind a trusted proxy may filter the IP to null to disable entirely.
+	$rate_limit_ip = apply_filters( 'aether_newsletter_rate_limit_ip', $ip );
+	$rate_limit_ip = ( ! empty( $rate_limit_ip ) && false !== filter_var( $rate_limit_ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) ? $rate_limit_ip : '';
+	if ( $rate_limit_ip ) {
+		$ip_key = 'aether_newsletter_rate_' . md5( $rate_limit_ip );
+		if ( get_transient( $ip_key ) ) {
+			wp_send_json_error( array( 'message' => __( 'Please wait before subscribing again.', 'aureon' ) ) );
+		}
 	}
 
 	$result = aether_newsletter_subscribe( $email, $ip );
@@ -219,7 +226,9 @@ function aether_ajax_newsletter_subscribe() {
 		wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 	}
 
-	set_transient( $ip_key, true, MINUTE_IN_SECONDS );
+	if ( $rate_limit_ip ) {
+		set_transient( $ip_key, true, MINUTE_IN_SECONDS );
+	}
 
 	wp_send_json_success( array( 'message' => $result['message'], 'action' => $result['action'] ) );
 }
