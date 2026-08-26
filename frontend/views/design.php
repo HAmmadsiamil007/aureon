@@ -72,6 +72,22 @@ function aether_active_design_dir() {
 }
 
 /**
+ * URL of the active design pack (trailing slash), or '' when the
+ * engine tree itself is the active design ('luxury').
+ *
+ * @return string
+ */
+function aether_pack_url() {
+	$design = aether_active_design();
+
+	if ( 'luxury' === $design ) {
+		return '';
+	}
+
+	return trailingslashit( content_url() ) . 'frontend/designs/' . $design . '/';
+}
+
+/**
  * Resolve a relative engine path pack-first.
  *
  * @param string $relative_path Path relative to AETHER_FRONTEND_DIR (e.g. 'sections/section-hero.php').
