@@ -812,3 +812,122 @@ window.FermCustomer = window.FermCustomer || {
 
   console.log('[Ferm] Variant selection bridge applied. Variants:', variants.length);
 })();
+
+// ============================================================
+// COLLECTION / ARCHIVE BRIDGE
+// Replaces hardcoded frozen Ferm product thumbs with real WC
+// products from FermPageData.collection.
+// ============================================================
+(function() {
+  var pd = window.FermPageData;
+  if (!pd || !pd.collection) return;
+
+  var collection = pd.collection;
+  var products = collection.products || [];
+  if (products.length === 0) return;
+
+  // Find the collection template container.
+  var collectionSection = document.querySelector('[data-component="collectionTemplate"]');
+  if (!collectionSection) return;
+
+  // Update collection title.
+  var h1 = collectionSection.querySelector('h1');
+  if (h1 && collection.title) {
+    h1.textContent = collection.title;
+  }
+
+  // Find the product grid — the container holding productThumb elements.
+  var productGrid = null;
+  var thumbs = collectionSection.querySelectorAll('[data-component="productThumb"]');
+  if (thumbs.length > 0) {
+    productGrid = thumbs[0].parentElement;
+  }
+  if (!productGrid) return;
+
+  // Clear existing hardcoded thumbs.
+  productGrid.innerHTML = '';
+
+  // Build new product thumbs from real WC data.
+  products.forEach(function(product) {
+    var div = document.createElement('div');
+    div.className = 'product product-thumb h-[100%] relative';
+    div.setAttribute('data-component', 'productThumb');
+
+    var inner = document.createElement('div');
+    inner.className = 'flex flex-col gap-4 h-[100%]';
+
+    // Top section with image.
+    var top = document.createElement('div');
+    top.className = 'product-thumb__top group relative tab_p:aspect-[1/1.33] aspect-[1/1.53]';
+
+    // Carousel container.
+    var carousel = document.createElement('div');
+    carousel.className = 'product-thumb-carousel absolute inset-0';
+    carousel.setAttribute('data-component', 'productThumbCarousel');
+    carousel.setAttribute('data-product-title', product.title);
+
+    var viewport = document.createElement('div');
+    viewport.className = 'embla__viewport h-full w-full overflow-hidden';
+
+    var container = document.createElement('div');
+    container.className = 'embla__container flex h-full touch-pan-y';
+
+    var slide = document.createElement('div');
+    slide.className = 'embla__slide relative min-w-0 flex-[0_0_100%]';
+
+    var link = document.createElement('a');
+    link.href = product.url;
+    link.setAttribute('aria-label', product.title);
+    link.className = 'product__top block h-full w-full text-black no-underline';
+    link.setAttribute('data-product-click', 'true');
+    link.setAttribute('data-product-title', product.title);
+    link.setAttribute('data-product-price', product.price);
+    link.setAttribute('data-product-id', product.id);
+
+    var img = document.createElement('img');
+    img.src = product.image || '';
+    img.alt = product.title;
+    img.className = 'absolute top-0 left-0 h-full w-full object-cover';
+    img.setAttribute('width', '600');
+    img.setAttribute('height', '800');
+    img.setAttribute('loading', 'lazy');
+    img.setAttribute('sizes', '(min-width: 992px) 25vw, 50vw');
+
+    link.appendChild(img);
+    slide.appendChild(link);
+    container.appendChild(slide);
+    viewport.appendChild(container);
+    carousel.appendChild(viewport);
+    top.appendChild(carousel);
+
+    // Badge.
+    if (product.badge) {
+      var badge = document.createElement('div');
+      badge.className = 'absolute right-0 top-1 z-10 mr-1.5';
+      badge.innerHTML = '<div class="bg-cream flex items-center justify-center px-1.5 py-[9px] text-xxs uppercase text-black">' + product.badge + '</div>';
+      top.appendChild(badge);
+    }
+
+    inner.appendChild(top);
+
+    // Bottom info.
+    var bottom = document.createElement('div');
+    bottom.className = 'flex flex-col gap-1';
+
+    var titleEl = document.createElement('div');
+    titleEl.className = 'text-sm font-medium leading-[19px] line-clamp-2';
+    titleEl.textContent = product.title;
+    bottom.appendChild(titleEl);
+
+    var priceEl = document.createElement('div');
+    priceEl.className = 'text-xxs uppercase leading-[15px] text-black/75';
+    priceEl.textContent = product.price_html || '';
+    bottom.appendChild(priceEl);
+
+    inner.appendChild(bottom);
+    div.appendChild(inner);
+    productGrid.appendChild(div);
+  });
+
+  console.log('[Ferm] Collection bridge applied.', products.length, 'products rendered.');
+})();

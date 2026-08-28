@@ -358,6 +358,32 @@ function ferm_enqueue_cart_bridge() {
 	wp_localize_script( 'ferm-cart-bridge', 'FermPageData', $page_data );
 }
 
+// --- Inject FermPageData as inline script for collection/archive pages ---
+// The frozen Ferm collection HTML doesn't load the cart bridge script,
+// so we inject FermPageData directly via wp_head.
+add_action( 'wp_head', 'ferm_inject_collection_fermpagedata', 5 );
+function ferm_inject_collection_fermpagedata() {
+	if ( ! function_exists( 'aether_active_design' ) || 'fermliving' !== aether_active_design() ) {
+		return;
+	}
+	// Only on collection/archive pages (not product pages — those use the bridge).
+	if ( is_product() ) {
+		return;
+	}
+	if ( ! ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) || is_page( 'shop' ) ) ) {
+		return;
+	}
+	$page_data = ferm_build_page_data();
+	$json = wp_json_encode( $page_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
+	echo '<script>window.FermPageData = ' . $json . ';</script>' . "\n";
+
+	// Enqueue the shims JS so the collection bridge runs.
+	$pack_url = aether_pack_url();
+	if ( $pack_url ) {
+		echo '<script src="' . esc_url( $pack_url . 'cdn/shop/t/164/assets/ferm-data-shims.js?ver=1.0.0"' ) . '></script>' . "\n";
+	}
+}
+
 /**
  * Build the FermPageData object injected into complete-page templates.
  *
@@ -476,6 +502,11 @@ function ferm_build_page_data() {
 	// Inject product data on single product pages.
 	if ( ! empty( $GLOBALS['ferm_product_page_data'] ) ) {
 		$page_data['product'] = $GLOBALS['ferm_product_page_data'];
+	}
+
+	// Inject collection data on product archive/category pages.
+	if ( ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) || is_page( 'shop' ) ) && ! is_product() ) {
+		$page_data['collection'] = ferm_build_collection_data();
 	}
 
 	return $page_data;
@@ -841,6 +872,83 @@ function ferm_store_product_page_data() {
 		return;
 	}
 	$GLOBALS['ferm_product_page_data'] = ferm_build_product_page_data( $post->ID );
+}
+
+// --- Collection/Archive Data ---
+function ferm_build_collection_data() {
+	$products = array();
+	$term = null;
+	$term_id = 0;
+	$term_name = '';
+	$term_description = '';
+
+	if ( is_tax( 'product_cat' ) ) {
+		$term = get_queried_object();
+		$term_id = $term->term_id;
+		$term_name = $term->name;
+		$term_description = $term->description;
+	} elseif ( is_post_type_archive( 'product' ) || is_page( 'shop' ) ) {
+		$term_name = 'Shop';
+	}
+
+	// Query WC products in this category/archive.
+	$args = array(
+		'status'   => 'publish',
+		'limit'    => 48,
+		'orderby'  => 'date',
+		'order'    => 'DESC',
+		'return'   => 'objects',
+	);
+	if ( $term_id ) {
+		$args['category'] = array( $term->slug );
+	}
+
+	$wc_products = wc_get_products( $args );
+
+	foreach ( $wc_products as $product ) {
+		$image_id = $product->get_image_id();
+		$image_url = $image_id ? wp_get_attachment_url( $image_id ) : '';
+		$gallery_urls = array();
+		foreach ( $product->get_gallery_image_ids() as $gid ) {
+			$gallery_urls[] = wp_get_attachment_url( $gid );
+		}
+
+		$price_cents = 0;
+		if ( $product->get_price() ) {
+			$price_cents = (int) round( (float) $product->get_price() * 100 );
+		}
+
+		$products[] = array(
+			'id'       => $product->get_id(),
+			'title'    => $product->get_name(),
+			'handle'   => $product->get_slug(),
+			'url'      => $product->get_permalink(),
+			'sku'      => $product->get_sku(),
+			'price'    => $price_cents,
+			'price_html' => $product->get_price_html(),
+			'image'    => $image_url,
+			'gallery'  => $gallery_urls,
+			'available' => $product->is_in_stock(),
+			'badge'    => $product->is_on_sale() ? 'Sale' : '',
+		);
+	}
+
+	// Category info.
+	$term_image = '';
+	if ( $term && ! empty( $term->term_id ) ) {
+		$term_image_id = get_term_meta( $term->term_id, 'thumbnail_id', true );
+		if ( $term_image_id ) {
+			$term_image = wp_get_attachment_url( $term_image_id );
+		}
+	}
+
+	return array(
+		'title'       => $term_name,
+		'description' => $term_description,
+		'image'       => $term_image,
+		'product_count' => count( $products ),
+		'products'    => $products,
+	);
 }
 
 // --- Product Remapping ---
