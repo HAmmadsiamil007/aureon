@@ -557,17 +557,28 @@ function ferm_enqueue_product_js() {
  *
  * Injects real WooCommerce product data into the Ferm JS context
  * so the frozen product DOM can display live data.
+ * Handles both simple and variable products with Shopify-compatible schema.
  *
  * @param int $product_id WC product ID.
  * @return array Product data in Ferm-compatible schema.
  */
 function ferm_build_product_page_data( $product_id ) {
+	// Handle both product ID (int) and adapter data (array).
+	if ( is_array( $product_id ) ) {
+		$product_id = isset( $product_id['id'] ) ? (int) $product_id['id'] : 0;
+	}
+	if ( ! $product_id ) {
+		global $post;
+		$product_id = $post ? (int) $post->ID : 0;
+	}
 	$product = wc_get_product( $product_id );
 	if ( ! $product ) {
 		return array();
 	}
 
-	// Gallery images.
+	$product_type = $product->get_type();
+
+	// Gallery images from parent product.
 	$gallery = array();
 	$image_id = $product->get_image_id();
 	if ( $image_id ) {
@@ -594,7 +605,7 @@ function ferm_build_product_page_data( $product_id ) {
 		}
 	}
 
-	// Price in cents (Ferm Shopify format).
+	// Base price in cents (Ferm Shopify format).
 	$price_cents = 0;
 	if ( $product->get_price() ) {
 		$price_cents = (int) round( (float) $product->get_price() * 100 );
@@ -608,26 +619,214 @@ function ferm_build_product_page_data( $product_id ) {
 			: 'in-stock';
 	}
 
+	// --- Variable product: build variants, options, price range ---
+	$variants     = array();
+	$options      = array();
+	$price_varies = false;
+	$price_min    = $price_cents;
+	$price_max    = $price_cents;
+	$selected_variant_id = null;
+
+	if ( 'variable' === $product_type ) {
+		$attributes = $product->get_attributes();
+		foreach ( $attributes as $attr ) {
+			$options[] = $attr->get_name();
+		}
+
+		$variation_ids = $product->get_children();
+		$first         = true;
+
+		foreach ( $variation_ids as $vid ) {
+			$variation = wc_get_product( $vid );
+			if ( ! $variation || 'publish' !== $variation->get_status() ) {
+				continue;
+			}
+
+			$v_price = 0;
+			if ( $variation->get_price() ) {
+				$v_price = (int) round( (float) $variation->get_price() * 100 );
+			}
+
+			if ( $first ) {
+				$price_min = $v_price;
+				$price_max = $v_price;
+			} else {
+				if ( $v_price < $price_min ) {
+					$price_min = $v_price;
+				}
+				if ( $v_price > $price_max ) {
+					$price_max = $v_price;
+				}
+			}
+			$first = false;
+
+			$v_avail = 'out-of-stock';
+			if ( $variation->is_in_stock() ) {
+				$v_avail = $variation->managing_stock() && $variation->get_stock_quantity() <= 5
+					? 'low-stock'
+					: 'in-stock';
+			}
+
+			$v_image_url = '';
+			$v_image_id  = $variation->get_image_id();
+			if ( $v_image_id ) {
+				$v_image_url = wp_get_attachment_url( $v_image_id );
+			}
+
+			$v_attrs = $variation->get_attributes();
+			$option1 = null;
+			$option2 = null;
+			$option3 = null;
+			$opt_idx = 0;
+			foreach ( $v_attrs as $attr_name => $attr_val ) {
+				if ( 0 === $opt_idx ) {
+					$option1 = $attr_val;
+				} elseif ( 1 === $opt_idx ) {
+					$option2 = $attr_val;
+				} elseif ( 2 === $opt_idx ) {
+					$option3 = $attr_val;
+				}
+				$opt_idx++;
+			}
+
+			$variants[] = array(
+				'id'                => $vid,
+				'title'             => $variation->get_name(),
+				'option1'           => $option1,
+				'option2'           => $option2,
+				'option3'           => $option3,
+				'sku'               => $variation->get_sku(),
+				'price'             => $v_price,
+				'compare_at_price'  => $variation->get_sale_price()
+					? (int) round( (float) $variation->get_regular_price() * 100 )
+					: null,
+				'available'         => 'out-of-stock' !== $v_avail,
+				'inventory_quantity' => $variation->get_stock_quantity(),
+				'featured_image'    => $v_image_url ? array(
+					'id'         => $v_image_id,
+					'src'        => $v_image_url,
+					'alt'        => $variation->get_name(),
+				) : null,
+				'requires_shipping' => true,
+				'taxable'           => true,
+			);
+
+			if ( null === $selected_variant_id && 'out-of-stock' !== $v_avail ) {
+				$selected_variant_id = $vid;
+			}
+		}
+
+		$price_varies = ( $price_min !== $price_max );
+	}
+
+	// Gallery URLs.
+	$gallery_urls = array();
+	foreach ( $gallery as $g ) {
+		$gallery_urls[] = $g['src'];
+	}
+
+	// Prepend first variant image if available.
+	if ( ! empty( $variants ) && null !== $selected_variant_id ) {
+		foreach ( $variants as $v ) {
+			if ( $v['id'] === $selected_variant_id && ! empty( $v['featured_image'] ) ) {
+				$v_img = $v['featured_image']['src'];
+				if ( ! empty( $v_img ) && ( empty( $gallery_urls ) || $v_img !== $gallery_urls[0] ) ) {
+					array_unshift( $gallery_urls, $v_img );
+				}
+				break;
+			}
+		}
+	}
+
+	// --- Color swatches for variable products ---
+	$colors     = array();
+	$color_name = '';
+
+	if ( 'variable' === $product_type ) {
+		$attrs = $product->get_attributes();
+		$color_attr = null;
+		foreach ( $attrs as $attr ) {
+			$attr_name = strtolower( $attr->get_name() );
+			if ( in_array( $attr_name, array( 'color', 'pa_color' ), true ) ) {
+				$color_attr = $attr;
+				break;
+			}
+		}
+
+		if ( $color_attr ) {
+			$color_hex_map = array(
+				'black'      => '#1a1a1a',
+				'off-white'  => '#f5f0e8',
+				'green'      => '#2d5a3d',
+				'dark green' => '#2d5a3d',
+				'white'      => '#ffffff',
+				'grey'       => '#888888',
+				'gray'       => '#888888',
+				'blue'       => '#2b4c7e',
+				'red'        => '#8b2500',
+				'beige'      => '#d4c5a9',
+				'natural'    => '#c4a882',
+				'brass'      => '#b5a642',
+			);
+
+			foreach ( $color_attr->get_options() as $opt ) {
+				$slug = sanitize_title( $opt );
+				$colors[] = array(
+					'name'   => $opt,
+					'hex'    => isset( $color_hex_map[ $slug ] ) ? $color_hex_map[ $slug ] : '#cccccc',
+					'handle' => $slug,
+					'url'    => '',
+				);
+			}
+
+			if ( null !== $selected_variant_id ) {
+				foreach ( $variants as $v ) {
+					if ( $v['id'] === $selected_variant_id && ! empty( $v['option1'] ) ) {
+						$color_name = $v['option1'];
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	return array(
-		'id'              => $product->get_id(),
-		'variant_id'      => null, // Simple product.
-		'title'           => $product->get_name(),
-		'handle'          => $product->get_slug(),
-		'slug'            => $product->get_slug(),
-		'url'             => $product->get_permalink(),
-		'sku'             => $product->get_sku(),
-		'price'           => $price_cents,
-		'price_html'      => $product->get_price_html(),
-		'compare_at_price' => $product->get_sale_price() ? (int) round( (float) $product->get_regular_price() * 100 ) : null,
-		'currency'        => get_woocommerce_currency(),
-		'availability'    => $availability,
-		'description'     => $product->get_short_description() ?: $product->get_description(),
-		'gallery'         => $gallery,
-		'options'         => array(),
-		'variants'        => array(),
-		'badge'           => null,
-		'product_type'    => $product->get_type(),
-		'tags'            => wp_get_post_terms( $product->get_id(), 'product_tag', array( 'fields' => 'names' ) ),
+		'id'                  => $product->get_id(),
+		'title'               => $product->get_name(),
+		'handle'              => $product->get_slug(),
+		'slug'                => $product->get_slug(),
+		'url'                 => $product->get_permalink(),
+		'sku'                 => $product->get_sku(),
+		'price'               => $price_cents,
+		'price_min'           => 'variable' === $product_type ? $price_min : $price_cents,
+		'price_max'           => 'variable' === $product_type ? $price_max : $price_cents,
+		'price_varies'        => $price_varies,
+		'price_html'          => $product->get_price_html(),
+		'compare_at_price'    => $product->get_sale_price()
+			? (int) round( (float) $product->get_regular_price() * 100 )
+			: null,
+		'currency'            => get_woocommerce_currency(),
+		'availability'        => $availability,
+		'description'         => $product->get_short_description() ?: $product->get_description(),
+		'gallery'             => $gallery,
+		'images'              => $gallery_urls,
+		'featured_image'      => ! empty( $gallery_urls ) ? $gallery_urls[0] : '',
+		'options'             => $options,
+		'variants'            => $variants,
+		'selected_variant_id' => $selected_variant_id,
+		'variant_id'          => $selected_variant_id,
+		'badge'               => null,
+		'product_type'        => $product_type,
+		'tags'                => wp_get_post_terms( $product->get_id(), 'product_tag', array( 'fields' => 'names' ) ),
+		'colors'              => $colors,
+		'color_name'          => $color_name,
+		'media'               => array_map( function ( $g ) {
+			return array(
+				'src'        => $g['src'],
+				'alt'        => $g['alt'],
+				'media_type' => 'image',
+			);
+		}, $gallery ),
 	);
 }
 

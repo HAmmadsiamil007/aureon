@@ -629,3 +629,186 @@ window.FermCustomer = window.FermCustomer || {
 
   console.log('[Ferm] Product DOM bridge applied. Product:', product.title);
 })();
+
+// ============================================================
+// VARIANT SELECTION BRIDGE
+// Handles color swatch clicks for variable products.
+// Updates price, SKU, image, variant ID, availability from
+// FermPageData.product.variants.
+// ============================================================
+(function() {
+  var pd = window.FermPageData;
+  if (!pd || !pd.product || !pd.product.variants || pd.product.variants.length === 0) return;
+
+  var product = pd.product;
+  var variants = product.variants;
+  var productSection = document.querySelector('[data-component="productPage"]') ||
+                       document.querySelector('[data-section-type="product"]');
+  if (!productSection) return;
+
+  var selectedVariantId = product.selected_variant_id || variants[0].id;
+
+  function getVariantById(id) {
+    for (var i = 0; i < variants.length; i++) {
+      if (variants[i].id === id) return variants[i];
+    }
+    return null;
+  }
+
+  function getVariantByOption(optionValue) {
+    for (var i = 0; i < variants.length; i++) {
+      if (variants[i].option1 && variants[i].option1.toLowerCase() === optionValue.toLowerCase()) {
+        return variants[i];
+      }
+    }
+    return null;
+  }
+
+  function formatPrice(cents) {
+    if (typeof Shopify !== 'undefined' && Shopify.formatMoney) {
+      return Shopify.formatMoney(cents, Shopify.money_format);
+    }
+    return '$' + (cents / 100).toFixed(2);
+  }
+
+  function applyVariant(variant) {
+    if (!variant) return;
+    selectedVariantId = variant.id;
+
+    // Update variant ID on all relevant elements.
+    productSection.querySelectorAll('[data-variant-id]').forEach(function(el) {
+      el.setAttribute('data-variant-id', variant.id);
+    });
+
+    // Update SKU.
+    productSection.querySelectorAll('[data-sku]').forEach(function(el) {
+      el.textContent = variant.sku || '';
+      el.setAttribute('data-sku', variant.sku || '');
+    });
+
+    // Update price.
+    var priceEl = productSection.querySelector('.product-price, [data-price], [data-component="price"]');
+    if (priceEl) {
+      priceEl.textContent = formatPrice(variant.price);
+    }
+    productSection.querySelectorAll('[data-product-price]').forEach(function(el) {
+      el.setAttribute('data-product-price', variant.price);
+    });
+
+    // Update variant price attribute on addToCart.
+    var addToCart = productSection.querySelector('[data-component="addToCart"]');
+    if (addToCart) {
+      addToCart.setAttribute('data-product-price', variant.price);
+    }
+
+    // Update variant image.
+    if (variant.featured_image && variant.featured_image.src) {
+      var mainImg = productSection.querySelector('[data-featured-image-container] img') ||
+                    productSection.querySelector('.product-gallery img') ||
+                    productSection.querySelector('.product__top img');
+      if (mainImg) {
+        mainImg.src = variant.featured_image.src;
+        mainImg.alt = variant.featured_image.alt || product.title;
+      }
+    }
+
+    // Update availability.
+    var ctaState = productSection.querySelector('[data-cta-state]');
+    if (ctaState) {
+      ctaState.setAttribute('data-cta-state', variant.available ? 'add' : 'sold-out');
+    }
+
+    // Update color name display.
+    var colorNameEls = productSection.querySelectorAll('.text-right.text-sm');
+    colorNameEls.forEach(function(el) {
+      if (variant.option1) el.textContent = variant.option1;
+    });
+
+    // Update product info data attributes.
+    productSection.querySelectorAll('[data-product-id]').forEach(function(el) {
+      el.setAttribute('data-product-id', product.id);
+    });
+
+    console.log('[Ferm] Variant selected:', variant.id, variant.option1, formatPrice(variant.price));
+  }
+
+  // --- Inject color swatches from FermPageData.product.colors ---
+  // The frozen HTML may have hardcoded swatches for a different product.
+  // Replace them with real WC variant swatches.
+  var productColors = product.colors || [];
+  if (productColors.length > 0) {
+    var addToCart = productSection.querySelector('[data-component="addToCart"]');
+    if (addToCart) {
+      // Find the existing swatch container (the flex wrap div inside addToCart).
+      var swatchContainer = addToCart.querySelector('.flex.items-center.flex-wrap') ||
+                            addToCart.querySelector('.flex.items-center.mb-2\.5');
+      if (swatchContainer) {
+        // Clear existing swatches.
+        swatchContainer.innerHTML = '';
+
+        // Build new swatches.
+        productColors.forEach(function(color, ci) {
+          var isActive = (color.name === (product.color_name || productColors[0].name));
+          var outlineClass = isActive ? 'outline outline-1 border-2 outline-black' : 'border border-black/5';
+
+          var a = document.createElement('a');
+          a.href = '#';
+          a.className = 'relative rotate-45 cursor-pointer overflow-hidden rounded-full p-0 h-5 w-5 ' + outlineClass;
+          a.setAttribute('data-color-handle', color.handle || color.name.toLowerCase());
+          a.setAttribute('data-hex', color.hex || '#ccc');
+          a.title = color.name;
+          a.style.order = (ci + 1).toString();
+
+          var div = document.createElement('div');
+          div.className = 'absolute h-full w-full';
+          div.style.backgroundColor = color.hex || '#ccc';
+          a.appendChild(div);
+
+          swatchContainer.appendChild(a);
+        });
+
+        // Update color name display.
+        var colorNameEl = addToCart.querySelector('.text-right.text-sm');
+        if (colorNameEl && product.color_name) {
+          colorNameEl.textContent = product.color_name;
+        }
+
+        console.log('[Ferm] Injected', productColors.length, 'color swatches');
+      }
+    }
+  }
+
+  // --- Attach click handlers to color swatches ---
+  var swatches = productSection.querySelectorAll('[data-color-handle], [data-hex]');
+  swatches.forEach(function(swatch) {
+    swatch.addEventListener('click', function(e) {
+      e.preventDefault();
+      var handle = swatch.getAttribute('data-color-handle') || '';
+      var variant = getVariantByOption(handle);
+      if (variant) {
+        applyVariant(variant);
+
+        // Update active swatch styling.
+        swatches.forEach(function(s) {
+          s.classList.remove('outline', 'outline-1', 'border-2', 'outline-black');
+          s.classList.add('border', 'border-black/5');
+        });
+        swatch.classList.remove('border', 'border-black/5');
+        swatch.classList.add('outline', 'outline-1', 'border-2', 'outline-black');
+      }
+    });
+  });
+
+  // Apply default variant.
+  var defaultVariant = getVariantById(selectedVariantId);
+  if (defaultVariant) {
+    applyVariant(defaultVariant);
+    // Highlight the first swatch.
+    if (swatches.length > 0) {
+      swatches[0].classList.remove('border', 'border-black/5');
+      swatches[0].classList.add('outline', 'outline-1', 'border-2', 'outline-black');
+    }
+  }
+
+  console.log('[Ferm] Variant selection bridge applied. Variants:', variants.length);
+})();
