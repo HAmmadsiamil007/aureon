@@ -41,6 +41,26 @@ Same frozen Ferm DOM, real data
 | Ferm JS (shims.js) | Intercept Shopify fetch calls, route to WC AJAX |
 | WooCommerce | Cart, checkout, stock management, business logic |
 
+### Product.js Data Source Rule
+
+Before changing product.js, trace its actual data source.
+
+Preferred:
+```
+FermPageData
+→ existing Shopify-compatible shim (Shopify.product)
+→ existing frozen product.js
+```
+
+Only if that cannot work:
+```
+FermPageData
+→ minimal bridge JS
+→ existing DOM
+```
+
+Do not rewrite the entire product.js.
+
 ### Non-Negotiable Constraints
 
 - Frozen Ferm product HTML remains the presentation source of truth
@@ -99,6 +119,13 @@ window.FermPageData.product = {
 
 All values come from WooCommerce/AUREON. No hardcoded presentation values.
 
+- `price` = normalized numeric representation required by Ferm JS (e.g., cents)
+- `price_html` = actual WooCommerce-formatted output (from `wc_price()`)
+- `currency` = actual WooCommerce currency (from `get_woocommerce_currency()`)
+- `url` = actual WooCommerce permalink (from `get_permalink()`)
+
+No hardcoded EUR formatting just to make this one test pass.
+
 ## Implementation Steps
 
 ### Step 1: Populate WC Product #834
@@ -109,6 +136,8 @@ Add real data to Meridian Lamp Black:
 - Description
 - Category: lighting
 - Images: copy from `C:\Users\hamma\Downloads\SiteOne-Crawler\fermliving-template-ready\cdn\shop\files\` (matching Meridian Lamp images)
+
+**Image constraint:** Do not replace the frozen gallery structure. Do not create new gallery markup. Only replace existing image src/alt/data attributes with real local media.
 
 ### Step 2: Extend composer.php — Add `ferm_build_product_page_data()`
 
@@ -158,7 +187,23 @@ This is a data injection into existing elements, not a product renderer.
 ### Data Flow
 - [ ] `window.FermPageData.product` contains real WC data
 - [ ] FermPageData fields match frozen DOM data-attribute hooks
-- [ ] No duplicate product state sources
+
+**One authoritative product state:**
+```
+WooCommerce/AUREON
+        ↓
+FermPageData.product
+        ↓
+existing Ferm compatibility layer / DOM
+```
+
+Do not maintain separate:
+- PHP product state
+- FermPageData product state
+- independent JS product state
+- hardcoded HTML product state
+
+Reference HTML may contain original placeholder/demo values, but runtime must replace them from the authoritative state.
 
 ### Visual Presentation
 - [ ] Real price displayed (not hardcoded)
@@ -218,3 +263,15 @@ This is a ONE-PRODUCT proof only. Do NOT proceed to:
 - Any other page family
 
 Until this product passes all verification checkpoints.
+
+## Architecture Block Rule
+
+If product #834 cannot be integrated without:
+- creating `section-product.php`
+- creating new visual components
+- changing the DOM hierarchy
+- rewriting the product presentation
+
+**STOP and return `PRODUCT_INTEGRATION_ARCHITECTURE_BLOCKED`.**
+
+Do not implement a workaround.
