@@ -37,6 +37,22 @@ function aether_design_enqueue_assets() {
 	$pack_uri = trailingslashit( content_url() ) . 'frontend/designs/' . $design;
 	$pack_dir = trailingslashit( WP_CONTENT_DIR ) . 'frontend/designs/' . $design;
 
+	// --- Complete-page isolation: skip ALL platform CDNs and contract JS ---
+	if ( aether_is_complete_page_design() ) {
+		// Only enqueue pack assets from manifest — no platform contamination.
+		$manifest = aether_design_manifest();
+
+		foreach ( (array) ( isset( $manifest['assets']['css'] ) ? $manifest['assets']['css'] : array() ) as $entry ) {
+			aether_enqueue_pack_asset( $entry, 'css', $base_uri, $base_dir, $pack_uri, $pack_dir );
+		}
+
+		foreach ( (array) ( isset( $manifest['assets']['js'] ) ? $manifest['assets']['js'] : array() ) as $entry ) {
+			aether_enqueue_pack_asset( $entry, 'js', $base_uri, $base_dir, $pack_uri, $pack_dir );
+		}
+
+		return;
+	}
+
 	// --- Platform CDNs (same handles as the bridge, so manifest deps resolve) ---
 	wp_enqueue_style(
 		'aether-bootstrap',
@@ -130,11 +146,17 @@ function aether_enqueue_pack_asset( $entry, $kind, $base_uri, $base_dir, $pack_u
 	}
 
 	$version = filemtime( $src_dir );
-	$handle  = 'aether-pack-' . $kind . '-' . sanitize_key( preg_replace( '/\.[a-z0-9]+$/i', '', basename( $file ) ) );
+	$base_name = sanitize_key( preg_replace( '/\.[a-z0-9]+$/i', '', basename( $file ) ) );
+	$handle  = 'aether-pack-' . $kind . '-' . $base_name;
 
 	if ( 'css' === $kind ) {
 		wp_enqueue_style( $handle, $src_uri, $deps, $version );
 	} else {
 		wp_enqueue_script( $handle, $src_uri, $deps, $version, true );
+	}
+
+	// Register a short alias so manifest deps (e.g. "ferm-data-shims") resolve.
+	if ( 'js' === $kind && $base_name !== $handle ) {
+		wp_register_script( $base_name, $src_uri, array(), $version );
 	}
 }

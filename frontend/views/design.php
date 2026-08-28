@@ -155,6 +155,20 @@ function aether_design_body_class( $classes ) {
 }
 
 /**
+ * Whether the active design uses complete-page mode.
+ *
+ * Complete-page designs serve frozen HTML directly and must NOT load
+ * AUREON platform presentation assets (Bootstrap, Swiper, GSAP, etc.).
+ * The flag is set in the design pack's manifest.json.
+ *
+ * @return bool
+ */
+function aether_is_complete_page_design() {
+	$manifest = aether_design_manifest();
+	return ! empty( $manifest['complete_page'] );
+}
+
+/**
  * Active design pack manifest (machine-readable mapping, M6).
  *
  * Reads manifest.json from the active pack directory. Malformed or missing
@@ -199,7 +213,7 @@ function aether_design_manifest() {
  * @return array Sanitized manifest.
  */
 function aether_sanitize_design_manifest( $m ) {
-	$allowed = array( 'id', 'label', 'version', 'assets', 'components', 'sections', 'mappings', 'data', 'integrations', 'js', 'customizer' );
+	$allowed = array( 'id', 'label', 'version', 'assets', 'components', 'sections', 'mappings', 'data', 'integrations', 'js', 'customizer', 'pages', 'complete_page' );
 
 	$m = array_intersect_key( (array) $m, array_flip( $allowed ) );
 
