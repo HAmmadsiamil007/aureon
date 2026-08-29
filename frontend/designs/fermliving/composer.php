@@ -343,9 +343,9 @@ function ferm_enqueue_cart_bridge() {
 	if ( ! $pack_url ) {
 		return;
 	}
-	wp_register_script( 'ferm-cart-bridge', $pack_url . 'cdn/shop/t/164/assets/ferm-data-shims.js', array(), '1.0.0', true );
+	wp_register_script( 'ferm-data-shims', $pack_url . 'cdn/shop/t/164/assets/ferm-data-shims.js', array(), '1.0.0', true );
 	wp_localize_script(
-		'ferm-cart-bridge',
+		'ferm-data-shims',
 		'ferm_bridge',
 		array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -355,7 +355,16 @@ function ferm_enqueue_cart_bridge() {
 
 	// Inject FermPageData for complete-page dynamic data.
 	$page_data = ferm_build_page_data();
-	wp_localize_script( 'ferm-cart-bridge', 'FermPageData', $page_data );
+	wp_localize_script( 'ferm-data-shims', 'FermPageData', $page_data );
+
+	// Enqueue cart-page.ferm.js on cart pages.
+	$cart_page_id = function_exists( 'wc_get_page_id' ) ? (int) wc_get_page_id( 'cart' ) : 0;
+	$queried_id   = get_queried_object_id();
+	$is_cart      = ( $cart_page_id && $queried_id === $cart_page_id )
+		|| ( isset( $_SERVER['REQUEST_URI'] ) && 0 === strpos( strtolower( wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) ), '/cart' ) );
+	if ( $is_cart && file_exists( WP_CONTENT_DIR . '/frontend/designs/fermliving/cdn/shop/t/164/assets/cart-page.ferm.js' ) ) {
+		wp_enqueue_script( 'ferm-cart-page', $pack_url . 'cdn/shop/t/164/assets/cart-page.ferm.js', array( 'ferm-data-shims' ), '1.0.0', true );
+	}
 }
 
 // --- Inject FermPageData as inline script for collection/archive pages ---
@@ -376,12 +385,6 @@ function ferm_inject_collection_fermpagedata() {
 	$page_data = ferm_build_page_data();
 	$json = wp_json_encode( $page_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 	echo '<script>window.FermPageData = ' . $json . ';</script>' . "\n";
-
-	// Enqueue the shims JS so the collection bridge runs.
-	$pack_url = aether_pack_url();
-	if ( $pack_url ) {
-		echo '<script src="' . esc_url( $pack_url . 'cdn/shop/t/164/assets/ferm-data-shims.js?ver=1.0.0"' ) . '></script>' . "\n";
-	}
 }
 
 /**
@@ -567,21 +570,6 @@ function ferm_get_nav_menu( $location ) {
 	return $items;
 }
 
-// --- Enqueue product JS ---
-add_action( 'wp_enqueue_scripts', 'ferm_enqueue_product_js', 15 );
-function ferm_enqueue_product_js() {
-	if ( ! function_exists( 'aether_active_design' ) || 'fermliving' !== aether_active_design() ) {
-		return;
-	}
-	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
-		return;
-	}
-	$pack_url = aether_pack_url();
-	if ( ! $pack_url ) {
-		return;
-	}
-	wp_enqueue_script( 'ferm-product', $pack_url . 'cdn/shop/t/164/assets/product.fa97565a5f.js', array( 'ferm-cart-bridge' ), '1.0.0', true );
-}
 
 /**
  * Build FermPageData.product from WC data for single product pages.

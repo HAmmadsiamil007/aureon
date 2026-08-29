@@ -1,0 +1,1014 @@
+/**
+ * Ferm Living Design Pack — Product Detail Page
+ *
+ * Gallery (thumbs carousel), info panel, accordions, recommendations.
+ * Scoped under .design-fermliving — overrides AETHER pd-hero / pd-* styles.
+ *
+ * @package Aureon
+ */
+
+/* ==========================================================================
+   1. PRODUCT HERO GRID
+   ========================================================================== */
+
+.design-fermliving .pd-hero {
+	padding: 120px 0 80px;
+	position: relative;
+	overflow: hidden;
+}
+
+.design-fermliving .pd-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 60px;
+	align-items: start;
+}
+
+@media (max-width: 1024px) {
+	.design-fermliving .pd-grid {
+		grid-template-columns: 1fr;
+		gap: 40px;
+	}
+}
+
+/* ==========================================================================
+   2. GALLERY — Main image + thumbnail strip
+   ========================================================================== */
+
+.design-fermliving .pd-gallery {
+	position: relative;
+}
+
+.design-fermliving .pd-gallery-main {
+	position: relative;
+	overflow: hidden;
+	background: var(--aureon-color-surface-2);
+	aspect-ratio: 3 / 4;
+}
+
+.design-fermliving .pd-gallery-main .swiper {
+	width: 100%;
+	height: 100%;
+}
+
+.design-fermliving .pd-gallery-main .swiper-slide {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.design-fermliving .pd-gallery-main .swiper-slide img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.design-fermliving .pd-gallery-zoom {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	z-index: 2;
+	width: 40px;
+	height: 40px;
+	background: var(--aureon-color-surface);
+	border: 1px solid var(--aureon-color-border);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: background-color 0.2s, color 0.2s;
+	font-size: 14px;
+}
+
+.design-fermliving .pd-gallery-zoom:hover {
+	background: var(--aureon-color-text);
+	color: var(--aureon-color-surface);
+}
+
+/* Thumbnails */
+.design-fermliving .pd-gallery-thumbs {
+	margin-top: 12px;
+}
+
+.design-fermliving .pd-gallery-thumbs .swiper {
+	overflow: visible;
+}
+
+.design-fermliving .pd-gallery-thumbs .swiper-slide {
+	opacity: 0.4;
+	cursor: pointer;
+	transition: opacity 0.3s;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+	border: 1px solid transparent;
+}
+
+.design-fermliving .pd-gallery-thumbs .swiper-slide img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.design-fermliving .pd-gallery-thumbs .swiper-slide-thumb-active,
+.design-fermliving .pd-gallery-thumbs .pd-thumb-active {
+	opacity: 1;
+	border-color: var(--aureon-color-text);
+}
+
+/* Mobile dots */
+.design-fermliving .pd-gallery .product-gallery-mobile-dots {
+	display: none;
+}
+
+/* ==========================================================================
+   3. PRODUCT INFO PANEL
+   ========================================================================== */
+
+.design-fermliving .pd-info {
+	padding-top: 8px;
+}
+
+.design-fermliving .pd-info-inner {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+/* Badge */
+.design-fermliving .pd-badge {
+	display: inline-block;
+	font-family: var(--aureon-font-body);
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 4px 12px;
+	border: 1px solid var(--aureon-color-text);
+	margin-bottom: 16px;
+}
+
+.design-fermliving .pd-badge--sale {
+	background: var(--aureon-color-text);
+	color: var(--aureon-color-surface);
+	border-color: var(--aureon-color-text);
+}
+
+/* Title */
+.design-fermliving .pd-title {
+	font-family: var(--aureon-font-heading);
+	font-size: clamp(24px, 2.5vw, 36px);
+	font-weight: 400;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+	margin: 0 0 12px;
+	color: var(--aureon-color-text);
+}
+
+/* Price */
+.design-fermliving .pd-price {
+	font-family: var(--aureon-font-body);
+	font-size: 18px;
+	font-weight: 400;
+	margin: 0 0 4px;
+	color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-price-old {
+	text-decoration: line-through;
+	color: var(--aureon-color-muted);
+	margin-right: 8px;
+}
+
+/* Rating */
+.design-fermliving .pd-rating {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 20px;
+	font-size: 13px;
+	color: var(--aureon-color-muted);
+}
+
+.design-fermliving .pd-stars {
+	display: flex;
+	gap: 2px;
+	color: var(--aureon-color-text);
+	font-size: 12px;
+}
+
+/* Description */
+.design-fermliving .pd-description {
+	font-family: var(--aureon-font-body);
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--aureon-color-muted);
+	margin: 0 0 24px;
+}
+
+/* ==========================================================================
+   4. OPTION GROUPS (Colors, Sizes, Quantity)
+   ========================================================================== */
+
+.design-fermliving .pd-option-group {
+	margin-bottom: 24px;
+}
+
+.design-fermliving .pd-option-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.design-fermliving .pd-option-label {
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+	font-weight: 500;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-option-label span {
+	font-weight: 400;
+	text-transform: none;
+	letter-spacing: 0;
+	color: var(--aureon-color-muted);
+}
+
+.design-fermliving .pd-size-guide-link {
+	background: none;
+	border: none;
+	font-family: var(--aureon-font-body);
+	font-size: 12px;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	color: var(--aureon-color-muted);
+	cursor: pointer;
+	padding: 0;
+	transition: color 0.2s;
+}
+
+.design-fermliving .pd-size-guide-link:hover {
+	color: var(--aureon-color-text);
+}
+
+/* Color swatches */
+.design-fermliving .pd-color-options {
+	display: flex;
+	gap: 10px;
+}
+
+.design-fermliving .pd-color-btn {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	border: 2px solid transparent;
+	cursor: pointer;
+	transition: border-color 0.2s, transform 0.2s;
+	padding: 0;
+	outline: none;
+	position: relative;
+}
+
+.design-fermliving .pd-color-btn::after {
+	content: '';
+	position: absolute;
+	inset: -4px;
+	border-radius: 50%;
+	border: 1px solid transparent;
+	transition: border-color 0.2s;
+}
+
+.design-fermliving .pd-color-btn:hover::after {
+	border-color: var(--aureon-color-border);
+}
+
+.design-fermliving .pd-color-btn.active::after {
+	border-color: var(--aureon-color-text);
+}
+
+/* Size grid */
+.design-fermliving .pd-size-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+	gap: 8px;
+}
+
+.design-fermliving .pd-size-btn {
+	height: 44px;
+	border: 1px solid var(--aureon-color-border);
+	background: var(--aureon-color-surface);
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+	color: var(--aureon-color-text);
+	cursor: pointer;
+	transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 8px;
+}
+
+.design-fermliving .pd-size-btn:hover {
+	border-color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-size-btn.active {
+	background: var(--aureon-color-text);
+	color: var(--aureon-color-surface);
+	border-color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-size-btn.is-unavailable {
+	opacity: 0.35;
+	cursor: not-allowed;
+	text-decoration: line-through;
+}
+
+/* Quantity */
+.design-fermliving .pd-qty {
+	display: inline-flex;
+	align-items: center;
+	border: 1px solid var(--aureon-color-border);
+}
+
+.design-fermliving .pd-qty-btn {
+	width: 44px;
+	height: 44px;
+	background: none;
+	border: none;
+	font-size: 18px;
+	color: var(--aureon-color-text);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.2s;
+}
+
+.design-fermliving .pd-qty-btn:hover {
+	background: var(--aureon-color-surface-2);
+}
+
+.design-fermliving .pd-qty-value {
+	width: 48px;
+	text-align: center;
+	font-family: var(--aureon-font-body);
+	font-size: 14px;
+	border-left: 1px solid var(--aureon-color-border);
+	border-right: 1px solid var(--aureon-color-border);
+	line-height: 44px;
+}
+
+/* ==========================================================================
+   5. ACTIONS (Add to Cart + Wishlist)
+   ========================================================================== */
+
+.design-fermliving .pd-actions {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 24px;
+}
+
+.design-fermliving .pd-add-to-cart {
+	flex: 1;
+	height: 52px;
+	background: var(--aureon-color-text);
+	color: var(--aureon-color-surface);
+	border: 1px solid var(--aureon-color-text);
+	font-family: var(--aureon-font-body);
+	font-size: 14px;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 0.3s, color 0.3s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+}
+
+.design-fermliving .pd-add-to-cart:hover {
+	background: var(--aureon-color-accent-hover);
+	border-color: var(--aureon-color-accent-hover);
+}
+
+.design-fermliving .pd-add-to-cart.is-loading {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.design-fermliving .pd-wishlist-btn {
+	width: 52px;
+	height: 52px;
+	border: 1px solid var(--aureon-color-border);
+	background: var(--aureon-color-surface);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	font-size: 16px;
+	color: var(--aureon-color-text);
+	transition: border-color 0.2s, color 0.2s;
+}
+
+.design-fermliving .pd-wishlist-btn:hover {
+	border-color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-wishlist-btn.is-active {
+	color: #CC0000;
+	border-color: #CC0000;
+}
+
+/* ==========================================================================
+   6. TRUST BADGES
+   ========================================================================== */
+
+.design-fermliving .pd-trust {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0;
+	border-top: 1px solid var(--aureon-color-border);
+	padding-top: 20px;
+	margin-top: 4px;
+}
+
+.design-fermliving .pd-trust-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	text-align: center;
+	padding: 0 8px;
+}
+
+.design-fermliving .pd-trust-item i {
+	font-size: 16px;
+	color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-trust-item span {
+	font-family: var(--aureon-font-body);
+	font-size: 11px;
+	color: var(--aureon-color-muted);
+	line-height: 1.3;
+}
+
+/* ==========================================================================
+   7. STICKY ADD-TO-CART BAR
+   ========================================================================== */
+
+.design-fermliving .pd-sticky-bar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 90;
+	background: var(--aureon-color-surface);
+	border-top: 1px solid var(--aureon-color-border);
+	transform: translateY(100%);
+	transition: transform 0.3s ease;
+}
+
+.design-fermliving .pd-sticky-bar.is-visible {
+	transform: translateY(0);
+}
+
+.design-fermliving .pd-sticky-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 12px 0;
+}
+
+.design-fermliving .pd-sticky-product {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.design-fermliving .pd-sticky-product img {
+	width: 48px;
+	height: 48px;
+	object-fit: cover;
+}
+
+.design-fermliving .pd-sticky-name {
+	font-family: var(--aureon-font-heading);
+	font-size: 14px;
+	display: block;
+	color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-sticky-price {
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+	color: var(--aureon-color-muted);
+	display: block;
+}
+
+.design-fermliving .pd-sticky-actions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.design-fermliving .pd-sticky-sizes select {
+	height: 40px;
+	border: 1px solid var(--aureon-color-border);
+	background: var(--aureon-color-surface);
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+	padding: 0 32px 0 12px;
+	color: var(--aureon-color-text);
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23383838' stroke-width='1.5'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 12px center;
+	cursor: pointer;
+}
+
+.design-fermliving .pd-sticky-add {
+	height: 40px;
+	padding: 0 24px;
+	background: var(--aureon-color-text);
+	color: var(--aureon-color-surface);
+	border: none;
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+	font-weight: 500;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.design-fermliving .pd-sticky-add:hover {
+	background: var(--aureon-color-accent-hover);
+}
+
+@media (max-width: 768px) {
+	.design-fermliving .pd-sticky-bar {
+		padding: 0;
+	}
+
+	.design-fermliving .pd-sticky-inner {
+		padding: 10px 16px;
+	}
+
+	.design-fermliving .pd-sticky-name {
+		font-size: 12px;
+		max-width: 120px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.design-fermliving .pd-sticky-sizes select {
+		display: none;
+	}
+}
+
+/* ==========================================================================
+   8. ACCORDION (Specs / Description)
+   ========================================================================== */
+
+.design-fermliving .pd-specs {
+	padding: 80px 0;
+}
+
+.design-fermliving .pd-section-title {
+	font-family: var(--aureon-font-heading);
+	font-size: clamp(20px, 2vw, 28px);
+	font-weight: 400;
+	letter-spacing: -0.02em;
+	margin: 0 0 8px;
+	color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-gold-line {
+	width: 40px;
+	height: 1px;
+	background: var(--aureon-color-text);
+	margin-bottom: 40px;
+}
+
+.design-fermliving .pd-accordion {
+	border-top: 1px solid var(--aureon-color-border);
+}
+
+.design-fermliving .pd-accordion-item {
+	border-bottom: 1px solid var(--aureon-color-border);
+}
+
+.design-fermliving .pd-accordion-header {
+	width: 100%;
+	background: none;
+	border: none;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 0;
+	cursor: pointer;
+	font-family: var(--aureon-font-body);
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--aureon-color-text);
+	text-align: left;
+}
+
+.design-fermliving .pd-accordion-header span {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.design-fermliving .pd-accordion-header i:first-child {
+	font-size: 14px;
+	color: var(--aureon-color-muted);
+	width: 20px;
+	text-align: center;
+}
+
+.design-fermliving .pd-accordion-icon {
+	font-size: 12px;
+	transition: transform 0.3s ease;
+	color: var(--aureon-color-muted);
+}
+
+.design-fermliving .pd-accordion-item.active .pd-accordion-icon {
+	transform: rotate(180deg);
+}
+
+.design-fermliving .pd-accordion-body {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.3s ease;
+}
+
+.design-fermliving .pd-accordion-item.active .pd-accordion-body {
+	max-height: 500px;
+}
+
+.design-fermliving .pd-accordion-body p {
+	font-family: var(--aureon-font-body);
+	font-size: 14px;
+	line-height: 1.7;
+	color: var(--aureon-color-muted);
+	padding: 0 0 20px;
+	margin: 0;
+}
+
+/* ==========================================================================
+   9. RECOMMENDATIONS ("You May Also Like")
+   ========================================================================== */
+
+.design-fermliving .pd-related {
+	padding: 80px 0;
+}
+
+.design-fermliving .pd-related .pd-section-title {
+	margin-bottom: 8px;
+}
+
+.design-fermliving .pd-related-swiper {
+	overflow: visible;
+}
+
+.design-fermliving .pd-related-swiper .swiper-slide {
+	width: auto;
+}
+
+.design-fermliving .pd-related .product-card {
+	background: transparent;
+	border: none;
+	padding: 0;
+}
+
+.design-fermliving .pd-related .product-card .product-image {
+	background: var(--aureon-color-surface-2);
+	aspect-ratio: 3 / 4;
+	overflow: hidden;
+	margin-bottom: 12px;
+}
+
+.design-fermliving .pd-related .product-card .product-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.6s ease;
+}
+
+.design-fermliving .pd-related .product-card:hover .product-image img {
+	transform: scale(1.03);
+}
+
+.design-fermliving .pd-related .product-card .product-name {
+	font-family: var(--aureon-font-heading);
+	font-size: 15px;
+	font-weight: 400;
+	margin: 0 0 4px;
+	color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-related .product-card .product-price {
+	font-family: var(--aureon-font-body);
+	font-size: 14px;
+	color: var(--aureon-color-muted);
+	margin: 0 0 12px;
+}
+
+.design-fermliving .pd-related .product-card .btn {
+	height: 40px;
+	font-size: 12px;
+}
+
+/* ==========================================================================
+   10. SIZE GUIDE MODAL
+   ========================================================================== */
+
+.design-fermliving .pd-modal-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 200;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s, visibility 0.3s;
+}
+
+.design-fermliving .pd-modal-overlay.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.design-fermliving .pd-modal {
+	background: var(--aureon-color-surface);
+	width: 90%;
+	max-width: 600px;
+	max-height: 85vh;
+	overflow-y: auto;
+	padding: 40px;
+	position: relative;
+}
+
+.design-fermliving .pd-modal-close {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	background: none;
+	border: none;
+	font-size: 18px;
+	color: var(--aureon-color-text);
+	cursor: pointer;
+	padding: 4px;
+}
+
+.design-fermliving .pd-modal-title {
+	font-family: var(--aureon-font-heading);
+	font-size: 22px;
+	font-weight: 400;
+	margin: 0 0 4px;
+}
+
+.design-fermliving .pd-modal-subtitle {
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+	color: var(--aureon-color-muted);
+	margin: 0 0 24px;
+}
+
+.design-fermliving .pd-size-table-wrap {
+	overflow-x: auto;
+	margin-bottom: 20px;
+}
+
+.design-fermliving .pd-size-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+}
+
+.design-fermliving .pd-size-table th {
+	text-align: left;
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--aureon-color-border);
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	font-size: 11px;
+	color: var(--aureon-color-muted);
+}
+
+.design-fermliving .pd-size-table td {
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--aureon-color-surface-3);
+}
+
+.design-fermliving .pd-modal-tip {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	padding: 16px;
+	background: var(--aureon-color-surface-2);
+	font-size: 13px;
+	color: var(--aureon-color-muted);
+	line-height: 1.5;
+}
+
+.design-fermliving .pd-modal-tip i {
+	margin-top: 2px;
+	color: var(--aureon-color-text);
+}
+
+/* ==========================================================================
+   11. CERTIFIED BADGE (Ferm-specific)
+   ========================================================================== */
+
+.design-fermliving .pd-certified {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 20px;
+}
+
+.design-fermliving .pd-certified-badge {
+	font-family: var(--aureon-font-body);
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 3px 8px;
+	background: var(--aureon-color-accent);
+	color: var(--aureon-color-surface);
+}
+
+.design-fermliving .pd-certified-text {
+	font-family: var(--aureon-font-body);
+	font-size: 12px;
+	color: var(--aureon-color-muted);
+}
+
+/* ==========================================================================
+   12. PRODUCT PAGE RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+	.design-fermliving .pd-hero {
+		padding: 100px 0 40px;
+	}
+
+	.design-fermliving .pd-gallery-main {
+		aspect-ratio: 1 / 1.1;
+	}
+
+	.design-fermliving .pd-info {
+		padding-top: 0;
+	}
+
+	.design-fermliving .pd-title {
+		font-size: 22px;
+	}
+
+	.design-fermliving .pd-trust {
+		grid-template-columns: 1fr;
+		gap: 12px;
+	}
+
+	.design-fermliving .pd-trust-item {
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.design-fermliving .pd-actions {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 89;
+		background: var(--aureon-color-surface);
+		padding: 12px 16px;
+		border-top: 1px solid var(--aureon-color-border);
+		margin-bottom: 0;
+	}
+
+	.design-fermliving .pd-specs,
+	.design-fermliving .pd-related {
+		padding: 60px 0;
+	}
+}
+
+/* ==========================================================================
+   13. LIGHTBOX / ZOOM OVERLAY
+   ========================================================================== */
+
+.design-fermliving .pd-lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 300;
+	background: rgba(0, 0, 0, 0.92);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s, visibility 0.3s;
+	cursor: zoom-out;
+}
+
+.design-fermliving .pd-lightbox.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.design-fermliving .pd-lightbox img {
+	max-width: 90vw;
+	max-height: 90vh;
+	object-fit: contain;
+}
+
+.design-fermliving .pd-lightbox-close {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	background: none;
+	border: none;
+	color: #fff;
+	font-size: 24px;
+	cursor: pointer;
+	padding: 8px;
+}
+
+.design-fermliving .pd-lightbox-nav {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	color: #fff;
+	font-size: 24px;
+	cursor: pointer;
+	padding: 16px;
+	transition: opacity 0.2s;
+}
+
+.design-fermliving .pd-lightbox-nav:hover {
+	opacity: 0.7;
+}
+
+.design-fermliving .pd-lightbox-prev {
+	left: 16px;
+}
+
+.design-fermliving .pd-lightbox-next {
+	right: 16px;
+}
+
+/* ==========================================================================
+   14. BREADCRUMB
+   ========================================================================== */
+
+.design-fermliving .pd-breadcrumb {
+	padding: 100px 0 0;
+}
+
+.design-fermliving .pd-breadcrumb nav {
+	font-family: var(--aureon-font-body);
+	font-size: 12px;
+	color: var(--aureon-color-muted);
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.design-fermliving .pd-breadcrumb a {
+	color: var(--aureon-color-muted);
+	text-decoration: none;
+	transition: color 0.2s;
+}
+
+.design-fermliving .pd-breadcrumb a:hover {
+	color: var(--aureon-color-text);
+}
+
+.design-fermliving .pd-breadcrumb-sep {
+	color: var(--aureon-color-border);
+}
+
+.design-fermliving .pd-breadcrumb-current {
+	color: var(--aureon-color-text);
+}
+
+@media (max-width: 768px) {
+	.design-fermliving .pd-breadcrumb {
+		padding: 80px 0 0;
+	}
+}

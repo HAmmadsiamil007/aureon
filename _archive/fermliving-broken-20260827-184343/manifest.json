@@ -1,0 +1,85 @@
+﻿{
+  "id": "fermliving",
+  "label": "Ferm Living - Danish Design Client Pack",
+  "version": "3.0.0",
+  "assets": {
+    "css": [
+      "assets/fonts.ferm-open-source.css",
+      "assets/fonts.fd2d67c5ce.css",
+      "assets/app.prettified.css"
+    ],
+    "js": [
+      { "file": "assets/speedblitz.min.95accfb9a4.js", "deps": [], "priority": "before" },
+      { "file": "assets/ferm-data-shims.js", "deps": [], "priority": "before" },
+      { "file": "assets/app.1e7cf79a09.js", "deps": ["aether-main", "ferm-data-shims"], "priority": "after" },
+      { "file": "assets/customer.5de68fbefc.js", "deps": ["aether-main"], "page": "account" },
+      { "file": "assets/product.fa97565a5f.js", "deps": ["aether-main", "ferm-data-shims"], "page": "product" }
+    ]
+  },
+  "components": {
+    "overrides": {
+      "shell/header": "components/shell/header.php",
+      "shell/mobile-chrome": "components/shell/mobile-chrome.php",
+      "shell/footer": "components/shell/footer.php",
+      "shell/preloader": "components/shell/preloader.php",
+      "shell/announcement": "components/shell/announcement.php",
+      "content/author-bio": "components/content/author-bio.php",
+      "card/product": "components/cards/product.php",
+      "card/category": "components/cards/category.php",
+      "product/gallery": "components/product/gallery.php",
+      "product/info": "components/product/info.php"
+    }
+  },
+  "sections": {
+    "hero": "sections/section-hero.php",
+    "bestsellers": "sections/section-bestsellers.php",
+    "categories": "sections/section-categories.php",
+    "ferm-editorial-split": "sections/section-editorial-split.php",
+    "ferm-room-grid": "sections/section-room-grid.php",
+    "ferm-secondary-products": "sections/section-secondary-products.php",
+    "newsletter": "sections/section-newsletter.php"
+  },
+  "composition": {
+    "file": "composer.php",
+    "hooks": [
+      "aether_frontpage_sections",
+      "aether_adapter_site_data",
+      "aether_adapter_header_data",
+      "aether_adapter_footer_data",
+      "aether_adapter_hero_data",
+      "aether_adapter_announcement_data",
+      "aether_adapter_wc_products_data",
+      "aether_adapter_wc_categories_data",
+      "aether_adapter_wc_filter_data",
+      "aether_adapter_about_data",
+      "aether_adapter_contact_data",
+      "aether_adapter_blog_data",
+      "aether_adapter_search_data",
+      "aether_adapter_newsletter_data",
+      "aether_adapter_shop_hero_data",
+      "aether_adapter_product_data"
+    ]
+  },
+  "templates": {
+    "page-404.php": "templates/page-404.php",
+    "page-about.php": "templates/page-about.php",
+    "page-account.php": "templates/page-account.php",
+    "page-article.php": "templates/page-article.php",
+    "page-blog.php": "templates/page-blog.php",
+    "page-cart.php": "templates/page-cart.php",
+    "page-checkout.php": "templates/page-checkout.php",
+    "page-contact.php": "templates/page-contact.php",
+    "page-product.php": "templates/page-product.php",
+    "page-search.php": "templates/page-search.php",
+    "archive-product.php": "templates/archive-product.php"
+  },
+  "data": {
+    "required": ["site", "header", "menu", "announcement", "hero", "wc-products", "wc-categories", "blog", "newsletter", "footer"],
+    "optional": ["product", "cart", "account", "order", "contact", "faq", "team", "testimonials", "wishlist", "auth", "coming-soon", "shop-hero", "wc-filter", "article"]
+  },
+  "integrations": {
+    "wordpress": ["nav menus", "pages", "blog"],
+    "woocommerce": ["shop grid", "product cards", "categories", "cart", "checkout", "account"],
+    "plugins": ["aureon newsletter", "aureon ajax", "aureon analytics"]
+  }
+}

@@ -50,16 +50,21 @@ function aether_preload_assets() {
 
 	// First visible hero slide image on the front page. Uses the adapter so
 	// hidden slides and unresolved raw paths never leak into a preload.
-	if ( is_front_page() && function_exists( 'aether_viewmodel_resolve_image' ) ) {
-		$hero = function_exists( 'aether_adapter_hero' ) ? aether_adapter_hero() : array();
-		$slides = isset( $hero['slides'] ) ? (array) $hero['slides'] : array();
+	// Skip for complete-pack designs (e.g. fermliving) that ship their own
+	// HTML templates and don't use the PHP shell hero.
+	if ( is_front_page() && function_exists( 'aether_viewmodel_resolve_image' ) && function_exists( 'aether_active_design' ) ) {
+		$design = aether_active_design();
+		if ( 'fermliving' !== $design ) {
+			$hero = function_exists( 'aether_adapter_hero' ) ? aether_adapter_hero() : array();
+			$slides = isset( $hero['slides'] ) ? (array) $hero['slides'] : array();
 
-		foreach ( $slides as $slide ) {
-			$image = isset( $slide['image'] ) ? $slide['image'] : '';
-			if ( '' !== $image ) {
-				printf( '<link rel="preload" href="%s" as="image">', esc_url( $image ) );
-				echo "\n";
-				break;
+			foreach ( $slides as $slide ) {
+				$image = isset( $slide['image'] ) ? $slide['image'] : '';
+				if ( '' !== $image ) {
+					printf( '<link rel="preload" href="%s" as="image">', esc_url( $image ) );
+					echo "\n";
+					break;
+				}
 			}
 		}
 	}

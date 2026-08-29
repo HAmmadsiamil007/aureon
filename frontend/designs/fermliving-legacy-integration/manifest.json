@@ -1,0 +1,67 @@
+{
+  "id": "fermliving",
+  "label": "Ferm Living — Danish Design Client Pack",
+  "version": "2.0.0",
+  "assets": {
+    "css": [
+      "css/ferm-compiled.css",
+      "css/fonts.css",
+      "css/ferm-shell.css"
+    ],
+    "js": [
+      { "file": "js/ferm-cart-bridge.js", "deps": [], "priority": "before" },
+      { "file": "js/ferm.js", "deps": ["aether-main"] },
+      { "file": "js/ferm-shell.js", "deps": ["aether-pack-js-ferm"] },
+      { "file": "js/ferm-product.js", "deps": ["ferm-cart-bridge"], "page": "product" }
+    ]
+  },
+  "components": {
+    "overrides": {
+      "shell/announcement": "components/shell/announcement.php",
+      "shell/header": "components/shell/header.php",
+      "shell/mobile-chrome": "components/shell/mobile-chrome.php",
+      "shell/footer": "components/shell/footer.php",
+      "shell/preloader": "components/shell/preloader.php",
+      "card/product": "components/cards/product.php",
+      "card/category": "components/cards/category.php",
+      "product/gallery": "components/product/gallery.php",
+      "product/info": "components/product/info.php",
+      "content/author-bio": "components/content/author-bio.php"
+    }
+  },
+  "sections": {
+    "hero": "sections/section-hero.php",
+    "bestsellers": "sections/section-bestsellers.php",
+    "categories": "sections/section-categories.php",
+    "ferm-editorial-split": "sections/section-editorial-split.php",
+    "ferm-room-grid": "sections/section-room-grid.php",
+    "ferm-secondary-products": "sections/section-secondary-products.php"
+  },
+  "composition": {
+    "file": "composer.php",
+    "hooks": [
+      "aether_frontpage_sections",
+      "aether_adapter_site_data",
+      "aether_adapter_header_data",
+      "aether_adapter_footer_data",
+      "aether_adapter_hero_data",
+      "aether_adapter_announcement_data",
+      "aether_adapter_wc_products_data",
+      "aether_adapter_wc_categories_data",
+      "aether_adapter_wc_filter_data",
+      "aether_adapter_about_data",
+      "aether_adapter_contact_data",
+      "aether_adapter_blog_data",
+      "aether_adapter_search_data"
+    ]
+  },
+  "data": {
+    "required": ["site", "header", "menu", "announcement", "hero", "wc-products", "wc-categories", "footer"],
+    "optional": ["product", "cart", "account", "order", "contact", "faq", "team", "testimonials", "wishlist", "auth", "shop-hero", "wc-filter", "article", "blog"]
+  },
+  "integrations": {
+    "wordpress": ["nav menus", "pages", "blog"],
+    "woocommerce": ["shop grid", "product cards", "categories", "cart", "checkout", "account"],
+    "plugins": ["aureon newsletter", "aureon ajax", "aureon analytics"]
+  }
+}

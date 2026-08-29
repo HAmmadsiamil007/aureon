@@ -1,0 +1,53 @@
+/**
+ * Ferm Living font-face declarations — open-source substitutes.
+ *
+ * Fraunces (OH Type / Google)  — heading serif  (replaces CanelaText)
+ * Inter (Rasmus Andersson)     — body sans-serif (replaces KHTeka)
+ *
+ * Both are released under the SIL Open Font License 1.1.
+ * License files included in this directory.
+ *
+ * Original commercial fonts (CanelaText, KHTeka) are NOT used.
+ *
+ * @package Aureon\Designs\FermLiving
+ */
+
+/* ── Override AETHER core font variables for Ferm Living ─── */
+.design-fermliving {
+	--font-heading: 'Fraunces', Georgia, serif;
+	--font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Fraunces — variable weight 100-900, normal + italic ─── */
+@font-face {
+	font-family: 'Fraunces';
+	src: url('../assets/fonts/open-source/Fraunces-VF.woff2') format('woff2');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Fraunces';
+	src: url('../assets/fonts/open-source/Fraunces-VF-Italic.woff2') format('woff2');
+	font-weight: 100 900;
+	font-style: italic;
+	font-display: swap;
+}
+
+/* ── Inter — variable weight 100-900, normal + italic ────── */
+@font-face {
+	font-family: 'Inter';
+	src: url('../assets/fonts/open-source/Inter-VF.woff2') format('woff2');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Inter';
+	src: url('../assets/fonts/open-source/Inter-VF-Italic.woff2') format('woff2');
+	font-weight: 100 900;
+	font-style: italic;
+	font-display: swap;
+}

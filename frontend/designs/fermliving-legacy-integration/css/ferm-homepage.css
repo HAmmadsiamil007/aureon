@@ -1,0 +1,724 @@
+/**
+ * Ferm Living Design Pack — Homepage Styles
+ *
+ * Extracted from frozen fermliving.com reference.
+ * Scoped under `.design-fermliving`.
+ *
+ * @package Aureon
+ */
+
+/* ==========================================================================
+   1. SPLIT HERO
+   ========================================================================== */
+
+.design-fermliving .ferm-split-hero {
+	display: grid;
+	grid-template-columns: 1fr;
+	height: 100vh;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+@media (min-width: 992px) {
+	.design-fermliving .ferm-split-hero {
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 1;
+	}
+}
+
+.design-fermliving .ferm-hero-panel {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+.design-fermliving .ferm-hero-panel-link {
+	position: absolute;
+	inset: 0;
+	display: block;
+	height: 100%;
+	width: 100%;
+	text-decoration: none;
+	z-index: 10;
+}
+
+.design-fermliving .ferm-hero-media,
+.design-fermliving .ferm-hero-media img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+.design-fermliving .ferm-hero-media {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.design-fermliving .ferm-hero-media img {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.design-fermliving .ferm-hero-content {
+	position: absolute;
+	z-index: 1;
+	width: 100%;
+	padding: 16px 24px 16px 16px;
+	align-self: flex-end;
+	pointer-events: none;
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .ferm-hero-content {
+		padding: 24px;
+	}
+}
+
+.design-fermliving .ferm-hero-title {
+	font-family: var(--aureon-font-heading);
+	font-size: 32px;
+	line-height: 1.15;
+	color: var(--aureon-color-bg);
+	font-weight: 400;
+	margin: 0;
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .ferm-hero-title {
+		font-size: 48px;
+	}
+}
+
+.design-fermliving .ferm-hero-subline {
+	font-family: var(--aureon-font-heading);
+	font-size: 32px;
+	line-height: 1.15;
+	color: var(--aureon-color-bg);
+	font-weight: 400;
+	margin: 0;
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .ferm-hero-subline {
+		font-size: 48px;
+	}
+}
+
+.design-fermliving .ferm-hero-content a,
+.design-fermliving .ferm-hero-content a:visited {
+	text-decoration: underline;
+	color: var(--aureon-color-bg);
+}
+
+/* Hero zoom animation */
+.design-fermliving .ferm-hero-media img {
+	transform: scale(1.15);
+	transition: transform 10000ms ease-out;
+}
+
+.design-fermliving .ferm-hero-panel.is-visible .ferm-hero-media img {
+	transform: scale(1);
+}
+
+/* ==========================================================================
+   2. CATEGORIES SLIDER
+   ========================================================================== */
+
+.design-fermliving .section-slider-with-images {
+	padding: 24px 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .section-slider-with-images {
+		padding: 16px 0;
+	}
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .section-slider-with-images {
+		padding: 24px 0;
+	}
+}
+
+/* Embla carousel — frozen source spacing */
+.design-fermliving .embla {
+	--slide-spacing: 1.5rem;
+	position: relative;
+	margin: auto;
+}
+
+@media (max-width: 768px) {
+	.design-fermliving .embla {
+		--slide-spacing: 1rem;
+	}
+}
+
+.design-fermliving .embla__controls {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-top: 0.5rem;
+	padding-bottom: 20px;
+}
+
+.design-fermliving .embla__buttons {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.design-fermliving .embla__button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 16px;
+	width: 16px;
+	background: transparent;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	padding: 0;
+	-webkit-tap-highlight-color: rgba(56, 56, 56, 0.5);
+	touch-action: manipulation;
+}
+
+.design-fermliving .embla__button:disabled {
+	color: silver;
+	opacity: 0.2;
+}
+
+.design-fermliving .embla__button svg {
+	height: 12px;
+	width: 12px;
+}
+
+.design-fermliving .embla__button--next svg {
+	transform: rotate(180deg);
+}
+
+.design-fermliving .embla__dots {
+	display: none;
+}
+
+.design-fermliving .embla__viewport {
+	overflow: hidden;
+}
+
+.design-fermliving .embla__container {
+	display: flex;
+	margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.design-fermliving .embla__slide {
+	position: relative;
+	flex: 0 0 46%;
+	flex-grow: 0;
+	flex-shrink: 0;
+	min-width: 0;
+	padding-left: var(--slide-spacing);
+	transform: translateZ(0);
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .embla__slide {
+		flex: 0 0 23.5%;
+	}
+}
+
+.design-fermliving .embla__slide .slider-card {
+	position: relative;
+	height: 65vw;
+	max-height: 600px;
+	width: 100%;
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .embla__slide .slider-card {
+		height: 33vw;
+	}
+}
+
+.design-fermliving .embla__slide .slider-card a {
+	position: absolute;
+	inset: 0;
+	display: block;
+	height: 100%;
+	width: 100%;
+	text-decoration: none;
+	z-index: 10;
+}
+
+.design-fermliving .embla__slide .slider-card img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+.design-fermliving .embla__slide .slider-card-title {
+	position: absolute;
+	bottom: 0;
+	padding: 16px;
+}
+
+.design-fermliving .embla__slide .slider-card-title p {
+	font-family: var(--aureon-font-heading);
+	font-size: 24px;
+	font-weight: 400;
+	color: var(--aureon-color-bg);
+	margin: 0;
+	pointer-events: none;
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .embla__slide .slider-card-title p {
+		font-size: 32px;
+	}
+}
+
+/* ==========================================================================
+   3. EDITORIAL SPLIT (text-image)
+   ========================================================================== */
+
+.design-fermliving .ferm-editorial-split {
+	padding: 8px 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .ferm-editorial-split {
+		padding: 16px 0;
+	}
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .ferm-editorial-split {
+		padding: 24px 0;
+	}
+}
+
+.design-fermliving .ferm-editorial-split-inner {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 24px;
+	width: 100%;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .ferm-editorial-split-inner {
+		flex-direction: row-reverse;
+		justify-content: space-between;
+	}
+}
+
+.design-fermliving .ferm-editorial-split-inner > * {
+	width: 100%;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .ferm-editorial-split-inner > * {
+		width: calc(50% - 12px);
+	}
+}
+
+.design-fermliving .ferm-editorial-split--reverse .ferm-editorial-split-inner {
+	flex-direction: column;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .ferm-editorial-split--reverse .ferm-editorial-split-inner {
+		flex-direction: row;
+	}
+}
+
+/* Image side with decorative blur pseudo-element */
+.design-fermliving .text-image__img {
+	position: relative;
+	margin: 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .text-image__img {
+		margin: auto;
+	}
+}
+
+.design-fermliving .text-image__img img {
+	width: 100%;
+	height: auto;
+}
+
+/* Frozen source: decorative golden blur behind editorial images */
+.design-fermliving .text-image__img::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: -500px;
+	width: 500px;
+	height: 300px;
+	background-color: #ca8a55;
+	border-radius: 518.095px;
+	filter: blur(69.2640686035px);
+	opacity: 0.15;
+	z-index: 0;
+	transform: translateY(-50%);
+}
+
+@media (max-width: 768px) {
+	.design-fermliving .text-image__img::after {
+		display: none;
+	}
+}
+
+/* Text side — sticky on desktop */
+.design-fermliving .text-image__txt-wrap {
+	position: sticky;
+	top: 150px;
+	display: flex;
+	flex-direction: column;
+}
+
+.design-fermliving .text-image__txt > * {
+	font-family: var(--aureon-font-heading);
+	font-size: 32px;
+	font-weight: 400;
+	line-height: 1.15;
+	color: var(--aureon-color-text);
+	margin: 0 !important;
+	white-space-collapse: collapse;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .text-image__txt > * {
+		font-size: 64px;
+		margin-top: 32px !important;
+	}
+}
+
+.design-fermliving .text-image__txt a {
+	text-decoration: underline;
+}
+
+.design-fermliving .ferm-editorial-split-cta {
+	margin-top: 16px;
+}
+
+/* ==========================================================================
+   4. PRODUCTS ROW (bestsellers / new arrivals)
+   ========================================================================== */
+
+.design-fermliving .ferm-products-row {
+	background-color: var(--aureon-color-surface-2);
+}
+
+.design-fermliving .ferm-products-row .container {
+	padding: 16px 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .ferm-products-row .container {
+		padding: 48px 0;
+	}
+}
+
+.design-fermliving .ferm-section-title {
+	font-family: var(--aureon-font-heading);
+	font-size: 32px;
+	font-weight: 400;
+	margin: 0 0 24px 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .ferm-section-title {
+		margin-bottom: 32px;
+	}
+}
+
+.design-fermliving .ferm-products-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 16px;
+	gap-y: 32px;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .ferm-products-grid {
+		gap: 24px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .ferm-products-grid {
+		grid-template-columns: repeat(4, 1fr);
+		gap: 24px;
+		gap-y: 32px;
+	}
+}
+
+.design-fermliving .ferm-row-footer {
+	margin-top: 32px;
+}
+
+/* Product card aspect ratio */
+.design-fermliving .product-thumb__top {
+	position: relative;
+	aspect-ratio: 1 / 1.33;
+	overflow: hidden;
+}
+
+@media (max-width: 768px) {
+	.design-fermliving .product-thumb__top {
+		aspect-ratio: 1 / 1.53;
+	}
+}
+
+/* Product badge (Certified, New, Sale) */
+.design-fermliving .product-badge {
+	position: absolute;
+	left: 14px;
+	top: 14px;
+	z-index: 10;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+}
+
+.design-fermliving .product-badge-item {
+	background-color: var(--aureon-color-bg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 9px 6px;
+	font-family: var(--aureon-font-body);
+	font-size: 10px;
+	line-height: 1;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--aureon-color-text);
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.design-fermliving .product:hover .product-badge-item {
+	background-color: rgba(247, 245, 239, 0.15);
+	color: var(--aureon-color-bg);
+}
+
+/* Product image carousel navigation */
+.design-fermliving .product-thumb-carousel {
+	position: absolute;
+	inset: 0;
+}
+
+.design-fermliving .product-thumb-carousel .embla__container {
+	display: flex;
+	touch-action: pan-y;
+}
+
+.design-fermliving .product-thumb-carousel .embla__slide {
+	flex: 0 0 100%;
+	min-width: 0;
+}
+
+.design-fermliving .product-thumb-carousel__prev,
+.design-fermliving .product-thumb-carousel__next {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+}
+
+.design-fermliving .product:hover .product-thumb-carousel__prev,
+.design-fermliving .product:hover .product-thumb-carousel__next {
+	display: flex;
+}
+
+.design-fermliving .product-thumb-carousel__prev {
+	left: 8px;
+}
+
+.design-fermliving .product-thumb-carousel__next {
+	right: 8px;
+}
+
+.design-fermliving .product-thumb-carousel__prev svg,
+.design-fermliving .product-thumb-carousel__next svg {
+	width: 16px;
+	height: 16px;
+}
+
+/* ==========================================================================
+   5. ROOMS SLIDER
+   ========================================================================== */
+
+.design-fermliving .ferm-room-slider {
+	padding: 24px 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .ferm-room-slider {
+		padding: 16px 0;
+	}
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .ferm-room-slider {
+		padding: 24px 0;
+	}
+}
+
+.design-fermliving .ferm-room-slider .embla__slide {
+	flex: 0 0 50%;
+}
+
+@media (min-width: 1200px) {
+	.design-fermliving .ferm-room-slider .embla__slide {
+		flex: 0 0 25%;
+	}
+}
+
+.design-fermliving .ferm-room-slider .slider-card {
+	padding-top: 16px;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .ferm-room-slider .slider-card {
+		padding-top: 48px;
+	}
+}
+
+/* Room card links below image */
+.design-fermliving .ferm-room-card-links {
+	padding-top: 16px;
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+	line-height: 1.75;
+}
+
+.design-fermliving .ferm-room-card-link-item {
+	text-decoration: underline;
+	color: var(--aureon-color-text);
+	display: block;
+}
+
+.design-fermliving .ferm-room-card-link-item strong {
+	font-weight: 600;
+}
+
+/* ==========================================================================
+   6. NEWSLETTER (homepage section)
+   ========================================================================== */
+
+.design-fermliving .section-newsletter {
+	padding: 48px 0;
+}
+
+.design-fermliving .section-newsletter .container {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .section-newsletter .container {
+		flex-direction: row;
+		justify-content: space-between;
+	}
+}
+
+.design-fermliving .section-newsletter-title {
+	font-family: var(--aureon-font-heading);
+	font-size: 32px;
+	font-weight: 400;
+	margin: 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .section-newsletter-title {
+		margin-block-end: 0.83em;
+		margin-block-start: 0.83em;
+	}
+}
+
+.design-fermliving .section-newsletter-text {
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 18px;
+	margin: 13px 0 0 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .section-newsletter-text {
+		width: 35%;
+	}
+}
+
+/* ==========================================================================
+   7. #livingwithferm (UGC section)
+   ========================================================================== */
+
+.design-fermliving .section-ugc {
+	padding: 16px 0 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .section-ugc {
+		padding: 48px 0 0;
+	}
+}
+
+.design-fermliving .section-ugc .container {
+	margin-bottom: 20px;
+}
+
+.design-fermliving .section-ugc-title {
+	font-family: var(--aureon-font-heading);
+	font-size: 32px;
+	font-weight: 500;
+	margin: 0 0 20px 0;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .section-ugc-title {
+		margin-block-end: 0.83em;
+		margin-block-start: 0.83em;
+	}
+}
+
+.design-fermliving .section-ugc-text {
+	font-family: var(--aureon-font-body);
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 18px;
+	margin: 13px 0 0 0;
+	width: 100%;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving .section-ugc-text {
+		width: 35%;
+	}
+}

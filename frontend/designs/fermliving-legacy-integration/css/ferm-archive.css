@@ -1,0 +1,656 @@
+/**
+ * Ferm Living Design Pack — Archive / PLP Stylesheet
+ *
+ * Frozen source port from fermliving.com collections/*.html.
+ * Scoped under `.design-fermliving` body class.
+ *
+ * Covers: collection header, toolbar, product grid, product cards,
+ *         swatches, badges, carousel, sort dropdown, pagination.
+ *
+ * @package Aureon\Designs\FermLiving
+ */
+
+/* ==========================================================================
+   1. COLLECTION HEADER
+   ========================================================================== */
+
+.ferm-collection-header {
+	padding: 120px 24px 40px;
+	text-align: center;
+}
+
+.ferm-collection-header h1 {
+	font-family: var(--aureon-font-heading);
+	font-size: clamp(1.75rem, 3vw, 2.5rem);
+	font-weight: 400;
+	letter-spacing: -0.02em;
+	margin: 0 0 8px;
+}
+
+.ferm-collection-header .ferm-collection-count {
+	font-family: var(--aureon-font-body);
+	font-size: 0.875rem;
+	color: var(--aureon-color-muted);
+}
+
+/* ==========================================================================
+   2. TOOLBAR — Sort + Filter Controls
+   ========================================================================== */
+
+.ferm-toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 0 24px 16px;
+}
+
+.ferm-toolbar-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.ferm-toolbar-filters a,
+.ferm-toolbar-filters button {
+	font-family: var(--aureon-font-body);
+	font-size: 0.8125rem;
+	color: var(--aureon-color-text);
+	text-decoration: none;
+	border: 1px solid var(--aureon-color-border);
+	background: transparent;
+	padding: 6px 16px;
+	cursor: pointer;
+	transition: background-color 0.2s, color 0.2s;
+}
+
+.ferm-toolbar-filters a:hover,
+.ferm-toolbar-filters button:hover,
+.ferm-toolbar-filters a.is-active,
+.ferm-toolbar-filters button.is-active {
+	background: var(--aureon-color-text);
+	color: var(--aureon-color-surface);
+	border-color: var(--aureon-color-text);
+}
+
+.ferm-toolbar-sort {
+	position: relative;
+	margin-left: auto;
+}
+
+.ferm-toolbar-sort select {
+	font-family: var(--aureon-font-body);
+	font-size: 0.875rem;
+	color: var(--aureon-color-text);
+	background: transparent;
+	border: none;
+	padding: 8px 32px 8px 0;
+	cursor: pointer;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+.ferm-toolbar-sort::after {
+	content: '';
+	position: absolute;
+	right: 8px;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 5px solid var(--aureon-color-text);
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+/* ==========================================================================
+   3. PRODUCT GRID
+   ========================================================================== */
+
+.ferm-product-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 16px;
+	padding: 0 24px 64px;
+}
+
+@media (min-width: 768px) {
+	.ferm-product-grid {
+		grid-template-columns: repeat(4, 1fr);
+		gap: 24px;
+	}
+}
+
+/* ==========================================================================
+   4. PRODUCT CARD
+   ========================================================================== */
+
+.product.product-card {
+	position: relative;
+}
+
+.product-card-inner {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	height: 100%;
+}
+
+/* --- Image area --- */
+
+.product-card-image {
+	position: relative;
+	overflow: hidden;
+	aspect-ratio: 1 / 1.53;
+}
+
+@media (min-width: 768px) {
+	.product-card-image {
+		aspect-ratio: 1 / 1.33;
+	}
+}
+
+.product-card-image img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: opacity 0.3s;
+}
+
+.product-card-image-link {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+/* --- Carousel --- */
+
+.product-thumb-carousel {
+	position: absolute;
+	inset: 0;
+}
+
+.product-thumb-carousel-viewport {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.product-thumb-carousel-track {
+	display: flex;
+	height: 100%;
+	touch-action: pan-y;
+	transition: transform 0.35s ease;
+}
+
+.product-thumb-carousel-slide {
+	position: relative;
+	min-width: 0;
+	flex: 0 0 100%;
+}
+
+.product-thumb-carousel-slide a,
+.product-thumb-carousel-slide .product-card-image-link {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.product-thumb-carousel-slide img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Prev/Next arrows */
+
+.product-thumb-carousel__prev,
+.product-thumb-carousel__next {
+	display: none;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 5;
+	width: 32px;
+	height: 32px;
+	background: rgba(255, 255, 255, 0.85);
+	border: none;
+	cursor: pointer;
+	align-items: center;
+	justify-content: center;
+	transition: background-color 0.2s;
+}
+
+.product-thumb-carousel__prev {
+	left: 8px;
+}
+
+.product-thumb-carousel__next {
+	right: 8px;
+}
+
+.product-thumb-carousel__prev:hover,
+.product-thumb-carousel__next:hover {
+	background: #fff;
+}
+
+@media (min-width: 768px) {
+	.product-thumb-carousel__prev,
+	.product-thumb-carousel__next {
+		display: flex;
+	}
+}
+
+/* Carousel dots — desktop */
+
+.product-thumb-carousel__dots--desktop {
+	display: none;
+	position: absolute;
+	bottom: 3px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 9;
+	gap: 6px;
+	padding: 16px;
+}
+
+.product-thumb-carousel__dots--mobile {
+	display: flex;
+	width: 100%;
+	margin-top: -16px;
+}
+
+@media (min-width: 768px) {
+	.product-thumb-carousel__dots--desktop {
+		display: flex;
+	}
+	.product-thumb-carousel__dots--mobile {
+		display: none;
+	}
+}
+
+.product-thumb-carousel__dot {
+	width: 6px;
+	height: 6px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: var(--aureon-color-border);
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.product-thumb-carousel__dot--active {
+	background: var(--aureon-color-text);
+}
+
+/* --- Badges --- */
+
+.product-card-badges {
+	position: absolute;
+	left: 14px;
+	top: 14px;
+	z-index: 10;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.product-badge {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 9px 6px;
+	font-family: var(--aureon-font-body);
+	font-size: 0.625rem;
+	line-height: 1;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	background: var(--aureon-color-surface-2);
+	color: var(--aureon-color-text);
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.product-card:hover .product-badge {
+	background: rgba(247, 245, 239, 0.15);
+	color: var(--aureon-color-surface-2);
+}
+
+/* --- Wishlist button --- */
+
+.product-card-wishlist {
+	position: absolute;
+	bottom: 4px;
+	right: 4px;
+	z-index: 10;
+}
+
+@media (min-width: 768px) {
+	.product-card-wishlist {
+		top: 8px;
+		right: 8px;
+		bottom: auto;
+	}
+}
+
+.product-card-wishlist button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	transition: transform 0.2s;
+}
+
+.product-card-wishlist button:hover {
+	transform: scale(1.1);
+}
+
+.product-card-wishlist-icon {
+	width: 24px;
+	height: 24px;
+	opacity: 1;
+	transition: opacity 0.2s;
+}
+
+.product-card-wishlist-icon--filled {
+	display: none;
+}
+
+.product-card-wishlist button.is-active .product-card-wishlist-icon {
+	display: none;
+}
+
+.product-card-wishlist button.is-active .product-card-wishlist-icon--filled {
+	display: block;
+}
+
+/* --- Color swatches --- */
+
+.product-card-swatches {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 5;
+	display: flex;
+	align-items: center;
+	padding: 16px;
+	gap: 2px;
+}
+
+.product-card-swatch {
+	display: block;
+	position: relative;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	text-decoration: none;
+	transition: transform 0.2s;
+}
+
+.product-card-swatch:hover {
+	transform: scale(1.3);
+}
+
+.product-card-swatch-inner {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+
+/* --- Product info --- */
+
+.product-card-info {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+.product-card-name {
+	text-decoration: none;
+	color: var(--aureon-color-text);
+	border: none;
+}
+
+.product-card-title {
+	font-family: var(--aureon-font-body);
+	font-size: 0.875rem;
+	font-weight: 500;
+	text-align: left;
+	line-height: 1.4;
+}
+
+.product-card-price {
+	font-family: var(--aureon-font-body);
+	font-size: 0.875rem;
+	color: var(--aureon-color-text);
+	margin-top: 4px;
+}
+
+/* --- Add to Cart CTA --- */
+
+.product-card-cta {
+	margin-top: auto;
+}
+
+.product-card-add-to-cart {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 48px;
+	font-family: var(--aureon-font-body);
+	font-size: 0.875rem;
+	font-weight: 500;
+	text-decoration: none;
+	color: var(--aureon-color-text);
+	background: transparent;
+	border: 1px solid var(--aureon-color-text);
+	padding: 0 14px;
+	cursor: pointer;
+	transition: background-color 0.3s, color 0.3s ease-in-out;
+	box-sizing: border-box;
+}
+
+.product-card-add-to-cart:hover {
+	background: var(--aureon-color-text);
+	color: var(--aureon-color-surface-2);
+}
+
+/* ==========================================================================
+   5. PAGINATION
+   ========================================================================== */
+
+.ferm-pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+	padding: 0 24px 128px;
+	font-family: var(--aureon-font-body);
+	font-size: 0.875rem;
+}
+
+.ferm-pagination span,
+.ferm-pagination a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 32px;
+	height: 32px;
+	padding: 0 8px;
+	text-decoration: none;
+	color: var(--aureon-color-text);
+	transition: opacity 0.2s;
+}
+
+.ferm-pagination a:hover {
+	opacity: 0.6;
+}
+
+.ferm-pagination .current {
+	font-weight: 700;
+}
+
+.ferm-pagination .dots {
+	opacity: 0.5;
+}
+
+/* ==========================================================================
+   6. FILTER SIDEBAR (mobile overlay)
+   ========================================================================== */
+
+.ferm-filter-overlay {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: 200;
+	background: rgba(0, 0, 0, 0.4);
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.ferm-filter-overlay.is-open {
+	display: block;
+	opacity: 1;
+}
+
+.ferm-filter-panel {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 360px;
+	max-width: 90vw;
+	background: var(--aureon-color-surface);
+	overflow-y: auto;
+	padding: 24px;
+	transform: translateX(100%);
+	transition: transform 0.35s ease;
+}
+
+.ferm-filter-overlay.is-open .ferm-filter-panel {
+	transform: translateX(0);
+}
+
+.ferm-filter-panel-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 24px;
+}
+
+.ferm-filter-panel-header h2 {
+	font-family: var(--aureon-font-heading);
+	font-size: 1.25rem;
+	font-weight: 400;
+	margin: 0;
+}
+
+.ferm-filter-panel-close {
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 8px;
+	font-size: 1.5rem;
+	color: var(--aureon-color-text);
+}
+
+.ferm-filter-group {
+	margin-bottom: 24px;
+}
+
+.ferm-filter-group-title {
+	font-family: var(--aureon-font-body);
+	font-size: 0.8125rem;
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-bottom: 12px;
+}
+
+.ferm-filter-option {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 0;
+	cursor: pointer;
+	font-size: 0.875rem;
+}
+
+.ferm-filter-option input[type="checkbox"] {
+	width: 16px;
+	height: 16px;
+	accent-color: var(--aureon-color-text);
+}
+
+.ferm-filter-apply {
+	display: block;
+	width: 100%;
+	height: 48px;
+	font-family: var(--aureon-font-body);
+	font-size: 0.875rem;
+	font-weight: 500;
+	text-align: center;
+	text-decoration: none;
+	color: var(--aureon-color-surface);
+	background: var(--aureon-color-text);
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.ferm-filter-apply:hover {
+	background: var(--aureon-color-accent-hover);
+}
+
+/* ==========================================================================
+   7. RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 767px) {
+	.ferm-toolbar {
+		padding: 0 16px 12px;
+	}
+
+	.ferm-product-grid {
+		padding: 0 16px 48px;
+		gap: 12px;
+	}
+
+	.ferm-collection-header {
+		padding: 100px 16px 24px;
+	}
+
+	.ferm-pagination {
+		padding: 0 16px 64px;
+	}
+}
+
+/* ==========================================================================
+   8. DEMO MODE (no WC — static fallback)
+   ========================================================================== */
+
+.ferm-no-products {
+	grid-column: 1 / -1;
+	text-align: center;
+	padding: 64px 24px;
+	color: var(--aureon-color-muted);
+	font-family: var(--aureon-font-body);
+	font-size: 0.875rem;
+}

@@ -41,6 +41,12 @@ function aether_enqueue_tokens() {
 		return;
 	}
 
+	// Complete-page designs use their own CSS custom properties.
+	// AUREON :root tokens must not leak into the complete-page document.
+	if ( aether_is_complete_page_design() ) {
+		return;
+	}
+
 	$css = aether_generate_tokens_css();
 
 	if ( empty( $css ) ) {

@@ -1,0 +1,296 @@
+/**
+ * Ferm Living shell CSS — mega menu, USP animation, mobile menu slide states.
+ *
+ * Extracted from frozen source (fermliving.com app.css).
+ * These are component-specific rules that Tailwind utility classes in the HTML
+ * cannot express. Scoped under `.design-fermliving` to avoid conflicts.
+ *
+ * @package Aureon
+ */
+
+/* ==========================================================================
+   1. MEGA MENU ANIMATION STATES
+   ========================================================================== */
+
+.design-fermliving .megamenu:not(.closed) {
+	z-index: -1;
+}
+
+.design-fermliving .megamenu.closed {
+	content-visibility: hidden;
+	transform: translateY(-140%);
+}
+
+.design-fermliving .megamenu-wrapper:not(.menu-open) .megamenu-overlay {
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* ==========================================================================
+   2. USP ANNOUNCEMENT BAR ANIMATION
+   ========================================================================== */
+
+.design-fermliving .usp-text.animate-in {
+	animation: fermSlideIn 0.5s ease-in-out 0.25s forwards;
+}
+
+.design-fermliving .usp-text.animate-out {
+	animation: fermSlideOut 0.35s ease-in-out;
+}
+
+@keyframes fermSlideIn {
+	0% {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fermSlideOut {
+	0% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	75% {
+		opacity: 0;
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+}
+
+/* ==========================================================================
+   3. MOBILE MENU SLIDE PANELS
+   ========================================================================== */
+
+.design-fermliving .mobile-menu__submenu {
+	transition: transform 0.3s ease-in-out;
+}
+
+.design-fermliving .mobile-menu__submenu.is-active {
+	transform: translateX(0);
+}
+
+.design-fermliving .mobile-menu__tertiary-links {
+	transition: transform 0.3s ease-in-out;
+}
+
+.design-fermliving .mobile-menu__tertiary-links.is-active {
+	transform: translateX(0);
+}
+
+/* ==========================================================================
+   4. MEGA MENU DYNAMIC SUBMENU SLIDE
+   ========================================================================== */
+
+.design-fermliving .megamenu__dynamic-submenu {
+	transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.design-fermliving .megamenu__dynamic-submenu.animate-slide-left {
+	animation: fermSlideLeft 0.3s ease-in-out forwards;
+}
+
+@keyframes fermSlideLeft {
+	0% {
+		opacity: 0;
+		transform: translateX(100%);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* ==========================================================================
+   5. HEADER SCROLL STATES (frozen source specific)
+   ========================================================================== */
+
+.design-fermliving .header {
+	transition: transform 0.2s ease-in-out, background-color 0.2s tab_l:0.5s ease-in-out;
+}
+
+.design-fermliving .header--scrolled {
+	transform: translateY(-100%);
+}
+
+.design-fermliving .header--visible {
+	transform: translateY(0);
+}
+
+/* ==========================================================================
+   6. LANGUAGE SELECTOR DROPDOWN
+   ========================================================================== */
+
+.design-fermliving [data-language-container] select {
+	background-image: none;
+}
+
+.design-fermliving [data-language-container] select:focus {
+	outline: 0;
+	box-shadow: none;
+}
+
+/* ==========================================================================
+   7. SEARCH OVERLAY (frozen source style)
+   ========================================================================== */
+
+.design-fermliving .search-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 50;
+	background: var(--aureon-color-bg);
+	transform: translateY(-100%);
+	transition: transform 0.3s ease-in-out;
+	display: flex;
+	flex-direction: column;
+}
+
+.design-fermliving .search-overlay.is-open {
+	transform: translateY(0);
+}
+
+.design-fermliving .search-overlay-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 16px 24px;
+	border-bottom: 1px solid var(--aureon-color-border);
+}
+
+.design-fermliving .search-overlay-input {
+	border: none;
+	border-bottom: 1px solid var(--aureon-color-border);
+	padding: 16px 24px;
+	font-size: 1.5rem;
+	background: transparent;
+	width: 100%;
+}
+
+.design-fermliving .search-overlay-input:focus {
+	outline: 0;
+}
+
+.design-fermliving .search-suggestions {
+	padding: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.design-fermliving .search-suggestion-label {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--aureon-color-muted);
+}
+
+.design-fermliving .search-suggestion {
+	font-size: 1rem;
+	text-decoration: none;
+	color: var(--aureon-color-text);
+}
+
+.design-fermliving .search-suggestion:hover {
+	text-decoration: underline;
+}
+
+/* ==========================================================================
+   8. MOBILE MENU OVERLAY
+   ========================================================================== */
+
+.design-fermliving .mobile-menu-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 40;
+	background: rgba(0, 0, 0, 0.7);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.design-fermliving .mobile-menu-overlay.is-open {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* ==========================================================================
+   9. MEGA MENU IMAGE CONTAINER
+   ========================================================================== */
+
+.design-fermliving .megamenu__single-image {
+	overflow: hidden;
+}
+
+.design-fermliving .megamenu__single-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* ==========================================================================
+   10. FROZEN SOURCE TAILWIND UTILITY CLASSES
+   (These are classes used in the frozen source HTML that need CSS definitions)
+   ========================================================================== */
+
+/* Font smoothing */
+.design-fermliving [class*="[&_p]:!m-0"] p {
+	margin: 0 !important;
+}
+
+.design-fermliving [class*="[&_p]:text-center"] p {
+	text-align: center;
+}
+
+.design-fermliving [class*="[&_p]:leading-normal"] p {
+	line-height: 1.5;
+}
+
+.design-fermliving [class*="[&_p]:![font-size:inherit]"] p {
+	font-size: inherit !important;
+}
+
+.design-fermliving [class*="[&_p]:tab_p:text-left"] p {
+	text-align: left;
+}
+
+@media (min-width: 768px) {
+	.design-fermliving [class*="[&_p]:tab_p:text-left"] p {
+		text-align: left;
+	}
+}
+
+/* Logo container reset */
+.design-fermliving [class*="&[*]:!m-0"] > * {
+	margin: 0 !important;
+}
+
+.design-fermliving [class*="[&>*]:p-0"] > * {
+	padding: 0;
+}
+
+/* Link underline reset */
+.design-fermliving [class*="&[_a]:no-underline"] a {
+	text-decoration: none;
+}
+
+/* ==========================================================================
+   11. FONT OVERRIDES (override AETHER core font variables)
+   ========================================================================== */
+
+.design-fermliving body {
+	font-family: var(--font-body);
+}
+
+.design-fermliving h1,
+.design-fermliving h2,
+.design-fermliving h3,
+.design-fermliving h4,
+.design-fermliving h5,
+.design-fermliving h6 {
+	font-family: var(--font-heading);
+}

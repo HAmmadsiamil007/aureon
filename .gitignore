@@ -45,3 +45,6 @@ temp/
 # Playwright test output
 frontend/tests/results/
 
+
+# Local install package (theme/ + plugin/ + engine staging copy)
+theme/

@@ -229,6 +229,28 @@ Contributions are welcome! Please follow these steps:
 
 ## Changelog
 
+### 1.1.0 (2026-08-29)
+
+- **Ferm Living Design Pack v5.0.0** — Complete-Page Mode integration
+- Frozen Shopify HTML served through WordPress with data bridge
+- Server-side path rewriting (CDN → absolute pack URLs)
+- MutationObserver for JS-dynamically-created images
+- Shopify cart API interception → WooCommerce AJAX
+- FermPageData injection (cart, customer, product, collection, nav)
+- Product DOM bridge (title, price, SKU, variants, gallery, swatches)
+- Collection archive bridge (real WC products replace frozen thumbs)
+- Checkout/account bypass to WC native templates
+- WC CSS/JS suppression guards for complete-page isolation
+- Cart page hydration bridge (cart-page.ferm.js)
+- Nav link rewriting (Shopify → WordPress routes)
+- SFS/B2B catch block syntax fix across frozen HTML files
+- Flowbox removal from product pages
+- `<base>` tag removal + path rewrite fix
+- Cart product flags error traced (Shopify dead code, non-blocking)
+- Checkout.html sanitized (was Shopify meta-redirect)
+- Playwright regression test suite (15 routes × 4 viewports)
+- Updated distribution ZIPs (aureon.zip, aureon-docs.zip)
+
 ### 1.0.0 (2026-08-04)
 
 - Initial release

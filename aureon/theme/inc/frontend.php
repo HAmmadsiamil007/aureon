@@ -77,7 +77,16 @@ function aureon_aether_suppress_theme_output() {
 
 	// Complete-page isolation: aggressively suppress AETHER platform assets
 	// that may have been enqueued by other hooks before this late cleanup.
-	if ( aether_is_complete_page_design() ) {
+	// Skip suppression on checkout/account pages — they use WC native templates
+	// and need WC CSS/JS for their forms and functionality.
+	$skip_suppression = false;
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		$skip_suppression = true;
+	}
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+		$skip_suppression = true;
+	}
+	if ( aether_is_complete_page_design() && ! $skip_suppression ) {
 		$platform_styles = array(
 			'aether-bootstrap',
 			'aether-fontawesome',
@@ -93,6 +102,11 @@ function aureon_aether_suppress_theme_output() {
 			'woocommerce-general',
 			'woocommerce-layout',
 			'woocommerce-smallscreen',
+			'aureon-woocommerce',
+			'aureon-woocommerce-mobile',
+			'wc-blocks-style',
+			'select2',
+			'wc-blocks-packages-style',
 		);
 		foreach ( $platform_styles as $handle ) {
 			wp_dequeue_style( $handle );
@@ -110,6 +124,12 @@ function aureon_aether_suppress_theme_output() {
 			'aether-main',
 			'aether-countdown',
 			'aether-phantom-bridge',
+			// WooCommerce JS that Ferm doesn't need — its own JS handles presentation.
+			'wc-country-select',
+			'wc-address-i18n',
+			'wc-checkout',
+			'wc-customer-input',
+			'wc-geolocation',
 		);
 		foreach ( $platform_scripts as $handle ) {
 			wp_dequeue_script( $handle );
@@ -278,6 +298,17 @@ add_filter( 'template_include', 'aureon_aether_wc_page_templates', 99 );
  */
 function aureon_ferm_template_include( $template ) {
 	if ( ! function_exists( 'aether_active_design' ) || 'fermliving' !== aether_active_design() ) {
+		return $template;
+	}
+
+	// Checkout must use WooCommerce's native template (not the frozen Ferm HTML
+	// which contains a Shopify redirect). Let WC handle checkout routing.
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		return $template;
+	}
+
+	// Account pages must use WooCommerce's native template.
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
 		return $template;
 	}
 

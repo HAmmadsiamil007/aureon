@@ -1,0 +1,50 @@
+{
+  "id": "fermliving",
+  "label": "Ferm Living - Danish Design Client Pack",
+  "version": "4.0.0",
+  "assets": {
+    "css": [
+      "assets/fonts.ferm-open-source.css",
+      "assets/fonts.fd2d67c5ce.css",
+      "assets/app.prettified.css"
+    ],
+    "js": [
+      { "file": "assets/speedblitz.min.95accfb9a4.js", "deps": [], "priority": "before" },
+      { "file": "assets/ferm-data-shims.js", "deps": [], "priority": "before" },
+      { "file": "assets/app.1e7cf79a09.js", "deps": ["aether-main", "ferm-data-shims"], "priority": "after" },
+      { "file": "assets/customer.5de68fbefc.js", "deps": ["aether-main"], "page": "account" },
+      { "file": "assets/product.fa97565a5f.js", "deps": ["aether-main", "ferm-data-shims"], "page": "product" }
+    ]
+  },
+  "pages": {
+    "home": "index.html",
+    "cart": "cart.html",
+    "checkout": "checkout.html",
+    "account": "account/login.html",
+    "products": {
+      "meridian-lamp-black": "products/meridian-lamp-black.html",
+      "rico-lounge-chair-raw-boucle-natural": "products/rico-lounge-chair-raw-boucle-natural.html",
+      "rico-sofa-2-boucle-off-white": "products/rico-sofa-2-boucle-off-white.html"
+    },
+    "collections": {
+      "furniture": "collections/furniture.html",
+      "lighting": "collections/lighting.html",
+      "accessories": "collections/accessories.html"
+    },
+    "pages": {
+      "contact": "pages/contact.html",
+      "about": "pages/about-ferm-living.html",
+      "store-locator": "pages/store-locator.html"
+    },
+    "blog": "blogs/stories.html"
+  },
+  "data": {
+    "required": ["site", "header", "menu", "announcement", "hero", "wc-products", "wc-categories", "blog", "newsletter", "footer"],
+    "optional": ["product", "cart", "account", "order", "contact", "faq", "team", "testimonials", "wishlist", "auth", "coming-soon", "shop-hero", "wc-filter", "article"]
+  },
+  "integrations": {
+    "wordpress": ["nav menus", "pages", "blog"],
+    "woocommerce": ["shop grid", "product cards", "categories", "cart", "checkout", "account"],
+    "plugins": ["aureon newsletter", "aureon ajax", "aureon analytics"]
+  }
+}

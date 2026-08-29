@@ -1,0 +1,72 @@
+[
+  {
+    "id": 101,
+    "name": "Furniture",
+    "slug": "furniture",
+    "url": "/shop/furniture/",
+    "image": "assets/categories/furniture.webp",
+    "count": 156,
+    "description": "Sofas, Tables & Storage",
+    "modifier": ""
+  },
+  {
+    "id": 102,
+    "name": "Lighting",
+    "slug": "lighting",
+    "url": "/shop/lighting/",
+    "image": "assets/categories/lighting.webp",
+    "count": 87,
+    "description": "Lamps & Pendants",
+    "modifier": "accent"
+  },
+  {
+    "id": 103,
+    "name": "Accessories",
+    "slug": "accessories",
+    "url": "/shop/accessories/",
+    "image": "assets/categories/accessories.webp",
+    "count": 234,
+    "description": "Vases, Mirrors & Decor",
+    "modifier": ""
+  },
+  {
+    "id": 104,
+    "name": "Kids",
+    "slug": "kids",
+    "url": "/shop/kids/",
+    "image": "assets/categories/kids.webp",
+    "count": 112,
+    "description": "Toys, Textiles & Furniture",
+    "modifier": ""
+  },
+  {
+    "id": 105,
+    "name": "Textiles",
+    "slug": "textiles",
+    "url": "/shop/textiles/",
+    "image": "assets/categories/textiles.webp",
+    "count": 78,
+    "description": "Cushions, Bedspreads & Throws",
+    "modifier": ""
+  },
+  {
+    "id": 106,
+    "name": "Kitchen",
+    "slug": "kitchen",
+    "url": "/shop/kitchen/",
+    "image": "assets/categories/kitchen.webp",
+    "count": 65,
+    "description": "Glasses, Plates & Serveware",
+    "modifier": ""
+  },
+  {
+    "id": 107,
+    "name": "Outdoor Living",
+    "slug": "outdoor",
+    "url": "/shop/outdoor/",
+    "image": "assets/categories/outdoor.webp",
+    "count": 43,
+    "description": "Outdoor Accessories & Seating",
+    "modifier": ""
+  }
+]
