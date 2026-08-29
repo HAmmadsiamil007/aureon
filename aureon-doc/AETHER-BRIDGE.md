@@ -1,8 +1,8 @@
 # AETHER-BRIDGE.md — How the AETHER Frontend Connects to the Aureon Core Theme
 
 > **Product:** Aureon theme + Aureon Studio plugin + AETHER frontend engine
-> **Status:** Live on Docker `aureon_wp` (localhost:8080), verified 2026-08-15
-> **Doc version:** 2026-08-15 — M6–M10 state
+> **Status:** Live on Docker `aureon_wp` (localhost:8080), verified 2026-08-29
+> **Doc version:** 2026-08-29 — Ferm Living integration complete
 
 This is the authoritative document for **how the AETHER frontend engine is connected to the Aureon core theme** and **which features are connected**. Companion docs: [`THEME.md`](./THEME.md) (theme framework), [`PLUGIN.md`](./PLUGIN.md) (Aureon Studio modules), [`FRONTEND.md`](./FRONTEND.md) (Phase 17 implementation guide — historical), [`FRONTEND-OPERATIONS.md`](./FRONTEND-OPERATIONS.md) (edit / replace / create dynamic frontends).
 

@@ -1,27 +1,30 @@
 # Aureon — Update Status Report
 
-> **As of:** 2026-08-15. This is the authoritative "where are we" document for the Aureon theme + Aureon Studio plugin + AETHER frontend engine.
+> **As of:** 2026-08-29. This is the authoritative "where are we" document for the Aureon theme + Aureon Studio plugin + AETHER frontend engine.
 
 ---
 
-## 0. Frontend platform — M6–M10 (2026-08-15) ✅ COMPLETE
+## 0. Frontend platform — M11 Ferm Living Integration (2026-08-29) ✅ COMPLETE
 
-The AETHER frontend is now a **design-pack platform**: one engine, multiple frontends. Verified live on `aureon_wp` (:8080).
+The AETHER frontend now has a **complete Ferm Living design pack** with frozen DOM integration, thin adapter bridge, and 4 cart API shims.
 
 | Milestone | Status | Evidence |
 |---|---|---|
-| M6 — Design isolation (luxury vs packs) | ✅ | `design-isolation.spec.js` 6/6; body class `design-<slug>` |
-| M7 — Asset engine + isolation by construction | ✅ | Luxury assets never coexist with a pack (`frontend.php:111` guard) |
-| M8 — Design manifest contract + **active-design cache bug fixed** | ✅ | Probe via wp-load: `string(6) "luxury"` (was `''` after first call — fallback now applies before static cache) |
-| M9 — Per-design visual baselines | ✅ | `frontend/tests/` per-design baselines |
-| M10 — Lumen pack (first shipped design pack) | ✅ | `frontend/designs/lumen/` live; routes 32/32 |
-| G4 — Newsletter rate-limit flake | ✅ **FIXED** | 1/IP/min in `inc/aether-newsletter.php` |
+| M11 — Ferm Living client frontend replacement | ✅ | `frontend/designs/fermliving/` complete, frozen DOM, cart shims |
+| Cart bridge — Shopify→WC API shims | ✅ | 4 endpoints (`/cart.js`, `/cart/add.js`, `/cart/change.js`, `/cart/clear.js`) |
+| Complete-page host — ferm-page.php | ✅ | Frozen HTML page rendering, route mapping |
+| Documentation — Frontend replacement guide | ✅ | `docs/FRONTEND_REPLACEMENT_AND_EDITING_GUIDE.md` (1162 lines) |
+| Documentation — Template requirements | ✅ | `docs/TEMPLATE_REQUIREMENTS_FOR_CORE_THEME.md` (1863 lines) |
+| Documentation — Replacement prompt | ✅ | `docs/FRONTEND_REPLACEMENT_PROMPT.md` |
+| Forensics audit — 10 documents | ✅ | Theme audit, integration map, template audit, complete-page architecture |
+| npm package updates — 12 packages | ✅ | opencode-mem, @mimo-ai/cli, @shopify/dev-mcp, @wordpress/env, etc. |
+| GitHub release — v2.0.0-ferm-living | ✅ | Tagged and released |
 
-**Engine current state (verified):** 23 adapters (only WP/WC-touching layer), 54 components / 14 families (pure markup, zero WP calls), 26 sections, `tokens/tokens.php` + `manifest/components.php`, 6 css / 5 js / 7 woff2. Theme bridge = `inc/frontend.php` (235 ln: kernel boot, output suppression at priority 1000 — 10 styles + 5 scripts + 4 hookups, asset enqueue at 20, WC template routing at 99) + 8 feature bridges (`inc/aether-*.php`: tokens, security, seo, newsletter, ajax, cart, analytics, performance). Gates: `verify.sh` PASSED, main.js MD5 frozen `6d8f3b671333571508efcb53b1e39e60`, 0 console errors.
+**Engine current state:** 23 adapters, 53 components, 26 sections, design pack system with Ferm Living active. Theme bridge boots engine, suppresses legacy assets, enqueues CDN + pack assets. Cart API shims bridge Shopify→WooCommerce.
 
-**Repo state:** HEAD `9dd4e21`, clean tree, pushed; tag `v1.3.0-m6-m10`.
+**Repo state:** HEAD `c2269c4`, pushed; tag `v2.0.0-ferm-living`.
 
-**Next: M11 — Real Client Frontend Replacement Proof** (read-only Phase 0 audit → baseline + proof plan docs → **approval gate** → implementation). Pipeline + core-freeze rules: [`FRONTEND-OPERATIONS.md`](./FRONTEND-OPERATIONS.md) §5; master plan: `docs/frontend-platform/MASTER_FRONTEND_REPLACEMENT_PLAN.md`.
+**Documentation:** `docs/FRONTEND_REPLACEMENT_AND_EDITING_GUIDE.md` (authoritative guide), `docs/TEMPLATE_REQUIREMENTS_FOR_CORE_THEME.md` (template creation guide), `docs/FRONTEND_REPLACEMENT_PROMPT.md` (copy-paste prompt).
 
 ---
 

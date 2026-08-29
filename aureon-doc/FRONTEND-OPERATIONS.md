@@ -1,7 +1,7 @@
 # FRONTEND-OPERATIONS.md — Edit, Replace, and Create Dynamic Frontends
 
 > **Audience:** developers operating the AETHER frontend engine.
-> **Doc version:** 2026-08-15 — M6–M10 state. Companion docs: [`AETHER-BRIDGE.md`](./AETHER-BRIDGE.md) (how the frontend connects to the theme), [`FRONTEND.md`](./FRONTEND.md) (Phase 17 implementation guide — historical), `../docs/frontend-platform/MASTER_FRONTEND_REPLACEMENT_PLAN.md` (M11 master plan).
+> **Doc version:** 2026-08-29 — Ferm Living integration complete. Companion docs: [`AETHER-BRIDGE.md`](./AETHER-BRIDGE.md) (how the frontend connects to the theme), `../docs/FRONTEND_REPLACEMENT_AND_EDITING_GUIDE.md` (authoritative replacement guide), `../docs/TEMPLATE_REQUIREMENTS_FOR_CORE_THEME.md` (template creation guide).
 
 ---
 

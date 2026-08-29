@@ -6,6 +6,64 @@ Format: `[category] description`. Versioning follows the product display version
 
 ---
 
+## v2.0.0 — Ferm Living frontend integration + comprehensive documentation (2026-08-29)
+
+Complete Ferm Living client frontend replacement with design pack, cart bridge, complete-page host, and authoritative documentation.
+
+### Ferm Living Design Pack
+- Complete frozen DOM integration at `frontend/designs/fermliving/`
+- 10 shell components (announcement, header, footer, mobile-chrome, preloader)
+- 2 card components (product, category)
+- Product components (gallery, info, related)
+- 16 section templates covering all page types
+- `composer.php` with section ordering + adapter filters
+- `manifest.json` v3.0.0 with asset references
+- `tokens.php` with design token overrides
+- Pack CSS (3285 lines) + pack JS (463 lines)
+
+### Cart Bridge Layer
+- 4 Shopify→WooCommerce cart API shims (`/cart.js`, `/cart/add.js`, `/cart/change.js`, `/cart/clear.js`)
+- `bridge.js` ≤150 lines for cart-count sync + wishlist
+- WC cart fragment integration
+
+### Complete-Page Host
+- `ferm-page.php` for frozen HTML page rendering
+- Route mapping for all page types (front page, products, collections, pages, blogs)
+- Body content extraction from frozen HTML
+- `wp_head()`/`wp_footer()` wrapping
+
+### Documentation (NEW)
+- **FRONTEND_REPLACEMENT_AND_EDITING_GUIDE.md** (1162 lines): Authoritative guide for safely replacing/editing the frontend — architecture, golden rule, safe zones, forbidden zones, pack creation, component/section editing, fonts, CSS, JS, cart bridge, complete-page mode, data flow, testing, rollback, cookbook
+- **TEMPLATE_REQUIREMENTS_FOR_CORE_THEME.md** (1863 lines): Complete guide for creating, cloning, and building any template frontend — feature map, architecture, connection points, template types, cloning, creation, data flow, components, sections, assets, tokens, adapters, security, performance, accessibility, testing, deployment, feature integration checklist
+- **FRONTEND_REPLACEMENT_PROMPT.md**: Copy-paste prompt for AI/developer to replace frontend with new design
+- **AETHER_DYNAMIC_ARCHITECTURE_CURRENT_STATE.md**: Updated architecture state
+
+### Forensics Audit (10 documents)
+- `docs/forensics/CORE-THEME-AUDIT.md`: 120+ files classified, request lifecycle traced
+- `docs/forensics/CORE-TO-FERM-INTEGRATION-MAP.md`: All dynamic fields mapped, 11 gaps documented
+- `docs/forensics/FERM-TEMPLATE-AUDIT.md`: 980 pages → 10 families, CSS/JS/fonts inventory
+- `docs/forensics/COMPLETE-PAGE-HOST-ARCHITECTURE.md`: Complete-page host analysis, asset contamination fix
+- `docs/forensics/FERM-COMPLETE-INTEGRATION-MAP.md`: Complete integration map
+- `docs/forensics/FERM-SOURCE-COMPLETE-INVENTORY.md`: Complete source inventory
+
+### npm Package Updates (12 packages)
+- opencode-mem 2.25.0, @mimo-ai/cli 0.1.13, @shopify/dev-mcp 1.14.7
+- @wordpress/env 11.14.0, @wordpress/scripts 34.2.0
+- sass 1.103.1, terser 5.51.2, vite 8.2.2
+- @opencode-ai/plugin 1.18.25, superpowers 0.0.2
+
+### Architecture
+- 6-layer data flow: WP/WC → 23 adapters → ViewModels → Renderer → Composer → 53 components + 26 sections
+- Design pack system: `aether_resolve_design_path()` checks pack dir first, falls back to engine tree
+- Golden Rule: NEVER edit `aureon/theme/` or `aureon/plugin/` — only `frontend/` layer
+
+### Verification
+- Git tag `v2.0.0-ferm-living` pushed
+- GitHub release created
+- 24 files committed, 8273 insertions
+
+---
+
 ## v1.3.0 — Frontend platform: M6–M10 design packs (2026-08-15)
 
 The AETHER frontend became a **design-pack platform** — one engine, multiple frontends, theme core untouched.
