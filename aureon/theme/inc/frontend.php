@@ -75,6 +75,48 @@ function aureon_aether_suppress_theme_output() {
 		wp_deregister_style( $handle );
 	}
 
+	// Complete-page isolation: aggressively suppress AETHER platform assets
+	// that may have been enqueued by other hooks before this late cleanup.
+	if ( aether_is_complete_page_design() ) {
+		$platform_styles = array(
+			'aether-bootstrap',
+			'aether-fontawesome',
+			'aether-swiper',
+			'aether-style',
+			'aether-motion',
+			'aether-responsive',
+			'aether-a11y',
+			'aether-pages',
+			'aether-fonts',
+			'aether-tokens',
+			// WooCommerce presentation CSS — Ferm has its own styling.
+			'woocommerce-general',
+			'woocommerce-layout',
+			'woocommerce-smallscreen',
+		);
+		foreach ( $platform_styles as $handle ) {
+			wp_dequeue_style( $handle );
+			wp_deregister_style( $handle );
+		}
+
+		$platform_scripts = array(
+			'aether-bootstrap-js',
+			'aether-swiper-js',
+			'aether-gsap',
+			'aether-scrolltrigger',
+			'aether-lenis',
+			'aether-lenis-scroll',
+			'aether-animations',
+			'aether-main',
+			'aether-countdown',
+			'aether-phantom-bridge',
+		);
+		foreach ( $platform_scripts as $handle ) {
+			wp_dequeue_script( $handle );
+			wp_deregister_script( $handle );
+		}
+	}
+
 	// Theme layout scripts.
 	$theme_scripts = array(
 		'aureon-menu',
@@ -218,6 +260,36 @@ function aureon_aether_wc_page_templates( $template ) {
 	return $template;
 }
 add_filter( 'template_include', 'aureon_aether_wc_page_templates', 99 );
+
+/**
+ * Route Ferm Living complete pages to the standalone HTML templates.
+ *
+ * When the fermliving design pack is active, bypass the AETHER shell
+ * (header.php → aether_compose_header / footer.php → aether_compose_footer)
+ * and serve the complete client HTML directly. WordPress wp_head() and
+ * wp_footer() are still called for admin bar, WooCommerce cart fragments,
+ * and enqueued pack CSS/JS.
+ *
+ * Runs at priority 998 — AFTER the WC page template router (priority 99)
+ * so cart/checkout/account keep their AETHER templates.
+ *
+ * @param string $template The resolved template path.
+ * @return string
+ */
+function aureon_ferm_template_include( $template ) {
+	if ( ! function_exists( 'aether_active_design' ) || 'fermliving' !== aether_active_design() ) {
+		return $template;
+	}
+
+	// Serve the complete Ferm page template.
+	$ferm_template = get_template_directory() . '/ferm-page.php';
+	if ( file_exists( $ferm_template ) ) {
+		return $ferm_template;
+	}
+
+	return $template;
+}
+add_filter( 'template_include', 'aureon_ferm_template_include', 998 );
 
 /**
  * Favicon + theme-color + Open Graph head output.
