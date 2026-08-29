@@ -1,30 +1,420 @@
 # TEMPLATE REQUIREMENTS FOR CORE THEME
 
 > **Purpose:** Complete guide for creating, cloning, and building any template frontend that connects seamlessly with the AUREON/AETHER core theme and uses ALL available features.
-> **Version:** 1.0.0 · **Date:** 2026-08-29
+> **Version:** 2.0.0 · **Date:** 2026-08-29
+
+---
+
+# CRITICAL FRONTEND RULE
+
+AUREON supports **TWO frontend modes**. Determine the mode BEFORE doing any implementation.
+
+## MODE A — COMPONENT MODE
+
+**Use when:**
+- No complete premium frontend exists, OR
+- The client explicitly wants AUREON to compose the UI from sections/components.
+
+**Architecture:**
+```
+AUREON
+→ adapters
+→ ViewModels/data
+→ sections/components
+→ rendered page
+```
+
+**In this mode:**
+- AUREON controls presentation composition.
+- Existing section/component requirements apply.
+- tokens.php, composer.php, component/section conventions are used.
+- Platform CDN dependencies (Bootstrap, Swiper, GSAP) may be loaded.
+- Design packs shadow base templates via filesystem.
+
+**File structure:**
+```
+frontend/designs/{your-pack}/
+  manifest.json
+  tokens.php
+  composer.php
+  css/{pack}.css
+  js/{pack}.js
+  components/**/*.php
+  sections/**/*.php
+  assets/**
+```
+
+## MODE B — COMPLETE-PAGE MODE
+
+**Use when:**
+- The client provides a complete HTML/CSS/JS premium frontend.
+- The client wants that frontend preserved as-is.
+
+**Architecture:**
+```
+COMPLETE CLIENT FRONTEND
+→ generic complete-page host
+→ thin integration bridge
+→ AUREON/WP/WooCommerce
+```
+
+**In this mode:**
+- Client HTML remains presentation source of truth.
+- Client CSS remains presentation source of truth.
+- Client presentation JS remains presentation source of truth.
+- Client assets/libraries remain presentation source of truth.
+- AUREON provides routing, canonical data, business logic, security, endpoints, and WooCommerce integration.
+- Bridge translates between the two systems.
+
+**DO NOT:**
+- Split complete pages into AUREON sections.
+- Reconstruct the frontend with AUREON components.
+- Recreate the client DOM.
+- Rewrite the client CSS.
+- Rewrite presentation JS unnecessarily.
+- Replace the client's visual system with AUREON's visual system.
+
+**File structure:**
+```
+frontend/designs/{your-pack}/
+  manifest.json              ← complete_page=true
+  bridge.php                 ← thin data/business bridge
+  js/bridge.js               ← cart/wishlist sync (optional)
+  assets/                    ← client assets (if self-hosted)
+```
+
+**Core changes permitted:**
+- `ferm-page.php` or equivalent complete-page host
+- `frontend/views/assets.php` — asset isolation for complete-page mode
+- `aureon/theme/inc/frontend.php` — routing and boot
+- `aureon/theme/inc/aether-tokens.php` — token suppression when complete_page=true
+
+---
+
+## Decision Flowchart
+
+```
+Does the client provide a complete HTML/CSS/JS frontend?
+    │
+    ├── YES → Use MODE B (Complete-Page Mode)
+    │         Preserve the client frontend.
+    │         Build only the data/business bridge.
+    │
+    └── NO  → Use MODE A (Component Mode)
+              Build sections/components.
+              Use design packs.
+```
+
+**NEVER convert a COMPLETE-PAGE frontend into COMPONENT MODE merely because AUREON's component architecture already exists.**
 
 ---
 
 ## Table of Contents
 
-1. [Core Theme Feature Map](#1-core-theme-feature-map)
-2. [Template Architecture Requirements](#2-template-architecture-requirements)
-3. [How Templates Connect to the Core](#3-how-templates-connect-to-the-core)
-4. [Template Types and Their Requirements](#4-template-types-and-their-requirements)
-5. [How to Clone an Existing Template](#5-how-to-clone-an-existing-template)
-6. [How to Create a New Template from Scratch](#6-how-to-create-a-new-template-from-scratch)
-7. [Data Flow Requirements](#7-data-flow-requirements)
-8. [Component Requirements](#8-component-requirements)
-9. [Section Requirements](#9-section-requirements)
-10. [Asset Requirements](#10-asset-requirements)
-11. [Token Requirements](#11-token-requirements)
-12. [Adapter Requirements](#12-adapter-requirements)
-13. [Security Requirements](#13-security-requirements)
-14. [Performance Requirements](#14-performance-requirements)
-15. [Accessibility Requirements](#15-accessibility-requirements)
-16. [Testing Requirements](#16-testing-requirements)
-17. [Deployment Requirements](#17-deployment-requirements)
-18. [Feature Integration Checklist](#18-feature-integration-checklist)
+1. [Critical Frontend Rule](#critical-frontend-rule)
+2. [Complete-Page Mode Requirements](#complete-page-mode-requirements)
+3. [Component Mode Reference](#component-mode-reference)
+4. [Core Theme Feature Map](#core-theme-feature-map)
+5. [Template Architecture Requirements](#template-architecture-requirements)
+6. [How Templates Connect to the Core](#how-templates-connect-to-the-core)
+7. [Template Types and Their Requirements](#template-types-and-their-requirements)
+8. [How to Clone an Existing Template](#how-to-clone-an-existing-template)
+9. [How to Create a New Template from Scratch](#how-to-create-a-new-template-from-scratch)
+10. [Data Flow Requirements](#data-flow-requirements)
+11. [Component Requirements](#component-requirements)
+12. [Section Requirements](#section-requirements)
+13. [Asset Requirements](#asset-requirements)
+14. [Token Requirements](#token-requirements)
+15. [Adapter Requirements](#adapter-requirements)
+16. [Security Requirements](#security-requirements)
+17. [Performance Requirements](#performance-requirements)
+18. [Accessibility Requirements](#accessibility-requirements)
+19. [Testing Requirements](#testing-requirements)
+20. [Deployment Requirements](#deployment-requirements)
+21. [Feature Integration Checklist](#feature-integration-checklist)
+
+---
+
+## Complete-Page Mode Requirements
+
+> **For clients who provide a complete HTML/CSS/JS premium frontend.**
+> **This is the preferred mode for premium client frontends (e.g., Ferm Living).**
+
+### B.1 Generic Complete-Page Host
+
+AUREON provides a generic complete-page host mechanism:
+
+```
+WordPress request
+    → complete-page host (ferm-page.php or equivalent)
+    → reads frozen HTML file
+    → extracts body content
+    → wraps with wp_head() / wp_footer()
+    → outputs complete page
+```
+
+**Requirements for the host:**
+- Route mapping (WP route → frozen HTML file)
+- Body content extraction from complete HTML
+- `wp_head()` / `wp_footer()` wrapping for WP/WC integration
+- Asset isolation (suppress AUREON presentation assets)
+- Generic, reusable, not client-specific
+
+### B.2 Asset Isolation
+
+When `complete_page=true` in `manifest.json`:
+
+```
+SUPPRESSED:
+├── AUREON presentation CSS
+├── AUREON presentation JS
+├── Platform CDN dependencies (Bootstrap, Swiper, GSAP)
+├── Design token CSS custom properties
+└── All AUREON visual system assets
+
+KEPT:
+├── WordPress core assets (admin bar, jQuery)
+├── WooCommerce assets (cart fragments, scripts)
+├── Client's own CSS/JS
+├── Client's own vendor libraries
+└── Business-required WP/WC scripts only
+```
+
+### B.3 Thin Data/Business Bridge
+
+The bridge translates between AUREON/WP/WooCommerce and the client frontend:
+
+```
+AUREON BRIDGE RESPONSIBILITIES:
+├── Product data mapping (WC → client format)
+├── Collection/category data mapping
+├── Navigation data (WP menus → client format)
+├── Cart bridge (Shopify API → WC endpoints)
+├── Customer state (WC session → client format)
+├── Search bridge (WC search → client format)
+├── Form handling (contact, newsletter)
+├── Route mapping (WP routes → client pages)
+└── Runtime configuration
+
+AUREON BRIDGE DOES NOT:
+├── Rebuild the client DOM
+├── Recreate the client CSS
+├── Rewrite presentation JS
+├── Split pages into sections
+└── Compose the visual presentation
+```
+
+### B.4 Client Template Contract
+
+The client provides:
+
+```
+CLIENT TEMPLATE
+├── Complete HTML pages
+├── CSS (design system, responsive, animations)
+├── JS (presentation logic, interactions)
+├── Vendor libraries (if any)
+├── Images, SVG, fonts
+├── manifest.json (with complete_page=true)
+├── TEMPLATE-CONTRACT.md (data field documentation)
+├── assets-manifest.json (asset inventory)
+└── JS-COMPATIBILITY-MAP.md (runtime dependencies)
+```
+
+### B.5 Complete-Page Testing Requirements
+
+```
+COMMON TESTS:
+├── Source standalone vs WordPress connected
+├── No AUREON presentation contamination
+├── No duplicate libraries
+├── No Shopify/runtime dependency (unless bridged)
+├── No asset 404s
+├── Real dynamic data displayed
+├── Real commerce actions working
+└── Isolation proven (no visual interference)
+
+VIEWPORT TESTS:
+├── 1440px — desktop
+├── 1024px — tablet landscape
+├── 768px — tablet portrait
+├── 390px — mobile
+
+ACCEPTANCE GATE:
+├── Standalone client frontend renders correctly
+├── WordPress-connected frontend renders identically
+├── Zero prohibited third-party runtime errors
+├── Zero presentation asset contamination
+├── Dynamic data updates on page load
+├── Commerce actions (add-to-cart, checkout) work
+└── No console errors
+```
+
+### B.6 Complete-Page Acceptance Checklist
+
+- [ ] Client HTML preserved exactly
+- [ ] Client CSS loaded correctly
+- [ ] Client JS loaded correctly
+- [ ] Client vendor libraries loaded
+- [ ] No AUREON presentation CSS loaded
+- [ ] No AUREON presentation JS loaded
+- [ ] No platform CDN contamination
+- [ ] No duplicate libraries
+- [ ] Product data displays correctly
+- [ ] Cart add/update/remove works
+- [ ] Checkout flow completes
+- [ ] Navigation works
+- [ ] Search works
+- [ ] Customer account works
+- [ ] All viewports render correctly
+- [ ] Zero console errors
+- [ ] Zero visual regressions
+
+---
+
+## Component Mode Reference
+
+> **For clients who want AUREON to compose the UI from sections/components.**
+> **Use when no complete premium frontend exists.**
+
+### A.1 Architecture
+
+```
+AUREON
+→ 23 Adapters (ONLY WP/WC touchpoint)
+→ Normalized data arrays
+→ ViewModels (data normalization)
+→ Renderer → Composer → 53 Components + 26 Sections
+→ Design Pack (presentation: HTML/CSS/JS)
+```
+
+### A.2 Design Pack Structure
+
+```
+frontend/designs/{your-pack}/
+  manifest.json              ← Pack descriptor (name, version, CSS/JS assets)
+  tokens.php                 ← Design token overrides (colors, typography, spacing)
+  composer.php               ← Section ordering + adapter filters
+  css/
+    fonts.css                ← Font imports (@font-face)
+    {pack}.css               ← Your main stylesheet
+  js/
+    {pack}.js                ← Your main JavaScript
+    bridge.js                ← Cart/wishlist bridge (optional, <=150 lines)
+  components/                ← Component template overrides (shadow base)
+    shell/
+      header.php
+      footer.php
+      mobile-chrome.php
+      announcement.php
+      preloader.php
+    cards/
+      product.php
+      category.php
+    product/
+      info.php
+      gallery.php
+      related.php
+  sections/                  ← Section template overrides (shadow base)
+    hero.php
+    categories.php
+    bestsellers.php
+    newsletter.php
+    shop-hero.php
+    shop-filter.php
+    shop-grid.php
+    product.php
+    section-cart.php
+    checkout.php
+    order-confirmation.php
+    blog-grid.php
+    blog-single.php
+    wishlist.php
+    auth.php
+    account.php
+  assets/                    ← Your images, fonts, icons
+    fonts/
+    images/
+```
+
+### A.3 Shadowing Mechanism
+
+When the engine renders a component or section, it calls `aether_resolve_design_path($relative)`:
+
+1. Checks `frontend/designs/{active-pack}/{$relative}` first
+2. If file exists there → uses the pack version
+3. If not → falls back to `frontend/{$relative}` (base)
+
+You don't need to register overrides. Just place a file with the same relative path in your pack directory.
+
+### A.4 Component Rules
+
+1. Receive data from adapters via `$data` array
+2. Never call WP/WC functions
+3. Escape all output with `esc_html()`, `esc_url()`, `esc_attr()`
+4. Use null coalescence for optional fields: `$data['field'] ?? 'default'`
+5. Provide fallbacks for missing data
+6. Use semantic HTML
+7. Include ARIA labels for interactive elements
+8. Use lazy loading for images
+9. Follow BEM naming for CSS classes
+
+### A.5 Section Rules
+
+1. Receive data from adapters via `$data` array
+2. Render components using `aether_render_component('component-id', $data)`
+3. Use semantic HTML for section containers
+4. Handle empty states gracefully
+5. Use BEM naming for section classes
+
+### A.6 tokens.php (Component Mode)
+
+Tokens generate CSS custom properties on `:root`:
+
+```php
+<?php
+return [
+    'colors' => [
+        'primary'    => '#000000',
+        'secondary'  => '#ffffff',
+        'accent'     => '#c8a97e',
+        'background' => '#f8f6f3',
+        'text'       => '#1a1a1a',
+        'muted'      => '#6b7280',
+    ],
+    'typography' => [
+        'heading_font' => '"Your Heading Font", serif',
+        'body_font'    => '"Your Body Font", sans-serif',
+        'base_size'    => '16px',
+        'scale'        => '1.25',
+    ],
+    'spacing' => [
+        'section_gap' => '6rem',
+        'container_width' => '1280px',
+    ],
+];
+```
+
+### A.7 composer.php (Component Mode)
+
+Controls section ordering and adapter filters:
+
+```php
+<?php
+add_filter('aether_frontpage_sections', function($sections) {
+    return ['hero', 'categories', 'bestsellers', 'newsletter'];
+});
+```
+
+### A.8 Asset Policy (Component Mode)
+
+Platform CDN dependencies may be loaded:
+- Bootstrap 5.3.3
+- Font Awesome 6.5.1
+- Swiper 11
+- GSAP 3.12.5 + ScrollTrigger
+
+Pack assets load on top of platform assets.
 
 ---
 

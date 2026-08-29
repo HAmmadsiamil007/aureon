@@ -1,6 +1,7 @@
 # FRONTEND REPLACEMENT PROMPT
 
 > Use this prompt to instruct an AI or developer to replace the frontend of the AUREON/AETHER WordPress theme with a new design.
+> **Version:** 2.0.0 · **Date:** 2026-08-29
 
 ---
 
@@ -9,94 +10,101 @@
 ```
 You are working on a WordPress theme called AUREON with an integrated frontend engine called AETHER.
 
-## CRITICAL RULES (READ BEFORE ANYTHING)
+## CRITICAL FRONTEND RULE (READ BEFORE ANYTHING)
 
-1. NEVER edit `aureon/theme/**` or `aureon/plugin/**` — these are versioned and updatable
-2. ONLY edit files inside `frontend/designs/{your-pack}/` — this is your isolated design pack
-3. The engine kernel at `frontend/views/` is shared infrastructure — do NOT modify
-4. Adapters at `frontend/adapters/` are the ONLY WP/WC touchpoint — modify only if changing data contracts
-5. Components at `frontend/components/` and sections at `frontend/sections/` are base templates — your pack shadows them by placing files at the same relative path
+AUREON supports TWO frontend modes. DETERMINE THE MODE FIRST.
 
-## ARCHITECTURE (6-Layer Data Flow)
+### MODE A — COMPONENT MODE
 
+Use when:
+- No complete premium frontend exists, OR
+- The client explicitly wants AUREON to compose the UI from sections/components.
+
+Architecture:
 ```
-WordPress/WooCommerce/Customizer
-    → 23 Adapters (ONLY WP/WC touchpoint)
-    → Normalized data arrays
-    → ViewModels (data normalization)
-    → Renderer → Composer → 53 Components + 26 Sections
-    → Design Pack (presentation: HTML/CSS/JS)
+AUREON
+→ adapters
+→ ViewModels/data
+→ sections/components
+→ rendered page
 ```
+
+In this mode:
+- AUREON controls presentation composition.
+- Design packs shadow base templates via filesystem.
+- tokens.php, composer.php, component/section conventions are used.
+- Platform CDN dependencies (Bootstrap, Swiper, GSAP) may be loaded.
+
+### MODE B — COMPLETE-PAGE MODE
+
+Use when:
+- The client provides a complete HTML/CSS/JS premium frontend.
+- The client wants that frontend preserved as-is.
+
+Architecture:
+```
+COMPLETE CLIENT FRONTEND
+→ generic complete-page host
+→ thin integration bridge
+→ AUREON/WP/WooCommerce
+```
+
+In this mode:
+- Client HTML/CSS/JS remains presentation source of truth.
+- AUREON provides routing, canonical data, business logic, security, endpoints, WooCommerce integration.
+- Bridge translates between the two systems.
+- tokens.php is OPTIONAL (client owns its own design system).
+- Sections/components are NOT used (client has its own presentation).
+
+**NEVER convert a COMPLETE-PAGE frontend into COMPONENT MODE merely because AUREON's component architecture already exists.**
+
+## DEFAULT CORE EDIT RULE
+
+Do not modify `aureon/theme/**` or `aureon/plugin/**` by default.
+Generic, reusable core changes are allowed ONLY when:
+1. A missing reusable platform capability is proven necessary.
+2. The change is isolated behind a generic contract/flag (e.g., `complete_page=true`).
+3. The change is regression-tested.
+4. A client-specific frontend must not introduce client-specific business logic into AUREON core.
 
 ## YOUR TASK
 
-Replace the frontend with a new design by creating/modifying a design pack at:
-`frontend/designs/{your-pack}/`
+Determine the frontend mode FIRST, then follow the appropriate workflow below.
 
-## DESIGN PACK STRUCTURE
-
-```
-frontend/designs/{your-pack}/
-  manifest.json              ← Pack descriptor (name, version, CSS/JS assets)
-  tokens.php                 ← Design token overrides (colors, typography, spacing)
-  composer.php               ← Section ordering + adapter filters
-  css/
-    fonts.css                ← Font imports (@font-face)
-    {pack}.css               ← Your main stylesheet
-  js/
-    {pack}.js                ← Your main JavaScript
-    bridge.js                ← Cart/wishlist bridge (optional, ≤150 lines)
-  components/                ← Component template overrides (shadow base)
-    shell/
-      header.php
-      footer.php
-      mobile-chrome.php
-      announcement.php
-      preloader.php
-    cards/
-      product.php
-      category.php
-    product/
-      info.php
-      gallery.php
-      related.php
-  sections/                  ← Section template overrides (shadow base)
-    hero.php
-    categories.php
-    bestsellers.php
-    newsletter.php
-    shop-hero.php
-    shop-filter.php
-    shop-grid.php
-    product.php
-    section-cart.php
-    checkout.php
-    order-confirmation.php
-    blog-grid.php
-    blog-single.php
-    wishlist.php
-    auth.php
-    account.php
-  assets/                    ← Your images, fonts, icons
-    fonts/
-    images/
+---
 ```
 
-## STEP-BY-STEP REPLACEMENT PROCESS
+---
 
-### Step 1: Study the Existing Architecture
+## STEP 1: DETERMINE FRONTEND MODE
+
+Ask this question:
+
+> **Does the client provide a complete HTML/CSS/JS premium frontend?**
+
+```
+YES → Follow MODE B: Complete-Page Workflow
+NO  → Follow MODE A: Component Mode Workflow
+```
+
+---
+
+## MODE A: COMPONENT MODE WORKFLOW
+
+> Use when no complete premium frontend exists, or client wants AUREON to compose the UI.
+
+### Step A1: Study the Existing Architecture
 
 Read these files first:
 - `docs/FRONTEND_REPLACEMENT_AND_EDITING_GUIDE.md` — Authoritative guide
+- `docs/TEMPLATE_REQUIREMENTS_FOR_CORE_THEME.md` — Template requirements (Component Mode Reference section)
 - `docs/forensics/CORE-THEME-AUDIT.md` — What's safe to touch
-- `docs/forensics/CORE-TO-FERM-INTEGRATION-MAP.md` — Data flow mapping
-- `docs/forensics/FERM-TEMPLATE-AUDIT.md` — Template family analysis
 - `frontend/manifest/components.php` — All 53 component registrations
 - `frontend/views/registry.php` — All 26 section registrations
 
-### Step 2: Study the Data Contracts
+### Step A2: Study the Data Contracts
 
-Every component receives pre-normalized data from adapters. Key contracts:
+Every component receives pre-normalized data from adapters:
 
 **Product Card** (from `adapter-wc-products.php`):
 - `id`, `name`, `price`, `image`, `url`, `badge`, `variants`, `rating`, `review_count`
@@ -111,7 +119,7 @@ Every component receives pre-normalized data from adapters. Key contracts:
 **Shell/Header** (from `adapter-shell.php`):
 - `logo`, `nav_items[]`, `footer_links[]`, `cart_count`, `search_url`, `account_url`, `announcement`
 
-### Step 3: Create Your Pack Directory
+### Step A3: Create Your Pack Directory
 
 ```bash
 mkdir -p frontend/designs/{your-pack}/css
@@ -124,7 +132,7 @@ mkdir -p frontend/designs/{your-pack}/assets/fonts
 mkdir -p frontend/designs/{your-pack}/assets/images
 ```
 
-### Step 4: Create manifest.json
+### Step A4: Create manifest.json
 
 ```json
 {
@@ -139,7 +147,7 @@ mkdir -p frontend/designs/{your-pack}/assets/images
 }
 ```
 
-### Step 5: Create tokens.php
+### Step A5: Create tokens.php
 
 ```php
 <?php
@@ -165,7 +173,7 @@ return [
 ];
 ```
 
-### Step 6: Create composer.php
+### Step A6: Create composer.php
 
 ```php
 <?php
@@ -175,7 +183,7 @@ add_filter('aether_frontpage_sections', function($sections) {
 });
 ```
 
-### Step 7: Shadow Components
+### Step A7: Shadow Components
 
 Copy base templates to your pack and modify:
 
@@ -185,7 +193,7 @@ cp frontend/components/cards/product.php frontend/designs/{your-pack}/components
 # Edit the copy — base remains untouched
 ```
 
-### Step 8: Create Your CSS
+### Step A8: Create Your CSS
 
 ```css
 @import url('fonts.css');
@@ -198,7 +206,7 @@ cp frontend/components/cards/product.php frontend/designs/{your-pack}/components
 /* Your styles here */
 ```
 
-### Step 9: Create Your JS
+### Step A9: Create Your JS
 
 ```javascript
 (function() {
@@ -209,11 +217,11 @@ cp frontend/components/cards/product.php frontend/designs/{your-pack}/components
 })();
 ```
 
-### Step 10: Activate Your Pack
+### Step A10: Activate Your Pack
 
-Set the `aether_active_design` option to your pack slug, or use WordPress Customizer → AETHER Design.
+Set the `aether_active_design` option to your pack slug, or use WordPress Customizer -> AETHER Design.
 
-## COMPONENT TEMPLATE PATTERN
+### Component Mode Template Pattern
 
 Every component follows this pattern:
 
@@ -240,7 +248,7 @@ $url   = esc_url($data['url'] ?? '');
 </div>
 ```
 
-## WHAT YOU CAN DO
+### Component Mode — What You Can Do
 
 | Operation | Safe? | Where |
 |-----------|-------|-------|
@@ -255,7 +263,7 @@ $url   = esc_url($data['url'] ?? '');
 | Change logo | YES | `pack/components/shell/header.php` |
 | Modify product card | YES | `pack/components/cards/product.php` |
 
-## WHAT YOU CANNOT DO
+### Component Mode — What You Cannot Do
 
 | Operation | Forbidden? | Why |
 |-----------|------------|-----|
@@ -267,9 +275,7 @@ $url   = esc_url($data['url'] ?? '');
 | Modify AETHER globals | YES | Breaks engine behavior |
 | Override platform JS (GSAP, Swiper) | YES | Platform dependency |
 
-## TESTING CHECKLIST
-
-After making changes, verify:
+### Component Mode Testing Checklist
 
 - [ ] Homepage renders at 1440px, 1024px, 768px, 390px
 - [ ] Shop page renders at all breakpoints
@@ -286,6 +292,407 @@ After making changes, verify:
 - [ ] No JS errors in console
 - [ ] Mobile menu opens/closes
 - [ ] Mobile cart count updates
+
+---
+```
+
+---
+
+## MODE B: COMPLETE-PAGE WORKFLOW
+
+> Use when the client provides a complete HTML/CSS/JS premium frontend.
+> **This is the preferred mode for premium client frontends (e.g., Ferm Living).**
+
+### Step B1: Forensic Audit
+
+Before doing anything, audit the client frontend:
+
+```
+FORENSIC AUDIT CHECKLIST:
+├── Capture standalone HTML snapshot at 1440px, 1024px, 768px, 390px
+├── Capture all CSS files and their dependencies
+├── Capture all JS files and their dependencies
+├── Capture all vendor libraries and versions
+├── Identify Shopify-specific code (Shopify routes, liquid tags, Shopify API)
+├── Identify WordPress-compatible code (WP functions, WC integration)
+├── Document all data fields used in the HTML
+├── Document all commerce actions (add-to-cart, checkout, wishlist)
+├── Document all interactive elements (menus, modals, sliders)
+└── Document all animation/motion systems
+```
+
+### Step B2: Immutable Original Source
+
+Create an immutable copy of the client frontend:
+
+```
+frontend/designs/{your-pack}/
+  original/                    ← IMMUTABLE — never edit
+    index.html
+    css/
+    js/
+    assets/
+    images/
+    fonts/
+  build/                       ← Working copy — edits go here
+    index.html
+    css/
+    js/
+    assets/
+    images/
+    fonts/
+```
+
+**Rule:** The `original/` directory is the forensic baseline. Never modify it. All edits go to `build/`.
+
+### Step B3: Dependency Classification
+
+Classify every dependency:
+
+```
+DEPENDENCY CLASSIFICATION:
+├── BUSINESS-REQUIRED (must keep):
+│   ├── WooCommerce cart.js (bridged)
+│   ├── jQuery (WP core)
+│   └── WP admin bar
+│
+├── CLIENT-PRESENTATION (keep — client owns):
+│   ├── Client CSS (design system)
+│   ├── Client JS (presentation logic)
+│   ├── Client vendor libraries
+│   └── Client animations
+│
+├── SHOPIFY-SPECIFIC (remove or bridge):
+│   ├── Shopify liquid tags → replace with PHP/JS
+│   ├── Shopify Cart API → bridge to WC
+│   ├── Shopify routes → map to WP routes
+│   └── Shopify customer → bridge to WC customer
+│
+└── AUREON-CONTAMINATION (remove):
+    ├── AUREON presentation CSS
+    ├── AUREON presentation JS
+    ├── Bootstrap (if client has its own grid)
+    ├── Swiper (if client has its own carousel)
+    └── GSAP (if client has its own animations)
+```
+
+### Step B4: Third-Party Cleanup
+
+Remove Shopify-specific code:
+
+```
+CLEANUP CHECKLIST:
+├── Remove {{ shop.xxx }} liquid tags → replace with PHP/JS
+├── Remove {% for %} liquid loops → replace with PHP loops
+├── Remove Shopify analytics → replace with GA4 dataLayer
+├── Remove Shopify customer → bridge to WC customer
+├── Remove Shopify cart → bridge to WC cart
+├── Remove Shopify routes → map to WP routes
+└── Test: standalone HTML renders correctly after cleanup
+```
+
+### Step B5: Asset Normalization
+
+Normalize assets for WordPress:
+
+```
+ASSET NORMALIZATION:
+├── Rename files to match WP conventions
+├── Update paths from relative to absolute
+├── Add WordPress-safe prefixes to JS functions
+├── Ensure jQuery compatibility (noConflict)
+├── Add proper enqueuing in bridge.php
+└── Test: all assets load correctly in WordPress
+```
+
+### Step B6: Template Contract
+
+Document the data contract between AUREON and the client frontend:
+
+```markdown
+# TEMPLATE CONTRACT
+
+## Data Fields
+
+### Product
+- `product.id` — WooCommerce product ID
+- `product.name` — Product title
+- `product.price` — Formatted price string
+- `product.images[]` — Array of image URLs
+- `product.description` — Product description HTML
+- `product.variants[]` — Array of variant objects
+- `product.attributes[]` — Array of attribute objects
+- `product.add_to_cart_url` — WC add-to-cart URL
+- `product.rating` — Average rating (0-5)
+- `product.review_count` — Number of reviews
+- `product.related[]` — Array of related product IDs
+
+### Collection
+- `collection.id` — Category/term ID
+- `collection.name` — Category name
+- `collection.products[]` — Array of product objects
+- `collection.count` — Total product count
+
+### Navigation
+- `nav.items[]` — Array of menu items
+- `nav.logo` — Logo URL
+- `nav.cart_count` — Current cart count
+- `nav.search_url` — Search page URL
+- `nav.account_url` — Account page URL
+
+### Cart
+- `cart.items[]` — Array of cart item objects
+- `cart.subtotal` — Formatted subtotal
+- `cart.total` — Formatted total
+- `cart.count` — Item count
+
+### Customer
+- `customer.logged_in` — Boolean
+- `customer.name` — Customer name
+- `customer.email` — Customer email
+```
+
+### Step B7: Assets Manifest
+
+Document all assets:
+
+```json
+{
+  "css": [
+    "css/main.css",
+    "css/responsive.css"
+  ],
+  "js": [
+    "js/main.js",
+    "js/animations.js"
+  ],
+  "vendor": [
+    "vendor/lottie.min.js"
+  ],
+  "fonts": [
+    "fonts/HeadingFont.woff2",
+    "fonts/BodyFont.woff2"
+  ],
+  "images": [
+    "images/logo.svg",
+    "images/hero-bg.jpg"
+  ]
+}
+```
+
+### Step B8: JS Compatibility Map
+
+Document JS runtime dependencies:
+
+```markdown
+# JS COMPATIBILITY MAP
+
+## Client JS
+- main.js — Requires: window, document, fetch
+- animations.js — Requires: IntersectionObserver, requestAnimationFrame
+
+## Vendor JS
+- lottie.min.js — Self-contained, no dependencies
+
+## Bridge JS
+- bridge.js — Requires: jQuery (WP), fetch API
+
+## Conflicts
+- None identified
+
+## WordPress Compatibility
+- jQuery loaded in noConflict mode
+- WP admin bar: 32px height (desktop), 0px (mobile)
+```
+
+### Step B9: Create manifest.json
+
+```json
+{
+  "name": "{your-pack}",
+  "version": "1.0.0",
+  "description": "Client premium frontend — complete-page mode",
+  "author": "Your Name",
+  "complete_page": true,
+  "client_frontend": {
+    "source": "original/index.html",
+    "build": "build/index.html",
+    "css": ["build/css/main.css"],
+    "js": ["build/js/main.js"],
+    "vendor": ["build/vendor/lottie.min.js"]
+  },
+  "assets": {
+    "css": [],
+    "js": ["js/bridge.js"]
+  }
+}
+```
+
+### Step B10: Create Complete-Page Host
+
+If not already present, create the complete-page host:
+
+```
+frontend/views/complete-page.php
+```
+
+This file:
+1. Reads the frozen HTML file
+2. Extracts body content between `<body>` and `</body>`
+3. Wraps with `wp_head()` / `wp_footer()`
+4. Outputs the complete page
+
+### Step B11: Create Thin Data/Business Bridge
+
+Create the bridge that connects AUREON/WP/WooCommerce to the client frontend:
+
+```
+frontend/designs/{your-pack}/bridge.php
+```
+
+The bridge provides:
+- Product data mapping (WC → client format)
+- Collection/category data mapping
+- Navigation data (WP menus → client format)
+- Cart bridge (WC cart → client cart)
+- Customer state (WC session → client format)
+- Search bridge (WC search → client format)
+- Form handling (contact, newsletter)
+- Route mapping (WP routes → client pages)
+- Runtime configuration
+
+### Step B12: Create bridge.js
+
+```javascript
+(function() {
+    'use strict';
+
+    // Cart count sync
+    // Wishlist sync
+    // Commerce action handlers
+    // Runtime configuration injection
+
+    // DO NOT:
+    // - Recreate the client DOM
+    // - Rewrite presentation JS
+    // - Modify client CSS
+    // - Split pages into sections
+})();
+```
+
+### Step B13: Real Browser Verification
+
+Test the connected frontend:
+
+```
+VERIFICATION CHECKLIST:
+├── Standalone client frontend renders correctly
+├── WordPress-connected frontend renders identically
+├── No AUREON presentation contamination
+├── No duplicate libraries
+├── No Shopify/runtime dependency errors
+├── No asset 404s
+├── Real dynamic data displayed
+├── Real commerce actions working
+├── No console errors
+└── All viewports render correctly (1440, 1024, 768, 390)
+```
+
+### Complete-Page Mode — What You Can Do
+
+| Operation | Safe? | Where |
+|-----------|-------|-------|
+| Edit client CSS | YES | `build/css/*.css` |
+| Edit client JS | YES | `build/js/*.js` |
+| Edit client HTML | YES | `build/*.html` |
+| Create bridge.php | YES | `pack/bridge.php` |
+| Create bridge.js | YES | `pack/js/bridge.js` |
+| Map data fields | YES | `pack/bridge.php` |
+| Bridge cart API | YES | `pack/bridge.php` + `pack/js/bridge.js` |
+| Suppress AUREON tokens | YES | `manifest.json` → `complete_page: true` |
+| Suppress AUREON assets | YES | `manifest.json` → `complete_page: true` |
+
+### Complete-Page Mode — What You Cannot Do
+
+| Operation | Forbidden? | Why |
+|-----------|------------|-----|
+| Split client HTML into sections | YES | Client owns presentation |
+| Rebuild client DOM with AUREON components | YES | Client owns presentation |
+| Recreate client CSS | YES | Client owns design system |
+| Rewrite presentation JS | YES | Client owns interactions |
+| Add AUREON sections/components | YES | Not used in complete-page mode |
+| Add platform CDN dependencies | CAUTION | Client may already have its own |
+| Introduce client-specific logic into AUREON core | YES | Core must remain generic |
+
+### Complete-Page Mode Testing Checklist
+
+```
+COMMON TESTS:
+├── Source standalone vs WordPress connected
+├── No AUREON presentation contamination
+├── No duplicate libraries
+├── No Shopify/runtime dependency errors
+├── No asset 404s
+├── Real dynamic data displayed
+├── Real commerce actions working
+└── Isolation proven (no visual interference)
+
+VIEWPORT TESTS:
+├── 1440px — desktop
+├── 1024px — tablet landscape
+├── 768px — tablet portrait
+├── 390px — mobile
+
+COMMERCE TESTS:
+├── Product data displays correctly
+├── Add to cart works (simple + variable)
+├── Cart update/remove works
+├── Checkout flow completes
+├── Customer login works
+├── Wishlist add/remove works
+└── Search works
+
+ISOLATION TESTS:
+├── No AUREON CSS loaded
+├── No AUREON JS loaded
+├── No Bootstrap loaded (if client has own grid)
+├── No Swiper loaded (if client has own carousel)
+├── No GSAP loaded (if client has own animations)
+├── No duplicate jQuery
+├── No Shopify runtime errors
+└── WP admin bar works correctly
+```
+
+### Complete-Page Acceptance Gate
+
+```
+STANDALONE CLIENT FRONTEND:
+├── Renders correctly at all viewports
+├── All assets load
+├── All interactions work
+└── No console errors
+
+WORDPRESS-CONNECTED FRONTEND:
+├── Renders identically to standalone
+├── Dynamic data displays correctly
+├── Commerce actions work
+├── No presentation contamination
+└── No console errors
+
+PASS CRITERIA:
+├── Zero prohibited third-party runtime errors
+├── Zero presentation asset contamination
+├── Zero duplicate libraries
+├── Zero source DOM reconstruction
+├── Dynamic data proven separately
+├── Business actions proven separately
+└── Isolation proven separately
+```
+
+---
+```
+
+---
 
 ## ROLLBACK
 
@@ -305,12 +712,11 @@ git revert HEAD
 ## REFERENCE FILES
 
 - `docs/FRONTEND_REPLACEMENT_AND_EDITING_GUIDE.md` — Full guide
+- `docs/TEMPLATE_REQUIREMENTS_FOR_CORE_THEME.md` — Template requirements (both modes documented)
 - `docs/forensics/CORE-TO-FERM-INTEGRATION-MAP.md` — Data flow
 - `docs/FRONTEND_DATA_CONTRACT.md` — Adapter data contracts
-- `docs/CUSTOMIZER_FRONTEND_BINDING_MATRIX.md` — Customizer bindings
-- `docs/WOO_FRONTEND_BINDING_MATRIX.md` — WooCommerce bindings
-- `frontend/manifest/components.php` — Component registry
-- `frontend/views/registry.php` — Section registry
+- `frontend/manifest/components.php` — Component registry (Component Mode)
+- `frontend/views/registry.php` — Section registry (Component Mode)
 ```
 
 ---
@@ -318,13 +724,17 @@ git revert HEAD
 ## How to Use This Prompt
 
 1. **Copy the prompt** inside the code block above
-2. **Replace `{your-pack}`** with your pack name (e.g., `mybrand`)
-3. **Replace `{pack}`** with your pack shortname (e.g., `mybrand`)
-4. **Paste into your AI assistant** or give to your developer
-5. **Follow the step-by-step process** in order
-6. **Test everything** using the checklist before deploying
+2. **Determine frontend mode** — does the client have a complete HTML/CSS/JS frontend?
+3. **Follow the appropriate workflow** — MODE A or MODE B
+4. **Replace `{your-pack}`** with your pack name (e.g., `fermliving`)
+5. **Replace `{pack}`** with your pack shortname (e.g., `ferm`)
+6. **Paste into your AI assistant** or give to your developer
+7. **Follow the step-by-step process** in order
+8. **Test everything** using the appropriate checklist before deploying
 
 ## Customization Points
+
+### Component Mode
 
 | What to Change | Where to Edit |
 |----------------|---------------|
@@ -339,3 +749,16 @@ git revert HEAD
 | Checkout | WC native (wrapped in shell) |
 | Footer | `components/shell/footer.php` |
 | Mobile menu | `components/shell/mobile-chrome.php` |
+
+### Complete-Page Mode
+
+| What to Change | Where to Edit |
+|----------------|---------------|
+| Client CSS | `build/css/*.css` |
+| Client JS | `build/js/*.js` |
+| Client HTML | `build/*.html` |
+| Data mapping | `bridge.php` |
+| Cart bridge | `bridge.php` + `js/bridge.js` |
+| Asset loading | `manifest.json` |
+| Route mapping | `bridge.php` |
+| Customer state | `bridge.php` |
