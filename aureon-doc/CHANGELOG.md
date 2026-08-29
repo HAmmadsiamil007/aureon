@@ -64,6 +64,44 @@ Complete Ferm Living client frontend replacement with design pack, cart bridge, 
 
 ---
 
+## v2.1.0 — Two-Mode Frontend Architecture (2026-08-29)
+
+Documentation updated to clearly distinguish **Component Mode** vs **Complete-Page Mode** as first-class frontend architectures.
+
+### Critical Frontend Rule (NEW)
+- AUREON supports TWO frontend modes
+- MODE A — Component Mode: AUREON composes UI from sections/components
+- MODE B — Complete-Page Mode: client provides complete HTML/CSS/JS, AUREON is data/business bridge only
+- Decision flowchart: determine mode FIRST before any implementation
+- NEVER convert a complete-page frontend into component mode
+
+### Documentation Updates
+- **TEMPLATE_REQUIREMENTS_FOR_CORE_THEME.md** (v2.0.0):
+  - Added CRITICAL FRONTEND RULE at top
+  - Added Complete-Page Mode Requirements (B.1-B.6): generic host, asset isolation, thin bridge, client contract, testing, acceptance checklist
+  - Reframed existing requirements as Component Mode Reference
+  - Added decision flowchart
+  - tokens.php now OPTIONAL for complete-page clients
+  - composer.php role clarified for both modes
+- **FRONTEND_REPLACEMENT_PROMPT.md** (v2.0.0):
+  - Added CRITICAL FRONTEND RULE at top
+  - Changed first step to "Determine Frontend Mode"
+  - Branched workflow into MODE A and MODE B
+  - MODE B workflow: forensic audit, immutable source, dependency classification, cleanup, normalization, template contract, assets manifest, JS compatibility map, complete-page host, thin bridge, verification
+  - DEFAULT CORE EDIT RULE: not absolute, generic reusable core changes allowed when proven necessary
+  - Added Complete-Page Acceptance Gate
+
+### Key Architecture Insight
+- Ferm Living integration proved Complete-Page Mode works: frozen DOM + thin bridge + no section splitting
+- Component Mode remains valid for clients who want AUREON to compose the UI
+- Core generic complete-page capabilities (ferm-page.php, assets.php, frontend.php) are reusable platform features, not Ferm-specific hacks
+
+### Verification
+- Commit `665640e` pushed to `origin/main`
+- Both documents now first-class for both modes
+
+---
+
 ## v1.3.0 — Frontend platform: M6–M10 design packs (2026-08-15)
 
 The AETHER frontend became a **design-pack platform** — one engine, multiple frontends, theme core untouched.

@@ -24,7 +24,7 @@ The AETHER frontend now has a **complete Ferm Living design pack** with frozen D
 
 **Repo state:** HEAD `c2269c4`, pushed; tag `v2.0.0-ferm-living`.
 
-**Documentation:** `docs/FRONTEND_REPLACEMENT_AND_EDITING_GUIDE.md` (authoritative guide), `docs/TEMPLATE_REQUIREMENTS_FOR_CORE_THEME.md` (template creation guide), `docs/FRONTEND_REPLACEMENT_PROMPT.md` (copy-paste prompt).
+**Documentation:** `docs/FRONTEND_REPLACEMENT_AND_EDITING_GUIDE.md` (authoritative guide), `docs/TEMPLATE_REQUIREMENTS_FOR_CORE_THEME.md` (template creation guide — two-mode architecture: Component Mode + Complete-Page Mode), `docs/FRONTEND_REPLACEMENT_PROMPT.md` (copy-paste prompt — two-mode workflow).
 
 ---
 
