@@ -81,13 +81,20 @@
                                    "page":  "account",
                                    "file":  "cdn/shop/t/164/assets/customer.5de68fbefc.js"
                                },
-                               {
-                                   "deps":  [
-                                                "ferm-data-shims"
-                                            ],
-                                   "page":  "product",
-                                   "file":  "cdn/shop/t/164/assets/product.fa97565a5f.js"
-                               }
+                                {
+                                    "deps":  [
+                                                 "ferm-data-shims"
+                                             ],
+                                    "page":  "product",
+                                    "file":  "cdn/shop/t/164/assets/product.fa97565a5f.js"
+                                },
+                                {
+                                    "deps":  [
+                                                 "ferm-data-shims"
+                                             ],
+                                    "page":  "cart",
+                                    "file":  "cdn/shop/t/164/assets/cart-page.ferm.js"
+                                }
                           ],
                    "css":  [
                                "cdn/shop/t/164/assets/fonts.space-grotesk.css",
