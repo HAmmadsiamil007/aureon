@@ -131,6 +131,15 @@ if ( $pack_url ) {
 	echo "  // For unknown paths, strip .html and point to site root\n";
 	echo "  else a.href=s+'/'+rest.replace(/\\.html$/,'');\n";
 	echo "});\n";
+	// Rewrite external _cdn.assets.struct.com URLs to local CDN
+	echo "document.querySelectorAll('[src],[href],[poster]').forEach(function(el){\n";
+	echo "  ['src','href','poster'].forEach(function(attr){\n";
+	echo "    var v=el.getAttribute(attr);\n";
+	echo "    if(v&&v.indexOf('../_cdn.assets.struct.com/')!==-1){\n";
+	echo "      el.setAttribute(attr,p+'_cdn.assets.struct.com/'+v.replace('..\\/',''));\n";
+	echo "    }\n";
+	echo "  });\n";
+	echo "});\n";
 	echo "})()\n";
 	echo "</script>\n";
 
@@ -160,6 +169,15 @@ if ( $pack_url ) {
 	echo "            return parts.join(' ');\n";
 	echo "          }).join(', ');\n";
 	echo "        }\n";
+	echo "      });\n";
+	// Rewrite _cdn.assets.struct.com in dynamically added elements
+	echo "      n.querySelectorAll('[src],[href],[poster]').forEach(function(el){\n";
+	echo "        ['src','href','poster'].forEach(function(attr){\n";
+	echo "          var v=el.getAttribute(attr);\n";
+	echo "          if(v&&v.indexOf('../_cdn.assets.struct.com/')!==-1){\n";
+	echo "            el.setAttribute(attr,p+'_cdn.assets.struct.com/'+v.replace('..\\/',''));\n";
+	echo "          }\n";
+	echo "        });\n";
 	echo "      });\n";
 	echo "    });\n";
 	echo "  });\n";
@@ -443,16 +461,62 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 		$content
 	);
 
-	// Rewrite <img srcset="cdn/..."> and srcset="../cdn/..."
+	// Rewrite ALL cdn/ URLs inside srcset attributes (each srcset has multiple comma-separated entries)
+	$content = preg_replace_callback(
+		'/(<img\s[^>]*srcset\s*=\s*["\'])([^"\']*)["\']/i',
+		function ( $m ) use ( $pack_url ) {
+			$prefix = $m[1];
+			$srcset = $m[2];
+			$rewritten = preg_replace(
+				'/(^|,\s*)((?:\.\.\/)?cdn\/)/',
+				'$1' . $pack_url . '$2',
+				$srcset
+			);
+			return $prefix . $rewritten . '"';
+		},
+		$content
+	);
+
+	// Rewrite ALL cdn/ URLs inside <source srcset="...">
+	$content = preg_replace_callback(
+		'/(<source\s[^>]*srcset\s*=\s*["\'])([^"\']*)["\']/i',
+		function ( $m ) use ( $pack_url ) {
+			$prefix = $m[1];
+			$srcset = $m[2];
+			$rewritten = preg_replace(
+				'/(^|,\s*)((?:\.\.\/)?cdn\/)/',
+				'$1' . $pack_url . '$2',
+				$srcset
+			);
+			return $prefix . $rewritten . '"';
+		},
+		$content
+	);
+
+	// Rewrite <source src="cdn/...">
 	$content = preg_replace(
-		'/(<img\s[^>]*srcset\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
+		'/(<source\s[^>]*\bsrc\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
 		'$1' . $pack_url . '$2',
 		$content
 	);
 
-	// Rewrite <source srcset="cdn/...">
+	// Rewrite external _cdn.assets.struct.com URLs to local CDN
 	$content = preg_replace(
-		'/(<source\s[^>]*srcset\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
+		'/\.\.\/_cdn\.assets\.struct\.com\//',
+		$pack_url . '_cdn.assets.struct.com/',
+		$content
+	);
+
+	// Rewrite protocol-relative //fermliving.com/cdn/... in any attribute
+	$content = preg_replace(
+		'/((?:poster|src|href|data-[a-z-]+)\s*=\s*["\'])\/\/fermliving\.com\/cdn\//i',
+		'$1' . $pack_url . 'cdn/',
+		$content
+	);
+
+	// Rewrite bare <a href="cdn/..."> links
+	$content = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?cdn\/)/i',
 		'$1' . $pack_url . '$2',
 		$content
 	);
