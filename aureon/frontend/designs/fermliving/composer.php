@@ -314,19 +314,19 @@ function ferm_build_cart_response() {
 		$product = $cart_item['data'];
 		if ( ! $product ) {
 			continue;
-		}
-		$items[] = array(
-			'id'            => $cart_item['product_id'],
-			'variant_id'    => isset( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : $cart_item['product_id'],
-			'quantity'      => $cart_item['quantity'],
-			'title'         => $product->get_name(),
-			'price'         => (int) round( (float) $product->get_price() * 100 ),
-			'line_price'    => (int) round( (float) $cart_item['line_total'] * 100 ),
-			'variant_title' => '',
-			'product_id'    => $cart_item['product_id'],
-			'url'           => get_permalink( $cart_item['product_id'] ),
-			'image'         => wp_get_attachment_url( $product->get_image_id() ),
-		);
+		}			$items[] = array(
+				'key'           => $cart_item_key,
+				'id'            => $cart_item['product_id'],
+				'variant_id'    => isset( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : $cart_item['product_id'],
+				'quantity'      => $cart_item['quantity'],
+				'title'         => $product->get_name(),
+				'price'         => (int) round( (float) $product->get_price() * 100 ),
+				'line_price'    => (int) round( (float) $cart_item['line_total'] * 100 ),
+				'variant_title' => '',
+				'product_id'    => $cart_item['product_id'],
+				'url'           => get_permalink( $cart_item['product_id'] ),
+				'image'         => wp_get_attachment_url( $product->get_image_id() ),
+			);
 	}
 	return array(
 		'item_count'  => $cart->get_cart_contents_count(),
@@ -365,8 +365,11 @@ function ferm_enqueue_cart_bridge() {
 	$queried_id   = get_queried_object_id();
 	$is_cart      = ( $cart_page_id && $queried_id === $cart_page_id )
 		|| ( isset( $_SERVER['REQUEST_URI'] ) && 0 === strpos( strtolower( wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) ), '/cart' ) );
-	if ( $is_cart && file_exists( get_template_directory() . '/frontend/designs/fermliving/cdn/shop/t/164/assets/cart-page.ferm.js' ) ) {
-		wp_enqueue_script( 'ferm-cart-page', $pack_url . 'cdn/shop/t/164/assets/cart-page.ferm.js', array( 'ferm-data-shims' ), '1.0.0', true );
+	if ( $is_cart ) {
+		$cart_js_path = WP_CONTENT_DIR . '/frontend/designs/fermliving/cdn/shop/t/164/assets/cart-page.ferm.js';
+		if ( file_exists( $cart_js_path ) ) {
+			wp_enqueue_script( 'ferm-cart-page', $pack_url . 'cdn/shop/t/164/assets/cart-page.ferm.js', array( 'ferm-data-shims' ), '1.0.0', true );
+		}
 	}
 }
 
@@ -414,6 +417,7 @@ function ferm_build_page_data() {
 			}
 			$image_id = $product->get_image_id();
 			$cart_items[] = array(
+				'key'           => $cart_item_key,
 				'id'            => $cart_item['product_id'],
 				'variant_id'    => isset( $cart_item['variation_id'] ) ? $cart_item['variation_id'] : $cart_item['product_id'],
 				'quantity'      => $cart_item['quantity'],
