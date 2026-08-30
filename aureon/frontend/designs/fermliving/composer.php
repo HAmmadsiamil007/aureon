@@ -371,6 +371,12 @@ function ferm_enqueue_cart_bridge() {
 			wp_enqueue_script( 'ferm-cart-page', $pack_url . 'cdn/shop/t/164/assets/cart-page.ferm.js', array( 'ferm-data-shims' ), '1.0.0', true );
 		}
 	}
+
+	// Enqueue search bridge on all complete-page routes.
+	$search_js_path = WP_CONTENT_DIR . '/frontend/designs/fermliving/cdn/shop/t/164/assets/search-bridge.js';
+	if ( file_exists( $search_js_path ) ) {
+		wp_enqueue_script( 'ferm-search-bridge', $pack_url . 'cdn/shop/t/164/assets/search-bridge.js', array( 'ferm-data-shims' ), '1.0.0', true );
+	}
 }
 
 // --- Inject FermPageData as inline script for collection/archive pages ---
