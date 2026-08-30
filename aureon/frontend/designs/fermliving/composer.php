@@ -255,6 +255,79 @@ function ferm_demo_categories( $items, $args ) {
 	return $result;
 }
 
+// --- Demo Content Filtering ---
+// When real client products exist, automatically hide products marked
+// aureon_demo=true from client-facing queries. Demo records are never
+// deleted — just filtered out when real content is present.
+add_action( 'woocommerce_product_query', 'ferm_filter_demo_products' );
+function ferm_filter_demo_products( $q ) {
+	static $in_filter = false;
+	if ( $in_filter || is_admin() ) {
+		return;
+	}
+	$in_filter = true;
+	$meta_query = $q->get( 'meta_query' );
+	if ( ! is_array( $meta_query ) ) {
+		$meta_query = array();
+	}
+	$meta_query[] = array(
+		'relation' => 'OR',
+		array(
+			'key'     => 'aureon_demo',
+			'compare' => 'NOT EXISTS',
+		),
+		array(
+			'key'     => 'aureon_demo',
+			'value'   => '1',
+			'compare' => '!=',
+		),
+	);
+	$q->set( 'meta_query', $meta_query );
+	$in_filter = false;
+}
+
+// Hide demo categories when real categories exist.
+// Uses a static guard to prevent recursion (get_terms triggers this filter).
+add_filter( 'get_terms', 'ferm_filter_demo_categories', 10, 3 );
+function ferm_filter_demo_categories( $terms, $taxonomies, $args ) {
+	static $in_filter = false;
+	if ( $in_filter || is_admin() || ! in_array( 'product_cat', (array) $taxonomies, true ) ) {
+		return $terms;
+	}
+	$in_filter = true;
+	// Check if any non-demo categories exist.
+	$real_ids = get_terms( array(
+		'taxonomy'   => 'product_cat',
+		'hide_empty' => false,
+		'meta_query' => array(
+			'relation' => 'OR',
+			array(
+				'key'     => 'aureon_demo_category',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => 'aureon_demo_category',
+				'value'   => '1',
+				'compare' => '!=',
+			),
+		),
+		'fields' => 'ids',
+	) );
+	$in_filter = false;
+	if ( is_wp_error( $real_ids ) || empty( $real_ids ) ) {
+		return $terms; // No real categories — show demo.
+	}
+	// Filter out demo categories from results.
+	if ( is_array( $terms ) ) {
+		$terms = array_filter( $terms, function( $term ) {
+			$demo = get_term_meta( $term->term_id, 'aureon_demo_category', true );
+			return '1' !== $demo;
+		} );
+		$terms = array_values( $terms );
+	}
+	return $terms;
+}
+
 // --- Cart AJAX Handlers ---
 add_action( 'wp_ajax_ferm_cart_add', 'ferm_wc_ajax_cart_add' );
 add_action( 'wp_ajax_nopriv_ferm_cart_add', 'ferm_wc_ajax_cart_add' );
@@ -905,6 +978,12 @@ function ferm_build_collection_data() {
 	}
 
 	$wc_products = wc_get_products( $args );
+
+	// Filter out demo products (aureon_demo=1) when real products exist.
+	$wc_products = array_filter( $wc_products, function( $product ) {
+		$demo = $product->get_meta( 'aureon_demo' );
+		return '1' !== $demo;
+	} );
 
 	foreach ( $wc_products as $product ) {
 		$image_id = $product->get_image_id();
