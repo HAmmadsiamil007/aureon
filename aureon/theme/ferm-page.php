@@ -641,12 +641,16 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 		);
 
 		// Inject WooCommerce login nonce (REQUIRED by WooCommerce)
+		// Target: after the submit button inside #customer_login form.
+		// Using submit-login id (unique to the Ferm login form) to avoid
+		// injecting into other forms (notification, recovery, etc.).
 		$nonce_value = wp_create_nonce( 'woocommerce-login' );
+		$nonce_input = '<input type="hidden" name="woocommerce-login-nonce" value="' . esc_attr( $nonce_value ) . '" />';
 		$content = preg_replace(
-			'/(<\/form>)/i',
-			'<input type="hidden" name="woocommerce-login-nonce" value="' . esc_attr( $nonce_value ) . '" />' . "\n" . '$1',
+			"/(<input[^>]*id=['\"\\x27]submit-login['\"\\x27][^>]*>)/i",
+			'$1' . "\n" . $nonce_input,
 			$content,
-			1 // Only replace first occurrence
+			1
 		);
 
 		// Rewrite lost password link: /account/login#recover -> WooCommerce lost password
@@ -656,8 +660,13 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 			$content
 		);
 
-		// Inject FermPageData for account state (logged-out only)
-		$bridge_script = '<script>window.FermPageData=window.FermPageData||{};window.FermPageData.customer={isLoggedIn:false,displayName:null};</script>';
+		// Inject FermPageData for account state (logged-out only).
+		// Use a DOMContentLoaded handler to set the values AFTER any other
+		// FermPageData initialization (e.g. AETHER's) has completed.
+		$bridge_script = '<script>document.addEventListener("DOMContentLoaded",function(){' .
+			'window.FermPageData=window.FermPageData||{};' .
+			'window.FermPageData.customer={isLoggedIn:false,displayName:null};' .
+			'});</script>';
 		$content = $bridge_script . $content;
 
 		// WooCommerce error notices are displayed via the notice system
