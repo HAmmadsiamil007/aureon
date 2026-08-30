@@ -601,6 +601,22 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 		$content
 	);
 
+	// Bare Shopify filenames: account.html, cart.html, checkout.html
+	$content = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?account\.html)(["\x27])/i',
+		'$1' . $site_url . '/my-account/$3',
+		$content
+	);
+	$content = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?cart\.html)(["\x27])/i',
+		'$1' . $site_url . '/cart/$3',
+		$content
+	);
+	$content = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?checkout\.html)(["\x27])/i',
+		'$1' . $site_url . '/checkout/$3',
+		$content
+	);
 	// === Account page: rewrite Shopify login form to WooCommerce ===
 	// Note: Logged-in users are already routed to WooCommerce template via
 	// aureon_ferm_template_include() in frontend.php. This code only runs
