@@ -1,0 +1,58 @@
+{
+  "id": "lumen",
+  "label": "Lumen — light editorial starter pack",
+  "version": "1.0.0",
+  "assets": {
+    "css": ["css/lumen.css"],
+    "js": [
+      { "file": "js/lumen.js", "deps": ["aether-main"] }
+    ]
+  },
+  "components": {
+    "overrides": {
+      "shell/header": "components/shell/header.php",
+      "shell/mobile-chrome": "components/shell/mobile-chrome.php",
+      "shell/footer": "components/shell/footer.php",
+      "hero/slider": "components/hero/slider.php",
+      "hero/slide": "components/hero/slide.php",
+      "card/product": "components/cards/product.php",
+      "card/category": "components/cards/category.php",
+      "card/blog": "components/cards/blog.php",
+      "section/header": "components/section/header.php"
+    }
+  },
+  "sections": {},
+  "mappings": {
+    "ui": [
+      { "client": "top navigation bar", "aether": "shell/header" },
+      { "client": "mobile drawer", "aether": "shell/mobile-chrome" },
+      { "client": "site footer", "aether": "shell/footer" },
+      { "client": "hero editorial block", "aether": "hero/slider + hero/slide" },
+      { "client": "product tiles", "aether": "card/product" },
+      { "client": "category tiles", "aether": "card/category" },
+      { "client": "article cards", "aether": "card/blog" },
+      { "client": "section headings", "aether": "section/header" }
+    ],
+    "components": ["shell/header", "shell/mobile-chrome", "shell/footer", "hero/slider", "hero/slide", "card/product", "card/category", "card/blog", "section/header"]
+  },
+  "data": {
+    "required": ["site", "header", "menu", "announcement", "hero", "wc-products", "wc-categories", "blog", "newsletter", "footer"],
+    "optional": ["product", "cart", "account", "order", "contact", "faq", "team", "testimonials", "wishlist", "auth", "coming-soon", "shop-hero", "wc-filter", "article"]
+  },
+  "integrations": {
+    "wordpress": ["nav menus", "pages", "blog"],
+    "woocommerce": ["shop grid", "product cards", "categories", "cart", "checkout", "account"],
+    "plugins": ["aureon newsletter", "aureon ajax", "aureon analytics"]
+  },
+  "js": {
+    "platform": ["animations.js (motion watchdog)", "main.js (AJAX cart, contact, newsletter, cart-count, search, drawer)"],
+    "design": {
+      "lumen.js": "delegated header scroll state + reveal fallback",
+      "classification": "KEEP platform js (aether-main, aether-animations, aether-countdown); ADAPT none; REPLACE none; MOVE INTO AETHER none; REMOVE lenis-scroll + phantom-bridge (luxury design choices)"
+    }
+  },
+  "customizer": {
+    "tokens": ["--gold", "--surface", "--font-heading", "--font-body"],
+    "controls": ["colors", "typography", "announcement", "hero repeater", "section toggles"]
+  }
+}

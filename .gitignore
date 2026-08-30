@@ -1,0 +1,54 @@
+# GeneratePress original files (not for distribution)
+generatepress/
+
+# Build artifacts
+*.zip
+*.tar.gz
+
+# Original source files (kept in assets/ instead)
+AUREON_framework_Bannar.jpeg
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# WordPress
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+
+# Logs
+*.log
+
+# Node modules
+node_modules/
+
+# Composer
+vendor/
+
+# Temporary files
+tmp/
+temp/
+
+# Playwright MCP test artifacts (may contain local dev credentials)
+.playwright-mcp/
+
+# Playwright test output
+frontend/tests/results/
+
+
+# Local install package (theme/ + plugin/ + engine staging copy)
+theme/
+
+# CDN images - served from Shopify CDN, not needed in git
+**/cdn/
+frontend/designs/fermliving-broken-v4.0.0-archive/assets/

@@ -1,0 +1,282 @@
+[
+  {
+    "id": "Homepage_1440",
+    "status": 200,
+    "imgs": 120,
+    "loadedImgs": 54,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Homepage_1024",
+    "status": 200,
+    "imgs": 120,
+    "loadedImgs": 58,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Homepage_768",
+    "status": 200,
+    "imgs": 120,
+    "loadedImgs": 45,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Homepage_390",
+    "status": 200,
+    "imgs": 120,
+    "loadedImgs": 56,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Product-Simple_1440",
+    "status": 200,
+    "imgs": 55,
+    "loadedImgs": 5,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Product-Simple_1024",
+    "status": 200,
+    "imgs": 55,
+    "loadedImgs": 5,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Product-Simple_768",
+    "status": 200,
+    "imgs": 55,
+    "loadedImgs": 5,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Product-Simple_390",
+    "status": 200,
+    "imgs": 55,
+    "loadedImgs": 5,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Product-Variable_1440",
+    "status": 200,
+    "imgs": 55,
+    "loadedImgs": 5,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Product-Variable_1024",
+    "status": 200,
+    "imgs": 55,
+    "loadedImgs": 5,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Product-Variable_768",
+    "status": 200,
+    "imgs": 55,
+    "loadedImgs": 5,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Product-Variable_390",
+    "status": 200,
+    "imgs": 55,
+    "loadedImgs": 5,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Collection-Lighting_1440",
+    "status": 200,
+    "imgs": 219,
+    "loadedImgs": 14,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Collection-Lighting_1024",
+    "status": 200,
+    "imgs": 219,
+    "loadedImgs": 14,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Collection-Lighting_768",
+    "status": 200,
+    "imgs": 219,
+    "loadedImgs": 10,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Collection-Lighting_390",
+    "status": 200,
+    "imgs": 219,
+    "loadedImgs": 62,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Cart_1440",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Cart_1024",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Cart_768",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Cart_390",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Checkout_1440",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Checkout_1024",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Checkout_768",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Checkout_390",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Contact_1440",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Contact_1024",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Contact_768",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  },
+  {
+    "id": "Contact_390",
+    "status": 200,
+    "imgs": 50,
+    "loadedImgs": 1,
+    "netBad": 0,
+    "consoleBad": 0,
+    "pageErrors": 0,
+    "ok": true
+  }
+]
