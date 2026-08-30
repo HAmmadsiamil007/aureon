@@ -207,6 +207,38 @@ if ( function_exists( 'is_account_page' ) && is_account_page() ) {
 	echo "</script>\n";
 }
 
+// --- Logo bridge: replace frozen SVG with WordPress custom_logo when set ---
+$custom_logo_id = get_theme_mod( 'custom_logo', '' );
+if ( $custom_logo_id ) {
+	$logo_url = wp_get_attachment_image_url( $custom_logo_id, 'full' );
+	if ( $logo_url ) {
+		echo "<script>\n";
+		echo "(function(){\n";
+		echo "var url='" . esc_js( $logo_url ) . "';\n";
+		echo "var logos=document.querySelectorAll('.header__logo,[data-header-logo]');\n";
+		echo "logos.forEach(function(el){\n";
+		echo "  var a=el.querySelector('a.logo,a[class*=logo]');\n";
+		echo "  if(!a)return;\n";
+		echo "  // Replace SVG with img. Keep original SVG hidden for reset.\n";
+		echo "  var svg=a.querySelector('svg');\n";
+		echo "  if(svg){svg.style.display='none';}\n";
+		echo "  // Remove any existing custom logo img first.\n";
+		echo "  var old=a.querySelector('img.aureon-custom-logo');\n";
+		echo "  if(old)old.remove();\n";
+		echo "  var img=document.createElement('img');\n";
+		echo "  img.src=url;\n";
+		echo "  img.alt='" . esc_js( get_bloginfo( 'name' ) ) . "';\n";
+		echo "  img.className='aureon-custom-logo';\n";
+		echo "  img.style.height='100%';\n";
+		echo "  img.style.width='auto';\n";
+		echo "  img.style.objectFit='contain';\n";
+		echo "  a.insertBefore(img,a.firstChild);\n";
+		echo "});\n";
+		echo "})()\n";
+		echo "</script>\n";
+	}
+}
+
 wp_footer();
 
 echo "\n</body>\n</html>\n";

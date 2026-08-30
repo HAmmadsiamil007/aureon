@@ -450,6 +450,14 @@ function ferm_enqueue_cart_bridge() {
 	if ( file_exists( $search_js_path ) ) {
 		wp_enqueue_script( 'ferm-search-bridge', $pack_url . 'cdn/shop/t/164/assets/search-bridge.js', array( 'ferm-data-shims' ), '1.0.0', true );
 	}
+
+	// Enqueue customizer bridge on all complete-page routes.
+	// Consumes FermPageData.customizer and updates frozen DOM with
+	// WordPress Customizer values (announcement, footer, social, colors, fonts).
+	$customizer_js_path = WP_CONTENT_DIR . '/frontend/designs/fermliving/cdn/shop/t/164/assets/customizer-bridge.js';
+	if ( file_exists( $customizer_js_path ) ) {
+		wp_enqueue_script( 'ferm-customizer-bridge', $pack_url . 'cdn/shop/t/164/assets/customizer-bridge.js', array( 'ferm-data-shims' ), '1.0.0', true );
+	}
 }
 
 // --- Inject FermPageData as inline script for collection/archive pages ---
@@ -597,6 +605,50 @@ function ferm_build_page_data() {
 	if ( ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) || is_page( 'shop' ) ) && ! is_product() ) {
 		$page_data['collection'] = ferm_build_collection_data();
 	}
+
+	// --- Customizer content bridge ---
+	// Provides AETHER Customizer values to the Ferm frontend so that
+	// client-configurable content (hero, announcement, footer, newsletter,
+	// social, site identity) is available via FermPageData.customizer.
+	// The frozen HTML provides defaults; Customizer values override when set.
+	$page_data['customizer'] = array(
+		'site' => array(
+			'name'        => get_bloginfo( 'name' ),
+			'description' => get_bloginfo( 'description' ),
+			'logo_url'    => function_exists( 'has_custom_logo' ) && has_custom_logo()
+				? wp_get_attachment_image_url( get_theme_mod( 'custom_logo', '' ), 'full' )
+				: '',
+		),
+		'announcement' => aureon_get_option( 'aether_announcement_items', array() ),
+		'hero'         => array_filter(
+			aureon_get_option( 'aether_hero_slides', array() ),
+			function( $slide ) {
+				return ! empty( $slide['visible'] );
+			}
+		),
+		'categories'   => aureon_get_option( 'aether_category_items', array() ),
+		'footer'       => aureon_get_option( 'aether_footer_columns', array() ),
+		'newsletter'   => array(
+			'heading'  => aureon_get_option( 'aether_newsletter_heading', '' ),
+			'text'     => aureon_get_option( 'aether_newsletter_text', '' ),
+			'subtitle' => aureon_get_option( 'aether_newsletter_subtitle', '' ),
+		),
+		'social'       => aureon_get_option( 'aether_social_items', array() ),
+		'usp_items'    => aureon_get_option( 'aether_footer_usp_items', array() ),
+		'colors'       => array(
+			'bg'           => aureon_get_option( 'aether_color_bg', '' ),
+			'surface'      => aureon_get_option( 'aether_color_surface', '' ),
+			'text'         => aureon_get_option( 'aether_color_text', '' ),
+			'muted'        => aureon_get_option( 'aether_color_muted', '' ),
+			'accent'       => aureon_get_option( 'aether_color_accent', '' ),
+			'accent_hover' => aureon_get_option( 'aether_color_accent_hover', '' ),
+			'border'       => aureon_get_option( 'aether_color_border', '' ),
+		),
+		'fonts'        => array(
+			'heading' => aureon_get_option( 'aether_font_heading', '' ),
+			'body'    => aureon_get_option( 'aether_font_body', '' ),
+		),
+	);
 
 	return $page_data;
 }
