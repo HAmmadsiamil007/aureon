@@ -32,10 +32,10 @@ function aether_design_enqueue_assets() {
 		return; // Luxury handled by the theme bridge (aureon_aether_enqueue_assets).
 	}
 
-	$base_uri = trailingslashit( get_template_directory_uri() ) . 'frontend/assets';
-	$base_dir = trailingslashit( get_template_directory() ) . 'frontend/assets';
-	$pack_uri = trailingslashit( get_template_directory_uri() ) . 'frontend/designs/' . $design;
-	$pack_dir = trailingslashit( get_template_directory() ) . 'frontend/designs/' . $design;
+	$base_uri = trailingslashit( content_url() ) . 'frontend/assets';
+	$base_dir = trailingslashit( WP_CONTENT_DIR ) . 'frontend/assets';
+	$pack_uri = trailingslashit( content_url() ) . 'frontend/designs/' . $design;
+	$pack_dir = trailingslashit( WP_CONTENT_DIR ) . 'frontend/designs/' . $design;
 
 	// --- Complete-page isolation: skip ALL platform CDNs and contract JS ---
 	if ( aether_is_complete_page_design() ) {

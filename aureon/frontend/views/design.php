@@ -48,7 +48,7 @@ function aether_active_design() {
 	// Resolve the default BEFORE caching: a truthy slug is cached as-is,
 	// an empty one must fall back to 'luxury' on every call — caching the
 	// raw value would make later calls in the same request return ''.
-	$design = $design ? $design : 'luxury';
+	$design = $design ? $design : 'fermliving';
 
 	return $design;
 }
@@ -84,7 +84,7 @@ function aether_pack_url() {
 		return '';
 	}
 
-	return trailingslashit( get_template_directory_uri() ) . 'frontend/designs/' . $design . '/';
+	return trailingslashit( content_url() ) . 'frontend/designs/' . $design . '/';
 }
 
 /**

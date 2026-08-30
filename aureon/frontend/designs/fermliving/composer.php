@@ -264,6 +264,7 @@ add_action( 'wp_ajax_ferm_cart_get', 'ferm_wc_ajax_cart_get' );
 add_action( 'wp_ajax_nopriv_ferm_cart_get', 'ferm_wc_ajax_cart_get' );
 
 function ferm_wc_ajax_cart_add() {
+	check_ajax_referer( 'ferm_cart_nonce', 'nonce' );
 	if ( ! function_exists( 'WC' ) ) {
 		wp_send_json_error( 'WooCommerce not available' );
 	}
@@ -282,6 +283,7 @@ function ferm_wc_ajax_cart_add() {
 }
 
 function ferm_wc_ajax_cart_update() {
+	check_ajax_referer( 'ferm_cart_nonce', 'nonce' );
 	if ( ! function_exists( 'WC' ) ) {
 		wp_send_json_error( 'WooCommerce not available' );
 	}
@@ -297,6 +299,7 @@ function ferm_wc_ajax_cart_update() {
 }
 
 function ferm_wc_ajax_cart_get() {
+	check_ajax_referer( 'ferm_cart_nonce', 'nonce' );
 	if ( ! function_exists( 'WC' ) ) {
 		wp_send_json_error( 'WooCommerce not available' );
 	}
