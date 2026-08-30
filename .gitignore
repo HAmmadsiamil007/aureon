@@ -46,9 +46,11 @@ temp/
 frontend/tests/results/
 
 
-# Local install package (theme/ + plugin/ + engine staging copy)
-theme/
+# Local install package (root-level staging copy only)
+/theme/
 
 # CDN images - served from Shopify CDN, not needed in git
-**/cdn/
+# Exception: active Ferm pack needs CDN assets for ferm-page.php rewrites
+frontend/designs/*/cdn/
+!frontend/designs/fermliving/cdn/
 frontend/designs/fermliving-broken-v4.0.0-archive/assets/
