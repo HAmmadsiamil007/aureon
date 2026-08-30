@@ -273,7 +273,9 @@ function aureon_aether_wc_page_templates( $template ) {
 		return get_template_directory() . '/checkout/form-checkout.php';
 	}
 
-	if ( is_account_page() ) {
+	// Skip account pages when a complete-page design is active —
+	// ferm-page.php will serve the pack's account template instead.
+	if ( is_account_page() && ! ( function_exists( 'aether_is_complete_page_design' ) && aether_is_complete_page_design() ) ) {
 		return get_template_directory() . '/myaccount/my-account.php';
 	}
 
@@ -307,8 +309,9 @@ function aureon_ferm_template_include( $template ) {
 		return $template;
 	}
 
-	// Account pages must use WooCommerce's native template.
-	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+	// Logged-in account pages: use WooCommerce's native account template.
+	// The frozen login.html is only for the logged-out state.
+	if ( is_user_logged_in() && is_account_page() ) {
 		return $template;
 	}
 

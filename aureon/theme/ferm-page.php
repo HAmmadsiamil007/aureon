@@ -183,6 +183,26 @@ if ( $pack_url ) {
 	echo "  });\n";
 	echo "});\n";
 	echo "obs.observe(document.documentElement,{childList:true,subtree:true});\n";
+echo "})()\n";
+echo "</script>\n";
+}
+
+// Account page: enable the Ferm login submit button and bridge form to WP
+if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+	echo "<script>\n";
+	echo "(function(){\n";
+	// Enable submit button immediately and on any input
+	echo "var f=document.getElementById('customer_login');\n";
+	echo "if(f){\n";
+	echo "  var b=f.querySelector('input[type=submit],button[type=submit]');\n";
+	echo "  if(b){b.disabled=false;}\n";
+	echo "  f.querySelectorAll('input').forEach(function(i){\n";
+	echo "    i.addEventListener('input',function(){if(b)b.disabled=false;});\n";
+	echo "  });\n";
+	// Fix lost-password link
+	echo "  var lp=f.querySelector('a[href*=\"#recover\"]');\n";
+	echo "    if(lp){lp.href='" . esc_js( wp_lostpassword_url() ) . "';}\n";
+	echo "}\n";
 	echo "})()\n";
 	echo "</script>\n";
 }
@@ -580,6 +600,70 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 		'$1' . $site_url . '/$3$5',
 		$content
 	);
+
+	// === Account page: rewrite Shopify login form to WooCommerce ===
+	// Note: Logged-in users are already routed to WooCommerce template via
+	// aureon_ferm_template_include() in frontend.php. This code only runs
+	// for logged-out users seeing the frozen login.html.
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+
+		// Rewrite form action: /account/login -> /my-account/ (WooCommerce contract)
+		$content = preg_replace(
+			'/(<form\s[^>]*action\s*=\s*["\x27])\/account\/login(["\x27])/i',
+			'$1' . esc_url( home_url( '/my-account/' ) ) . '$2',
+			$content
+		);
+
+		// Rewrite email field: customer[email] -> username (WooCommerce contract)
+		$content = preg_replace(
+			'/name\s*=\s*["\x27]customer\[email\]["\x27]/i',
+			'name="username"',
+			$content
+		);
+
+		// Rewrite password field: customer[password] -> password (WooCommerce contract)
+		$content = preg_replace(
+			'/name\s*=\s*["\x27]customer\[password\]["\x27]/i',
+			'name="password"',
+			$content
+		);
+
+		// Remove Shopify hidden inputs (form_type, utf8)
+		$content = preg_replace(
+			'/<input\s+type=["\x27]hidden["\x27]\s+name=["\x27]form_type["\x27]\s+value=["\x27]customer_login["\x27]\s*\/?>/i',
+			'',
+			$content
+		);
+		$content = preg_replace(
+			'/<input\s+type=["\x27]hidden["\x27]\s+name=["\x27]utf8["\x27]\s+value=["\x27]\?["\x27]\s*\/?>/i',
+			'',
+			$content
+		);
+
+		// Inject WooCommerce login nonce (REQUIRED by WooCommerce)
+		$nonce_value = wp_create_nonce( 'woocommerce-login' );
+		$content = preg_replace(
+			'/(<\/form>)/i',
+			'<input type="hidden" name="woocommerce-login-nonce" value="' . esc_attr( $nonce_value ) . '" />' . "\n" . '$1',
+			$content,
+			1 // Only replace first occurrence
+		);
+
+		// Rewrite lost password link: /account/login#recover -> WooCommerce lost password
+		$content = preg_replace(
+			'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?account\/login\.html)(#[^"\x27]*)?(["\x27])/i',
+			'$1' . esc_url( wc_lostpassword_url() ) . '$4',
+			$content
+		);
+
+		// Inject FermPageData for account state (logged-out only)
+		$bridge_script = '<script>window.FermPageData=window.FermPageData||{};window.FermPageData.customer={isLoggedIn:false,displayName:null};</script>';
+		$content = $bridge_script . $content;
+
+		// WooCommerce error notices are displayed via the notice system
+		// when the page reloads after form submission. No need to create
+		// new DOM elements for error display.
+	}
 
 	return $content;
 }
