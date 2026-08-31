@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-design="testclient">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Client — Homepage</title>
+</head>
+<body class="tc-active" data-template="index" data-client="testclient">
+  <!-- Unique header — testclient only -->
+  <header class="tc-header">
+    <div class="tc-header__logo">Test Client</div>
+    <nav class="tc-header__nav">
+      <a href="/" class="tc-header__nav-link">Home</a>
+      <a href="/shop/" class="tc-header__nav-link">Shop</a>
+      <a href="/about" class="tc-header__nav-link">About</a>
+      <a href="/contact" class="tc-header__nav-link">Contact</a>
+      <a href="/cart/" class="tc-header__nav-link tc-header__nav-link--cart">
+        Cart <span class="tc-header__cart-count">0</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Unique hero — testclient only -->
+  <section class="tc-hero">
+    <h1 class="tc-hero__title">Welcome to Test Client</h1>
+    <p class="tc-hero__subtitle">Isolation verification pack for Golden AUREON platform</p>
+  </section>
+
+  <!-- Unique product grid — testclient only -->
+  <section class="tc-products">
+    <h2 class="tc-products__title">Featured Products</h2>
+    <div class="tc-products__grid">
+      <div class="tc-product-card tc-animate-on-scroll">
+        <img class="tc-product-card__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23FF6B35' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='14' fill='white' text-anchor='middle' dy='.3em'%3EProduct 1%3C/text%3E%3C/svg%3E" alt="Product 1">
+        <div class="tc-product-card__info">
+          <span class="tc-product-card__badge">New</span>
+          <h3 class="tc-product-card__title">Test Product Alpha</h3>
+          <div class="tc-product-card__price">€99.00</div>
+          <button class="tc-product-card__add-to-cart" data-product-id="834">Add to Cart</button>
+        </div>
+      </div>
+      <div class="tc-product-card tc-animate-on-scroll">
+        <img class="tc-product-card__image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect fill='%23004E89' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='14' fill='white' text-anchor='middle' dy='.3em'%3EProduct 2%3C/text%3E%3C/svg%3E" alt="Product 2">
+        <div class="tc-product-card__info">
+          <span class="tc-product-card__badge">Sale</span>
+          <h3 class="tc-product-card__title">Test Product Beta</h3>
+          <div class="tc-product-card__price">€149.00</div>
+          <button class="tc-product-card__add-to-cart" data-product-id="828">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Unique newsletter — testclient only -->
+  <section class="tc-newsletter">
+    <h2 class="tc-newsletter__title">Stay Updated</h2>
+    <p class="tc-newsletter__text">Subscribe to our newsletter for the latest updates.</p>
+    <form class="tc-newsletter__form">
+      <input type="email" class="tc-newsletter__input" placeholder="Enter your email" required>
+      <button type="submit" class="tc-newsletter__button">Subscribe</button>
+    </form>
+  </section>
+
+  <!-- Unique footer — testclient only -->
+  <footer class="tc-footer">
+    <div class="tc-footer__links">
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
+    <div class="tc-footer__copyright">
+      © 2026 Test Client — Isolation Verification Pack
+    </div>
+  </footer>
+
+  <!-- Unique identifier in HTML — testclient only -->
+  <div id="tc-isolation-marker" data-client="testclient" data-version="1.0.0" style="display:none;">
+    TESTCLIENT_ISOLATION_PROOF
+  </div>
+</body>
+</html>
