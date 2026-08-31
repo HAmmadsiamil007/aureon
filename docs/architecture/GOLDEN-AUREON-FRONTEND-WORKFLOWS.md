@@ -83,6 +83,26 @@ client-state translation
 business-action translation
 ```
 
+### Demo Reference System (FALLBACK CONTENT)
+
+```
+curated demo manifests
+approved source URLs
+demo products
+demo categories
+default assets
+fallback content
+```
+
+**Purpose:** Make a newly installed client website beautiful before the client has entered their own content.
+
+**Rules:**
+- Ferm Living is DEMO ONLY, not production content
+- Demo content disappears globally when ANY real content exists
+- Demo records are NEVER automatically destroyed
+- No automatic scraping — manual URL updates only
+- Demo products MUST NOT be purchasable
+
 ---
 
 ## Golden Core Protection Rules
@@ -91,6 +111,7 @@ business-action translation
 GOLDEN CORE = PLATFORM
 CLIENT PACK = PRESENTATION
 BRIDGE = CONNECTOR
+DEMO SYSTEM = FALLBACK CONTENT PROVIDER
 
 Never solve a client presentation problem by modifying the Golden Core.
 
@@ -210,6 +231,11 @@ Completely different frontend?
 8. Only active client pack loads presentation assets
 9. Demo content is non-destructive
 10. Existing proven features remain regression references
+11. Demo products MUST NOT be purchasable
+12. Demo content disappears globally when ANY real content exists
+13. Demo records are NEVER automatically destroyed
+14. No automatic scraping — manual URL updates only
+15. Client-scoped demo content (each client has its own demo manifest)
 
 ---
 
@@ -263,6 +289,7 @@ These must not be lost during any frontend workflow:
 | [NEW-CLIENT-TEMPLATE-CREATION-PLAN.md](NEW-CLIENT-TEMPLATE-CREATION-PLAN.md) | Prepare new client frontend |
 | [FRONTEND-REPLACEMENT-PLAN.md](FRONTEND-REPLACEMENT-PLAN.md) | Replace current client |
 | [FRONTEND-EDIT-PLAN.md](FRONTEND-EDIT-PLAN.md) | Edit existing client |
+| [DEMO-REFERENCE-CONTENT-SYSTEM.md](DEMO-REFERENCE-CONTENT-SYSTEM.md) | Demo content architecture |
 
 ---
 
