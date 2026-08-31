@@ -31,11 +31,26 @@
 
 ```
 CONTENT SOURCE
-├── DEMO (curated reference data)
+├── DEMO REFERENCE DATA (JSON/client-pack)
+│   └── demo-products.json, demo-categories.json, demo-assets.json
+│   └── Never in WooCommerce database
+│   └── Presentation-only fallback
+│
+├── DEMO WOOCOMMERCE RECORDS (optional)
+│   └── WC products with aureon_demo=1 meta
+│   └── WC categories with aureon_demo_category=1 meta
+│   └── Filtered from queries when real content exists
+│
 └── REAL (WordPress/WooCommerce data)
+    └── Published, public, not marked demo
+    └── Standard WooCommerce behavior
 ```
 
 The frontend receives normalized presentation data and must NOT need to know whether the source is DEMO or REAL.
+
+**IMPORTANT:** The two demo sources are NOT the same thing:
+- JSON demo data = lightweight presentation fallback (preferred)
+- WC demo records = optional database records (filtered when real exists)
 
 ### 2. Global Replacement Rule
 
@@ -94,10 +109,11 @@ Demo assets may reference curated remote URLs:
 ```json
 {
   "src": "https://fermliving.com/...",
-  "source": "fermliving.com",
+  "source_site": "fermliving.com",
   "last_verified": "2026-08-31",
   "fallback": "gradient",
-  "alt": "Product image"
+  "required": true,
+  "description": "Hero image for demo homepage"
 }
 ```
 
@@ -106,18 +122,49 @@ Demo assets may reference curated remote URLs:
 - Manual URL updates only
 - Fallback required for every remote asset
 - Source tracking for maintainability
+- `required: true` = critical asset, fallback must exist
+- `required: false` = optional, failure is non-critical
 
 ### Fallback Hierarchy
 
 ```
-CUSTOM CLIENT ASSET
-        ↓
-ACTIVE CLIENT DEFAULT
-        ↓
-GENERIC AUREON DEFAULT
-        ↓
-neutral safe fallback
+CUSTOM VALUE (Customizer)
+        ↓ if empty
+ACTIVE CLIENT DEMO DEFAULT (demo-assets.json)
+        ↓ if empty
+STATIC CLIENT FALLBACK (frozen HTML)
+        ↓ if empty
+GENERIC SAFE FALLBACK (neutral placeholder)
 ```
+
+### Asset Resolution Flow
+
+```
+1. Check Customizer value
+   → validate it actually resolves to usable content
+   → not merely: setting != empty
+   → if valid, use it
+   → if invalid/broken, continue
+
+2. Check demo-assets.json
+   → if entry exists, use it
+   → if empty, continue
+
+3. Check frozen HTML default
+   → if present, use it
+   → if empty, continue
+
+4. Use neutral fallback
+   → gradient, text, or placeholder
+   → never show broken frontend
+```
+
+This ensures:
+- Custom content always wins (when valid)
+- Demo content provides beautiful defaults
+- Frozen HTML provides structural fallback
+- Neutral fallback prevents empty states
+- Broken custom values fall through to demo
 
 ---
 
@@ -132,11 +179,21 @@ aureon_demo = 1  // WooCommerce product meta
 ### Real Product Definition
 
 ```
-REAL CLIENT PRODUCT
-= published WooCommerce product
-AND
-aureon_demo != 1
+REAL CLIENT PRODUCT =
+  published
+  + public/catalog-eligible
+  + not marked demo (aureon_demo != 1)
 ```
+
+**Excludes:**
+- trash
+- draft
+- private
+- pending
+- auto-draft
+- subscription/internal/admin-only
+
+This prevents a product created during setup from triggering demo hiding before the client has actually published a real product.
 
 ### Behavior
 
@@ -184,10 +241,10 @@ aureon_demo_category = 1  // WordPress term meta
 ### Real Category Definition
 
 ```
-REAL CLIENT CATEGORY
-= valid/public category
-AND
-aureon_demo_category != 1
+REAL CLIENT CATEGORY =
+  valid/public WooCommerce category
+  + not marked demo (aureon_demo_category != 1)
+  + has published products (hide_empty semantics)
 ```
 
 ### Behavior
@@ -232,19 +289,38 @@ client-pack/
 ```json
 {
   "logo": {
-    "src": "https://fermliving.com/...",
-    "source": "fermliving.com",
-    "last_verified": "2026-08-31",
-    "fallback": "site-name-text"
+    "src": "",
+    "type": "text",
+    "fallback": "Ferm Living"
   },
   "hero": {
-    "src": "https://fermliving.com/...",
-    "source": "fermliving.com",
-    "last_verified": "2026-08-31",
-    "fallback": "gradient-overlay"
+    "headline": "Step into the void",
+    "accent": "Void Series",
+    "subline": "Precision-cut garments engineered in the dark.",
+    "badge": "New Drop",
+    "image": "cdn/shop/files/hero-void-series.png",
+    "primary_cta": {
+      "label": "Shop the collection",
+      "url": "/collections/furniture/"
+    },
+    "secondary_cta": {
+      "label": "Explore",
+      "url": "/collections/furniture/"
+    },
+    "fallback": {
+      "type": "gradient",
+      "colors": ["#1a1a1a", "#2d2d2d"]
+    }
+  },
+  "heading": {
+    "text": "Ferm Living",
+    "subline": "Contemporary Scandinavian design for modern living.",
+    "fallback": "Welcome"
   }
 }
 ```
+
+**Resolution:** Customizer value → demo-assets.json → frozen HTML → neutral fallback
 
 ### demo-products.json
 
@@ -281,16 +357,26 @@ client-pack/
 
 | Setting | Custom Value | Demo/Default |
 |---------|--------------|--------------|
-| Logo | Custom logo uploaded | Site name text or demo logo |
-| Hero | Custom hero slides | Demo/default hero slides |
-| Heading | Custom heading | Demo/default heading |
+| Logo | Custom logo uploaded | demo-assets.json logo → site name text |
+| Hero | Custom hero slides | demo-assets.json hero → frozen HTML default |
+| Heading | Custom heading | demo-assets.json heading → frozen HTML default |
 | Announcement | Custom announcement | Demo/default announcement |
 | Footer | Custom footer columns | Demo/default footer |
 | Social | Custom social links | Demo/default social links |
 
+**Resolution Chain:**
+```
+1. Customizer value exists → use Customizer
+2. Customizer empty → use demo-assets.json
+3. demo-assets.json empty → use frozen HTML default
+4. frozen HTML empty → use neutral fallback
+```
+
 **Rules:**
 - Custom value exists → show custom
-- Custom missing → show demo/default
+- Custom missing → show demo from manifest
+- Demo missing → show frozen HTML default
+- All missing → show neutral fallback
 - Custom removed → demo/default automatically returns
 
 ---

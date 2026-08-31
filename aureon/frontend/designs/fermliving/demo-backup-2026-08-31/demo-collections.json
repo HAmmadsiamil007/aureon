@@ -1,0 +1,62 @@
+[
+  {
+    "source": "demo",
+    "demo_id": "new-arrivals",
+    "name": "New Arrivals",
+    "slug": "new-arrivals",
+    "description": "Discover the latest additions to the Ferm Living collection.",
+    "image": "https://cdn.shopify.com/s/files/1/0651/5765/8498/files/New-Arrivals.jpg?v=1719750000",
+    "product_count": 24,
+    "url": "/collections/new-arrivals/",
+    "source_site": "fermliving.com",
+    "last_verified": "2026-08-31"
+  },
+  {
+    "source": "demo",
+    "demo_id": "bestsellers",
+    "name": "Bestsellers",
+    "slug": "bestsellers",
+    "description": "Our most popular products loved by customers worldwide.",
+    "image": "https://cdn.shopify.com/s/files/1/0651/5765/8498/files/Bestsellers.jpg?v=1719750000",
+    "product_count": 36,
+    "url": "/collections/bestsellers/",
+    "source_site": "fermliving.com",
+    "last_verified": "2026-08-31"
+  },
+  {
+    "source": "demo",
+    "demo_id": "certified",
+    "name": "Certified",
+    "slug": "certified",
+    "description": "Sustainably produced furniture and accessories.",
+    "image": "https://cdn.shopify.com/s/files/1/0651/5765/8498/files/Certified.jpg?v=1719750000",
+    "product_count": 48,
+    "url": "/collections/certified/",
+    "source_site": "fermliving.com",
+    "last_verified": "2026-08-31"
+  },
+  {
+    "source": "demo",
+    "demo_id": "gift-guide",
+    "name": "Gift Guide",
+    "slug": "gift-guide",
+    "description": "Perfect gifts for design lovers.",
+    "image": "https://cdn.shopify.com/s/files/1/0651/5765/8498/files/Gift-Guide.jpg?v=1719750000",
+    "product_count": 32,
+    "url": "/collections/gift-guide/",
+    "source_site": "fermliving.com",
+    "last_verified": "2026-08-31"
+  },
+  {
+    "source": "demo",
+    "demo_id": "sale",
+    "name": "Sale",
+    "slug": "sale",
+    "description": "Great deals on selected Ferm Living products.",
+    "image": "https://cdn.shopify.com/s/files/1/0651/5765/8498/files/Sale.jpg?v=1719750000",
+    "product_count": 18,
+    "url": "/collections/sale/",
+    "source_site": "fermliving.com",
+    "last_verified": "2026-08-31"
+  }
+]

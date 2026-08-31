@@ -1,0 +1,10 @@
+/* Space Grotesk — Self-hosted (replaces Google Fonts CDN) */
+/* Source: Google Fonts, OFL License */
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('./SpaceGrotesk-Regular.woff2') format('woff2');
+}

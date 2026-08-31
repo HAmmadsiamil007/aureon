@@ -197,7 +197,7 @@ function aureon_ferm_resolve_page() {
 		}
 
 		// Single product.
-		if ( is_product() ) {
+		if ( function_exists( 'is_product' ) && is_product() ) {
 			$slug = get_query_var( 'product' );
 			if ( $slug && ! empty( $pages['products'][ $slug ] ) ) {
 				return $pages['products'][ $slug ];
@@ -209,14 +209,14 @@ function aureon_ferm_resolve_page() {
 		}
 
 		// Product archive / shop page.
-		if ( is_post_type_archive( 'product' ) || is_page( 'shop' ) ) {
+		if ( function_exists( 'is_post_type_archive' ) && is_post_type_archive( 'product' ) || is_page( 'shop' ) ) {
 			if ( ! empty( $pages['collections'] ) && is_array( $pages['collections'] ) ) {
 				return reset( $pages['collections'] );
 			}
 		}
 
 		// Product category.
-		if ( is_tax( 'product_cat' ) ) {
+		if ( function_exists( 'is_tax' ) && is_tax( 'product_cat' ) ) {
 			$slug = get_query_var( 'product_cat' );
 			if ( $slug && ! empty( $pages['collections'][ $slug ] ) ) {
 				return $pages['collections'][ $slug ];
@@ -235,7 +235,7 @@ function aureon_ferm_resolve_page() {
 		}
 
 		// Blog / posts archive.
-		if ( is_home() || is_post_type_archive( 'post' ) || is_page( 'blog' ) || is_page( 'stories' ) ) {
+		if ( is_home() || ( function_exists( 'is_post_type_archive' ) && is_post_type_archive( 'post' ) ) || is_page( 'blog' ) || is_page( 'stories' ) ) {
 			if ( ! empty( $pages['blog'] ) ) {
 				return $pages['blog'];
 			}
@@ -270,7 +270,7 @@ function aureon_ferm_resolve_page() {
 	}
 
 	// Single product.
-	if ( is_product() ) {
+	if ( function_exists( 'is_product' ) && is_product() ) {
 		$slug = get_query_var( 'product' );
 		if ( $slug ) {
 			$file = 'products/' . $slug . '.html';
@@ -290,12 +290,12 @@ function aureon_ferm_resolve_page() {
 	}
 
 	// Product archive / shop page.
-	if ( is_post_type_archive( 'product' ) || is_page( 'shop' ) ) {
+	if ( function_exists( 'is_post_type_archive' ) && is_post_type_archive( 'product' ) || is_page( 'shop' ) ) {
 		return 'collections/furniture.html';
 	}
 
 	// Product category.
-	if ( is_tax( 'product_cat' ) ) {
+	if ( function_exists( 'is_tax' ) && is_tax( 'product_cat' ) ) {
 		$slug = get_query_var( 'product_cat' );
 		if ( $slug ) {
 			$file = 'collections/' . $slug . '.html';

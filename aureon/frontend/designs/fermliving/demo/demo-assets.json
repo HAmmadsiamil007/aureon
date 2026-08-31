@@ -1,28 +1,121 @@
 {
   "source": "fermliving.com",
   "type": "demo-reference",
-  "note": "DEMO ONLY — NOT PRODUCTION CONTENT. Manual URL updates only.",
+  "version": "2.0.0",
+  "note": "DEMO ONLY — NOT PRODUCTION CONTENT. One-time curated catalog snapshot.",
+  "fetched_at": "2026-08-31",
   "last_verified": "2026-08-31",
+  "cdn_domain": "cdn.shopify.com/s/files/1/0150/3336/8640/",
   "assets": {
     "logo": {
       "src": "",
       "type": "text",
-      "fallback": "Ferm Living"
+      "fallback": "Ferm Living",
+      "required": true,
+      "source_site": "fermliving.com",
+      "last_verified": "2026-08-31",
+      "description": "Demo logo"
     },
     "hero": {
-      "images": [],
+      "headline": "Space to feel comfortably you",
+      "accent": "New Collection",
+      "subline": "Discover furniture and accessories crafted in the Danish design tradition.",
+      "badge": "AW25",
+      "image": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/1104272949_1.png?v=1772689540",
+      "primary_cta": {
+        "label": "Shop the collection",
+        "url": "/collections/all/"
+      },
+      "secondary_cta": {
+        "label": "Explore furniture",
+        "url": "/collections/furniture/"
+      },
       "fallback": {
         "type": "gradient",
-        "colors": ["#1a1a1a", "#2d2d2d"]
-      }
+        "colors": [
+          "#1a1a1a",
+          "#2d2d2d"
+        ]
+      },
+      "required": true,
+      "source_site": "fermliving.com",
+      "last_verified": "2026-08-31",
+      "description": "Demo hero"
+    },
+    "heading": {
+      "text": "Ferm Living",
+      "subline": "Contemporary Scandinavian design for modern living.",
+      "fallback": "Welcome",
+      "required": true,
+      "source_site": "fermliving.com",
+      "last_verified": "2026-08-31",
+      "description": "Demo heading"
     },
     "products": {
-      "source_dir": "cdn/shop/files/",
-      "fallback": "cdn/shop/t/164/assets/product-placeholder.022235256c.webp"
+      "source_dir": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/",
+      "fallback": "",
+      "required": true,
+      "source_site": "fermliving.com",
+      "last_verified": "2026-08-31",
+      "description": "Demo product images"
     },
     "categories": {
-      "source_dir": "cdn/shop/files/",
-      "fallback": "cdn/shop/t/164/assets/product-placeholder.022235256c.webp"
+      "images": {
+        "furniture": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/1104272949_1.png?v=1772689540",
+        "lighting": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/996299_1104269285_1.png?v=1762180208",
+        "accessories": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/563508_1104269968_1.png?v=1762179857",
+        "kids": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/99362_1104272384_1.png?v=1762178161",
+        "kitchen": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/299588_1104272000_1.png?v=1762177885",
+        "textiles": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/1104272800_1.png?v=1772689767",
+        "rugs": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/1004650_1104269977_1.png?v=1762180105",
+        "outdoor": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/1104272746_1.png?v=1772688684",
+        "sofas": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/1450325_1104272255_1.png?v=1762178089"
+      },
+      "fallback": "",
+      "required": true,
+      "source_site": "fermliving.com",
+      "last_verified": "2026-08-31",
+      "description": "Demo category images"
+    },
+    "editorial": {
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/1104272949_1.png?v=1772689540",
+        "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/996299_1104269285_1.png?v=1762180208",
+        "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/563508_1104269968_1.png?v=1762179857"
+      ],
+      "fallback": {
+        "type": "gradient",
+        "colors": [
+          "#f5f0e8",
+          "#e8e0d0"
+        ]
+      },
+      "required": false,
+      "source_site": "fermliving.com",
+      "last_verified": "2026-08-31",
+      "description": "Demo editorial images"
+    },
+    "newsletter": {
+      "heading": "Ferm Living news",
+      "text": "Get exclusive drops, early access, and Ferm Living news.",
+      "fallback": "Stay connected",
+      "required": false,
+      "source_site": "fermliving.com",
+      "last_verified": "2026-08-31",
+      "description": "Demo newsletter"
+    },
+    "collections": {
+      "images": {
+        "new-arrivals": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/1104272949_1.png?v=1772689540",
+        "bestsellers": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/996299_1104269285_1.png?v=1762180208",
+        "certified": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/99362_1104272384_1.png?v=1762178161",
+        "sale": "https://cdn.shopify.com/s/files/1/0150/3336/8640/files/563508_1104269968_1.png?v=1762179857"
+      },
+      "fallback": "",
+      "required": false,
+      "source_site": "fermliving.com",
+      "last_verified": "2026-08-31",
+      "description": "Demo collection images"
     }
   }
 }

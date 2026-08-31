@@ -191,17 +191,29 @@ function ferm_demo_products( $items, $query_args ) {
 	if ( ! is_array( $raw ) ) {
 		return $items;
 	}
+
+	// Normalize: handle both wrapped {products: [...]} and legacy flat array.
+	if ( isset( $raw['products'] ) && is_array( $raw['products'] ) ) {
+		$raw = $raw['products'];
+	}
+
 	$pack_url = aether_pack_url();
 	$result   = array();
 	foreach ( $raw as $product ) {
+		if ( ! is_array( $product ) ) {
+			continue;
+		}
 		$image = isset( $product['image'] ) ? $product['image'] : '';
 		if ( $image && strpos( $image, 'http' ) === false ) {
 			$image = $pack_url . $image;
 		}
+		// Use demo_id for stable identification, fall back to numeric id.
+		$demo_id = isset( $product['demo_id'] ) ? $product['demo_id'] : ( isset( $product['id'] ) ? (int) $product['id'] : 0 );
 		$result[] = array(
 			'source'          => 'demo',
 			'business_id'     => null,
-			'id'              => isset( $product['id'] ) ? (int) $product['id'] : 0,
+			'id'              => $demo_id,
+			'demo_id'         => $demo_id,
 			'name'            => isset( $product['name'] ) ? $product['name'] : '',
 			'price'           => isset( $product['price'] ) ? $product['price'] : '',
 			'price_plain'     => isset( $product['price'] ) ? $product['price'] : '',
@@ -243,9 +255,18 @@ function ferm_demo_categories( $items, $args ) {
 	if ( ! is_array( $raw ) ) {
 		return $items;
 	}
+
+	// Normalize: handle both wrapped {categories: [...]} and legacy flat array.
+	if ( isset( $raw['categories'] ) && is_array( $raw['categories'] ) ) {
+		$raw = $raw['categories'];
+	}
+
 	$pack_url = aether_pack_url();
 	$result   = array();
 	foreach ( $raw as $cat ) {
+		if ( ! is_array( $cat ) ) {
+			continue;
+		}
 		$image = isset( $cat['image'] ) ? $cat['image'] : '';
 		if ( $image && strpos( $image, 'http' ) === false ) {
 			$image = $pack_url . $image;
@@ -269,11 +290,25 @@ function ferm_demo_categories( $items, $args ) {
 	return $result;
 }
 
-// --- Demo Mode Configuration ---
-// Demo modes: 'auto' (default), 'force_demo', 'disabled'
-// AUTO: real content exists → hide demos; no real → show demos
-// FORCE_DEMO: show demos regardless of real content
-// DISABLED: never show demo content
+/**
+ * Demo Mode Configuration
+ *
+ * Demo modes:
+ *   'auto'       → real content exists → hide demos; no real → show demos
+ *   'force_demo' → show demos regardless of real content (admin/dev only)
+ *   'disabled'   → never show demo content (client handoff)
+ *
+ * MODE SCOPE:
+ *   AUTO       → client/default
+ *   FORCE_DEMO → admin/development/demo environment only
+ *   DISABLED   → client handoff when real content is complete
+ *
+ * FORCE_DEMO controls PRESENTATION only — it does NOT:
+ *   - delete real WooCommerce data
+ *   - hide real products from admin
+ *   - affect checkout/cart for real products
+ *   - modify WooCommerce business logic
+ */
 function ferm_get_demo_mode() {
 	$mode = aureon_get_option( 'aether_demo_mode', 'auto' );
 	if ( ! in_array( $mode, array( 'auto', 'force_demo', 'disabled' ), true ) ) {
@@ -295,7 +330,18 @@ function ferm_show_demo_content() {
 	return true; // Default — filtering happens at query level.
 }
 
-// --- Check if real products exist (not demo) ---
+/**
+ * Check if real products exist (not demo).
+ *
+ * REAL CLIENT PRODUCT =
+ *   published
+ *   + public/catalog-eligible
+ *   + not marked demo (aureon_demo != 1)
+ *
+ * Excludes: trash, draft, private, pending, auto-draft.
+ * This prevents a product created during setup from triggering
+ * demo hiding before the client has actually published a real product.
+ */
 function ferm_has_real_products() {
 	static $has_real = null;
 	if ( null !== $has_real ) {
@@ -303,11 +349,40 @@ function ferm_has_real_products() {
 	}
 	$count = wp_count_posts( 'product' );
 	$published = isset( $count->publish ) ? (int) $count->publish : 0;
-	$has_real = $published > 0;
+	if ( $published <= 0 ) {
+		$has_real = false;
+		return false;
+	}
+	// Verify at least one published product is not demo and is public.
+	$real_query = new WP_Query( array(
+		'post_type'      => 'product',
+		'post_status'    => 'publish',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+		'meta_query'     => array(
+			array(
+				'key'     => 'aureon_demo',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => 'aureon_demo',
+				'value'   => '1',
+				'compare' => '!=',
+			),
+		),
+	) );
+	$has_real = ! empty( $real_query->posts );
 	return $has_real;
 }
 
-// --- Check if real categories exist (not demo) ---
+/**
+ * Check if real categories exist (not demo).
+ *
+ * REAL CLIENT CATEGORY =
+ *   valid/public WooCommerce category
+ *   + not marked demo (aureon_demo_category != 1)
+ *   + has published products (hide_empty=true semantics)
+ */
 function ferm_has_real_categories() {
 	static $has_real = null;
 	if ( null !== $has_real ) {
@@ -315,17 +390,37 @@ function ferm_has_real_categories() {
 	}
 	$terms = get_terms( array(
 		'taxonomy'   => 'product_cat',
-		'hide_empty' => false,
+		'hide_empty' => true,
 		'fields'     => 'ids',
+		'meta_query' => array(
+			array(
+				'key'     => 'aureon_demo_category',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => 'aureon_demo_category',
+				'value'   => '1',
+				'compare' => '!=',
+			),
+		),
 	) );
 	$has_real = ! is_wp_error( $terms ) && count( $terms ) > 0;
 	return $has_real;
 }
 
-// --- Demo Content Filtering ---
-// When real client products exist, automatically hide products marked
-// aureon_demo=true from client-facing queries. Demo records are never
-// deleted — just filtered out when real content is present.
+/**
+ * Demo Content Filtering — Products
+ *
+ * When real client products exist, automatically hide products marked
+ * aureon_demo=true from client-facing queries. Demo records are never
+ * deleted — just filtered out when real content is present.
+ *
+ * DEMO FILTERS ARE PRESENTATION/QUERY CONTROLS,
+ * NOT DESTRUCTIVE ADMIN DATA DELETION.
+ *
+ * Scope: front-end only (is_admin() check).
+ * Admin products list shows ALL products including demo.
+ */
 add_action( 'woocommerce_product_query', 'ferm_filter_demo_products' );
 function ferm_filter_demo_products( $q ) {
 	static $in_filter = false;
@@ -333,39 +428,74 @@ function ferm_filter_demo_products( $q ) {
 		return;
 	}
 	$in_filter = true;
-	$meta_query = $q->get( 'meta_query' );
-	if ( ! is_array( $meta_query ) ) {
-		$meta_query = array();
+
+	// Only filter when real products exist or FORCE_DEMO is active.
+	$mode = ferm_get_demo_mode();
+	if ( 'disabled' === $mode ) {
+		$in_filter = false;
+		return;
 	}
-	$meta_query[] = array(
-		'relation' => 'OR',
-		array(
-			'key'     => 'aureon_demo',
-			'compare' => 'NOT EXISTS',
-		),
-		array(
-			'key'     => 'aureon_demo',
-			'value'   => '1',
-			'compare' => '!=',
-		),
-	);
-	$q->set( 'meta_query', $meta_query );
+
+	// Check if any real (non-demo) products exist.
+	$has_real = ferm_has_real_products();
+
+	if ( 'force_demo' === $mode ) {
+		// FORCE_DEMO: show everything including demo — don't filter.
+		$in_filter = false;
+		return;
+	}
+
+	// AUTO mode: if real products exist, filter out demo products.
+	if ( $has_real ) {
+		$meta_query = $q->get( 'meta_query' );
+		if ( ! is_array( $meta_query ) ) {
+			$meta_query = array();
+		}
+		$meta_query[] = array(
+			'relation' => 'OR',
+			array(
+				'key'     => 'aureon_demo',
+				'compare' => 'NOT EXISTS',
+			),
+			array(
+				'key'     => 'aureon_demo',
+				'value'   => '1',
+				'compare' => '!=',
+			),
+		);
+		$q->set( 'meta_query', $meta_query );
+	}
+
 	$in_filter = false;
 }
 
-// Hide demo categories when real categories exist.
-// Uses a static guard to prevent recursion (get_terms triggers this filter).
+/**
+ * Demo Content Filtering — Categories
+ *
+ * When real categories exist, hide demo categories from results.
+ * Uses a static guard to prevent recursion (get_terms triggers this filter).
+ *
+ * Scope: front-end only (is_admin() check).
+ * Admin category list shows ALL categories including demo.
+ */
 add_filter( 'get_terms', 'ferm_filter_demo_categories', 10, 3 );
 function ferm_filter_demo_categories( $terms, $taxonomies, $args ) {
 	static $in_filter = false;
 	if ( $in_filter || is_admin() || ! in_array( 'product_cat', (array) $taxonomies, true ) ) {
 		return $terms;
 	}
+
+	$mode = ferm_get_demo_mode();
+	if ( 'disabled' === $mode || 'force_demo' === $mode ) {
+		return $terms;
+	}
+
 	$in_filter = true;
+
 	// Check if any non-demo categories exist.
 	$real_ids = get_terms( array(
 		'taxonomy'   => 'product_cat',
-		'hide_empty' => false,
+		'hide_empty' => true,
 		'meta_query' => array(
 			'relation' => 'OR',
 			array(
@@ -403,6 +533,17 @@ add_action( 'wp_ajax_nopriv_ferm_cart_update', 'ferm_wc_ajax_cart_update' );
 add_action( 'wp_ajax_ferm_cart_get', 'ferm_wc_ajax_cart_get' );
 add_action( 'wp_ajax_nopriv_ferm_cart_get', 'ferm_wc_ajax_cart_get' );
 
+/**
+ * Cart AJAX: Add to Cart
+ *
+ * CART SAFETY — MULTI-LAYER PROTECTION:
+ * 1. Frontend guard: demo products have purchasable=false, button hidden
+ * 2. AJAX business-boundary guard: this function checks aureon_demo meta
+ * 3. Server-side purchase validation: WC checkout validates product status
+ *
+ * DEMO PRODUCT → never purchasable, never addable to cart,
+ *                never allowed into checkout, never orderable.
+ */
 function ferm_wc_ajax_cart_add() {
 	check_ajax_referer( 'ferm_cart_nonce', 'nonce' );
 	if ( ! function_exists( 'WC' ) ) {
@@ -413,14 +554,32 @@ function ferm_wc_ajax_cart_add() {
 	if ( ! $product_id ) {
 		wp_send_json_error( 'Invalid product' );
 	}
+
 	// --- CART SAFETY: Demo products must not enter real cart ---
+	// This is the business-boundary guard. Even if the frontend guard is
+	// bypassed (direct request, malicious input), this check prevents
+	// demo products from entering the real WooCommerce cart.
 	$product = wc_get_product( $product_id );
-	if ( $product ) {
-		$demo_flag = $product->get_meta( 'aureon_demo' );
-		if ( '1' === $demo_flag ) {
-			wp_send_json_error( 'Demo products are not available for purchase' );
-		}
+	if ( ! $product ) {
+		wp_send_json_error( 'Product not found' );
 	}
+
+	// Check 1: Demo flag.
+	$demo_flag = $product->get_meta( 'aureon_demo' );
+	if ( '1' === $demo_flag ) {
+		wp_send_json_error( 'Demo products are not available for purchase' );
+	}
+
+	// Check 2: Product must be published and publicly visible.
+	if ( 'publish' !== $product->get_status() ) {
+		wp_send_json_error( 'Product is not available' );
+	}
+
+	// Check 3: Product must be in stock.
+	if ( ! $product->is_in_stock() ) {
+		wp_send_json_error( 'Product is out of stock' );
+	}
+
 	$added = WC()->cart->add_to_cart( $product_id, $quantity );
 	if ( $added ) {
 		$response = ferm_build_cart_response();
@@ -686,21 +845,64 @@ function ferm_build_page_data() {
 	// client-configurable content (hero, announcement, footer, newsletter,
 	// social, site identity) is available via FermPageData.customizer.
 	// The frozen HTML provides defaults; Customizer values override when set.
+	// Demo fallback: when Customizer values are empty, demo assets from
+	// demo/demo-assets.json are used as intermediate fallback.
+	$demo_manifest = ferm_load_demo_assets();
+	$demo_assets   = isset( $demo_manifest['assets'] ) ? $demo_manifest['assets'] : array();
+
+	// Logo: Custom → demo → site name text.
+	$custom_logo = function_exists( 'has_custom_logo' ) && has_custom_logo()
+		? wp_get_attachment_image_url( get_theme_mod( 'custom_logo', '' ), 'full' )
+		: '';
+	$demo_logo = '';
+	if ( empty( $custom_logo ) && ! empty( $demo_assets['logo']['src'] ) ) {
+		$demo_logo = $demo_assets['logo']['src'];
+		if ( strpos( $demo_logo, 'http' ) === false ) {
+			$demo_logo = aether_pack_url() . $demo_logo;
+		}
+	}
+
+	// Hero: Custom → demo → frozen HTML default.
+	$custom_hero = array_filter(
+		aureon_get_option( 'aether_hero_slides', array() ),
+		function( $slide ) {
+			return ! empty( $slide['visible'] );
+		}
+	);
+	$demo_hero = array();
+	if ( empty( $custom_hero ) && ! empty( $demo_assets['hero'] ) ) {
+		$hero = $demo_assets['hero'];
+		$hero_image = isset( $hero['image'] ) ? $hero['image'] : '';
+		if ( $hero_image && strpos( $hero_image, 'http' ) === false ) {
+			$hero_image = aether_pack_url() . $hero_image;
+		}
+		$demo_hero[] = array(
+			'visible'      => true,
+			'title'        => isset( $hero['headline'] ) ? $hero['headline'] : '',
+			'subtitle'     => isset( $hero['subline'] ) ? $hero['subline'] : '',
+			'accent'       => isset( $hero['accent'] ) ? $hero['accent'] : '',
+			'badge'        => isset( $hero['badge'] ) ? $hero['badge'] : '',
+			'image'        => $hero_image,
+			'primary_cta'  => isset( $hero['primary_cta'] ) ? $hero['primary_cta'] : array(),
+			'secondary_cta'=> isset( $hero['secondary_cta'] ) ? $hero['secondary_cta'] : array(),
+		);
+	}
+
+	// Heading: Custom → demo → frozen HTML default.
+	$custom_heading = aureon_get_option( 'aether_site_heading', '' );
+	$demo_heading   = '';
+	if ( empty( $custom_heading ) && ! empty( $demo_assets['heading']['text'] ) ) {
+		$demo_heading = $demo_assets['heading']['text'];
+	}
+
 	$page_data['customizer'] = array(
 		'site' => array(
 			'name'        => get_bloginfo( 'name' ),
 			'description' => get_bloginfo( 'description' ),
-			'logo_url'    => function_exists( 'has_custom_logo' ) && has_custom_logo()
-				? wp_get_attachment_image_url( get_theme_mod( 'custom_logo', '' ), 'full' )
-				: '',
+			'logo_url'    => $custom_logo ? $custom_logo : $demo_logo,
 		),
 		'announcement' => aureon_get_option( 'aether_announcement_items', array() ),
-		'hero'         => array_filter(
-			aureon_get_option( 'aether_hero_slides', array() ),
-			function( $slide ) {
-				return ! empty( $slide['visible'] );
-			}
-		),
+		'hero'         => ! empty( $custom_hero ) ? $custom_hero : $demo_hero,
 		'categories'   => aureon_get_option( 'aether_category_items', array() ),
 		'footer'       => aureon_get_option( 'aether_footer_columns', array() ),
 		'newsletter'   => array(
@@ -710,6 +912,7 @@ function ferm_build_page_data() {
 		),
 		'social'       => aureon_get_option( 'aether_social_items', array() ),
 		'usp_items'    => aureon_get_option( 'aether_footer_usp_items', array() ),
+		'heading'      => $custom_heading ? $custom_heading : $demo_heading,
 		'colors'       => array(
 			'bg'           => aureon_get_option( 'aether_color_bg', '' ),
 			'surface'      => aureon_get_option( 'aether_color_surface', '' ),

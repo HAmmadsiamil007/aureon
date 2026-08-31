@@ -21,8 +21,19 @@
   if (!d || typeof d !== "object") return;
 
   // --- Logo ---
-  // Handled server-side by ferm-page.php (custom_logo → img injection).
-  // Client-side: nothing needed here.
+  // Server-side provides FermPageData.customizer.site.logo_url
+  // (Custom logo → demo logo → site name text).
+  // Client-side: update the logo element if a URL is provided.
+  if (d.site && d.site.logo_url) {
+    var logoImg = document.querySelector(
+      '[data-logo],[class*=header] img[class*=logo],[class*=logo] img,.logo img'
+    );
+    if (logoImg && logoImg.tagName === 'IMG') {
+      logoImg.src = d.site.logo_url;
+      logoImg.alt = d.site.name || 'Logo';
+      logoImg.style.display = '';
+    }
+  }
 
   // --- Announcement bar items ---
   // The announcement bar rotates through items in a marquee/ticker.
@@ -135,11 +146,54 @@
     }
   }
 
+  // --- Hero fallback ---
+  // If Customizer or demo provides hero slides, update the frozen DOM.
+  // Demo hero data is already merged server-side into FermPageData.customizer.hero.
+  if (d.hero && d.hero.length) {
+    var heroSection = document.querySelector(
+      '[data-hero],[data-section-type=hero],[class*=hero],[class*=slideshow]'
+    );
+    if (heroSection) {
+      var heroSlide = d.hero[0]; // Primary slide.
+      if (heroSlide) {
+        // Update headline.
+        var headline = heroSection.querySelector(
+          '[data-hero-headline],[class*=hero] [class*=headline],[class*=hero] h1,[class*=hero] h2'
+        );
+        if (headline && heroSlide.title) headline.textContent = heroSlide.title;
+
+        // Update subline.
+        var subline = heroSection.querySelector(
+          '[data-hero-subline],[class*=hero] [class*=subline],[class*=hero] p'
+        );
+        if (subline && heroSlide.subtitle) subline.textContent = heroSlide.subtitle;
+
+        // Update hero image.
+        var heroImg = heroSection.querySelector(
+          '[data-hero-image] img,[class*=hero] img,[class*=slideshow] img'
+        );
+        if (heroImg && heroSlide.image) {
+          heroImg.src = heroSlide.image;
+          heroImg.alt = heroSlide.title || '';
+        }
+      }
+    }
+  }
+
+  // --- Heading fallback ---
+  // If Customizer or demo provides a heading, update the site heading element.
+  if (d.heading) {
+    var headingEl = document.querySelector(
+      '[data-site-heading],[class*=header] [class*=site-name],[class*=logo] [class*=text]'
+    );
+    if (headingEl) headingEl.textContent = d.heading;
+  }
+
   // --- Categories title/label ---
   if (d.categories && d.categories.length) {
     // Category items are in the frozen HTML — update only text labels.
     var catTitle = document.querySelector(
-      "[data-categories-title],[class*=categories] [class*=heading],[class*=categories] h2"
+      '[data-categories-title],[class*=categories] [class*=heading],[class*=categories] h2'
     );
     // Don't overwrite — categories title comes from aether_categories_title.
   }
@@ -175,4 +229,57 @@
       root2.style.setProperty("--aureon-font-body", d.fonts.body);
     }
   }
+
+  // ========================================================================
+  // REMOTE DEMO ASSET RUNTIME FALLBACK
+  // ========================================================================
+  // Handles failed remote demo images at runtime.
+  // Required invariant:
+  //   REMOTE DEMO ASSET
+  //     → LOAD OK: use remote
+  //     → LOAD FAIL: use fallback, no broken-image icon, no fatal error
+  //
+  // This is critical for InfinityFree and shared hosting where external
+  // URLs may be slow, blocked, or unavailable.
+  // ========================================================================
+  var DEMO_PLACEHOLDER = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjVmMGU4Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSIgZmlsbD0iIzg4OCI+TG9hZGluZy4uLjwvdGV4dD48L3N2Zz4=';
+
+  // Fallback handler for all images on the page.
+  // Detects failed loads and replaces with a safe neutral placeholder.
+  function fermHandleImageFallback(img) {
+    if (!img || img.getAttribute('data-fallback-applied') === 'true') return;
+
+    var src = img.getAttribute('src') || '';
+    if (!src || src.indexOf('data:') === 0) return; // Already a data URI.
+
+    img.setAttribute('data-fallback-applied', 'true');
+    img.style.objectFit = 'contain';
+    img.style.backgroundColor = '#f5f0e8';
+    img.src = DEMO_PLACEHOLDER;
+  }
+
+  // Attach fallback to all current images.
+  document.querySelectorAll('img').forEach(function(img) {
+    img.addEventListener('error', function() {
+      fermHandleImageFallback(this);
+    });
+  });
+
+  // MutationObserver: catch any dynamically added images.
+  var fallbackObserver = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      mutation.addedNodes.forEach(function(node) {
+        if (!node.querySelectorAll) return;
+        node.querySelectorAll('img').forEach(function(img) {
+          img.addEventListener('error', function() {
+            fermHandleImageFallback(this);
+          });
+        });
+      });
+    });
+  });
+  fallbackObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true
+  });
 })();
