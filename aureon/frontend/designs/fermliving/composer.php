@@ -179,7 +179,11 @@ function ferm_newsletter_data( $data ) {
 add_filter( 'aether_demo_products', 'ferm_demo_products', 10, 2 );
 function ferm_demo_products( $items, $query_args ) {
 	$pack_dir = aether_active_design_dir();
-	$json_file = $pack_dir . 'data/products.json';
+	$json_file = $pack_dir . 'demo/demo-products.json';
+	if ( ! file_exists( $json_file ) ) {
+		// Fallback to legacy location.
+		$json_file = $pack_dir . 'data/products.json';
+	}
 	if ( ! file_exists( $json_file ) ) {
 		return $items;
 	}
@@ -195,23 +199,27 @@ function ferm_demo_products( $items, $query_args ) {
 			$image = $pack_url . $image;
 		}
 		$result[] = array(
-			'id'             => isset( $product['id'] ) ? (int) $product['id'] : 0,
-			'name'           => isset( $product['name'] ) ? $product['name'] : '',
-			'price'          => isset( $product['price'] ) ? $product['price'] : '',
-			'price_plain'    => isset( $product['price'] ) ? $product['price'] : '',
+			'source'          => 'demo',
+			'business_id'     => null,
+			'id'              => isset( $product['id'] ) ? (int) $product['id'] : 0,
+			'name'            => isset( $product['name'] ) ? $product['name'] : '',
+			'price'           => isset( $product['price'] ) ? $product['price'] : '',
+			'price_plain'     => isset( $product['price'] ) ? $product['price'] : '',
+			'price_cents'     => isset( $product['price_cents'] ) ? (int) $product['price_cents'] : 0,
 			'old_price_plain' => '',
-			'tagline'        => isset( $product['tagline'] ) ? $product['tagline'] : '',
-			'rating'         => 0,
-			'reviews'        => 0,
-			'image'          => $image,
-			'alt'            => isset( $product['name'] ) ? $product['name'] : '',
-			'url'            => isset( $product['url'] ) ? esc_url_raw( $product['url'] ) : '',
-			'badge'          => isset( $product['badge'] ) ? $product['badge'] : '',
+			'tagline'         => isset( $product['tagline'] ) ? $product['tagline'] : '',
+			'rating'          => 0,
+			'reviews'         => 0,
+			'image'           => $image,
+			'alt'             => isset( $product['name'] ) ? $product['name'] : '',
+			'url'             => isset( $product['url'] ) ? $product['url'] : '#',
+			'badge'           => isset( $product['badge'] ) ? $product['badge'] : '',
+			'purchasable'     => false,
 			'add_to_cart_url' => '',
-			'product_type'   => 'simple',
-			'behavior'       => array( 'tilt' => true ),
-			'badges'         => isset( $product['badge'] ) && $product['badge'] ? array( $product['badge'] ) : array(),
-			'swatches'       => isset( $product['colors'] ) ? ferm_format_swatches( $product['colors'], $product['url'] ?? '' ) : array(),
+			'product_type'    => 'simple',
+			'behavior'        => array( 'tilt' => true ),
+			'badges'          => isset( $product['badge'] ) && $product['badge'] ? array( $product['badge'] ) : array(),
+			'swatches'        => isset( $product['colors'] ) ? ferm_format_swatches( $product['colors'], $product['url'] ?? '' ) : array(),
 		);
 	}
 	$per_page = isset( $query_args['posts_per_page'] ) ? (int) $query_args['posts_per_page'] : 8;
@@ -223,7 +231,11 @@ function ferm_demo_products( $items, $query_args ) {
 add_filter( 'aether_demo_categories', 'ferm_demo_categories', 10, 2 );
 function ferm_demo_categories( $items, $args ) {
 	$pack_dir  = aether_active_design_dir();
-	$json_file = $pack_dir . 'data/categories.json';
+	$json_file = $pack_dir . 'demo/demo-categories.json';
+	if ( ! file_exists( $json_file ) ) {
+		// Fallback to legacy location.
+		$json_file = $pack_dir . 'data/categories.json';
+	}
 	if ( ! file_exists( $json_file ) ) {
 		return $items;
 	}
@@ -238,21 +250,76 @@ function ferm_demo_categories( $items, $args ) {
 		if ( $image && strpos( $image, 'http' ) === false ) {
 			$image = $pack_url . $image;
 		}
-		$count_label = isset( $cat['count'] ) ? $cat['count'] : '';
-		if ( is_numeric( $count_label ) ) {
-			$count_label = sprintf( _n( '%d Product', '%d Products', (int) $count_label, 'aureon' ), (int) $count_label );
+		$count_label = isset( $cat['count_label'] ) ? $cat['count_label'] : '';
+		if ( ! $count_label && isset( $cat['count'] ) ) {
+			$count = (int) $cat['count'];
+			$count_label = sprintf( _n( '%d Product', '%d Products', $count, 'aureon' ), $count );
 		}
 		$result[] = array(
-			'name'      => isset( $cat['name'] ) ? $cat['name'] : '',
-			'count'     => $count_label,
-			'image'     => $image,
-			'alt'       => isset( $cat['name'] ) ? sprintf( __( 'Shop %s', 'aureon' ), $cat['name'] ) : '',
-			'url'       => isset( $cat['url'] ) ? $cat['url'] : '#',
-			'modifier'  => isset( $cat['modifier'] ) ? $cat['modifier'] : '',
-			'behavior'  => array( 'reveal' => true ),
+			'source'   => 'demo',
+			'name'     => isset( $cat['name'] ) ? $cat['name'] : '',
+			'count'    => $count_label,
+			'image'    => $image,
+			'alt'      => isset( $cat['name'] ) ? sprintf( __( 'Shop %s', 'aureon' ), $cat['name'] ) : '',
+			'url'      => isset( $cat['url'] ) ? $cat['url'] : '#',
+			'modifier' => isset( $cat['modifier'] ) ? $cat['modifier'] : '',
+			'behavior' => array( 'reveal' => true ),
 		);
 	}
 	return $result;
+}
+
+// --- Demo Mode Configuration ---
+// Demo modes: 'auto' (default), 'force_demo', 'disabled'
+// AUTO: real content exists → hide demos; no real → show demos
+// FORCE_DEMO: show demos regardless of real content
+// DISABLED: never show demo content
+function ferm_get_demo_mode() {
+	$mode = aureon_get_option( 'aether_demo_mode', 'auto' );
+	if ( ! in_array( $mode, array( 'auto', 'force_demo', 'disabled' ), true ) ) {
+		$mode = 'auto';
+	}
+	return $mode;
+}
+
+// --- Check if demo content should be shown ---
+function ferm_show_demo_content() {
+	$mode = ferm_get_demo_mode();
+	if ( 'disabled' === $mode ) {
+		return false;
+	}
+	if ( 'force_demo' === $mode ) {
+		return true;
+	}
+	// AUTO mode: show demo only when no real content exists.
+	return true; // Default — filtering happens at query level.
+}
+
+// --- Check if real products exist (not demo) ---
+function ferm_has_real_products() {
+	static $has_real = null;
+	if ( null !== $has_real ) {
+		return $has_real;
+	}
+	$count = wp_count_posts( 'product' );
+	$published = isset( $count->publish ) ? (int) $count->publish : 0;
+	$has_real = $published > 0;
+	return $has_real;
+}
+
+// --- Check if real categories exist (not demo) ---
+function ferm_has_real_categories() {
+	static $has_real = null;
+	if ( null !== $has_real ) {
+		return $has_real;
+	}
+	$terms = get_terms( array(
+		'taxonomy'   => 'product_cat',
+		'hide_empty' => false,
+		'fields'     => 'ids',
+	) );
+	$has_real = ! is_wp_error( $terms ) && count( $terms ) > 0;
+	return $has_real;
 }
 
 // --- Demo Content Filtering ---
@@ -345,6 +412,14 @@ function ferm_wc_ajax_cart_add() {
 	$quantity   = isset( $_POST['quantity'] ) ? absint( $_POST['quantity'] ) : 1;
 	if ( ! $product_id ) {
 		wp_send_json_error( 'Invalid product' );
+	}
+	// --- CART SAFETY: Demo products must not enter real cart ---
+	$product = wc_get_product( $product_id );
+	if ( $product ) {
+		$demo_flag = $product->get_meta( 'aureon_demo' );
+		if ( '1' === $demo_flag ) {
+			wp_send_json_error( 'Demo products are not available for purchase' );
+		}
 	}
 	$added = WC()->cart->add_to_cart( $product_id, $quantity );
 	if ( $added ) {
@@ -1081,6 +1156,64 @@ function ferm_build_collection_data() {
 		'product_count' => count( $products ),
 		'products'    => $products,
 	);
+}
+
+// --- Demo Asset Manifest ---
+// Loads demo asset configuration from the pack's demo/ directory.
+function ferm_load_demo_assets() {
+	$pack_dir = aether_active_design_dir();
+	$json_file = $pack_dir . 'demo/demo-assets.json';
+	if ( ! file_exists( $json_file ) ) {
+		return array();
+	}
+	$raw = json_decode( (string) file_get_contents( $json_file ), true );
+	return is_array( $raw ) ? $raw : array();
+}
+
+// --- Demo Asset Resolver ---
+// Resolves a demo asset URL with fallback hierarchy:
+// 1. Custom client asset
+// 2. Active client demo/default
+// 3. Generic AUREON fallback
+function ferm_resolve_demo_asset( $type, $key = '' ) {
+	$manifest = ferm_load_demo_assets();
+	$pack_url = aether_pack_url();
+	
+	if ( empty( $manifest['assets'][ $type ] ) ) {
+		return '';
+	}
+	
+	$asset = $manifest['assets'][ $type ];
+	
+	// Check for custom value first (from Customizer).
+	$custom_key = 'aether_demo_' . $type;
+	if ( $key ) {
+		$custom_key .= '_' . $key;
+	}
+	$custom = aureon_get_option( $custom_key, '' );
+	if ( $custom ) {
+		return $custom;
+	}
+	
+	// Use demo asset from manifest.
+	if ( isset( $asset['src'] ) && $asset['src'] ) {
+		$src = $asset['src'];
+		if ( strpos( $src, 'http' ) === false && $pack_url ) {
+			$src = $pack_url . $src;
+		}
+		return $src;
+	}
+	
+	// Use fallback.
+	if ( isset( $asset['fallback'] ) && is_string( $asset['fallback'] ) ) {
+		$fallback = $asset['fallback'];
+		if ( strpos( $fallback, 'http' ) === false && $pack_url ) {
+			$fallback = $pack_url . $fallback;
+		}
+		return $fallback;
+	}
+	
+	return '';
 }
 
 // --- Product Remapping ---

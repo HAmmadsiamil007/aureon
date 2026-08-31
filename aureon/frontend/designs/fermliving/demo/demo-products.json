@@ -1,0 +1,134 @@
+[
+  {
+    "source": "demo",
+    "business_id": null,
+    "id": 1001,
+    "name": "Rico Lounge Chair",
+    "price": "€1,299",
+    "price_cents": 129900,
+    "tagline": "Soft boucle upholstery with solid oak frame",
+    "image": "cdn/shop/files/rico-lounge-chair.png",
+    "url": "/product/rico-lounge-chair/",
+    "badge": "",
+    "purchasable": false,
+    "colors": [
+      {"name": "Off-White", "hex": "#f5f0e8"},
+      {"name": "Natural", "hex": "#c4a882"}
+    ]
+  },
+  {
+    "source": "demo",
+    "business_id": null,
+    "id": 1002,
+    "name": "Meridian Table Lamp",
+    "price": "€249",
+    "price_cents": 24900,
+    "tagline": "Black metal with warm ambient glow",
+    "image": "cdn/shop/files/meridian-lamp-black.png",
+    "url": "/product/meridian-lamp-black/",
+    "badge": "New",
+    "purchasable": false,
+    "colors": [
+      {"name": "Black", "hex": "#1a1a1a"},
+      {"name": "Brass", "hex": "#b5a642"}
+    ]
+  },
+  {
+    "source": "demo",
+    "business_id": null,
+    "id": 1003,
+    "name": "Rico Sofa 2",
+    "price": "€2,899",
+    "price_cents": 289900,
+    "tagline": "Generous seating in premium boucle fabric",
+    "image": "cdn/shop/files/rico-sofa-2.png",
+    "url": "/product/rico-sofa-2/",
+    "badge": "",
+    "purchasable": false,
+    "colors": [
+      {"name": "Off-White", "hex": "#f5f0e8"},
+      {"name": "Dark Green", "hex": "#2d5a3d"}
+    ]
+  },
+  {
+    "source": "demo",
+    "business_id": null,
+    "id": 1004,
+    "name": "Tray Table",
+    "price": "€349",
+    "price_cents": 34900,
+    "tagline": "Powder-coated steel with removable tray top",
+    "image": "cdn/shop/files/tray-table.png",
+    "url": "/product/tray-table/",
+    "badge": "",
+    "purchasable": false,
+    "colors": [
+      {"name": "Black", "hex": "#1a1a1a"},
+      {"name": "Off-White", "hex": "#f5f0e8"}
+    ]
+  },
+  {
+    "source": "demo",
+    "business_id": null,
+    "id": 1005,
+    "name": "Punctual Floor Lamp",
+    "price": "€599",
+    "price_cents": 59900,
+    "tagline": "Adjustable brass arm with linen shade",
+    "image": "cdn/shop/files/punctual-lamp.png",
+    "url": "/product/punctual-floor-lamp/",
+    "badge": "Sale",
+    "purchasable": false,
+    "colors": [
+      {"name": "Brass", "hex": "#b5a642"}
+    ]
+  },
+  {
+    "source": "demo",
+    "business_id": null,
+    "id": 1006,
+    "name": "Formakami Paper Pendant",
+    "price": "€189",
+    "price_cents": 18900,
+    "tagline": "Handcrafted rice paper with LED light source",
+    "image": "cdn/shop/files/formakami-pendant.png",
+    "url": "/product/formakami-pendant/",
+    "badge": "",
+    "purchasable": false,
+    "colors": [
+      {"name": "White", "hex": "#ffffff"}
+    ]
+  },
+  {
+    "source": "demo",
+    "business_id": null,
+    "id": 1007,
+    "name": "Terrazzo Side Table",
+    "price": "€449",
+    "price_cents": 44900,
+    "tagline": "Handmade terrazzo top on solid wood legs",
+    "image": "cdn/shop/files/terrazzo-side-table.png",
+    "url": "/product/terrazzo-side-table/",
+    "badge": "New",
+    "purchasable": false,
+    "colors": [
+      {"name": "Grey", "hex": "#888888"}
+    ]
+  },
+  {
+    "source": "demo",
+    "business_id": null,
+    "id": 1008,
+    "name": "Hammered Copper Vase",
+    "price": "€129",
+    "price_cents": 12900,
+    "tagline": "Hand-hammered copper with patina finish",
+    "image": "cdn/shop/files/copper-vase.png",
+    "url": "/product/hammered-copper-vase/",
+    "badge": "",
+    "purchasable": false,
+    "colors": [
+      {"name": "Copper", "hex": "#b87333"}
+    ]
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "source": "fermliving.com",
+  "type": "demo-reference",
+  "note": "DEMO ONLY — NOT PRODUCTION CONTENT. Manual URL updates only.",
+  "last_verified": "2026-08-31",
+  "assets": {
+    "logo": {
+      "src": "",
+      "type": "text",
+      "fallback": "Ferm Living"
+    },
+    "hero": {
+      "images": [],
+      "fallback": {
+        "type": "gradient",
+        "colors": ["#1a1a1a", "#2d2d2d"]
+      }
+    },
+    "products": {
+      "source_dir": "cdn/shop/files/",
+      "fallback": "cdn/shop/t/164/assets/product-placeholder.022235256c.webp"
+    },
+    "categories": {
+      "source_dir": "cdn/shop/files/",
+      "fallback": "cdn/shop/t/164/assets/product-placeholder.022235256c.webp"
+    }
+  }
+}

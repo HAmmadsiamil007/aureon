@@ -13,6 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 return array(
+	// Demo mode: 'auto' (default), 'force_demo', 'disabled'
+	'aether_demo_mode'       => 'auto',
+	
 	// Ferm Living uses its own CSS — disable AETHER motion for complete-page mode.
 	'aether_motion_enabled'  => false,
 	'aether_motion_reveal'   => false,

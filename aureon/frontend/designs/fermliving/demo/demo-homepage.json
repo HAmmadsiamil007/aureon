@@ -1,0 +1,28 @@
+{
+  "source": "demo",
+  "type": "homepage",
+  "hero": {
+    "headline": "Step into the void",
+    "accent": "Void Series",
+    "subline": "Precision-cut garments engineered in the dark.",
+    "badge": "New Drop",
+    "image": "cdn/shop/files/hero-void-series.png",
+    "primary_cta": {
+      "label": "Shop the collection",
+      "url": "/collections/furniture/"
+    },
+    "secondary_cta": {
+      "label": "Explore",
+      "url": "/collections/furniture/"
+    }
+  },
+  "editorial": {
+    "heading": "Designed for living",
+    "text": "Ferm Living creates contemporary furniture and accessories that bring Scandinavian design philosophy into your home.",
+    "image": "cdn/shop/files/editorial-living.png"
+  },
+  "newsletter": {
+    "heading": "Ferm Living news",
+    "text": "Get exclusive drops, early access, and Ferm Living news."
+  }
+}
