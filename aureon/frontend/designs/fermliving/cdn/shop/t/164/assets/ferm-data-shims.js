@@ -817,6 +817,7 @@ window.FermCustomer = window.FermCustomer || {
 // COLLECTION / ARCHIVE BRIDGE
 // Replaces hardcoded frozen Ferm product thumbs with real WC
 // products from FermPageData.collection.
+// Supports both real WooCommerce products and demo products.
 // ============================================================
 (function() {
   var pd = window.FermPageData;
@@ -834,6 +835,12 @@ window.FermCustomer = window.FermCustomer || {
   var h1 = collectionSection.querySelector('h1');
   if (h1 && collection.title) {
     h1.textContent = collection.title;
+  }
+
+  // Update product count if displayed.
+  var countEl = collectionSection.querySelector('[data-product-count]');
+  if (countEl) {
+    countEl.textContent = products.length + ' products';
   }
 
   // Find the product grid — the container holding productThumb elements.

@@ -30,6 +30,39 @@
     "collections": 4,
     "hero_slides": 3,
     "editorial_items": 3,
-    "image_references": 510
+    "image_references": 510,
+    "page_families_covered": [
+      "homepage",
+      "shop-all-products",
+      "category-furniture",
+      "category-lighting",
+      "category-accessories",
+      "category-kids",
+      "category-kitchen",
+      "category-textiles",
+      "category-rugs",
+      "category-outdoor",
+      "category-sofas",
+      "collection-new-arrivals",
+      "collection-bestsellers",
+      "collection-certified-products",
+      "collection-sale",
+      "product-detail",
+      "search",
+      "cart",
+      "checkout",
+      "account",
+      "blog-stories",
+      "about",
+      "contact",
+      "store-locator",
+      "404"
+    ],
+    "route_coverage": {
+      "total_routes": 25,
+      "with_frozen_html": 7,
+      "with_demo_data_bridge": 18,
+      "with_collection_bridge": 14
+    }
   }
 }

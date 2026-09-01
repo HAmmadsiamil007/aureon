@@ -34,6 +34,13 @@ function aether_frontend_boot() {
 	require_once AETHER_FRONTEND_DIR . 'views/assets.php';
 	require_once AETHER_FRONTEND_DIR . 'views/composer.php';
 
+	// Pack composer — active design's composer registers pack-specific hooks
+	// (demo/real switching, FermPageData injection, product/category filtering).
+	$design_dir = aether_active_design_dir();
+	if ( $design_dir && file_exists( $design_dir . 'composer.php' ) ) {
+		require_once $design_dir . 'composer.php';
+	}
+
 	// Adapters — the only layer allowed to touch WP/WC.
 	$adapter_files = glob( AETHER_FRONTEND_DIR . 'adapters/*.php' );
 	if ( is_array( $adapter_files ) ) {

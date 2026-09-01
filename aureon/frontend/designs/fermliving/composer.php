@@ -788,6 +788,12 @@ function ferm_build_page_data() {
 	$template = 'index';
 	if ( is_product() ) {
 		$template = 'product';
+	} elseif ( is_404() ) {
+		// Check if this looks like a product URL pattern.
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) : '';
+		if ( preg_match( '#/product/([^/]+)/?$#', $request_uri ) ) {
+			$template = 'product';
+		}
 	} elseif ( is_post_type_archive( 'product' ) || is_page( 'shop' ) ) {
 		$template = 'collection';
 	} elseif ( is_tax( 'product_cat' ) ) {
@@ -889,7 +895,7 @@ function ferm_build_page_data() {
 	}
 
 	// Heading: Custom → demo → frozen HTML default.
-	$custom_heading = aureon_get_option( 'aether_site_heading', '' );
+	$custom_heading = get_option( 'aether_site_heading', '' );
 	$demo_heading   = '';
 	if ( empty( $custom_heading ) && ! empty( $demo_assets['heading']['text'] ) ) {
 		$demo_heading = $demo_assets['heading']['text'];
@@ -1278,6 +1284,145 @@ function ferm_store_product_page_data() {
 	$GLOBALS['ferm_product_page_data'] = ferm_build_product_page_data( $post->ID );
 }
 
+// Handle product URLs that don't exist in WooCommerce (404 pages).
+// Falls back to demo product data when available.
+// Hooked into 'wp' at priority 1 — BEFORE ferm_store_product_page_data (priority 10)
+// and BEFORE wp_enqueue_scripts (priority 10) so FermPageData.product is set
+// when FermPageData is built and localized.
+add_action( 'wp', 'ferm_handle_missing_product', 1 );
+function ferm_handle_missing_product() {
+	if ( ! is_404() ) {
+		return;
+	}
+
+	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) : '';
+	if ( ! preg_match( '#/product/([^/]+)/?$#', $request_uri, $m ) ) {
+		return;
+	}
+
+	$slug = sanitize_title( $m[1] );
+	if ( empty( $slug ) ) {
+		return;
+	}
+
+	// Try to find in demo dataset.
+	$demo_product = ferm_find_demo_product_by_slug( $slug );
+	if ( ! $demo_product ) {
+		return;
+	}
+
+	// Do NOT overwrite real product data if already set by ferm_store_product_page_data.
+	if ( ! empty( $GLOBALS['ferm_product_page_data'] ) ) {
+		return;
+	}
+
+	// Build FermPageData.product from demo data.
+	$GLOBALS['ferm_product_page_data'] = ferm_build_demo_product_data( $demo_product );
+
+	// Force template detection to 'product' for FermPageData injection.
+	add_filter( 'aether_design_manifest', function( $manifest ) {
+		return $manifest;
+	} );
+}
+
+/**
+ * Find a demo product by slug from the demo-products.json file.
+ *
+ * @param string $slug Product slug to search for.
+ * @return array|null Demo product data or null if not found.
+ */
+function ferm_find_demo_product_by_slug( $slug ) {
+	static $demo_products = null;
+
+	if ( null === $demo_products ) {
+		$demo_file = __DIR__ . '/demo/demo-products.json';
+		if ( ! file_exists( $demo_file ) ) {
+			return null;
+		}
+		$json = file_get_contents( $demo_file );
+		$data = json_decode( $json, true );
+		$demo_products = isset( $data['products'] ) ? $data['products'] : array();
+
+		// Index by slug for fast lookup.
+		$indexed = array();
+		foreach ( $demo_products as $product ) {
+			if ( ! empty( $product['slug'] ) ) {
+				$indexed[ $product['slug'] ] = $product;
+			}
+		}
+		$demo_products = $indexed;
+	}
+
+	return isset( $demo_products[ $slug ] ) ? $demo_products[ $slug ] : null;
+}
+
+/**
+ * Build FermPageData.product from a demo product array.
+ *
+ * @param array $demo_product Demo product data from demo-products.json.
+ * @return array Product data in Ferm-compatible schema.
+ */
+function ferm_build_demo_product_data( $demo_product ) {
+	$gallery = array();
+	if ( ! empty( $demo_product['image'] ) ) {
+		$gallery[] = array(
+			'src' => $demo_product['image'],
+			'alt' => $demo_product['name'] ?? '',
+		);
+	}
+	if ( ! empty( $demo_product['gallery'] ) ) {
+		foreach ( $demo_product['gallery'] as $img ) {
+			$gallery[] = array(
+				'src' => $img,
+				'alt' => $demo_product['name'] ?? '',
+			);
+		}
+	}
+
+	return array(
+		'id'                  => 0,
+		'title'               => $demo_product['name'] ?? '',
+		'handle'              => $demo_product['slug'] ?? '',
+		'slug'                => $demo_product['slug'] ?? '',
+		'url'                 => home_url( '/product/' . ( $demo_product['slug'] ?? '' ) . '/' ),
+		'sku'                 => '',
+		'price'               => $demo_product['price_cents'] ?? 0,
+		'price_html'          => $demo_product['price'] ?? '',
+		'compare_at_price'    => null,
+		'currency'            => $demo_product['currency'] ?? 'EUR',
+		'availability'        => 'in-stock',
+		'purchasable'         => false,
+		'inventory_quantity'  => 999,
+		'requires_shipping'  => true,
+		'taxable'             => true,
+		'product_type'        => 'simple',
+		'gallery'             => $gallery,
+		'media'               => array_map( function( $g ) {
+			return array(
+				'src'        => $g['src'],
+				'alt'        => $g['alt'],
+				'media_type' => 'image',
+			);
+		}, $gallery ),
+		'variants'            => array(),
+		'options'             => array(),
+		'colors'              => array(),
+		'option1'             => null,
+		'option2'             => null,
+		'option3'             => null,
+		'selected_variant_id' => null,
+		'featured_image'      => ! empty( $gallery ) ? $gallery[0] : null,
+		'badge'               => $demo_product['badge'] ?? '',
+		'description'         => $demo_product['short_description'] ?? '',
+		'short_description'   => $demo_product['short_description'] ?? '',
+		'categories'          => $demo_product['categories'] ?? array(),
+		'collection'          => $demo_product['collection'] ?? '',
+		'source'              => 'demo',
+		'demo_id'             => $demo_product['demo_id'] ?? '',
+		'shopify_id'          => $demo_product['shopify_id'] ?? null,
+	);
+}
+
 // --- Collection/Archive Data ---
 function ferm_build_collection_data() {
 	$products = array();
@@ -1343,6 +1488,13 @@ function ferm_build_collection_data() {
 		);
 	}
 
+	// --- Demo product fallback ---
+	// When no real WC products exist, load demo products from the
+	// client-pack JSON and filter by the current category slug.
+	if ( empty( $products ) ) {
+		$products = ferm_get_demo_products_for_collection( $term ? $term->slug : '' );
+	}
+
 	// Category info.
 	$term_image = '';
 	if ( $term && ! empty( $term->term_id ) ) {
@@ -1352,6 +1504,12 @@ function ferm_build_collection_data() {
 		}
 	}
 
+	// --- Demo category image fallback ---
+	// When no WC term image exists, resolve from the demo assets.
+	if ( empty( $term_image ) && $term && ! empty( $term->slug ) ) {
+		$term_image = ferm_resolve_demo_category_image( $term->slug );
+	}
+
 	return array(
 		'title'       => $term_name,
 		'description' => $term_description,
@@ -1359,6 +1517,105 @@ function ferm_build_collection_data() {
 		'product_count' => count( $products ),
 		'products'    => $products,
 	);
+}
+
+/**
+ * Get demo products for a collection/category page.
+ *
+ * Loads demo products from the client-pack JSON and filters by
+ * category slug. Returns products in the format expected by the
+ * frontend collection bridge.
+ *
+ * @param string $category_slug Category slug to filter by (empty = all).
+ * @return array Filtered demo products.
+ */
+function ferm_get_demo_products_for_collection( $category_slug = '' ) {
+	$pack_dir = aether_active_design_dir();
+	$json_file = $pack_dir . 'demo/demo-products.json';
+	if ( ! file_exists( $json_file ) ) {
+		return array();
+	}
+
+	$raw = json_decode( (string) file_get_contents( $json_file ), true );
+	if ( ! is_array( $raw ) ) {
+		return array();
+	}
+
+	// Normalize: handle both wrapped {products: [...]} and flat array.
+	$all_products = isset( $raw['products'] ) && is_array( $raw['products'] )
+		? $raw['products']
+		: $raw;
+
+	$result = array();
+	foreach ( $all_products as $product ) {
+		if ( ! is_array( $product ) ) {
+			continue;
+		}
+
+		// Filter by category if specified.
+		if ( $category_slug ) {
+			$categories = isset( $product['categories'] ) ? $product['categories'] : array();
+			if ( ! in_array( $category_slug, $categories, true ) ) {
+				$collection = isset( $product['collection'] ) ? $product['collection'] : '';
+				if ( $collection !== $category_slug ) {
+					continue;
+				}
+			}
+		}
+
+		$image = isset( $product['image'] ) ? $product['image'] : '';
+		$demo_id = isset( $product['demo_id'] ) ? $product['demo_id'] : '';
+		$url = isset( $product['url'] ) ? $product['url'] : '#';
+
+		// Build gallery from primary image + gallery array.
+		$gallery = array();
+		if ( $image ) {
+			$gallery[] = $image;
+		}
+		if ( ! empty( $product['gallery'] ) && is_array( $product['gallery'] ) ) {
+			foreach ( $product['gallery'] as $img ) {
+				if ( ! empty( $img ) && ! in_array( $img, $gallery, true ) ) {
+					$gallery[] = $img;
+				}
+			}
+		}
+
+		$result[] = array(
+			'id'         => 0,
+			'title'      => isset( $product['name'] ) ? $product['name'] : '',
+			'handle'     => $demo_id,
+			'url'        => $url,
+			'sku'        => '',
+			'price'      => isset( $product['price_cents'] ) ? (int) $product['price_cents'] : 0,
+			'price_html' => isset( $product['price'] ) ? $product['price'] : '',
+			'image'      => $image,
+			'gallery'    => $gallery,
+			'available'  => true,
+			'badge'      => isset( $product['badge'] ) ? $product['badge'] : '',
+			'source'     => 'demo',
+			'demo_id'    => $demo_id,
+		);
+	}
+
+	return $result;
+}
+
+/**
+ * Resolve a demo category image URL from demo-assets.json.
+ *
+ * @param string $slug Category slug.
+ * @return string Image URL or empty string.
+ */
+function ferm_resolve_demo_category_image( $slug ) {
+	$manifest = ferm_load_demo_assets();
+	if ( empty( $manifest['assets']['categories']['images'] ) ) {
+		return '';
+	}
+	$images = $manifest['assets']['categories']['images'];
+	if ( isset( $images[ $slug ] ) && $images[ $slug ] ) {
+		return $images[ $slug ];
+	}
+	return '';
 }
 
 // --- Demo Asset Manifest ---

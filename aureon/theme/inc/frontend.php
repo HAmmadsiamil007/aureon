@@ -311,7 +311,7 @@ function aureon_ferm_template_include( $template ) {
 
 	// Logged-in account pages: use WooCommerce's native account template.
 	// The frozen login.html is only for the logged-out state.
-	if ( is_user_logged_in() && is_account_page() ) {
+	if ( is_user_logged_in() && function_exists( 'is_account_page' ) && is_account_page() ) {
 		return $template;
 	}
 

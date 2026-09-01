@@ -27,6 +27,15 @@ if ( ! function_exists( 'aether_is_complete_page_design' ) || ! aether_is_comple
 	return;
 }
 
+// --- Override 404 status for product URLs ---
+// When WordPress routes /product/[slug] to ferm-page.php via template_include,
+// the HTTP status is already 404. Override it to 200 before any output.
+$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) : '';
+if ( preg_match( '#/product/([^/]+)/?$#', $request_uri ) ) {
+	status_header( 200 );
+	nocache_headers();
+}
+
 $pack_dir = aether_active_design_dir();
 if ( ! $pack_dir ) {
 	return;
@@ -134,6 +143,23 @@ if ( $pack_url ) {
 	echo "})()\n";
 	echo "</script>\n";
 
+	// Image404 fallback: if a live CDN image fails, retry from local pack.
+	echo "<script>\n";
+	echo "(function(){\n";
+	echo "var p='" . esc_js( $pack_url ) . "';\n";
+	echo "document.querySelectorAll('img').forEach(function(img){\n";
+	echo "  img.addEventListener('error',function(){\n";
+	echo "    var src=img.getAttribute('src');\n";
+	echo "    if(src&&src.indexOf('https://fermliving.com/cdn/')===0&&!img.dataset.fallback){\n";
+	echo "      img.dataset.fallback='1';\n";
+	echo "      var local=p+'cdn/'+src.replace('https://fermliving.com/cdn/','')+'?v='+Date.now();\n";
+	echo "      img.src=local;\n";
+	echo "    }\n";
+	echo "  });\n";
+	echo "});\n";
+	echo "})()\n";
+	echo "</script>\n";
+
 	// MutationObserver: catch any dynamically created images with relative cdn/ paths
 	echo "<script>\n";
 	echo "(function(){\n";
@@ -202,6 +228,10 @@ function aureon_ferm_resolve_page() {
 			if ( $slug && ! empty( $pages['products'][ $slug ] ) ) {
 				return $pages['products'][ $slug ];
 			}
+			// Fallback: generic product template.
+			if ( ! empty( $pages['product_generic'] ) ) {
+				return $pages['product_generic'];
+			}
 			// Fallback: first available product page from manifest.
 			if ( ! empty( $pages['products'] ) && is_array( $pages['products'] ) ) {
 				return reset( $pages['products'] );
@@ -226,13 +256,39 @@ function aureon_ferm_resolve_page() {
 			}
 		}
 
-		// Static pages.
-		if ( is_page() ) {
-			$slug = get_query_var( 'pagename' );
-			if ( $slug && ! empty( $pages['pages'][ $slug ] ) ) {
-				return $pages['pages'][ $slug ];
-			}
+	// Static pages.
+	if ( is_page() ) {
+		$slug = get_query_var( 'pagename' );
+		if ( $slug && ! empty( $pages['pages'][ $slug ] ) ) {
+			return $pages['pages'][ $slug ];
 		}
+	}
+
+	// Product URL pattern detection — catches product-like URLs that WordPress
+	// doesn't recognize as WooCommerce products (demo products, missing products).
+	// MUST come after is_product() and before is_home()/is_search()/is_404().
+	$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) : '';
+	if ( preg_match( '#/product/([^/]+)/?$#', $request_uri, $m ) ) {
+		// Product-like URL — use generic product template.
+		if ( ! empty( $pages['product_generic'] ) ) {
+			return $pages['product_generic'];
+		}
+		// Fallback: check for exact product HTML file.
+		$slug = sanitize_title( $m[1] );
+		if ( $slug && ! empty( $pages['products'][ $slug ] ) ) {
+			return $pages['products'][ $slug ];
+		}
+		// Fallback: check filesystem for exact product HTML.
+		$product_file = 'products/' . $slug . '.html';
+		if ( file_exists( aether_active_design_dir() . $product_file ) ) {
+			return $product_file;
+		}
+		// Final fallback: generic product template from filesystem.
+		$generic = 'products/_generic-product.html';
+		if ( file_exists( aether_active_design_dir() . $generic ) ) {
+			return $generic;
+		}
+	}
 
 		// Blog / posts archive.
 		if ( is_home() || ( function_exists( 'is_post_type_archive' ) && is_post_type_archive( 'post' ) ) || is_page( 'blog' ) || is_page( 'stories' ) ) {
@@ -278,6 +334,11 @@ function aureon_ferm_resolve_page() {
 				return $file;
 			}
 		}
+		// Fallback: generic product template.
+		$generic = 'products/_generic-product.html';
+		if ( file_exists( aether_active_design_dir() . $generic ) ) {
+			return $generic;
+		}
 		// Fallback: first available product page.
 		$products_dir = aether_active_design_dir() . 'products/';
 		if ( is_dir( $products_dir ) ) {
@@ -321,6 +382,24 @@ function aureon_ferm_resolve_page() {
 		}
 	}
 
+	// Product URL pattern detection — fallback section.
+	// Catches product-like URLs that WordPress doesn't recognize as products.
+	$request_uri_fb = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) : '';
+	if ( preg_match( '#/product/([^/]+)/?$#', $request_uri_fb, $m_fb ) ) {
+		$slug_fb = sanitize_title( $m_fb[1] );
+		if ( $slug_fb ) {
+			$file_fb = 'products/' . $slug_fb . '.html';
+			if ( file_exists( aether_active_design_dir() . $file_fb ) ) {
+				return $file_fb;
+			}
+		}
+		// Fallback: generic product template.
+		$generic_fb = 'products/_generic-product.html';
+		if ( file_exists( aether_active_design_dir() . $generic_fb ) ) {
+			return $generic_fb;
+		}
+	}
+
 	// Blog / posts archive.
 	if ( is_home() || is_post_type_archive( 'post' ) || is_page( 'blog' ) || is_page( 'stories' ) ) {
 		return 'blogs/stories.html';
@@ -333,6 +412,15 @@ function aureon_ferm_resolve_page() {
 
 	// 404.
 	if ( is_404() ) {
+		// Check if this looks like a product URL pattern.
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) : '';
+		if ( preg_match( '#/product/([^/]+)/?$#', $request_uri, $m ) ) {
+			// Product-like URL that doesn't exist — use generic product template.
+			$generic = 'products/_generic-product.html';
+			if ( file_exists( aether_active_design_dir() . $generic ) ) {
+				return $generic;
+			}
+		}
 		return 'pages/contact.html'; // Fallback to contact page.
 	}
 
@@ -435,42 +523,87 @@ function aureon_ferm_render_attrs( $attrs ) {
  */
 function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 	$site_url = home_url();
+	// Live CDN base — load images/media directly from fermliving.com Shopify CDN
+	$live_cdn = 'https://fermliving.com/';
 
 	// Rewrite <img src="cdn/..."> and <img src="../cdn/...">
 	$content = preg_replace(
 		'/(<img\s[^>]*src\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
-		'$1' . $pack_url . '$2',
+		'$1' . $live_cdn . '$2',
 		$content
 	);
 
-	// Rewrite <img srcset="cdn/..."> and srcset="../cdn/..."
+	// Rewrite ALL cdn/ URLs inside srcset attributes (each srcset has multiple comma-separated entries)
+	$content = preg_replace_callback(
+		'/(<img\s[^>]*srcset\s*=\s*["\'])([^"\']*)["\']/i',
+		function ( $m ) use ( $live_cdn ) {
+			$prefix = $m[1];
+			$srcset = $m[2];
+			$rewritten = preg_replace(
+				'/(^|,\s*)((?:\.\.\/)?cdn\/)/',
+				'$1' . $live_cdn . '$2',
+				$srcset
+			);
+			return $prefix . $rewritten . '"';
+		},
+		$content
+	);
+
+	// Rewrite ALL cdn/ URLs inside <source srcset="...">
+	$content = preg_replace_callback(
+		'/(<source\s[^>]*srcset\s*=\s*["\'])([^"\']*)["\']/i',
+		function ( $m ) use ( $live_cdn ) {
+			$prefix = $m[1];
+			$srcset = $m[2];
+			$rewritten = preg_replace(
+				'/(^|,\s*)((?:\.\.\/)?cdn\/)/',
+				'$1' . $live_cdn . '$2',
+				$srcset
+			);
+			return $prefix . $rewritten . '"';
+		},
+		$content
+	);
+
+	// Rewrite <source src="cdn/...">
 	$content = preg_replace(
-		'/(<img\s[^>]*srcset\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
-		'$1' . $pack_url . '$2',
+		'/(<source\s[^>]*\bsrc\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
+		'$1' . $live_cdn . '$2',
 		$content
 	);
 
-	// Rewrite <source srcset="cdn/...">
+	// Rewrite external _cdn.assets.struct.com URLs to live struct.com CDN
 	$content = preg_replace(
-		'/(<source\s[^>]*srcset\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
-		'$1' . $pack_url . '$2',
+		'/\.\.\/_cdn\.assets\.struct\.com\//',
+		'https://cdn.assets.struct.com/',
 		$content
 	);
 
-	// Rewrite <link rel="preload" href="cdn/...">
+	// Rewrite protocol-relative //fermliving.com/cdn/... — keep on live CDN
+	$content = preg_replace(
+		'/((?:poster|src|href|data-[a-z-]+)\s*=\s*["\'])\/\/fermliving\.com\/cdn\//i',
+		'$1' . $live_cdn . 'cdn/',
+		$content
+	);
+
+	// Rewrite bare <a href="cdn/..."> links — keep on live CDN
+	$content = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?cdn\/)/i',
+		'$1' . $live_cdn . '$2',
+		$content
+	);
+
+	// Rewrite <link rel="preload" href="cdn/..."> — keep on live CDN
 	$content = preg_replace(
 		'/(<link\s[^>]*href\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
-		'$1' . $pack_url . '$2',
+		'$1' . $live_cdn . '$2',
 		$content
 	);
 
-	// Rewrite <link rel="stylesheet" href="cdn/...">
-	// (already handled by wp_head enqueues, but safe to catch stragglers)
-
-	// Rewrite CSS url() references: url(cdn/...) and url(../cdn/...)
+	// Rewrite CSS url() references: url(cdn/...) — keep on live CDN for font/image assets
 	$content = preg_replace(
 		'/(url\(\s*["\']?)((?:\.\.\/)?cdn\/)/i',
-		'$1' . $pack_url . '$2',
+		'$1' . $live_cdn . '$2',
 		$content
 	);
 
@@ -514,6 +647,14 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 	$content = preg_replace(
 		'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?pages\/)([^"\x27]+?)(\.html)(["\x27])/i',
 		'$1' . $site_url . '/$3$5',
+		$content
+	);
+
+	// Strip Shopify content hashes from live CDN filenames
+	// e.g. file.7cb49da5d1.webp -> file.webp, file.ea2092c6f9.jpg -> file.jpg
+	$content = preg_replace(
+		'/(https?:\/\/fermliving\.com\/cdn\/shop\/[^"\s?]+?)\.([0-9a-f]{10})\.(webp|jpg|jpeg|png|gif|avif|svg)/i',
+		'$1.$3',
 		$content
 	);
 

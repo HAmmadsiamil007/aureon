@@ -36,7 +36,8 @@
                   "pages":  {
                                 "contact":  "pages/contact.html",
                                 "store-locator":  "pages/store-locator.html",
-                                "about":  "pages/about-ferm-living.html"
+                                "about":  "pages/about-ferm-living.html",
+                                "about-ferm-living":  "pages/about-ferm-living.html"
                             },
                   "checkout":  "checkout.html",
                   "cart":  "cart.html",
@@ -45,11 +46,24 @@
                                    "meridian-lamp-black":  "products/meridian-lamp-black.html",
                                    "rico-sofa-2-boucle-off-white":  "products/rico-sofa-2-boucle-off-white.html"
                                },
+                  "product_generic":  "products/_generic-product.html",
                   "home":  "index.html",
+                  "shop":  "collections/furniture.html",
                   "collections":  {
+                                      "furniture":  "collections/furniture.html",
                                       "lighting":  "collections/lighting.html",
                                       "accessories":  "collections/accessories.html",
-                                      "furniture":  "collections/furniture.html"
+                                      "kids":  "collections/furniture.html",
+                                      "kitchen":  "collections/furniture.html",
+                                      "textiles":  "collections/furniture.html",
+                                      "rugs":  "collections/furniture.html",
+                                      "outdoor":  "collections/furniture.html",
+                                      "outdoor-living":  "collections/furniture.html",
+                                      "sofas":  "collections/furniture.html",
+                                      "new-arrivals":  "collections/furniture.html",
+                                      "bestsellers":  "collections/furniture.html",
+                                      "certified-products":  "collections/furniture.html",
+                                      "sale":  "collections/furniture.html"
                                   },
                   "account":  "account/login.html"
               },
