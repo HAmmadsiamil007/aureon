@@ -284,9 +284,9 @@ function aureon_aether_wc_page_templates( $template ) {
 add_filter( 'template_include', 'aureon_aether_wc_page_templates', 99 );
 
 /**
- * Route Ferm Living complete pages to the standalone HTML templates.
+ * Route complete-page designs to the standalone HTML templates.
  *
- * When the fermliving design pack is active, bypass the AETHER shell
+ * When a complete-page design pack is active, bypass the AETHER shell
  * (header.php → aether_compose_header / footer.php → aether_compose_footer)
  * and serve the complete client HTML directly. WordPress wp_head() and
  * wp_footer() are still called for admin bar, WooCommerce cart fragments,

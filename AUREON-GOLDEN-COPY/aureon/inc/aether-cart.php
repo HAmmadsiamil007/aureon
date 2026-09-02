@@ -48,13 +48,12 @@ function aether_cart_count_fragment( $fragments ) {
 	}
 	$fragments['a.aether-cart-count'] = aether_cart_count_markup();
 
-	// Ferm Living complete-page: provide a fragment matching Ferm's header cart HTML.
-	if ( function_exists( 'aether_active_design' ) && 'fermliving' === aether_active_design() ) {
+	// Complete-page designs: provide a fragment matching the design's header cart HTML.
+	if ( function_exists( 'aether_is_complete_page_design' ) && aether_is_complete_page_design() ) {
 		$count = 0;
 		if ( function_exists( 'WC' ) && WC()->cart ) {
 			$count = (int) WC()->cart->get_cart_contents_count();
 		}
-		$cart_url = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/cart' );
 		$fragments['.cart-count-bubble span'] = '<span class="cart-count-bubble">' . $count . '</span>';
 	}
 

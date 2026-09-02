@@ -385,8 +385,7 @@ function aureon_ferm_resolve_page() {
 		$slug = get_query_var( 'pagename' );
 		$page_map = array(
 			'contact'           => 'pages/contact.html',
-			'about'             => 'pages/about-ferm-living.html',
-			'about-ferm-living' => 'pages/about-ferm-living.html',
+			'about'             => 'pages/about.html',
 			'store-locator'     => 'pages/store-locator.html',
 			'store locator'     => 'pages/store-locator.html',
 		);
@@ -509,10 +508,18 @@ function aureon_ferm_render_attrs( $attrs ) {
  */
 function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 	$site_url = home_url();
-	// Live CDN base — load images/media directly from fermliving.com Shopify CDN
-	$live_cdn = 'https://fermliving.com/';
+	// Live CDN base — resolve from active pack or skip CDN rewriting.
+	$live_cdn = '';
+	if ( function_exists( 'aether_active_design' ) ) {
+		$design = aether_active_design();
+		// Legacy Ferm pack shipped remote CDN assets; Vineta and future packs use local assets.
+		if ( 'fermliving' === $design ) {
+			$live_cdn = 'https://fermliving.com/';
+		}
+	}
 
 	// Rewrite <img src="cdn/..."> and <img src="../cdn/...">
+	if ( $live_cdn ) {
 	$content = preg_replace(
 		'/(<img\s[^>]*src\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
 		'$1' . $live_cdn . '$2',
@@ -592,6 +599,7 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 		'$1' . $live_cdn . '$2',
 		$content
 	);
+	} // end if ( $live_cdn )
 
 	// Rewrite nav/content links: Shopify paths -> WordPress routes
 	// Index/home: index.html -> /

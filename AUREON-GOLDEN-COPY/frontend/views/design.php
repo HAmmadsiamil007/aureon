@@ -48,7 +48,7 @@ function aether_active_design() {
 	// Resolve the default BEFORE caching: a truthy slug is cached as-is,
 	// an empty one must fall back to 'luxury' on every call — caching the
 	// raw value would make later calls in the same request return ''.
-	$design = $design ? $design : 'fermliving';
+	$design = $design ? $design : 'vineta';
 
 	return $design;
 }
