@@ -1,0 +1,121 @@
+{
+    "id":  "fermliving",
+    "label":  "Ferm Living - Danish Design Client Pack",
+    "data":  {
+                 "optional":  [
+                                  "product",
+                                  "cart",
+                                  "account",
+                                  "order",
+                                  "contact",
+                                  "faq",
+                                  "team",
+                                  "testimonials",
+                                  "wishlist",
+                                  "auth",
+                                  "coming-soon",
+                                  "shop-hero",
+                                  "wc-filter",
+                                  "article"
+                              ],
+                 "required":  [
+                                  "site",
+                                  "header",
+                                  "menu",
+                                  "announcement",
+                                  "hero",
+                                  "wc-products",
+                                  "wc-categories",
+                                  "blog",
+                                  "newsletter",
+                                  "footer"
+                              ]
+             },
+    "pages":  {
+                  "blog":  "blogs/stories.html",
+                  "pages":  {
+                                "contact":  "pages/contact.html",
+                                "store-locator":  "pages/store-locator.html",
+                                "about":  "pages/about-ferm-living.html"
+                            },
+                  "checkout":  "checkout.html",
+                  "cart":  "cart.html",
+                  "products":  {
+                                   "rico-lounge-chair-raw-boucle-natural":  "products/rico-lounge-chair-raw-boucle-natural.html",
+                                   "meridian-lamp-black":  "products/meridian-lamp-black.html",
+                                   "rico-sofa-2-boucle-off-white":  "products/rico-sofa-2-boucle-off-white.html"
+                               },
+                  "home":  "index.html",
+                  "collections":  {
+                                      "lighting":  "collections/lighting.html",
+                                      "accessories":  "collections/accessories.html",
+                                      "furniture":  "collections/furniture.html"
+                                  },
+                  "account":  "account/login.html"
+              },
+    "assets":  {
+                   "js":  [
+                              {
+                                  "deps":  [
+
+                                           ],
+                                  "priority":  "before",
+                                  "file":  "cdn/shop/t/164/assets/speedblitz.min.95accfb9a4.js"
+                              },
+                              {
+                                  "deps":  [
+
+                                           ],
+                                  "priority":  "before",
+                                  "file":  "cdn/shop/t/164/assets/ferm-data-shims.js"
+                              },
+                               {
+                                   "deps":  [
+                                                "ferm-data-shims"
+                                            ],
+                                   "priority":  "after",
+                                   "file":  "cdn/shop/t/164/assets/app.1e7cf79a09.js"
+                               },
+                               {
+                                   "deps":  [],
+                                   "page":  "account",
+                                   "file":  "cdn/shop/t/164/assets/customer.5de68fbefc.js"
+                               },
+                               {
+                                   "deps":  [
+                                                "ferm-data-shims"
+                                            ],
+                                   "page":  "product",
+                                   "file":  "cdn/shop/t/164/assets/product.fa97565a5f.js"
+                               }
+                          ],
+                   "css":  [
+                               "cdn/shop/t/164/assets/fonts.space-grotesk.css",
+                               "cdn/shop/t/164/assets/fonts.ferm-open-source.css",
+                               "cdn/shop/t/164/assets/fonts.fd2d67c5ce.css",
+                               "cdn/shop/t/164/assets/app.adf0bc36b7.css"
+                           ]
+               },
+    "integrations":  {
+                         "woocommerce":  [
+                                             "shop grid",
+                                             "product cards",
+                                             "categories",
+                                             "cart",
+                                             "checkout",
+                                             "account"
+                                         ],
+                         "plugins":  [
+                                         "aureon newsletter",
+                                         "aureon ajax",
+                                         "aureon analytics"
+                                     ],
+                         "wordpress":  [
+                                           "nav menus",
+                                           "pages",
+                                           "blog"
+                                       ]
+                     },
+    "complete_page":  true,
+    "version":  "5.0.0"
+}

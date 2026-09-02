@@ -1,0 +1,184 @@
+{
+    "id": "vineta",
+    "label": "Vineta - Multipurpose eCommerce Client Pack",
+    "data": {
+        "optional": [
+            "product",
+            "cart",
+            "account",
+            "order",
+            "contact",
+            "faq",
+            "testimonials",
+            "wishlist",
+            "compare",
+            "auth",
+            "coming-soon",
+            "shop-hero",
+            "wc-filter",
+            "article"
+        ],
+        "required": [
+            "site",
+            "header",
+            "menu",
+            "announcement",
+            "hero",
+            "wc-products",
+            "wc-categories",
+            "blog",
+            "newsletter",
+            "footer"
+        ]
+    },
+    "pages": {
+        "home": "index.html",
+        "shop": "shop-default.html",
+        "products": {
+            "_generic": "product-detail.html"
+        },
+        "product_generic": "product-detail.html",
+        "collections": {
+            "default": "shop-collection-list.html"
+        },
+        "blog": "blog-grid-01.html",
+        "blog_single": "blog-single.html",
+        "cart": "view-cart.html",
+        "checkout": "checkout.html",
+        "account": "account-page.html",
+        "pages": {
+            "about": "about-us.html",
+            "contact": "contact-us.html",
+            "faq": "faq.html",
+            "shipping": "shipping.html",
+            "returns": "return-and-refund.html",
+            "privacy": "privacy-policy.html",
+            "terms": "term-and-condition.html",
+            "store-locator": "store-location.html",
+            "cookies": "cookies.html"
+        },
+        "static": {
+            "about-us": "about-us.html",
+            "contact-us": "contact-us.html",
+            "faq": "faq.html",
+            "shipping": "shipping.html",
+            "return-and-refund": "return-and-refund.html",
+            "privacy-policy": "privacy-policy.html",
+            "term-and-condition": "term-and-condition.html",
+            "store-location": "store-location.html",
+            "cookies": "cookies.html"
+        }
+    },
+    "assets": {
+        "css": [
+            "css/bootstrap.min.css",
+            "css/swiper-bundle.min.css",
+            "css/animate.css",
+            "css/styles.css"
+        ],
+        "js": [
+            {
+                "file": "js/swiper-bundle.min.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/lazysize.min.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/wow.min.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/photoswipe.umd.min.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/photoswipe-lightbox.umd.min.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/drift.min.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/nouislider.min.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/jquery-validate.js",
+                "deps": ["jquery"],
+                "priority": "before"
+            },
+            {
+                "file": "js/zoom.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/multiple-modal.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/model-viewer.min.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/carousel.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/count-down.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/infinityslide.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/shop.js",
+                "deps": [],
+                "priority": "before"
+            },
+            {
+                "file": "js/main.js",
+                "deps": ["jquery", "aether-bootstrap-js"],
+                "priority": "after"
+            }
+        ]
+    },
+    "integrations": {
+        "woocommerce": [
+            "shop grid",
+            "product cards",
+            "categories",
+            "cart",
+            "checkout",
+            "account"
+        ],
+        "plugins": [
+            "aureon newsletter",
+            "aureon ajax",
+            "aureon analytics"
+        ],
+        "wordpress": [
+            "nav menus",
+            "pages",
+            "blog"
+        ]
+    },
+    "complete_page": true,
+    "version": "1.0.0"
+}

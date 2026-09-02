@@ -1,0 +1,68 @@
+{
+    "categories": [
+        {
+            "name": "Fashion",
+            "slug": "fashion",
+            "image": "images/cls-categories/fashion/cat-fashion-1.jpg",
+            "count_label": "24 Products",
+            "url": "#",
+            "modifier": ""
+        },
+        {
+            "name": "Electronics",
+            "slug": "electronics",
+            "image": "images/cls-categories/electronic/cat-electronic-1.jpg",
+            "count_label": "18 Products",
+            "url": "#",
+            "modifier": ""
+        },
+        {
+            "name": "Jewelry",
+            "slug": "jewelry",
+            "image": "images/cls-categories/jewelry/cat-jewelry-1.jpg",
+            "count_label": "12 Products",
+            "url": "#",
+            "modifier": ""
+        },
+        {
+            "name": "Skincare",
+            "slug": "skincare",
+            "image": "images/cls-categories/skincare/cat-skincare-1.jpg",
+            "count_label": "15 Products",
+            "url": "#",
+            "modifier": ""
+        },
+        {
+            "name": "Furniture",
+            "slug": "furniture",
+            "image": "images/cls-categories/furniture/cat-furniture-1.jpg",
+            "count_label": "20 Products",
+            "url": "#",
+            "modifier": ""
+        },
+        {
+            "name": "Footwear",
+            "slug": "footwear",
+            "image": "images/cls-categories/footwear/cat-footwear-1.jpg",
+            "count_label": "16 Products",
+            "url": "#",
+            "modifier": ""
+        },
+        {
+            "name": "Plant",
+            "slug": "plant",
+            "image": "images/cls-categories/plant/cat-plant-1.jpg",
+            "count_label": "10 Products",
+            "url": "#",
+            "modifier": ""
+        },
+        {
+            "name": "Watch",
+            "slug": "watch",
+            "image": "images/cls-categories/watch/cat-watch-1.jpg",
+            "count_label": "8 Products",
+            "url": "#",
+            "modifier": ""
+        }
+    ]
+}

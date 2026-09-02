@@ -1,0 +1,1142 @@
+[
+  {
+    "name": "Homepage",
+    "url": "/",
+    "type": "home",
+    "httpStatus": 200,
+    "title": "Ferm Living Demo",
+    "bodyLength": 2301,
+    "status": "PASS",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 8,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/cdn/shop/files/Lighting.cdea8300a2.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/cdn/shop/files/Accessories.9cd050f696.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/cdn/shop/files/Furniture.aa971b62d6.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/cdn/shop/files/Kitchen.5809a9721d.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/cdn/shop/files/Kids.f1f8591549.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/cdn/shop/files/Outdoor_Living.c5156256c2.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/cdn/shop/files/HP_2_97273798-b073-4afd-a38d-55ca65ab4330.46ac499cb4.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/cdn/shop/files/Textiles.2f3bc20851.webp",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 8
+  },
+  {
+    "name": "Shop",
+    "url": "/shop",
+    "type": "shop",
+    "httpStatus": 200,
+    "title": "Shop – Ferm Living Demo",
+    "bodyLength": 7450,
+    "status": "PASS",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 11,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273187_1.7bc66dac23.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273231_1.e94d59dad1.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273069_1.0fee91611c.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273068_1.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273068_10.abf4c3d930.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273068_2.6292e64da5.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273069_2.0fee91611c.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273069_10.de3fc90908.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273187_10.7bc66dac23.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/shop/cdn/shop/files/1104273070_2.0fee91611c.png",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 11
+  },
+  {
+    "name": "Collection: Furniture",
+    "url": "/product-category/furniture",
+    "type": "collection",
+    "httpStatus": 200,
+    "title": "Furniture – Ferm Living Demo",
+    "bodyLength": 7450,
+    "status": "PASS",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 11,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273231_1.e94d59dad1.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273069_1.0fee91611c.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273068_1.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273068_10.abf4c3d930.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273187_1.7bc66dac23.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273068_2.6292e64da5.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273069_10.de3fc90908.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273071_3.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273071_2.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/furniture/cdn/shop/files/1104273070_2.0fee91611c.png",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 11
+  },
+  {
+    "name": "Collection: Lighting",
+    "url": "/product-category/lighting",
+    "type": "collection",
+    "httpStatus": 200,
+    "title": "Lighting – Ferm Living Demo",
+    "bodyLength": 6964,
+    "status": "PASS",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 12,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104272783_1.32e07438cc.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104273493_1.b2d9708790.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104272782_1.d9d6711081.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104273185_1.ecdfb184d6.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104272783_12.a5b5f384f8.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104273493_10.b2d9708790.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104273493_12.387afb231e.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104273493_11.b2d9708790.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104272782_11.d9d6711081.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/lighting/cdn/shop/files/1104272783_11.32e07438cc.jpg",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 12
+  },
+  {
+    "name": "Collection: Accessories",
+    "url": "/product-category/accessories",
+    "type": "collection",
+    "httpStatus": 200,
+    "title": "Accessories – Ferm Living Demo",
+    "bodyLength": 7472,
+    "status": "PASS",
+    "brokenImageCount": 3,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/323906_1104270147_10.b72b1ef097.jpg",
+        "alt": "Bon Wooden Tray - Large &amp; Small Gift Set - Smoked Oak"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104270023_1104270022.629079fa4d.webp",
+        "alt": "Agap? Wall Tealight Holder & Candle Holder Gift Set - Brass Finish"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104272110_1104272111.e2e568b06b.webp",
+        "alt": "Bellure Centrepiece & Bowl Gift Set - Rustic Bronze"
+      }
+    ],
+    "networkErrorCount": 16,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/1104270017_1104270018.f59dc51145.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/1104272110_1104272111.442edaa5fc.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/1104270023_1104270022.969fe4d26d.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/1104269432_1104269435.4856319f33.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/273397_1104270018_10.b3f4fe7920.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/272649_1104270017_10.053cfff28b.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/419378_1104270023_10..21c0ce6824.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/323906_1104270147_10.275c6be629.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/245638_1104272383_10.6051410eb4.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/accessories/cdn/shop/files/142932_1104272110_10.0010e35f2c.jpg",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 16
+  },
+  {
+    "name": "Collection: Kids",
+    "url": "/product-category/kids",
+    "type": "collection",
+    "httpStatus": 200,
+    "title": "Kids – Ferm Living Demo",
+    "bodyLength": 7450,
+    "status": "PASS",
+    "brokenImageCount": 3,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104273071_2.157380f78d.png",
+        "alt": "Parcel Pedestal - Dark Stained Oak"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104273069_10.5bbea35373.jpg",
+        "alt": "Parcel Pedestal - Natural Oak"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104273231_1.334092d8f5.png",
+        "alt": "Plyo Ottoman - Staple - Off-White"
+      }
+    ],
+    "networkErrorCount": 16,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273231_1.e94d59dad1.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273068_1.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273068_2.6292e64da5.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273068_10.abf4c3d930.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273187_1.7bc66dac23.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273069_1.0fee91611c.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273071_2.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273069_2.0fee91611c.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273069_10.de3fc90908.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kids/cdn/shop/files/1104273187_10.7bc66dac23.jpg",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 16
+  },
+  {
+    "name": "Collection: Kitchen",
+    "url": "/product-category/kitchen",
+    "type": "collection",
+    "httpStatus": 200,
+    "title": "Kitchen – Ferm Living Demo",
+    "bodyLength": 7450,
+    "status": "PASS",
+    "brokenImageCount": 4,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104273069_2.2de8bcc1a5.png",
+        "alt": "Parcel Pedestal - Natural Oak"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104273070_2.2de8bcc1a5.png",
+        "alt": "Parcel Pedestal - Natural Oak"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104273187_1.961d48a310.png",
+        "alt": "Plyo Pouf - Staple - Dark Brown"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104273231_1.334092d8f5.png",
+        "alt": "Plyo Ottoman - Staple - Off-White"
+      }
+    ],
+    "networkErrorCount": 16,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273068_10.abf4c3d930.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273231_1.e94d59dad1.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273068_1.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273069_1.0fee91611c.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273068_2.6292e64da5.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273187_1.7bc66dac23.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273071_2.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273069_10.de3fc90908.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273187_10.7bc66dac23.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/kitchen/cdn/shop/files/1104273071_3.e38ee38a3e.png",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 16
+  },
+  {
+    "name": "Collection: Textiles",
+    "url": "/product-category/textiles",
+    "type": "collection",
+    "httpStatus": 200,
+    "title": "Textiles – Ferm Living Demo",
+    "bodyLength": 7450,
+    "status": "PASS",
+    "brokenImageCount": 2,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104273068_10.fe7ce3ac46.jpg",
+        "alt": "Parcel Pedestal - Dark Stained Oak"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/1104273071_2.157380f78d.png",
+        "alt": "Parcel Pedestal - Dark Stained Oak"
+      }
+    ],
+    "networkErrorCount": 17,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273068_10.abf4c3d930.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273068_1.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273069_1.0fee91611c.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273187_1.7bc66dac23.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273068_2.6292e64da5.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273231_1.e94d59dad1.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273187_10.7bc66dac23.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273071_3.e38ee38a3e.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273070_2.0fee91611c.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product-category/textiles/cdn/shop/files/1104273071_2.e38ee38a3e.png",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 17
+  },
+  {
+    "name": "Collection: Rugs",
+    "url": "/product-category/rugs",
+    "type": "collection",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "FAIL",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/rugs",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  },
+  {
+    "name": "Collection: Outdoor",
+    "url": "/product-category/outdoor",
+    "type": "collection",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "FAIL",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/outdoor",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  },
+  {
+    "name": "Collection: Sofas",
+    "url": "/product-category/sofas",
+    "type": "collection",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "FAIL",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/sofas",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  },
+  {
+    "name": "Collection: New Arrivals",
+    "url": "/product-category/new-arrivals",
+    "type": "collection",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "FAIL",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/new-arrivals",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  },
+  {
+    "name": "Collection: Bestsellers",
+    "url": "/product-category/bestsellers",
+    "type": "collection",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "FAIL",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/bestsellers",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  },
+  {
+    "name": "Collection: Certified",
+    "url": "/product-category/certified-products",
+    "type": "collection",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "FAIL",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/certified-products",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  },
+  {
+    "name": "Collection: Sale",
+    "url": "/product-category/sale",
+    "type": "collection",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "FAIL",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product-category/sale",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  },
+  {
+    "name": "Product: Rico Lounge Chair",
+    "url": "/product/rico-lounge-chair-raw-boucle-natural",
+    "type": "product",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 3455,
+    "status": "FAIL",
+    "brokenImageCount": 5,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Close"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "",
+        "alt": "Dimension drawing for Meridian Lamp - Black"
+      }
+    ],
+    "networkErrorCount": 5,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product/rico-lounge-chair-raw-boucle-natural",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 5
+  },
+  {
+    "name": "Product: Meridian Lamp",
+    "url": "/product/meridian-lamp-black",
+    "type": "product",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 3455,
+    "status": "FAIL",
+    "brokenImageCount": 5,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Close"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "",
+        "alt": "Dimension drawing for Meridian Lamp - Black"
+      }
+    ],
+    "networkErrorCount": 3,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product/meridian-lamp-black",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 3
+  },
+  {
+    "name": "Product: Rico Sofa",
+    "url": "/product/rico-sofa-2-boucle-off-white",
+    "type": "product",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 3455,
+    "status": "FAIL",
+    "brokenImageCount": 5,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Close"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "",
+        "alt": "Dimension drawing for Meridian Lamp - Black"
+      }
+    ],
+    "networkErrorCount": 3,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product/rico-sofa-2-boucle-off-white",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 3
+  },
+  {
+    "name": "Product: Generic Fallback",
+    "url": "/product/generic-test-product",
+    "type": "product",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 3455,
+    "status": "FAIL",
+    "brokenImageCount": 5,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Close"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "alt": "Meridian Lamp"
+      },
+      {
+        "src": "",
+        "alt": "Dimension drawing for Meridian Lamp - Black"
+      }
+    ],
+    "networkErrorCount": 5,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/product/generic-test-product",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/product/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/2300477_110143101_2.d0193556c9.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/275894_110143101_1.4a37971fcc.png",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 5
+  },
+  {
+    "name": "Blog",
+    "url": "/blog",
+    "type": "blog",
+    "httpStatus": 200,
+    "title": "Blog – Ferm Living Demo",
+    "bodyLength": 3199,
+    "status": "PASS",
+    "brokenImageCount": 11,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_Julia_Khan-1782983525023.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_CPH_City_Guide_Kids_2x-1780473770061.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_CPH_City_Guide_2x-1780407681755.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide_2x-1779446654685.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide-1778244339721.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide_2x-1778157104230.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_Tiffany_2x-1777880686323.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_boda-1777292216453.jpg",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Spring_Summer_2026_Thumbnail-1772636165107.jpg",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Simone_Noa_Thumbnail-1772626353626.jpg",
+        "alt": "Media content"
+      }
+    ],
+    "networkErrorCount": 11,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_Julia_Khan-1782983525023.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_CPH_City_Guide_Kids_2x-1780473770061.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide_2x-1779446654685.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_CPH_City_Guide_2x-1780407681755.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide-1778244339721.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide_2x-1778157104230.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_Tiffany_2x-1777880686323.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Simone_Noa_Thumbnail-1772626353626.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_boda-1777292216453.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Spring_Summer_2026_Thumbnail-1772636165107.jpg",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 11
+  },
+  {
+    "name": "Contact",
+    "url": "/contact",
+    "type": "page",
+    "httpStatus": 200,
+    "title": "Contact – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "PASS",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 0,
+    "networkErrors": [],
+    "consoleErrorCount": 0
+  },
+  {
+    "name": "About",
+    "url": "/about-ferm-living",
+    "type": "page",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "FAIL",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/about-ferm-living",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  },
+  {
+    "name": "Store Locator",
+    "url": "/store-locator",
+    "type": "page",
+    "httpStatus": 200,
+    "title": "Store Locator – Ferm Living Demo",
+    "bodyLength": 1110,
+    "status": "PASS",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/_stockist.co/embed/v1/widget.min.js",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 2
+  },
+  {
+    "name": "Cart",
+    "url": "/cart",
+    "type": "cart",
+    "httpStatus": 200,
+    "title": "Cart – Ferm Living Demo",
+    "bodyLength": 991,
+    "status": "PASS",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 0,
+    "networkErrors": [],
+    "consoleErrorCount": 0
+  },
+  {
+    "name": "Checkout",
+    "url": "/checkout",
+    "type": "checkout",
+    "httpStatus": 200,
+    "title": "Cart – Ferm Living Demo",
+    "bodyLength": 991,
+    "status": "PASS",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 0,
+    "networkErrors": [],
+    "consoleErrorCount": 0
+  },
+  {
+    "name": "Account Login",
+    "url": "/my-account",
+    "type": "account",
+    "httpStatus": 200,
+    "title": "My Account – Ferm Living Demo",
+    "bodyLength": 1167,
+    "status": "PASS",
+    "brokenImageCount": 1,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Lounge_chairs_and_poufs.bba1f6fe03.jpg",
+        "alt": ""
+      }
+    ],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Lounge_chairs_and_poufs.bba1f6fe03.jpg",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  },
+  {
+    "name": "Search",
+    "url": "/?s=test",
+    "type": "search",
+    "httpStatus": 200,
+    "title": "Search Results for “test” – Ferm Living Demo",
+    "bodyLength": 3199,
+    "status": "PASS",
+    "brokenImageCount": 11,
+    "brokenImages": [
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_Julia_Khan-1782983525023.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_CPH_City_Guide_Kids_2x-1780473770061.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_CPH_City_Guide_2x-1780407681755.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide_2x-1779446654685.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide-1778244339721.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide_2x-1778157104230.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_Tiffany_2x-1777880686323.webp",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_boda-1777292216453.jpg",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Spring_Summer_2026_Thumbnail-1772636165107.jpg",
+        "alt": "Media content"
+      },
+      {
+        "src": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Simone_Noa_Thumbnail-1772626353626.jpg",
+        "alt": "Media content"
+      }
+    ],
+    "networkErrorCount": 11,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_Julia_Khan-1782983525023.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide_2x-1779446654685.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_CPH_City_Guide_Kids_2x-1780473770061.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide-1778244339721.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_CPH_City_Guide_2x-1780407681755.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_London_Guide_2x-1778157104230.webp",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Web_stories_top_image_2560x1536_pixel_21-1768568141719.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Spring_Summer_2026_Thumbnail-1772636165107.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_boda-1777292216453.jpg",
+        "status": 404
+      },
+      {
+        "url": "http://localhost:8080/wp-content/frontend/designs/fermliving/cdn/shop/files/Thumbnail_Tiffany_2x-1777880686323.webp",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 11
+  },
+  {
+    "name": "404 Page",
+    "url": "/this-page-does-not-exist-xyz",
+    "type": "404",
+    "httpStatus": 404,
+    "title": "Page not found – Ferm Living Demo",
+    "bodyLength": 4782,
+    "status": "FAIL",
+    "brokenImageCount": 0,
+    "brokenImages": [],
+    "networkErrorCount": 1,
+    "networkErrors": [
+      {
+        "url": "http://localhost:8080/this-page-does-not-exist-xyz",
+        "status": 404
+      }
+    ],
+    "consoleErrorCount": 1
+  }
+]

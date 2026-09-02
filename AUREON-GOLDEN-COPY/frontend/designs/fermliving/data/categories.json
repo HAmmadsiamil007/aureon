@@ -1,0 +1,44 @@
+[
+    {
+        "name": "Furniture",
+        "count": "42 Products",
+        "image": "assets/categories/furniture.webp",
+        "url": "/collections/furniture/",
+        "modifier": ""
+    },
+    {
+        "name": "Lighting",
+        "count": "28 Products",
+        "image": "assets/categories/lighting.webp",
+        "url": "/collections/lighting/",
+        "modifier": ""
+    },
+    {
+        "name": "Accessories",
+        "count": "56 Products",
+        "image": "assets/categories/accessories.webp",
+        "url": "/collections/accessories/",
+        "modifier": ""
+    },
+    {
+        "name": "Kids",
+        "count": "18 Products",
+        "image": "assets/categories/kids.webp",
+        "url": "/collections/kids/",
+        "modifier": ""
+    },
+    {
+        "name": "Kitchen",
+        "count": "24 Products",
+        "image": "assets/categories/kitchen.webp",
+        "url": "/collections/kitchen/",
+        "modifier": ""
+    },
+    {
+        "name": "Green Space",
+        "count": "12 Products",
+        "image": "assets/categories/green-space.webp",
+        "url": "/collections/green-space/",
+        "modifier": ""
+    }
+]

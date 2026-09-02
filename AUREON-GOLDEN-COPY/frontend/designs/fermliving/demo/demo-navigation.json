@@ -1,0 +1,182 @@
+{
+  "source": "demo",
+  "version": "2.0.0",
+  "source_site": "fermliving.com",
+  "last_verified": "2026-08-31",
+  "main": [
+    {
+      "title": "Shop",
+      "url": "/collections/all/",
+      "children": [
+        {
+          "title": "Furniture",
+          "url": "/collections/furniture/"
+        },
+        {
+          "title": "Lighting",
+          "url": "/collections/lighting/"
+        },
+        {
+          "title": "Accessories",
+          "url": "/collections/accessories/"
+        },
+        {
+          "title": "Kids",
+          "url": "/collections/kids/"
+        },
+        {
+          "title": "Kitchen",
+          "url": "/collections/kitchen/"
+        },
+        {
+          "title": "Textiles",
+          "url": "/collections/textiles/"
+        },
+        {
+          "title": "Rugs",
+          "url": "/collections/rugs/"
+        },
+        {
+          "title": "Outdoor Living",
+          "url": "/collections/outdoor-living/"
+        },
+        {
+          "title": "Sofas & Daybeds",
+          "url": "/collections/sofas-and-daybeds/"
+        }
+      ]
+    },
+    {
+      "title": "New Arrivals",
+      "url": "/collections/new-arrivals/",
+      "children": []
+    },
+    {
+      "title": "Bestsellers",
+      "url": "/collections/bestsellers/",
+      "children": []
+    },
+    {
+      "title": "Certified",
+      "url": "/collections/certified-products/",
+      "children": []
+    },
+    {
+      "title": "Inspiration",
+      "url": "/pages/room-inspiration/",
+      "children": [
+        {
+          "title": "Stories",
+          "url": "/blogs/stories/"
+        },
+        {
+          "title": "Room Inspiration",
+          "url": "/pages/room-inspiration/"
+        },
+        {
+          "title": "Sustainability",
+          "url": "/pages/sustainability/"
+        }
+      ]
+    },
+    {
+      "title": "About",
+      "url": "/pages/about-ferm-living/",
+      "children": [
+        {
+          "title": "Our Story",
+          "url": "/pages/about-ferm-living/"
+        },
+        {
+          "title": "Sustainability",
+          "url": "/pages/sustainability/"
+        },
+        {
+          "title": "Careers",
+          "url": "/pages/careers/"
+        }
+      ]
+    }
+  ],
+  "footer": [
+    {
+      "title": "Shop",
+      "children": [
+        {
+          "title": "Furniture",
+          "url": "/collections/furniture/"
+        },
+        {
+          "title": "Lighting",
+          "url": "/collections/lighting/"
+        },
+        {
+          "title": "Accessories",
+          "url": "/collections/accessories/"
+        },
+        {
+          "title": "Kids",
+          "url": "/collections/kids/"
+        },
+        {
+          "title": "Kitchen",
+          "url": "/collections/kitchen/"
+        },
+        {
+          "title": "Textiles",
+          "url": "/collections/textiles/"
+        },
+        {
+          "title": "Rugs",
+          "url": "/collections/rugs/"
+        },
+        {
+          "title": "Outdoor Living",
+          "url": "/collections/outdoor-living/"
+        }
+      ]
+    },
+    {
+      "title": "About",
+      "children": [
+        {
+          "title": "Our Story",
+          "url": "/pages/about-ferm-living/"
+        },
+        {
+          "title": "Sustainability",
+          "url": "/pages/sustainability/"
+        },
+        {
+          "title": "Careers",
+          "url": "/pages/careers/"
+        },
+        {
+          "title": "Press",
+          "url": "/pages/press/"
+        }
+      ]
+    },
+    {
+      "title": "Help",
+      "children": [
+        {
+          "title": "Contact",
+          "url": "/pages/contact/"
+        },
+        {
+          "title": "FAQ",
+          "url": "/pages/faq/"
+        },
+        {
+          "title": "Shipping",
+          "url": "/pages/shipping/"
+        },
+        {
+          "title": "Returns",
+          "url": "/pages/returns/"
+        }
+      ]
+    }
+  ]
+}

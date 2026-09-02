@@ -49,10 +49,7 @@ frontend/tests/results/
 # Local install package (root-level staging copy only)
 /theme/
 
-# Frozen development copies (archived in git history, commit 13bd4a3)
-# These were pre-transformation snapshots and are no longer active.
-AUREON-GOLDEN-COPY/
-AUREON-WORDPRESS-DEPLOY/
+# Active development copies (updated 2026-09-02)
 _temp_golden/
 
 # Archives (created during Phase 8 cleanup)

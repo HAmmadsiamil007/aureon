@@ -1,0 +1,21 @@
+.aureon-control-toggles {
+	display: flex;
+}
+
+.aureon-control-toggles button {
+	flex-basis: 100%;
+	background-color: #fafafa;
+	border: 1px solid #ddd;
+	cursor: pointer;
+	padding: 5px 10px;
+}
+
+.aureon-control-toggles button:last-child {
+	border-left: 0;
+}
+
+.aureon-control-toggles button.active {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	font-weight: bold;
+}

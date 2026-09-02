@@ -1,0 +1,135 @@
+{
+  "h1": {
+    "/": {
+      "h1Count": 0,
+      "headings": [
+        "H2: Style  Redefined",
+        "H2: Elegance  Redefined",
+        "H2: Elevate Your  Wardrobe",
+        "H4: Best Sellers",
+        "H2: 50% OFF",
+        "H4: Categories"
+      ]
+    },
+    "/shop/": {
+      "h1Count": 0,
+      "headings": [
+        "H4: Women"
+      ]
+    },
+    "/product/vineta-test-simple-product/": {
+      "h1Count": 0,
+      "headings": [
+        "H4: People Also Bought",
+        "H4: Recently Viewed"
+      ]
+    },
+    "/product/vineta-test-variable-product/": {
+      "h1Count": 0,
+      "headings": [
+        "H4: People Also Bought",
+        "H4: Recently Viewed"
+      ]
+    },
+    "/cart/": {
+      "h1Count": 0,
+      "headings": [
+        "H4: Shopping Cart",
+        "H4: You May Also Like"
+      ]
+    },
+    "/my-account/": {
+      "h1Count": 0,
+      "headings": [
+        "H4: My Account"
+      ]
+    },
+    "/blog/": {
+      "h1Count": 0,
+      "headings": [
+        "H4: Blogs"
+      ]
+    },
+    "/about-us/": {
+      "h1Count": 0,
+      "headings": [
+        "H2: Style  Redefined",
+        "H2: Elegance  Redefined",
+        "H2: Elevate Your  Wardrobe",
+        "H4: Best Sellers",
+        "H2: 50% OFF",
+        "H4: Categories"
+      ]
+    },
+    "/contact-us/": {
+      "h1Count": 0,
+      "headings": [
+        "H2: Style  Redefined",
+        "H2: Elegance  Redefined",
+        "H2: Elevate Your  Wardrobe",
+        "H4: Best Sellers",
+        "H2: 50% OFF",
+        "H4: Categories"
+      ]
+    },
+    "/faq/": {
+      "h1Count": 0,
+      "headings": [
+        "H4: Frequently Asked Questions"
+      ]
+    }
+  },
+  "broken_by_page": {
+    "/": 29,
+    "/shop/": 6
+  },
+  "broken_srcs": [
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/slider/fashion/slider-fashion-1.png",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/slider/fashion/slider-fashion-2.png",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/slider/fashion/slider-fashion-3.png",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/top.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/men.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/kid.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-dress.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-partywear.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-jewelry.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-tops.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-bottoms.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-sportwear.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-sportwear.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-dress.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-partywear.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-jewelry.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-bottoms.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/cls-categories/fashion/circle-tops.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/testimonial/author/author-fs1.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/testimonial/author/author-fs2.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/testimonial/author/author-fs3.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/testimonial/author/author-fs4.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/testimonial/author/author-fs5.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/gallery/fashion/gallery-1.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/gallery/fashion/gallery-2.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/gallery/fashion/gallery-3.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/gallery/fashion/gallery-4.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/gallery/fashion/gallery-5.jpg",
+    "http://localhost:8080/wp-content/frontend/designs/vineta/images/section/newsletter-1.jpg"
+  ],
+  "plugins": {
+    "wc": true,
+    "wc_blocks": false,
+    "wp": true,
+    "jQuery": true,
+    "yoast": false,
+    "elementor": false,
+    "cf7": false,
+    "mailchimp": false,
+    "analytics": false,
+    "tawk": false,
+    "freshdesk": false,
+    "caching": false,
+    "seo": false,
+    "lang": "en_US",
+    "wc_cart_hash": false,
+    "wc_meta": 0
+  }
+}

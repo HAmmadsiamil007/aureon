@@ -1,0 +1,46 @@
+{
+  "id": "testclient",
+  "label": "Test Client — Isolation Verification Pack",
+  "version": "1.0.0",
+  "complete_page": true,
+  "assets": {
+    "css": [
+      "css/testclient.css"
+    ],
+    "js": [
+      {
+        "file": "js/testclient.js",
+        "deps": []
+      }
+    ]
+  },
+  "pages": {
+    "home": "index.html",
+    "blog": "blog.html",
+    "cart": "cart.html",
+    "checkout": "checkout.html",
+    "account": "account.html",
+    "products": {
+      "rico-lounge-chair-raw-boucle-natural": "product.html",
+      "meridian-lamp-black": "product.html"
+    },
+    "collections": {
+      "lighting": "collection.html",
+      "accessories": "collection.html",
+      "furniture": "collection.html"
+    },
+    "pages": {
+      "contact": "page.html",
+      "about": "page.html"
+    }
+  },
+  "data": {
+    "required": ["site", "header", "menu", "announcement", "hero", "wc-products", "wc-categories", "blog", "newsletter", "footer"],
+    "optional": ["product", "cart", "account", "order", "contact", "faq", "team", "testimonials", "wishlist", "auth", "coming-soon", "shop-hero", "wc-filter", "article"]
+  },
+  "integrations": {
+    "woocommerce": ["shop grid", "product cards", "categories", "cart", "checkout", "account"],
+    "plugins": ["aureon newsletter", "aureon ajax", "aureon analytics"],
+    "wordpress": ["nav menus", "pages", "blog"]
+  }
+}
