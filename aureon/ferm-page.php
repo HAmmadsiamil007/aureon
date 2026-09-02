@@ -262,6 +262,10 @@ function aureon_ferm_resolve_page() {
 		if ( $slug && ! empty( $pages['pages'][ $slug ] ) ) {
 			return $pages['pages'][ $slug ];
 		}
+		// Fallback: check the 'static' key in manifest.
+		if ( $slug && ! empty( $pages['static'][ $slug ] ) ) {
+			return $pages['static'][ $slug ];
+		}
 	}
 
 	// Product URL pattern detection — catches product-like URLs that WordPress
@@ -372,10 +376,13 @@ function aureon_ferm_resolve_page() {
 		$slug = get_query_var( 'pagename' );
 		$page_map = array(
 			'contact'           => 'pages/contact.html',
+			'contact-us'        => 'contact-us.html',
 			'about'             => 'pages/about-ferm-living.html',
+			'about-us'          => 'about-us.html',
 			'about-ferm-living' => 'pages/about-ferm-living.html',
 			'store-locator'     => 'pages/store-locator.html',
 			'store locator'     => 'pages/store-locator.html',
+			'faq'               => 'faq.html',
 		);
 		if ( isset( $page_map[ $slug ] ) ) {
 			return $page_map[ $slug ];

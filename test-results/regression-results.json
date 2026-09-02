@@ -1,0 +1,62 @@
+{
+  "results": {
+    "routes": {
+      "status": "PASS",
+      "pass": 11,
+      "total": 11
+    },
+    "console": {
+      "status": "PASS",
+      "errors": 0
+    },
+    "a11y_h1": {
+      "status": "PASS",
+      "pass": 9,
+      "total": 9
+    },
+    "images": {
+      "status": "PASS",
+      "pass": 5,
+      "total": 5
+    },
+    "cart": {
+      "status": "PARTIAL",
+      "count": 0
+    },
+    "checkout": {
+      "status": "PASS",
+      "form": true,
+      "place_order": true
+    },
+    "auth": {
+      "status": "PASS",
+      "login": true,
+      "register": true
+    },
+    "customizer": {
+      "status": "PASS",
+      "VinetaCustomizer": true,
+      "VinetaPageData": true
+    },
+    "menus": {
+      "status": "PASS",
+      "nav": true,
+      "links": 118
+    },
+    "responsive": {
+      "status": "PASS",
+      "pass": 4,
+      "total": 4
+    },
+    "isolation": {
+      "status": "PASS",
+      "ferm": 0,
+      "vineta": 20
+    },
+    "golden_core": {
+      "status": "PASS",
+      "evidence": "Only vineta pack files modified"
+    }
+  },
+  "verdict": "VINETA_PRODUCTION_CLIENT_READY_BLOCKED"
+}

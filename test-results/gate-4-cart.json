@@ -1,0 +1,34 @@
+{
+  "status": "PARTIAL",
+  "passed": 6,
+  "total": 7,
+  "details": {
+    "add_simple": {
+      "pass": true,
+      "evidence": "Clicked add to cart"
+    },
+    "add_variable": {
+      "pass": false,
+      "evidence": "No add button after variation"
+    },
+    "cart_page": {
+      "pass": true,
+      "rows": 1,
+      "total": "$24.99 USD",
+      "empty": false
+    },
+    "qty_increase": {
+      "pass": true
+    },
+    "qty_decrease": {
+      "pass": true
+    },
+    "remove": {
+      "pass": true
+    },
+    "persistence": {
+      "pass": true,
+      "rows_after_reload": 3
+    }
+  }
+}

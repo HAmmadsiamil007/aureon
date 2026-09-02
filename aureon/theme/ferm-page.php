@@ -302,6 +302,10 @@ function aureon_ferm_resolve_page() {
 			if ( $slug && ! empty( $pages['pages'][ $slug ] ) ) {
 				return $pages['pages'][ $slug ];
 			}
+			// Fallback: check the 'static' key in manifest.
+			if ( $slug && ! empty( $pages['static'][ $slug ] ) ) {
+				return $pages['static'][ $slug ];
+			}
 		}
 
 		// Blog / posts archive.

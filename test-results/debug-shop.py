@@ -1,0 +1,16 @@
+from playwright.sync_api import sync_playwright
+import time
+p = sync_playwright().start()
+b = p.chromium.launch(headless=True)
+ctx = b.new_context(viewport={'width':1440,'height':900})
+pg = ctx.new_page()
+pg.goto('http://localhost:8080/shop/?nocache=1', wait_until='networkidle', timeout=15000)
+time.sleep(2)
+h1_count = pg.evaluate('document.querySelectorAll("h1").length')
+first_h1 = pg.evaluate('document.querySelector("h1") ? document.querySelector("h1").outerHTML.substring(0,200) : "NONE"')
+page_title = pg.evaluate('document.querySelector(".tf-page-title") ? document.querySelector(".tf-page-title").innerHTML.substring(0,400) : "NO"')
+print('H1 count:', h1_count)
+print('First H1:', first_h1)
+print('Page title HTML:', page_title[:300])
+b.close()
+p.stop()
