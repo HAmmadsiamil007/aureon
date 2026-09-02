@@ -337,7 +337,7 @@ function aureon_ferm_resolve_page() {
 		}
 	}
 
-	// --- Fallback: hardcoded Ferm route map (backward compatibility) ---
+	// --- Fallback: generic route map (backward compatibility) ---
 	// Homepage.
 	if ( is_front_page() || ( is_home() && ! is_paged() ) ) {
 		return 'index.html';
@@ -384,11 +384,10 @@ function aureon_ferm_resolve_page() {
 	if ( is_page() ) {
 		$slug = get_query_var( 'pagename' );
 		$page_map = array(
-			'contact'           => 'pages/contact.html',
-			'about'             => 'pages/about-ferm-living.html',
-			'about-ferm-living' => 'pages/about-ferm-living.html',
-			'store-locator'     => 'pages/store-locator.html',
-			'store locator'     => 'pages/store-locator.html',
+			'contact'       => 'pages/contact.html',
+			'about'         => 'pages/about.html',
+			'store-locator' => 'pages/store-locator.html',
+			'store locator' => 'pages/store-locator.html',
 		);
 		if ( isset( $page_map[ $slug ] ) ) {
 			return $page_map[ $slug ];
@@ -509,89 +508,98 @@ function aureon_ferm_render_attrs( $attrs ) {
  */
 function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 	$site_url = home_url();
-	// Live CDN base — load images/media directly from fermliving.com Shopify CDN
-	$live_cdn = 'https://fermliving.com/';
+	// Live CDN base — resolve from active pack or skip CDN rewriting.
+	$live_cdn = '';
+	if ( function_exists( 'aether_active_design' ) ) {
+		$design = aether_active_design();
+		// Legacy Ferm pack shipped remote CDN assets; Vineta and future packs use local assets.
+		if ( 'fermliving' === $design ) {
+			$live_cdn = 'https://fermliving.com/';
+		}
+	}
 
 	// Rewrite <img src="cdn/..."> and <img src="../cdn/...">
-	$content = preg_replace(
-		'/(<img\s[^>]*src\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
-		'$1' . $live_cdn . '$2',
-		$content
-	);
+	if ( $live_cdn ) {
+		$content = preg_replace(
+			'/(<img\s[^>]*src\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
+			'$1' . $live_cdn . '$2',
+			$content
+		);
 
-	// Rewrite ALL cdn/ URLs inside srcset attributes (each srcset has multiple comma-separated entries)
-	$content = preg_replace_callback(
-		'/(<img\s[^>]*srcset\s*=\s*["\'])([^"\']*)["\']/i',
-		function ( $m ) use ( $live_cdn ) {
-			$prefix = $m[1];
-			$srcset = $m[2];
-			$rewritten = preg_replace(
-				'/(^|,\s*)((?:\.\.\/)?cdn\/)/',
-				'$1' . $live_cdn . '$2',
-				$srcset
-			);
-			return $prefix . $rewritten . '"';
-		},
-		$content
-	);
+		// Rewrite ALL cdn/ URLs inside srcset attributes (each srcset has multiple comma-separated entries)
+		$content = preg_replace_callback(
+			'/(<img\s[^>]*srcset\s*=\s*["\'])([^"\']*)["\']/i',
+			function ( $m ) use ( $live_cdn ) {
+				$prefix = $m[1];
+				$srcset = $m[2];
+				$rewritten = preg_replace(
+					'/(^|,\s*)((?:\.\.\/)?cdn\/)/',
+					'$1' . $live_cdn . '$2',
+					$srcset
+				);
+				return $prefix . $rewritten . '"';
+			},
+			$content
+		);
 
-	// Rewrite ALL cdn/ URLs inside <source srcset="...">
-	$content = preg_replace_callback(
-		'/(<source\s[^>]*srcset\s*=\s*["\'])([^"\']*)["\']/i',
-		function ( $m ) use ( $live_cdn ) {
-			$prefix = $m[1];
-			$srcset = $m[2];
-			$rewritten = preg_replace(
-				'/(^|,\s*)((?:\.\.\/)?cdn\/)/',
-				'$1' . $live_cdn . '$2',
-				$srcset
-			);
-			return $prefix . $rewritten . '"';
-		},
-		$content
-	);
+		// Rewrite ALL cdn/ URLs inside <source srcset="...">
+		$content = preg_replace_callback(
+			'/(<source\s[^>]*srcset\s*=\s*["\'])([^"\']*)["\']/i',
+			function ( $m ) use ( $live_cdn ) {
+				$prefix = $m[1];
+				$srcset = $m[2];
+				$rewritten = preg_replace(
+					'/(^|,\s*)((?:\.\.\/)?cdn\/)/',
+					'$1' . $live_cdn . '$2',
+					$srcset
+				);
+				return $prefix . $rewritten . '"';
+			},
+			$content
+		);
 
-	// Rewrite <source src="cdn/...">
-	$content = preg_replace(
-		'/(<source\s[^>]*\bsrc\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
-		'$1' . $live_cdn . '$2',
-		$content
-	);
+		// Rewrite <source src="cdn/...">
+		$content = preg_replace(
+			'/(<source\s[^>]*\bsrc\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
+			'$1' . $live_cdn . '$2',
+			$content
+		);
 
-	// Rewrite external _cdn.assets.struct.com URLs to live struct.com CDN
-	$content = preg_replace(
-		'/\.\.\/_cdn\.assets\.struct\.com\//',
-		'https://cdn.assets.struct.com/',
-		$content
-	);
+		// Rewrite external _cdn.assets.struct.com URLs to live struct.com CDN
+		$content = preg_replace(
+			'/\.\.\/_cdn\.assets\.struct\.com\//',
+			'https://cdn.assets.struct.com/',
+			$content
+		);
 
-	// Rewrite protocol-relative //fermliving.com/cdn/... — keep on live CDN
-	$content = preg_replace(
-		'/((?:poster|src|href|data-[a-z-]+)\s*=\s*["\'])\/\/fermliving\.com\/cdn\//i',
-		'$1' . $live_cdn . 'cdn/',
-		$content
-	);
+		// Rewrite protocol-relative CDN URLs
+		$content = preg_replace(
+			'/((?:poster|src|href|data-[a-z-]+)\s*=\s*["\'])\/\/fermliving\.com\/cdn\//i',
+			'$1' . $live_cdn . 'cdn/',
+			$content
+		);
 
-	// Rewrite bare <a href="cdn/..."> links — keep on live CDN
-	$content = preg_replace(
-		'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?cdn\/)/i',
-		'$1' . $live_cdn . '$2',
-		$content
-	);
+		// Rewrite bare <a href="cdn/..."> links
+		$content = preg_replace(
+			'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?cdn\/)/i',
+			'$1' . $live_cdn . '$2',
+			$content
+		);
 
-	// Rewrite <link rel="preload" href="cdn/..."> — keep on live CDN
-	$content = preg_replace(
-		'/(<link\s[^>]*href\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
-		'$1' . $live_cdn . '$2',
-		$content
-	);
+		// Rewrite <link rel="preload" href="cdn/...">
+		$content = preg_replace(
+			'/(<link\s[^>]*href\s*=\s*["\'])((?:\.\.\/)?cdn\/)/i',
+			'$1' . $live_cdn . '$2',
+			$content
+		);
 
-	// Rewrite CSS url() references: url(cdn/...) — keep on live CDN for font/image assets
-	$content = preg_replace(
-		'/(url\(\s*["\']?)((?:\.\.\/)?cdn\/)/i',
-		'$1' . $live_cdn . '$2',
-		$content
-	);
+		// Rewrite CSS url() references: url(cdn/...)
+		$content = preg_replace(
+			'/(url\(\s*["\']?)((?:\.\.\/)?cdn\/)/i',
+			'$1' . $live_cdn . '$2',
+			$content
+		);
+	}
 
 	// Rewrite nav/content links: Shopify paths -> WordPress routes
 	// Index/home: index.html -> /

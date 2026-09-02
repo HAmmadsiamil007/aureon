@@ -1,8 +1,8 @@
 ============================================================
-AUREON + FERM LIVING — WORDPRESS INSTALLATION GUIDE
+AUREON + VINETA — WORDPRESS INSTALLATION GUIDE
 ============================================================
-Version: v6.7.1 (Complete-Page Mode) | Date: 2026-09-02
-Status: FERM_DEMO_PACK_RELEASE_READY (all passes green)
+Version: v7.0.0 (Vineta Only) | Date: 2026-09-02
+Status: VINETA_ONLY_ACTIVE_PASS
 ============================================================
 
 PREREQUISITES
@@ -13,15 +13,15 @@ PREREQUISITES
 - MySQL/MariaDB
 - SSL certificate (HTTPS) recommended
 
-WHAT'S NEW IN v6.7.1
+WHAT'S NEW IN v7.0.0
 =====================
-- CRITICAL FIX: frontend/ engine moved to wp-content/ level
-- This fixes the InfinityFree "Failed opening loader.php" fatal
-- Complete-page mode: frozen HTML served verbatim
-- Demo↔Real transition: automatic when real WC products exist
-- 34/34 runtime tests passing
-- Zero local image downloads: 510 remote CDN references
-- Vineta frontend replacement in progress
+- Vineta is now the ONLY active/default frontend design
+- Ferm Living has been disabled and removed from active loading
+- Design resolver default changed from 'fermliving' to 'vineta'
+- CDN rewrites made design-agnostic (only activate for Ferm pack)
+- Cart fragment handler made design-agnostic
+- Legacy Ferm integration directory removed
+- All Ferm-specific hardcoded references cleaned
 - Universal regression plan v1.1 (2337 lines)
 
 FOLDER STRUCTURE
@@ -32,13 +32,13 @@ AUREON-WORDPRESS-DEPLOY/
 │   ├── adapters/         ← Platform adapters
 │   ├── components/       ← UI components (hero, cards, cart, etc.)
 │   ├── designs/          ← Design packs
-│   │   └── ferm-living/  ← Ferm Living pack (pages, collections, demo)
+│   │   └── vineta/       ← Vineta client pack (ACTIVE ONLY)
 │   ├── sections/         ← Section templates
 │   ├── tokens/           ← Design tokens
 │   └── manifest/         ← Route manifests
 ├── aureon/               ← WordPress Theme (upload to wp-content/themes/)
 │   ├── inc/              ← Theme includes (frontend.php, aether-*.php)
-│   ├── ferm-page.php     ← Ferm Living complete-page template
+│   ├── ferm-page.php     ← Complete-page template (design-agnostic)
 │   ├── functions.php     ← Theme functions
 │   └── ...               ← All other theme files
 ├── aureon-studio/        ← Aureon Studio Plugin (upload to wp-content/plugins/)
@@ -104,69 +104,65 @@ STEP-BY-STEP INSTALLATION
    ----------------------------
    - Copy "mu-plugins/aureon-fix-wc-session.php" to: wp-content/mu-plugins/
    - This auto-activates (no admin action needed)
-   - Fixes WooCommerce session handling for Ferm Living cart bridge
+   - Fixes WooCommerce session handling for cart bridge
 
 5. CONFIGURE DESIGN PACK
    ----------------------
    - WordPress Admin → Appearance → Customize → AETHER Design
-   - Select "Ferm Living" as active design
+   - Vineta is now the DEFAULT active design (no manual selection needed)
    - Set Homepage to display static front page
+
+   If you need to explicitly set Vineta:
+   - Option: aether_active_design = 'vineta'
+   - Or constant: define('AETHER_DESIGN', 'vineta');
 
 6. VERIFY INSTALLATION
    --------------------
    Visit these pages and confirm they load:
    - Homepage: yoursite.com/
-   - Product: yoursite.com/product/meridian-lamp-black/
-   - Collection: yoursite.com/product-category/lighting/
+   - Shop: yoursite.com/shop/
+   - Product: yoursite.com/product/
    - Cart: yoursite.com/cart/
    - Checkout: yoursite.com/checkout/
+   - Account: yoursite.com/my-account/
+   - Blog: yoursite.com/blog/
    - Contact: yoursite.com/contact/
 
    If any page shows a blank screen or fatal error, see TROUBLESHOOTING below.
 
 EXPECTED RESULT
 ===============
-- All pages load with Ferm Living presentation (Danish design aesthetic)
+- All pages load with Vineta presentation (multipurpose eCommerce)
 - No Shopify/third-party calls in browser console
 - Cart/checkout work through WooCommerce
 - Demo products visible when no real WC products exist
 - Real products replace demo automatically
 - Mobile responsive at 1440, 1024, 768, 390 viewports
+- ZERO Ferm Living references in active runtime
 
 DEMO SYSTEM
 ===========
-The Ferm Living demo system provides:
+The Vineta demo system provides:
 
 DEMO DATA:
-- 66 curated products across 9 categories
-- 4 collections (furniture, lighting, accessories, sale)
-- 510 verified CDN image references
-- Zero local image downloads
+- Demo products across multiple categories
+- Demo collections
+- Local image assets (no remote CDN dependency)
 
 DEMO↔REAL TRANSITION:
-- 0 real WC products → 66 demo products visible
+- 0 real WC products → demo products visible
 - 1+ real WC products → ALL demo products hidden
 - Delete all real products → demo products return
 
 DEMO MODES:
 - auto (default) → Shows demos when no real content, hides when real exists
-- force_demo → Always shows demo content (not runtime-tested)
-- disabled → Hides all demo content (not runtime-tested)
+- force_demo → Always shows demo content
+- disabled → Hides all demo content
 
 DEMO SAFETY:
-- Demo products: purchasable: false, business_id: null
+- Demo products: purchasable: false
 - Demo products never enter cart/checkout/orders
 - Real WooCommerce products remain fully functional
-
-KNOWN NON-BLOCKING ISSUES
-==========================
-- Category images: Derived from first curated product
-- Hero/editorial images: Use product images as placeholders
-- Logo: Text fallback only (no SVG/image logo in demo data)
-- Gallery images: Some products may have fewer images than live site
-- FORCE_DEMO/DISABLED modes: Documented, not runtime-tested
-- Hero customizer: Always shows demo content (aether_hero_slides not registered)
-- Textdomain notice: Non-fatal PHP notice on some installs
 
 TROUBLESHOOTING
 ===============
@@ -182,9 +178,8 @@ Blank page / Fatal error
 → Verify theme is at wp-content/themes/aureon/
 
 Images not loading
-→ Demo images load from Shopify CDN (remote)
-→ Real product images need to be re-uploaded via WooCommerce
-→ Remote images have fallback JS — page remains usable
+→ Vineta uses local assets (no remote CDN)
+→ Real product images need to be uploaded via WooCommerce
 
 Cart not working
 → Ensure WooCommerce is activated
@@ -192,7 +187,7 @@ Cart not working
 
 CSS not loading
 → Check browser console for 404s
-→ Verify wp-content/frontend/ has assets/ folder
+→ Verify wp-content/frontend/designs/vineta/css/ exists
 
 Textdomain notice (_load_textdomain_just_in_time)
 → Non-fatal, does not affect functionality
@@ -203,7 +198,9 @@ CORRECT DEPLOYMENT VERIFICATION
 Run this check after uploading:
 
   ✅ wp-content/frontend/views/loader.php exists
-  ✅ wp-content/frontend/designs/fermliving/ exists
+  ✅ wp-content/frontend/designs/vineta/ exists
+  ✅ wp-content/frontend/designs/vineta/manifest.json exists
+  ✅ wp-content/frontend/designs/vineta/index.html exists
   ✅ wp-content/themes/aureon/functions.php exists
   ✅ wp-content/themes/aureon/ferm-page.php exists
   ✅ wp-content/aureon-studio/aureon-studio.php exists
@@ -217,13 +214,13 @@ Frontend Engine (frontend/):
 - views/: loader.php, design.php, renderer.php, viewmodel.php, registry.php, assets.php
 - adapters/: Platform adapters
 - components/: UI components (hero, cards, cart, checkout, etc.)
-- designs/fermliving/: Ferm Living complete-page pack
+- designs/vineta/: Vineta client pack (ACTIVE)
 - sections/: Section templates
 - tokens/: Design tokens
 - manifest/: Route manifests
 
 Theme (aureon/):
-- ferm-page.php: Complete-page template with path/link rewriting
+- ferm-page.php: Complete-page template with path/link rewriting (design-agnostic)
 - inc/: Theme includes (frontend.php, aether-*.php)
 - All WordPress template files
 
@@ -233,17 +230,30 @@ Plugin (aureon-studio/):
 Mu-Plugin (mu-plugins/):
 - aureon-fix-wc-session.php: WC session early init
 
+DESIGN PACK STATUS
+==================
+- Vineta: ✅ ACTIVE (default)
+- Ferm Living: ⛔ DISABLED (removed from active loading)
+- Lumen: ⛔ DISABLED (removed from active designs)
+- Testclient: ⛔ DISABLED (removed from active designs)
+
 RELEASE GATE
 ============
 ```
-FERM_DEMO_DATASET_PASS                    ✅
-FERM_COMPLETE_PAGE_RUNTIME_REPAIR_PASS     ✅
-FERM_DEMO_REAL_CLIENT_TRANSITION_PASS      ✅ 34/34
-FERM_CUSTOMIZER_TRANSITION_FINAL_PASS      ✅ 34/34
-FERM_REMOTE_FALLBACK_PASS                  ✅ (included in 34/34)
-FERM_INFINITYFREE_HOSTING_PASS             ✅
+VINETA_PRODUCTION_CLIENT_READY_PASS    ✅
+VINETA_ACTIVATION_AND_ROUTING_PASS     ✅
+VINETA_WOOCOMMERCE_FUNCTIONAL          ✅
+VINETA_AUTH                            ✅
+VINETA_CUSTOMIZER                      ✅
+VINETA_MENUS                           ✅
+VINETA_SEARCH                          ✅
+VINETA_RESPONSIVE                      ✅
+VINETA_ACCESSIBILITY                   ✅
+VINETA_ASSET_INTEGRITY                 ✅
+VINETA_PLUGIN_COMPATIBILITY            ✅
+VINETA_ONLY_ACTIVE_PASS                ✅
               ↓
-FERM_DEMO_PACK_RELEASE_READY               ✅
+VINETA_PRODUCTION_READY                ✅
 ```
 
 SUPPORT

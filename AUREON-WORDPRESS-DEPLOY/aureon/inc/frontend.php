@@ -98,7 +98,7 @@ function aureon_aether_suppress_theme_output() {
 			'aether-pages',
 			'aether-fonts',
 			'aether-tokens',
-			// WooCommerce presentation CSS — Ferm has its own styling.
+			// WooCommerce presentation CSS — complete-page designs have their own styling.
 			'woocommerce-general',
 			'woocommerce-layout',
 			'woocommerce-smallscreen',
@@ -284,13 +284,12 @@ function aureon_aether_wc_page_templates( $template ) {
 add_filter( 'template_include', 'aureon_aether_wc_page_templates', 99 );
 
 /**
- * Route Ferm Living complete pages to the standalone HTML templates.
+ * Route complete-page designs to the standalone HTML templates.
  *
- * When the fermliving design pack is active, bypass the AETHER shell
- * (header.php → aether_compose_header / footer.php → aether_compose_footer)
- * and serve the complete client HTML directly. WordPress wp_head() and
- * wp_footer() are still called for admin bar, WooCommerce cart fragments,
- * and enqueued pack CSS/JS.
+ * When a complete-page design pack is active (Vineta, Ferm Living, etc.),
+ * bypass the AETHER shell (header.php / footer.php) and serve the complete
+ * client HTML directly. WordPress wp_head() and wp_footer() are still called
+ * for admin bar, WooCommerce cart fragments, and enqueued pack CSS/JS.
  *
  * Runs at priority 998 — AFTER the WC page template router (priority 99)
  * so cart/checkout/account keep their AETHER templates.
@@ -303,8 +302,8 @@ function aureon_ferm_template_include( $template ) {
 		return $template;
 	}
 
-	// Checkout must use WooCommerce's native template (not the frozen Ferm HTML
-	// which contains a Shopify redirect). Let WC handle checkout routing.
+	// Checkout must use WooCommerce's native template (not the frozen HTML
+	// which may contain a Shopify redirect). Let WC handle checkout routing.
 	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
 		return $template;
 	}
@@ -315,10 +314,10 @@ function aureon_ferm_template_include( $template ) {
 		return $template;
 	}
 
-	// Serve the complete Ferm page template.
-	$ferm_template = get_template_directory() . '/ferm-page.php';
-	if ( file_exists( $ferm_template ) ) {
-		return $ferm_template;
+	// Serve the complete page template.
+	$complete_template = get_template_directory() . '/ferm-page.php';
+	if ( file_exists( $complete_template ) ) {
+		return $complete_template;
 	}
 
 	return $template;
