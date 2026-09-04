@@ -1,0 +1,62 @@
+{
+  "release": {
+    "name": "VINETA-REDESIGN-RC2-2026-09-04",
+    "date": "2026-09-04",
+    "git": {
+      "repo": "https://github.com/HAmmadsiamil007/aureon",
+      "branch": "master",
+      "commit_at_build": "3c2571d",
+      "note": "Packaging update (folder naming + install docs) committed after this manifest snapshot."
+    },
+    "environment_tested": {
+      "wordpress": "7.1",
+      "woocommerce": "8.9.0",
+      "php": "8.x (container)",
+      "docker_url": "http://localhost:8080"
+    },
+    "components": {
+      "theme": { "folder": "aureon", "name": "Aureon", "version": "1.2.0", "status": "active", "file_count": 175 },
+      "plugin": { "folder": "aureon-studio", "name": "Aureon Studio", "version": "1.1.0", "status": "active", "file_count": 317 },
+      "frontend_pack": { "folder": "frontend", "design": "vineta", "file_count": 594 },
+      "docs": { "folder": "docs", "file_count": 110 },
+      "root_files": ["ferm-page.php", "HOW-TO-INSTALL.txt", "README.md", "RELEASE-CANDIDATE-MANIFEST.json"]
+    },
+    "file_count_total_excluding_git_and_serena": 1197,
+    "mirror": {
+      "deploy": "AUREON-WORDPRESS-DEPLOY",
+      "golden": "AUREON-GOLDEN-COPY",
+      "verified_identical": true,
+      "verification": "SHA-256 byte-identical code trees (canonical -> deploy 0 mismatches, deploy -> golden 0 mismatches)"
+    },
+    "store_state": {
+      "demo_data": "REMOVED (products, categories, hero slides wiped per client request)",
+      "catalog": "34 imported Khaadi-style products at original PKR prices",
+      "currency": "PKR",
+      "variable_products": "N/A for current catalog",
+      "empty_state_governor": "enabled - demo content cannot resurrect; sections hide when no data"
+    },
+    "customizer_sections": [
+      "Vineta - Hero Banner (slides: headline/subline/CTA, desktop/tablet/mobile images)",
+      "Vineta - Colors (7 color pickers, empty = template default)",
+      "Site Identity (logo, favicon, title)"
+    ],
+    "regression_status_local": {
+      "routes": "PASS",
+      "dynamic_homepage": "PASS",
+      "category_tabs": "PASS (dynamic from real WooCommerce categories)",
+      "shop_category_product": "PASS",
+      "cart_checkout": "PASS (empty-state verified)",
+      "auth_account": "PASS (server-rendered nav)",
+      "menus": "PASS (server-rendered, Customizer-preview safe)",
+      "customizer_round_trip": "PASS (color + hero verified live)",
+      "console_network": "PASS (0 visible demo remnants, no application errors)",
+      "responsive_accessibility": "PASS",
+      "golden_core": "UNCHANGED"
+    },
+    "remaining_production_gates": [
+      "production host smoke test",
+      "real SMTP/mail delivery",
+      "payment gateway sandbox"
+    ]
+  }
+}
