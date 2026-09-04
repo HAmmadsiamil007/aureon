@@ -1,0 +1,266 @@
+{
+  "date": "2026-09-03T16:02:33.586Z",
+  "routes": [
+    {
+      "name": "home",
+      "path": "/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "Men's Collection",
+      "prodCards": 13,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "shop",
+      "path": "/shop",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "Shop",
+      "prodCards": 64,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "product",
+      "path": "/product/bianca-signature-mule/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "Bianca Signature Mule",
+      "prodCards": 17,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "cat-men",
+      "path": "/product-category/men_collection/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "MEN Collection",
+      "prodCards": 28,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "cat-menpremium",
+      "path": "/product-category/women-collection/men-premium/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "MEN PREMIUM",
+      "prodCards": 12,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "cart",
+      "path": "/cart/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "Shopping Cart",
+      "prodCards": 10,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "checkout",
+      "path": "/checkout/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "Shopping Cart",
+      "prodCards": 10,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "account",
+      "path": "/my-account/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "My Account",
+      "prodCards": 4,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "about",
+      "path": "/about-us/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "About Us",
+      "prodCards": 4,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "contact",
+      "path": "/contact-us/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "Contact Us",
+      "prodCards": 4,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "cart-check",
+      "path": "/cart/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "Shopping Cart",
+      "prodCards": 10,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "checkout-check",
+      "path": "/checkout/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "Checkout",
+      "prodCards": 0,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "cat-men2",
+      "path": "/product-category/men_collection/",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "MEN Collection",
+      "prodCards": 28,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    },
+    {
+      "name": "search",
+      "path": "/?s=loafer&post_type=product",
+      "http": 200,
+      "ok": true,
+      "brokenImages": 0,
+      "note": "",
+      "title": "Sole Origine",
+      "h1": "Results for \"loafer\"",
+      "prodCards": 22,
+      "bodyBg": "rgb(10, 10, 10)",
+      "bodyColor": "rgb(255, 255, 255)"
+    }
+  ],
+  "flows": [
+    {
+      "name": "add-to-cart -> cart -> checkout",
+      "steps": [
+        {
+          "step": "open product",
+          "cartCountBefore": null,
+          "title": "Sole Origine"
+        },
+        {
+          "step": "add to cart",
+          "cartCount": null,
+          "addedText": true,
+          "drawerOpen": true
+        },
+        {
+          "step": "cart page",
+          "hasRoyal": true,
+          "hasAmount": false,
+          "itemRows": 1
+        },
+        {
+          "step": "checkout page",
+          "hasFields": true
+        }
+      ]
+    },
+    {
+      "name": "category cards",
+      "count": 20,
+      "names": [
+        "Velvet Prince",
+        "Royal Cap Toe",
+        "Royal Burgundy Double Monk",
+        "Cap Toe Oxford",
+        "Onyx Crown Tassel Loafer",
+        "Midnight Diamond Horsebit Loafer",
+        "Imperial Oxford",
+        "Imperial Lion Penny Loafer",
+        "Gentleman Brogue",
+        "Executive Loafer",
+        "Elite Wholecut",
+        "Classic Derby",
+        "Velvet Prince",
+        "Royal Cap Toe",
+        "Royal Burgundy Double Monk",
+        "Cap Toe Oxford",
+        "Onyx Crown Tassel Loafer",
+        "Midnight Diamond Horsebit Loafer",
+        "Imperial Oxford",
+        "Imperial Lion Penny Loafer"
+      ]
+    },
+    {
+      "name": "search-loafer",
+      "note": "opened /?s=loafer"
+    }
+  ],
+  "consoleErrors": [
+    "PAGEERR Unexpected token 'export'",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR $ is not a function",
+    "PAGEERR Unexpected token 'export'",
+    "PAGEERR Unexpected token 'export'"
+  ],
+  "brokenImages": 0
+}

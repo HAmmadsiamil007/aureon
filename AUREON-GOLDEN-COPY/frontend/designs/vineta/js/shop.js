@@ -1,11 +1,24 @@
 (function ($) {
   "use strict";
 
+  // Deduplicate: on complete-page shop routes shop.js is loaded twice — once by
+  // the frozen template and once by the WordPress enqueue (?ver=). Running both
+  // double-initializes the noUiSlider and duplicates every filter handler.
+  if (window.__vinetaShopJsActive) {
+    return;
+  }
+  window.__vinetaShopJsActive = true;
+
   /* Range Two Price
   -------------------------------------------------------------------------------------*/
   var rangeTwoPrice = function () {
     if ($("#price-value-range").length > 0) {
       var skipSlider = document.getElementById("price-value-range");
+
+      // Re-init guard (belt & braces behind the dedupe above).
+      if (skipSlider.noUiSlider) {
+        return;
+      }
       var skipValues = [
         document.getElementById("price-min-value"),
         document.getElementById("price-max-value"),
@@ -42,6 +55,12 @@
   -------------------------------------------------------------------------------------*/
   var filterProducts = function () {
     const priceSlider = document.getElementById("price-value-range");
+
+    // shop.js is enqueued on every complete-page route, but the price filter
+    // only exists on shop pages — bail out instead of throwing on null.dataset.
+    if (!priceSlider) {
+      return;
+    }
 
     const minPrice = parseInt(priceSlider.dataset.min, 10) || 0;
     const maxPrice = parseInt(priceSlider.dataset.max, 10) || 500;

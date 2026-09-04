@@ -55,6 +55,14 @@ _temp_golden/
 # Archives (created during Phase 8 cleanup)
 *.tar.gz
 
+# Database dumps & full-folder backups must never be pushed (contain
+# user/session data and demo store snapshots)
+test-results/*.sql
+test-results/*-PRE-REFRESH-BACKUP-*.zip
+
+# Local QA screenshot
+live-site-error.png
+
 # CDN images - served from Shopify CDN, not needed in git
 # Exception: active Ferm pack needs CDN assets for ferm-page.php rewrites
 frontend/designs/*/cdn/

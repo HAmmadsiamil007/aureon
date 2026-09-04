@@ -17,8 +17,12 @@ return array(
 	// Site identity.
 	'aether_site_heading' => '',
 
-	// Announcement bar.
+	// Announcement bar. The engine-level single-text default is old demo copy
+	// ("Free shipping on orders over $150 — Step into the void."); Vineta ships
+	// an empty default so clients start clean and set their own text in the
+	// Customizer. Items are driven by aether_announcement_items (also empty).
 	'aether_announcement_items' => array(),
+	'aether_announcement_text'  => '',
 
 	// Hero.
 	'aether_hero_slides' => array(),

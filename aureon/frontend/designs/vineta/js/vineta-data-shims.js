@@ -131,6 +131,7 @@
             var s = '';
             if (currency === 'USD') s = '$' + v;
             else if (currency === 'EUR') s = '\u20ac' + v;
+            else if (currency === 'PKR') s = '\u20a8' + v;
             else s = currency + ' ' + v;
             // suffix mode was designed for symbol-prefix currencies
             // ($139.00 USD, EUR139.00 EUR). For code-prefix currencies like
@@ -502,9 +503,10 @@
     // Homepage consumer — fill the frozen Best-Sellers / featured-carousel DOM
     // from real WooCommerce products and fill category tiles from real terms.
     var VinetaHome = {
-        renderFeaturedProducts: function(products) {
+        renderFeaturedProducts: function(products, slot) {
             if (!products || !products.length) return;
-            var section = document.querySelector('[data-aureon-slot="global.featured_products"]');
+            slot = slot || 'global.featured_products';
+            var section = document.querySelector('[data-aureon-slot="' + slot + '"]');
             if (!section) return;
             var track = section.querySelector('.swiper .swiper-wrapper, .swiper-wrapper');
             if (!track) return;
@@ -522,6 +524,191 @@
                 var card = slide.querySelector('.card-product');
                 if (card && window.VinetaShop) {
                     VinetaShop.fillCard(card, product);
+                }
+                frag.appendChild(slide);
+            });
+            track.innerHTML = '';
+            track.appendChild(frag);
+        },
+
+        renderCompare: function(products) {
+            if (!products || !products.length) return;
+            var section = document.querySelector('[data-aureon-slot="global.compare_products"]');
+            if (!section) return;
+            var rows = section.querySelectorAll('.tf-compare-item');
+            if (!rows.length) return;
+            // Fill as many rows as the modal has; any row beyond the product
+            // list gets hidden so no demo row ever survives.
+            rows.forEach(function(row, idx) {
+                if (!products[idx]) {
+                    if (row.parentNode) row.parentNode.removeChild(row);
+                    return;
+                }
+            });
+            products.forEach(function(product, idx) {
+                var row = rows[idx];
+                if (!row) return;
+                var link = product.url || '#';
+                var img = row.querySelector('.image img');
+                if (img) {
+                    var src = product.image || config.placeholder_image || '';
+                    img.src = src;
+                    img.setAttribute('data-src', src);
+                    img.alt = product.title || '';
+                }
+                row.querySelectorAll('a').forEach(function(a) {
+                    if (a.querySelector('img')) return;
+                    a.href = link;
+                });
+                var name = row.querySelector('.link.text-line-clamp-2, .link');
+                if (name) name.textContent = product.title || '';
+                var priceNew = row.querySelector('.new-price');
+                var priceOld = row.querySelector('.old-price');
+                var onSale = product.on_sale && product.price_sale > 0;
+                var currency = pageData.shop && pageData.shop.currency;
+                if (priceNew) {
+                    priceNew.textContent = VinetaShop.money(onSale ? product.price_sale : product.price, currency);
+                }
+                if (priceOld) {
+                    if (onSale) {
+                        priceOld.textContent = VinetaShop.money(product.price_regular, currency);
+                        priceOld.style.display = '';
+                    } else {
+                        priceOld.style.display = 'none';
+                    }
+                }
+            });
+        },
+
+        renderQuickView: function(product) {
+            if (!product) return;
+            var url = product.url || '#';
+            var img = product.image || config.placeholder_image || '';
+            var onSale = product.on_sale && product.price_sale > 0;
+            var currency = pageData.shop && pageData.shop.currency;
+
+            // #quickView modal
+            var qv = document.querySelector('#quickView [data-aureon-slot="global.quickview_product"]');
+            if (qv) {
+                var name = qv.querySelector('.product-name a, .product-name');
+                if (name) name.textContent = product.title || '';
+                qv.querySelectorAll('.product-name a, .view-details, a.link').forEach(function(a) {
+                    if (a.querySelector('img')) return;
+                    if (a.className.indexOf('view-details') >= 0 || a.textContent.indexOf('View full details') >= 0) {
+                        a.href = url;
+                    } else if (a.className.indexOf('product-name') >= 0 || a.textContent === (product.title || '')) {
+                        a.href = url;
+                    }
+                });
+                var pNew = qv.querySelector('.price-new');
+                var pOld = qv.querySelector('.price-old');
+                var badge = qv.querySelector('.badge-sale');
+                if (pNew) pNew.textContent = VinetaShop.money(onSale ? product.price_sale : product.price, currency);
+                if (pOld) {
+                    if (onSale) { pOld.textContent = VinetaShop.money(product.price_regular, currency); pOld.style.display = ''; }
+                    else { pOld.style.display = 'none'; }
+                }
+                if (badge) {
+                    if (onSale) {
+                        var pct = product.price_regular > 0 ? Math.round((1 - product.price_sale / product.price_regular) * 100) : 0;
+                        badge.textContent = pct + '% Off';
+                        badge.style.display = '';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                }
+                var desc = qv.querySelector('.tf-product-heading .text, .tf-product-heading p');
+                if (desc && product.description) desc.textContent = product.description;
+                var galImg = qv.querySelector('.tf-product-media-wrap .swiper-slide img');
+                if (galImg) { galImg.src = img; galImg.setAttribute('data-src', img); galImg.alt = product.title || ''; }
+                // Hide fake color/size pickers when the product has no attributes.
+                if (!product.attributes || !product.attributes.length) {
+                    var pickers = qv.querySelectorAll('.variant-picker-item, .tf-product-variant');
+                    pickers.forEach(function(el) { el.style.display = 'none'; });
+                }
+            }
+
+            // #quickAdd modal
+            var qa = document.querySelector('#quickAdd [data-aureon-slot="global.quickadd_product"]');
+            if (qa) {
+                var qImg = qa.querySelector('.img-product, img');
+                if (qImg) { qImg.src = img; qImg.setAttribute('data-src', img); qImg.alt = product.title || ''; }
+                var qName = qa.querySelector('.name-product');
+                if (qName) qName.textContent = product.title || '';
+                qa.querySelectorAll('a').forEach(function(a) {
+                    if (a.querySelector('img')) return;
+                    if (a.href.indexOf('product-detail.html') >= 0 || a.className.indexOf('name-product') >= 0) a.href = url;
+                });
+                var qNew = qa.querySelector('.price-new');
+                var qOld = qa.querySelector('.price-old');
+                var qBadge = qa.querySelector('.on-sale-item');
+                if (qNew) qNew.textContent = VinetaShop.money(onSale ? product.price_sale : product.price, currency);
+                if (qOld) {
+                    if (onSale) { qOld.textContent = VinetaShop.money(product.price_regular, currency); qOld.style.display = ''; }
+                    else { qOld.style.display = 'none'; }
+                }
+                if (qBadge) {
+                    if (onSale) { qBadge.style.display = ''; } else { qBadge.style.display = 'none'; }
+                }
+                if (!product.attributes || !product.attributes.length) {
+                    var qPickers = qa.querySelectorAll('.item-product-variant, .quickadd-variant-color, .quickadd-variant-size');
+                    qPickers.forEach(function(el) { el.style.display = 'none'; });
+                }
+            }
+        },
+
+        renderCartRecommendations: function(products, slot) {
+            if (!products || !products.length) return;
+            // Prefer the explicit slot; fall back to the frozen drawer markup on
+            // templates that have not (yet) declared the slot — so no demo rows
+            // can survive on any page.
+            var section = document.querySelector('[data-aureon-slot="' + slot + '"]')
+                || document.querySelector('#shoppingCart .tf-minicart-recommendations');
+            if (!section) return;
+            var track = section.querySelector('.swiper .swiper-wrapper, .swiper-wrapper');
+            if (!track) return;
+            var slides = track.querySelectorAll(':scope > .swiper-slide');
+            if (!slides.length) return;
+            var templateSlide = slides[0];
+            var frag = document.createDocumentFragment();
+            products.forEach(function(product, idx) {
+                var slide;
+                if (idx < slides.length) {
+                    slide = slides[idx];
+                } else {
+                    slide = templateSlide.cloneNode(true);
+                }
+                var item = slide.querySelector('.tf-mini-cart-item');
+                if (item) {
+                    var link = product.url || '#';
+                    var img = item.querySelector('.tf-mini-cart-image img, .image img');
+                    if (img) {
+                        var src = product.image || config.placeholder_image || '';
+                        img.src = src;
+                        img.setAttribute('data-src', src);
+                        img.alt = product.title || 'Product thumbnail';
+                    }
+                    item.querySelectorAll('a[href="product-detail.html"], a.title').forEach(function(a) {
+                        if (a.querySelector('img')) return;
+                        a.href = link;
+                    });
+                    var title = item.querySelector('.title, .name-product');
+                    if (title) title.textContent = product.title || '';
+                    var priceNew = item.querySelector('.new-price');
+                    var priceOld = item.querySelector('.old-price');
+                    var onSale = product.on_sale && product.price_sale > 0;
+                    if (priceNew) {
+                        priceNew.textContent = VinetaShop.money(onSale ? product.price_sale : product.price,
+                            pageData.shop && pageData.shop.currency);
+                    }
+                    if (priceOld) {
+                        if (onSale) {
+                            priceOld.textContent = VinetaShop.money(product.price_regular, pageData.shop && pageData.shop.currency);
+                            priceOld.style.display = '';
+                        } else {
+                            priceOld.style.display = 'none';
+                        }
+                    }
                 }
                 frag.appendChild(slide);
             });
@@ -580,11 +767,162 @@
             var home = pageData.home;
             if (!home) return;
             if (home.products && home.products.length) {
-                this.renderFeaturedProducts(home.products);
+                this.renderFeaturedProducts(home.products, 'global.featured_products');
+                // Today's Picks: same real catalog, filled from the second slice
+                // so both homepage bands show live WooCommerce data (no demo tees).
+                var picks = home.products.slice(Math.min(4, home.products.length));
+                this.renderFeaturedProducts(picks, 'global.picks_products');
+                // Search-modal "Featured product" carousel: same real catalog.
+                this.renderFeaturedProducts(home.products, 'global.search_products');
+                // Quickview + quickadd modals: fill from a real product so the
+                // modal never advertises the demo "Striped T-Shirt".
+                this.renderQuickView(home.products[0]);
+                // Compare modal: fill rows from the real catalog.
+                this.renderCompare(home.products.slice(0, 4));
+            } else {
+                // Empty real catalog: never show the frozen demo product bands.
+                this.clearChromeDemo();
             }
             if (home.categories && home.categories.length) {
                 this.renderCategories(home.categories);
+                // Women/Men tabbed circles (flat-animate-tab) — same real terms,
+                // grouped by their parent category so no static demo circle survives.
+                this.renderCategoryTabs(home.categories);
+            } else {
+                var cats = document.querySelector('[data-aureon-slot="global.featured_categories"]');
+                if (cats) cats.style.display = 'none';
+                var tabRoot = document.querySelector('[data-aureon-slot="global.categories_tabs"]');
+                if (tabRoot) {
+                    var sec = tabRoot;
+                    while (sec && sec.tagName !== 'SECTION' && sec.parentElement) sec = sec.parentElement;
+                    if (sec) sec.style.display = 'none';
+                }
             }
+        },
+
+        // Fill the homepage "Categories" Women/Men tab circles from real
+        // WooCommerce categories (children grouped by their parent term). Tabs
+        // whose group has no categories are hidden; when every group is empty
+        // the whole section hides so no frozen demo circle can surface.
+        renderCategoryTabs: function(categories) {
+            if (!categories || !categories.length) return;
+            var root = document.querySelector('[data-aureon-slot="global.categories_tabs"]');
+            if (!root) return;
+            var groups = { women: [], men: [] };
+            categories.forEach(function(cat) {
+                var parent = (cat.parent || '').toLowerCase();
+                if (parent === 'women') groups.women.push(cat);
+                else if (parent === 'men') groups.men.push(cat);
+            });
+            var any = false;
+            Object.keys(groups).forEach(function(key) {
+                var list = groups[key];
+                var pane = root.querySelector('.tab-pane#' + key);
+                var tabLink = root.querySelector('a[href="#' + key + '"]');
+                if (!list.length) {
+                    if (pane) pane.style.display = 'none';
+                    if (tabLink && tabLink.parentNode) tabLink.parentNode.style.display = 'none';
+                    return;
+                }
+                if (!pane) return;
+                var track = pane.querySelector('.swiper-wrapper');
+                if (!track) return;
+                var tpl = track.querySelector(':scope > .swiper-slide');
+                if (!tpl) return;
+                var frag = document.createDocumentFragment();
+                list.forEach(function(cat) {
+                    var slide = tpl.cloneNode(true);
+                    var img = slide.querySelector('img');
+                    var src = cat.image || config.placeholder_image || '';
+                    if (img && src) {
+                        if (src.indexOf('http') !== 0 && config && config.site_url) {
+                            src = config.site_url.replace(/\/$/, '') + '/' + src.replace(/^\/+/, '');
+                        }
+                        img.src = src;
+                        img.setAttribute('data-src', src);
+                        img.alt = cat.name || 'Category';
+                    }
+                    slide.querySelectorAll('a').forEach(function(a) {
+                        if (a.tagName === 'A') a.href = cat.url || '#';
+                    });
+                    var nameEl = slide.querySelector('.cls-content a, .cls-content .link, .link.text-md');
+                    if (nameEl) nameEl.textContent = cat.name || '';
+                    frag.appendChild(slide);
+                });
+                track.innerHTML = '';
+                track.appendChild(frag);
+                if (pane) pane.style.display = '';
+                if (tabLink && tabLink.parentNode) tabLink.parentNode.style.display = '';
+                any = true;
+            });
+            if (!any) {
+                var sec = root;
+                while (sec && sec.tagName !== 'SECTION' && sec.parentElement) sec = sec.parentElement;
+                if (sec) sec.style.display = 'none';
+            }
+        },
+
+        // Client wiped the store (or no products exist yet): hide every product
+        // demo block — homepage bands, drawer recommendations, search featured
+        // carousel, quickview/quickadd + compare modal bodies — both via the
+        // canonical slots and the generic frozen markup on templates without
+        // slots. Sections reappear automatically once real data exists.
+        clearChromeDemo: function() {
+            var slots = [
+                'global.featured_products',
+                'global.picks_products',
+                'global.search_products',
+                'global.cart_recommendations',
+                'global.compare_products',
+                'global.quickview_product',
+                'global.quickadd_product'
+            ];
+            slots.forEach(function(slot) {
+                document.querySelectorAll('[data-aureon-slot="' + slot + '"]').forEach(function(el) {
+                    el.style.display = 'none';
+                });
+            });
+            // Generic fallbacks for templates that never received the slots.
+            document.querySelectorAll('.tf-minicart-recommendations').forEach(function(el) {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.tf-compare-item').forEach(function(el) {
+                el.style.display = 'none';
+            });
+        },
+
+        // Sweep every page for product-card bands that are still showing the
+        // frozen demo markup (prices in $/EUR/CHF) and fill them from the real
+        // product list passed in (home featured / product related / pageData.chrome).
+        // Cards that live inside a data-aureon-slot are handled by their own
+        // consumer and are skipped; already-filled cards are skipped too.
+        fillStrayCards: function(products) {
+            if (!products || !products.length) return;
+            var cards = document.querySelectorAll('.card-product');
+            cards.forEach(function(card, idx) {
+                if (card.hasAttribute('data-vineta-filled')) return;
+                if (card.closest('[data-aureon-slot]')) return;
+                var priceEl = card.querySelector('.price-new, .price, .price-wrap');
+                var txt = priceEl ? (priceEl.textContent || '') : '';
+                if (txt && !/\$|\u20ac|CHF|USD|EUR/.test(txt)) return;
+                var product = products[idx % products.length];
+                if (product && window.VinetaShop) {
+                    try {
+                        VinetaShop.fillCard(card, product);
+                        card.setAttribute('data-vineta-filled', '1');
+                    } catch (e) { /* one card must not break the sweep */ }
+                }
+            });
+        },
+
+        // The frozen cart page ships static demo copy that has no real backing:
+        // the free-shipping progress block ("Spend $100 more...") and the
+        // gift-wrap row ("Add gift wrap. Only $10.00"). Hide them rather than
+        // display a misleading hardcoded amount.
+        hideDemoFreeShipHead: function() {
+            document.querySelectorAll('.tf-cart-head, .check-gift').forEach(function(el) {
+                el.style.display = 'none';
+            });
         }
     };
 
@@ -600,6 +938,7 @@
             var v = (cents / 100).toFixed(2);
             if (currency === 'USD') return '$' + v;
             if (currency === 'EUR') return '\u20ac' + v;
+            if (currency === 'PKR') return '\u20a8' + v;
             return currency + ' ' + v;
         },
 
@@ -765,8 +1104,17 @@
                 return;
             }
 
-            // Non-search archives with no data keep the frozen grid as the
-            // presentation fallback (existing demo/fallback contract).
+            // No real products on a shop/category archive: hide the whole grid
+            // section so the frozen demo grid never surfaces (client adds
+            // products/categories later and it reappears automatically).
+            var area = grid || list;
+            if (area) {
+                var sec = area;
+                while (sec && sec.tagName !== 'SECTION' && sec.parentElement) sec = sec.parentElement;
+                if (sec) sec.style.display = 'none';
+                if (grid) grid.style.display = 'none';
+                if (list) list.style.display = 'none';
+            }
         },
 
         showEmptyState: function(grid, collection) {
@@ -993,6 +1341,37 @@
     }
     window.VinetaHome = VinetaHome;
 
+    // Global chrome fill (every page): cart-drawer "You may also like",
+    // quickview/quickadd and compare modals must never show the demo tees.
+    // Uses whatever real product list exists: home.products on the homepage,
+    // pageData.product.related elsewhere.
+    try {
+        var chromeProducts = (pageData.home && pageData.home.products && pageData.home.products.length)
+            ? pageData.home.products
+            : (pageData.product && pageData.product.related && pageData.product.related.length)
+                ? pageData.product.related
+                : (pageData.chrome && pageData.chrome.products);
+        if (chromeProducts && chromeProducts.length) {
+            VinetaHome.renderCartRecommendations(chromeProducts, 'global.cart_recommendations');
+            VinetaHome.renderQuickView(chromeProducts[0]);
+            VinetaHome.renderCompare(chromeProducts.slice(0, 4));
+            // Search-modal "Featured product" carousel (present on every template).
+            var searchSection = document.querySelector('[data-aureon-slot="global.search_products"]');
+            if (searchSection) {
+                VinetaHome.renderFeaturedProducts(chromeProducts, 'global.search_products');
+            }
+            // Fill any remaining frozen product bands on this page (cart,
+            // checkout, account, blog, ...) from the real catalog.
+            VinetaHome.fillStrayCards(chromeProducts);
+            VinetaHome.hideDemoFreeShipHead();
+        } else {
+            // No product data anywhere on this page: hide the demo product
+            // chrome instead of letting frozen demo rows surface.
+            VinetaHome.clearChromeDemo();
+            VinetaHome.hideDemoFreeShipHead();
+        }
+    } catch (e) { /* global chrome fill failure must not break the bridge */ }
+
     // Customizer bridge — update DOM with Customizer values.
     var VinetaCustomizer = {
         updateLogo: function(logoUrl) {
@@ -1099,19 +1478,38 @@
             this.updateHeroSlides(slides);
         },
 
+        // Pick the image for the current viewport: laptop/desktop uses
+        // `image`, tablet uses `tablet_image` when set, phone uses
+        // `mobile_image` when set. Falls back to the larger image.
+        pickHeroImage: function(slide) {
+            if (!slide) return '';
+            var width = window.innerWidth || document.documentElement.clientWidth || 0;
+            if (width < 768 && slide.mobile_image) return slide.mobile_image;
+            if (width < 1200 && slide.tablet_image) return slide.tablet_image;
+            return slide.image || '';
+        },
+
+        resolveHeroImageUrl: function(src) {
+            if (!src) return '';
+            if (src.indexOf('http') === 0) return src;
+            // Resolve pack-relative image path to an absolute URL when needed.
+            if (config && config.site_url) {
+                return config.site_url.replace(/\/$/, '') + '/' + src.replace(/^\/+/, '');
+            }
+            return src;
+        },
+
         // Map one Customizer hero row (aether_hero_slides schema) onto one
-        // Vineta .swiper-slide. Schema keys come from frontend/tokens/tokens.php:
-        //   id, visible, headline, accent, subline, badge, image, mobile_image,
-        //   image_alt, overlay, primary_cta{label,url}, secondary_cta{label,url}
+        // Vineta .swiper-slide. Schema keys come from frontend/tokens/tokens.php
+        // (+ vineta tablet_image):
+        //   id, visible, headline, accent, subline, badge, image, tablet_image,
+        //   mobile_image, image_alt, overlay, primary_cta{label,url},
+        //   secondary_cta{label,url}
         fillHeroSlide: function(slide, clone) {
             if (!slide || !clone) return;
             var img = clone.querySelector('.image img, .slider-image img, .img-slider img');
-            var src = slide.image || '';
+            var src = this.resolveHeroImageUrl(this.pickHeroImage(slide));
             if (img && src) {
-                // Resolve pack-relative image path to an absolute URL when needed.
-                if (src.indexOf('http') !== 0 && config && config.site_url) {
-                    src = config.site_url.replace(/\/$/, '') + '/' + src.replace(/^\/+/, '');
-                }
                 img.src = src;
                 img.setAttribute('data-src', src);
                 if (slide.image_alt) img.alt = slide.image_alt;
@@ -1154,7 +1552,12 @@
         // preserving the Vineta slide DOM. One slide per data row; hidden rows
         // (visible === false) are skipped.
         updateHeroSlides: function(slides) {
-            if (!slides || !slides.length) return;
+            if (!slides || !slides.length) {
+                // No hero slides saved (client cleared/never added them): hide
+                // the banner so the frozen demo slide cannot surface.
+                this.hideHero();
+                return;
+            }
             var hero = document.querySelector('[data-aureon-slot="global.hero"] .swiper, .tf-slideshow .swiper, .slider-viewport .swiper, [data-aureon-slot="hero"] .swiper');
             if (!hero) return;
             var track = hero.querySelector('.swiper-wrapper');
@@ -1164,17 +1567,59 @@
             var template = existing[0];
             var frag = document.createDocumentFragment();
             var rendered = 0;
+            var renderedSlides = [];
             slides.forEach(function(slide) {
                 if (!slide || slide.visible === false) return;
                 var clone = template.cloneNode(true);
                 this.fillHeroSlide(slide, clone);
                 frag.appendChild(clone);
+                renderedSlides.push(slide);
                 rendered++;
             }, this);
             if (!rendered) return;
             track.innerHTML = '';
             track.appendChild(frag);
+            // Remember slides so the responsive image can be swapped live when
+            // the Customizer device preview resizes (tablet/phone icons).
+            this._heroTrack = track;
+            this._heroSlides = renderedSlides;
+            if (!this._heroResizeBound) {
+                this._heroResizeBound = true;
+                var self = this;
+                var timer = null;
+                window.addEventListener('resize', function() {
+                    if (timer) clearTimeout(timer);
+                    timer = setTimeout(function() { self.refreshHeroImages(); }, 120);
+                });
+            }
         },
+
+        // Swap slide <img> sources to the best image for the current viewport
+        // without rebuilding the slider (safe mid-animation).
+        refreshHeroImages: function() {
+            var track = this._heroTrack;
+            var slides = this._heroSlides;
+            if (!track || !slides || !slides.length) return;
+            var current = track.querySelectorAll(':scope > .swiper-slide');
+            slides.forEach(function(slide, idx) {
+                var el = current[idx];
+                if (!el) return;
+                var img = el.querySelector('.image img, .slider-image img, .img-slider img');
+                if (!img) return;
+                var src = this.resolveHeroImageUrl(this.pickHeroImage(slide));
+                if (src && img.getAttribute('src') !== src) {
+                    img.src = src;
+                    img.setAttribute('data-src', src);
+                }
+            }, this);
+        },
+        // Hide the whole homepage banner (the slot sits on the hero <section>)
+        // when there are no saved hero slides.
+        hideHero: function() {
+            var hero = document.querySelector('[data-aureon-slot="global.hero"], .tf-slideshow.slider-viewport, .tf-slideshow');
+            if (hero) hero.style.display = 'none';
+        },
+
         updateFooter: function(columns) {
             if (!columns || !columns.length) return;
             var footer = document.querySelector('footer,.footer');
@@ -1263,13 +1708,14 @@
             if (customizer.social && customizer.social.length) {
                 this.updateSocial(customizer.social);
             }
-            if (customizer.colors) {
-                this.updateColors(customizer.colors);
-            }
-            if (customizer.fonts) {
-                this.updateTypography(customizer.fonts);
-            }
-            if (customizer.hero && customizer.hero.length) {
+            // Color/font repaint REMOVED per client directive (2026-09-04): the
+            // saved Customizer values painted the pack black. The frontend renders
+            // the original approved Vineta design from styles.css as-is. Content
+            // bridges below (hero/announcement/footer/newsletter/social/site)
+            // remain fully dynamic.
+            if (Array.isArray(customizer.hero)) {
+                // Array present but empty = client cleared the hero → hide the
+                // banner until new slides are saved in the Customizer.
                 this.updateHeroSlides(customizer.hero);
             }
             if (customizer.footer && customizer.footer.length) {

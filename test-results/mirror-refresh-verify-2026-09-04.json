@@ -1,0 +1,36 @@
+{
+ "AUREON-WORDPRESS-DEPLOY": {
+  "frontend": {
+   "match": true,
+   "files": 594
+  },
+  "plugin": {
+   "match": true,
+   "files": 317
+  },
+  "theme": {
+   "match": true,
+   "files": 176
+  },
+  "ferm-page.php": {
+   "match": true
+  }
+ },
+ "AUREON-GOLDEN-COPY": {
+  "frontend": {
+   "match": true,
+   "files": 594
+  },
+  "plugin": {
+   "match": true,
+   "files": 317
+  },
+  "theme": {
+   "match": true,
+   "files": 176
+  },
+  "ferm-page.php": {
+   "match": true
+  }
+ }
+}

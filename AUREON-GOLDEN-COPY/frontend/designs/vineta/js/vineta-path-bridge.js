@@ -50,6 +50,8 @@
     'blog-left-sidebar.html':           '/blog/',
     'blog-right-sidebar.html':          '/blog/',
     'blog-list.html':                   '/blog/',
+    'blog-list-01.html':                '/blog/',
+    'blog-list-02.html':                '/blog/',
     'blog-single.html':                 '/blog/',
     'blog-masonry.html':                '/blog/',
     'blog-standard.html':               '/blog/',
@@ -80,8 +82,33 @@
     'wishlist.html':                    '/my-account/',
     'compare.html':                     '/shop/',
     'coming-soon.html':                 '/coming-soon/',
-    'error-404.html':                   '/404/',
+    'error-404.html':                   '/',
+    '404.html':                         '/',
+    'home-fashion-02.html':             '/',
+    'before-you-leave.html':            '/',
+    'cart-drawer-v2.html':              '/cart/',
+    'cart-empty.html':                  '/cart/',
+    'account-addresses.html':           '/my-account/',
+    'account-details.html':             '/my-account/',
+    'account-orders.html':              '/my-account/',
+    'newsletter-popup-02.html':         '/',
+    'newsletter-popup-03.html':         '/',
   };
+
+  // Pattern fallbacks for any other flat demo file not in the map:
+  // blog-*, product-*, shop-*, account-*, order-*, home-* variants all
+  // resolve to their WordPress route instead of a 404.
+  function patternRoute(clean) {
+    if (/^blog-/.test(clean)) return '/blog/';
+    if (/^product-/.test(clean)) return '/shop/';
+    if (/^shop-/.test(clean)) return '/shop/';
+    if (/^account-/.test(clean)) return '/my-account/';
+    if (/^order-/.test(clean)) return '/my-account/';
+    if (/^home-/.test(clean)) return '/';
+    if (/^newsletter-/.test(clean)) return '/';
+    if (clean === 'before-you-leave.html' || clean === '404.html') return '/';
+    return '';
+  }
 
   function rewriteValue(val) {
     if (!val) return val;
@@ -103,7 +130,12 @@
     if (MAP[clean]) {
       return S + MAP[clean];
     }
-    // Fallback: strip .html, prepend site root
+    // Pattern fallback (blog-list-01.html, product-grid.html, ...)
+    var route = patternRoute(clean);
+    if (route) {
+      return S + route;
+    }
+    // Final fallback: strip .html, prepend site root
     return S + '/' + clean.replace(/\.html$/, '');
   }
 

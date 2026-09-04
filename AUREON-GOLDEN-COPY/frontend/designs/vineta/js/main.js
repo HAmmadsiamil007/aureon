@@ -995,7 +995,12 @@
 
   /* Infinite Slide
   ----------------------------------------------------------------------------*/
+  // The lib is enqueued once via the pack manifest (footer). Wait for it to be
+  // available so the inline init never throws when it runs before the enqueue.
   var infiniteSlide = function () {
+    if (!$.fn.infiniteslide) {
+      return; // lib not loaded yet — init runs again on DOM-ready below
+    }
     $(".infiniteslide").each(function () {
       var $this = $(this);
       var style = $this.data("style") || "left";
@@ -1013,6 +1018,14 @@
       });
     });
   };
+
+  // Re-run after DOM ready (footer-enqueued scripts have executed by then).
+  $(function () {
+    if ($.fn.infiniteslide && $(".infiniteslide").length && !$(".infiniteslide").data("pb-init")) {
+      $(".infiniteslide").data("pb-init", true);
+      infiniteSlide();
+    }
+  });
 
 
   /* Button Quantity

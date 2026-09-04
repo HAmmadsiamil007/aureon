@@ -42,8 +42,7 @@ $socials      = isset( $componentData['socials'] ) ? (array) $componentData['soc
 	</button>
 	<div class="mobile-announcement" id="mobileAnnouncement">
 		<?php if ( empty( $announcement ) ) : ?>
-			<span class="mobile-announcement-text active">FREE SHIPPING ON ORDERS OVER $200</span>
-			<span class="mobile-announcement-text">FREE SHIPPING ON ALL ORDERS</span>
+			<!-- No announcement configured — stays empty until the client adds announcement text in the Customizer. -->
 		<?php else : ?>
 			<?php foreach ( $announcement as $index => $text ) : ?>
 				<span class="mobile-announcement-text<?php echo 0 === $index ? ' active' : ''; ?>"><?php echo esc_html( $text ); ?></span>

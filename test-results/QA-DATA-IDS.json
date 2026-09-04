@@ -1,0 +1,249 @@
+{
+ "products": {
+  "AUREON QA DYNAMIC 001 Aurora Tee": {
+   "id": 179,
+   "sku": "QA-SKU-001",
+   "type": "simple",
+   "price": "49.00",
+   "img": 202
+  },
+  "AUREON QA DYNAMIC 002 Nova Sweater": {
+   "id": 180,
+   "sku": "QA-SKU-002",
+   "type": "simple",
+   "price": "69.00",
+   "img": 204
+  },
+  "AUREON QA DYNAMIC 003 Orbit Jeans": {
+   "id": 181,
+   "sku": "QA-SKU-003",
+   "type": "simple",
+   "price": "120.00",
+   "img": 206
+  },
+  "AUREON QA DYNAMIC 004 Eclipse Jacket": {
+   "id": 182,
+   "sku": "QA-SKU-004",
+   "type": "simple",
+   "price": "150.00",
+   "img": 208
+  },
+  "AUREON QA DYNAMIC 005 Prism Socks": {
+   "id": 183,
+   "sku": "QA-SKU-005",
+   "type": "simple",
+   "price": "12.00",
+   "img": 210
+  },
+  "AUREON QA DYNAMIC 006 Comet Scarf": {
+   "id": 184,
+   "sku": "QA-SKU-006",
+   "type": "simple",
+   "price": "35.00",
+   "img": 212
+  },
+  "AUREON QA DYNAMIC 007 Pulse Cap": {
+   "id": 185,
+   "sku": "QA-SKU-007",
+   "type": "simple",
+   "price": "28.00",
+   "img": 214
+  },
+  "AUREON QA DYNAMIC 008 Vertex Belt": {
+   "id": 186,
+   "sku": "QA-SKU-008",
+   "type": "simple",
+   "price": "42.00",
+   "img": 216
+  },
+  "AUREON QA DYNAMIC 009 Nexus Beanie": {
+   "id": 187,
+   "sku": "QA-SKU-009",
+   "type": "simple",
+   "price": "25.00",
+   "img": 218
+  },
+  "AUREON QA DYNAMIC 010 Flux Tote": {
+   "id": 188,
+   "sku": "QA-SKU-010",
+   "type": "simple",
+   "price": "65.00",
+   "img": 220
+  },
+  "AUREON QA DYNAMIC 011 Cosmos Hoodie": {
+   "id": 189,
+   "sku": "QA-SKU-011",
+   "type": "variable",
+   "price": "75.00",
+   "img": 222
+  },
+  "AUREON QA DYNAMIC 012 Zen Shirt": {
+   "id": 198,
+   "sku": "QA-SKU-012",
+   "type": "variable",
+   "price": "40.00",
+   "img": 225
+  }
+ },
+ "variations": [
+  {
+   "id": 190,
+   "parent_sku": "QA-SKU-011",
+   "sku": "QA-SKU-011-S-BLK",
+   "price": "75.00",
+   "stock": 5,
+   "attrs": {
+    "pa_size": "s",
+    "pa_color": "black"
+   }
+  },
+  {
+   "id": 191,
+   "parent_sku": "QA-SKU-011",
+   "sku": "QA-SKU-011-S-NVY",
+   "price": "75.00",
+   "stock": 4,
+   "attrs": {
+    "pa_size": "s",
+    "pa_color": "navy"
+   }
+  },
+  {
+   "id": 192,
+   "parent_sku": "QA-SKU-011",
+   "sku": "QA-SKU-011-M-BLK",
+   "price": "75.00",
+   "stock": 6,
+   "attrs": {
+    "pa_size": "m",
+    "pa_color": "black"
+   }
+  },
+  {
+   "id": 193,
+   "parent_sku": "QA-SKU-011",
+   "sku": "QA-SKU-011-M-NVY",
+   "price": "75.00",
+   "stock": 3,
+   "attrs": {
+    "pa_size": "m",
+    "pa_color": "navy"
+   }
+  },
+  {
+   "id": 194,
+   "parent_sku": "QA-SKU-011",
+   "sku": "QA-SKU-011-L-BLK",
+   "price": "80.00",
+   "stock": 7,
+   "attrs": {
+    "pa_size": "l",
+    "pa_color": "black"
+   }
+  },
+  {
+   "id": 195,
+   "parent_sku": "QA-SKU-011",
+   "sku": "QA-SKU-011-L-NVY",
+   "price": "80.00",
+   "stock": 2,
+   "attrs": {
+    "pa_size": "l",
+    "pa_color": "navy"
+   }
+  },
+  {
+   "id": 196,
+   "parent_sku": "QA-SKU-011",
+   "sku": "QA-SKU-011-XL-BLK",
+   "price": "85.00",
+   "stock": 0,
+   "attrs": {
+    "pa_size": "xl",
+    "pa_color": "black"
+   }
+  },
+  {
+   "id": 197,
+   "parent_sku": "QA-SKU-011",
+   "sku": "QA-SKU-011-XL-NVY",
+   "price": "85.00",
+   "stock": 1,
+   "attrs": {
+    "pa_size": "xl",
+    "pa_color": "navy"
+   }
+  },
+  {
+   "id": 199,
+   "parent_sku": "QA-SKU-012",
+   "sku": "QA-SKU-012-S",
+   "price": "40.00",
+   "stock": 9,
+   "attrs": {
+    "pa_size": "s"
+   }
+  },
+  {
+   "id": 200,
+   "parent_sku": "QA-SKU-012",
+   "sku": "QA-SKU-012-M",
+   "price": "40.00",
+   "stock": 11,
+   "attrs": {
+    "pa_size": "m"
+   }
+  },
+  {
+   "id": 201,
+   "parent_sku": "QA-SKU-012",
+   "sku": "QA-SKU-012-L",
+   "price": "42.00",
+   "stock": 0,
+   "attrs": {
+    "pa_size": "l"
+   }
+  }
+ ],
+ "categories": {
+  "aureon-qa-alpha": {
+   "id": 68,
+   "name": "AUREON QA Alpha"
+  },
+  "aureon-qa-beta": {
+   "id": 69,
+   "name": "AUREON QA Beta"
+  },
+  "aureon-qa-gamma": {
+   "id": 70,
+   "name": "AUREON QA Gamma"
+  }
+ },
+ "media": [
+  202,
+  203,
+  204,
+  205,
+  206,
+  207,
+  208,
+  209,
+  210,
+  211,
+  212,
+  213,
+  214,
+  215,
+  216,
+  217,
+  218,
+  219,
+  220,
+  221,
+  222,
+  223,
+  224,
+  225,
+  226
+ ]
+}
