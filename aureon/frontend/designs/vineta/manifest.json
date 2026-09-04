@@ -39,10 +39,11 @@
         },
         "product_generic": "product-detail.html",
         "collections": {
-            "default": "shop-collection-list.html"
+            "default": "shop-default.html"
         },
         "blog": "blog-grid-01.html",
         "blog_single": "blog-single.html",
+        "search": "shop-default.html",
         "cart": "view-cart.html",
         "checkout": "checkout.html",
         "account": "account-page.html",
@@ -74,24 +75,10 @@
             "css/bootstrap.min.css",
             "css/swiper-bundle.min.css",
             "css/animate.css",
-            "css/styles.css"
+            "css/styles.css",
+            "css/monochrome-black.css"
         ],
         "js": [
-            {
-                "file": "js/swiper-bundle.min.js",
-                "deps": [],
-                "priority": "before"
-            },
-            {
-                "file": "js/lazysize.min.js",
-                "deps": [],
-                "priority": "before"
-            },
-            {
-                "file": "js/wow.min.js",
-                "deps": [],
-                "priority": "before"
-            },
             {
                 "file": "js/photoswipe.umd.min.js",
                 "deps": [],
@@ -123,26 +110,6 @@
                 "priority": "before"
             },
             {
-                "file": "js/multiple-modal.js",
-                "deps": [],
-                "priority": "before"
-            },
-            {
-                "file": "js/model-viewer.min.js",
-                "deps": [],
-                "priority": "before"
-            },
-            {
-                "file": "js/carousel.js",
-                "deps": [],
-                "priority": "before"
-            },
-            {
-                "file": "js/count-down.js",
-                "deps": [],
-                "priority": "before"
-            },
-            {
                 "file": "js/infinityslide.js",
                 "deps": [],
                 "priority": "before"
@@ -151,11 +118,6 @@
                 "file": "js/shop.js",
                 "deps": [],
                 "priority": "before"
-            },
-            {
-                "file": "js/main.js",
-                "deps": ["jquery", "aether-bootstrap-js"],
-                "priority": "after"
             }
         ]
     },

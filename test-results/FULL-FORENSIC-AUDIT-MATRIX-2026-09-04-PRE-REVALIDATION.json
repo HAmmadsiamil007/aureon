@@ -1,0 +1,452 @@
+[
+  {
+    "feature": "Homepage Hero Slider — Images",
+    "current_status": "BROKEN",
+    "evidence": "console-errors.txt lines 22-23, 29-33: slider-fashion-1/2/3.png 404 at wp-content/frontend/designs/vineta/images/slider/fashion/. Files exist on disk at aureon/frontend/designs/vineta/images/slider/fashion/.",
+    "affected_files": ["aureon/frontend/designs/vineta/images/slider/fashion/slider-fashion-1.png", "aureon/frontend/designs/vineta/images/slider/fashion/slider-fashion-2.png", "aureon/frontend/designs/vineta/images/slider/fashion/slider-fashion-3.png"],
+    "root_cause": "Docker/deploy volume mount maps source aureon/frontend/ to wp-content/frontend/ incorrectly or not at all",
+    "risk": "CRITICAL",
+    "remaining_work": "Fix volume mount or deploy copy so wp-content/frontend/ serves correct files",
+    "test_required": "HTTP 200 on all slider image URLs, visual regression on homepage"
+  },
+  {
+    "feature": "Homepage Hero Slider — Dynamic Content",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-hero.php reads aether_hero_slides option correctly (line 10). However, vineta-data-shims.js is broken (ES module syntax error) so data injection into frozen HTML fails.",
+    "affected_files": ["aureon/frontend/adapters/adapter-hero.php", "aureon/frontend/designs/vineta/js/vineta-data-shims.js"],
+    "root_cause": "vineta-data-shims.js uses ES module export syntax but is loaded as non-module script",
+    "risk": "CRITICAL",
+    "remaining_work": "Fix vineta-data-shims.js to not use module export, OR enqueue with type=module",
+    "test_required": "Verify hero headings/CTAs show Customizer values, not frozen demo text"
+  },
+  {
+    "feature": "Homepage Featured Categories — Images",
+    "current_status": "BROKEN",
+    "evidence": "console-errors.txt lines 4-21: cls-categories/fashion/*.jpg 404 at runtime. Files exist at aureon/frontend/designs/vineta/images/cls-categories/fashion/",
+    "affected_files": ["aureon/frontend/designs/vineta/images/cls-categories/fashion/"],
+    "root_cause": "Same deploy mount issue as slider images",
+    "risk": "HIGH",
+    "remaining_work": "Fix volume mount",
+    "test_required": "HTTP 200 on all category image URLs"
+  },
+  {
+    "feature": "Homepage Featured Categories — Dynamic Data",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-wc-categories.php exists. Data injection depends on vineta-data-shims.js which is broken.",
+    "affected_files": ["aureon/frontend/adapters/adapter-wc-categories.php", "aureon/frontend/designs/vineta/js/vineta-data-shims.js"],
+    "root_cause": "vineta-data-shims.js ES module error",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js",
+    "test_required": "Verify category names/images from WooCommerce appear on homepage"
+  },
+  {
+    "feature": "Homepage Featured/Bestseller Products",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-wc-products.php correctly queries by total_sales. Data injection into frozen HTML depends on broken shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-wc-products.php", "aureon/frontend/designs/vineta/js/vineta-data-shims.js"],
+    "root_cause": "vineta-data-shims.js broken",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js, verify product cards render with real WC data",
+    "test_required": "Product names, prices, images from WooCommerce visible on homepage"
+  },
+  {
+    "feature": "Homepage Testimonials — Author Images",
+    "current_status": "BROKEN",
+    "evidence": "console-errors.txt lines 5-9: testimonial/author/author-fs1-5.jpg 404. Files exist at aureon/frontend/designs/vineta/images/testimonial/author/",
+    "affected_files": ["aureon/frontend/designs/vineta/images/testimonial/author/"],
+    "root_cause": "Deploy mount issue",
+    "risk": "MEDIUM",
+    "remaining_work": "Fix volume mount",
+    "test_required": "Testimonial author images load correctly"
+  },
+  {
+    "feature": "Homepage Newsletter Section",
+    "current_status": "STATIC_BY_DESIGN",
+    "evidence": "adapter-site.php hardcodes newsletter heading ('Stay in the Loop') and text. No Customizer control exists for these values.",
+    "affected_files": ["aureon/frontend/adapters/adapter-site.php"],
+    "root_cause": "Design decision — newsletter copy hardcoded",
+    "risk": "LOW",
+    "remaining_work": "Optionally add Customizer control for newsletter heading/text",
+    "test_required": "Newsletter heading displays correctly"
+  },
+  {
+    "feature": "Shop Product Grid — Products",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-wc-products.php correctly queries WC products. Data injection depends on shims.js. Fallback to demo data when products empty and aether_demo_content=true.",
+    "affected_files": ["aureon/frontend/adapters/adapter-wc-products.php"],
+    "root_cause": "vineta-data-shims.js broken; product data not injected into frozen HTML",
+    "risk": "CRITICAL",
+    "remaining_work": "Fix shims.js, verify product grid renders with real WC data",
+    "test_required": "Product names, prices, images, URLs from WooCommerce on /shop/ page"
+  },
+  {
+    "feature": "Shop Product Filtering",
+    "current_status": "BROKEN",
+    "evidence": "console-errors.txt lines 99-108: TypeError: Cannot read properties of null (reading 'dataset') at filterProducts (shop.js:46:43) — appears on every page load",
+    "affected_files": ["aureon/frontend/designs/vineta/js/shop.js"],
+    "root_cause": "shop.js filterProducts() calls .dataset on a null element — filter container element does not exist in DOM or has wrong ID",
+    "risk": "CRITICAL",
+    "remaining_work": "Add null guard in filterProducts() before .dataset access",
+    "test_required": "No JS errors on shop page, filter controls work"
+  },
+  {
+    "feature": "Shop Sorting",
+    "current_status": "BROKEN",
+    "evidence": "shop.js crashes entirely due to filterProducts null crash — any sorting handlers in same file are also non-functional",
+    "affected_files": ["aureon/frontend/designs/vineta/js/shop.js"],
+    "root_cause": "Cascade from shop.js crash",
+    "risk": "HIGH",
+    "remaining_work": "Fix shop.js",
+    "test_required": "Sort by price/name controls work on shop page"
+  },
+  {
+    "feature": "Shop Pagination",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-wc-products.php returns pagination.current and pagination.total. Actual pagination controls in frozen HTML depend on shims.js injection.",
+    "affected_files": ["aureon/frontend/adapters/adapter-wc-products.php"],
+    "root_cause": "shims.js broken",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js, verify pagination controls render and link correctly",
+    "test_required": "Pagination links work on shop page with >8 products"
+  },
+  {
+    "feature": "Product Detail — Title",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-product.php line 27: $name = $product->get_name(). Correct WC API. Data injection into frozen HTML depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-product.php"],
+    "root_cause": "shims.js broken",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js",
+    "test_required": "Product name from WooCommerce appears on product page"
+  },
+  {
+    "feature": "Product Detail — Price",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-product.php lines 28, 42: get_price_html(), get_regular_price(). Sale price handling correct. Injection depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-product.php"],
+    "root_cause": "shims.js broken",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js",
+    "test_required": "Regular and sale prices display correctly"
+  },
+  {
+    "feature": "Product Detail — Images/Gallery",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-product.php lines 55-75: gets gallery_image_ids, falls back to featured image with 4 views. Data injection depends on shims.js. Additionally, console-errors.txt line 109: $(...).modal is not a function — gallery lightbox/zoom modal is broken.",
+    "affected_files": ["aureon/frontend/adapters/adapter-product.php", "aureon/frontend/designs/vineta/js/main.js"],
+    "root_cause": "shims.js broken for data; main.js uses Bootstrap 4 modal API on Bootstrap 5",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js AND fix modal API call",
+    "test_required": "Product images display, gallery zoom/lightbox works"
+  },
+  {
+    "feature": "Product Detail — Add to Cart",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-product.php line 189: add_query_arg('add-to-cart', $product_id, wc_get_cart_url()) — redirect-based (not AJAX). This works but is not modern UX. URL correct.",
+    "affected_files": ["aureon/frontend/adapters/adapter-product.php"],
+    "root_cause": "Redirect-based add-to-cart, no AJAX",
+    "risk": "MEDIUM",
+    "remaining_work": "Optionally implement AJAX add-to-cart",
+    "test_required": "Add to cart button navigates to cart with product in cart"
+  },
+  {
+    "feature": "Product Detail — SKU",
+    "current_status": "MISSING",
+    "evidence": "adapter-product.php never calls $product->get_sku(). SKU is not in adapter output array.",
+    "affected_files": ["aureon/frontend/adapters/adapter-product.php"],
+    "root_cause": "Omitted from adapter implementation",
+    "risk": "MEDIUM",
+    "remaining_work": "Add get_sku() call to adapter and wire to template",
+    "test_required": "Product SKU displays on product page"
+  },
+  {
+    "feature": "Product Detail — Stock Status",
+    "current_status": "MISSING",
+    "evidence": "adapter-product.php never calls get_stock_status() or get_stock_quantity(). Not in adapter output.",
+    "affected_files": ["aureon/frontend/adapters/adapter-product.php"],
+    "root_cause": "Omitted from adapter implementation",
+    "risk": "MEDIUM",
+    "remaining_work": "Add stock status to adapter and wire to template",
+    "test_required": "In-stock/out-of-stock displays on product page"
+  },
+  {
+    "feature": "Variable Product — Attribute Selection",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-product.php provides colors/sizes arrays (attributes). No JS variation handler found in analyzed files. Bootstrap modal crash (main.js:700) may affect variation drawers.",
+    "affected_files": ["aureon/frontend/adapters/adapter-product.php", "aureon/frontend/designs/vineta/js/main.js"],
+    "root_cause": "Variation selection JS not confirmed in code; modal crash may affect swatch UI",
+    "risk": "HIGH",
+    "remaining_work": "Verify variation JS handler, fix modal crash",
+    "test_required": "Selecting size/color updates price, SKU, image and enables add-to-cart"
+  },
+  {
+    "feature": "Cart Badge (item count)",
+    "current_status": "PARTIAL",
+    "evidence": "Cart count is available from WC. WC cart fragments system provides real-time updates. Injection into Vineta's badge element depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-cart.php", "aureon/frontend/designs/vineta/js/vineta-data-shims.js"],
+    "root_cause": "shims.js broken",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js, verify badge updates after add-to-cart",
+    "test_required": "Cart badge shows correct count, updates without page refresh after add-to-cart"
+  },
+  {
+    "feature": "Cart Page — Items",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-cart.php reads all cart items with name, variant, image, price, qty, remove_url. Data injection depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-cart.php"],
+    "root_cause": "shims.js broken",
+    "risk": "CRITICAL",
+    "remaining_work": "Fix shims.js, verify cart items render on /cart/",
+    "test_required": "Cart page shows all items with correct images, prices, quantities"
+  },
+  {
+    "feature": "Cart Page — Totals",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-cart.php lines 120-123: subtotal, shipping, tax, total all from WC cart API. Injection depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-cart.php"],
+    "root_cause": "shims.js broken",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js",
+    "test_required": "Cart subtotal, shipping, total display correct values"
+  },
+  {
+    "feature": "Checkout Form",
+    "current_status": "UNPROVEN",
+    "evidence": "manifest.json maps checkout → checkout.html. ferm-page.php loads frozen checkout.html. WooCommerce checkout form must be rendered inside the frozen HTML — mechanism is via section-checkout.php or WC native shortcode injection. Not fully verified from static analysis.",
+    "affected_files": ["aureon/frontend/designs/vineta/checkout.html", "aureon/frontend/sections/section-checkout.php"],
+    "root_cause": "Static analysis cannot determine if WC checkout renders correctly inside frozen HTML",
+    "risk": "CRITICAL",
+    "remaining_work": "Runtime test: complete a checkout and verify order is created",
+    "test_required": "Full checkout flow: fill fields, payment, order confirmation"
+  },
+  {
+    "feature": "Order Confirmation (thank-you page)",
+    "current_status": "UNPROVEN",
+    "evidence": "manifest.json: thank-you.html maps to /checkout/ route (same). Dynamic order data injection needed. Not verified.",
+    "affected_files": ["aureon/frontend/designs/vineta/thank-you.html"],
+    "root_cause": "Same template as checkout — dynamic routing between checkout/thank-you unclear",
+    "risk": "HIGH",
+    "remaining_work": "Verify order details display on order confirmation page",
+    "test_required": "Order number, items, totals visible on thank-you page"
+  },
+  {
+    "feature": "My Account — Login",
+    "current_status": "WORKING_NEEDS_HARDENING",
+    "evidence": "ferm-page.php lines 235-252: account bridge enables submit button and fixes lost-password link on is_account_page(). WC renders its login form inside the frozen HTML via section injection.",
+    "affected_files": ["aureon/ferm-page.php"],
+    "root_cause": "N/A — working",
+    "risk": "MEDIUM",
+    "remaining_work": "Verify form renders inside Vineta HTML structure correctly",
+    "test_required": "Login with valid credentials redirects to account dashboard"
+  },
+  {
+    "feature": "My Account — Orders",
+    "current_status": "UNPROVEN",
+    "evidence": "adapter-account.php exists. Account pages use frozen HTML templates (account-page.html, account-orders.html). Dynamic data injection depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-account.php", "aureon/frontend/designs/vineta/account-orders.html"],
+    "root_cause": "shims.js broken",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js, verify order list displays from WC",
+    "test_required": "Order history visible in My Account after placing test order"
+  },
+  {
+    "feature": "Search Results",
+    "current_status": "BROKEN",
+    "evidence": "manifest.json line 46: pages.search = 'shop-default.html'. Search shows the shop page template, not search results. No search-specific template exists.",
+    "affected_files": ["aureon/frontend/designs/vineta/manifest.json"],
+    "root_cause": "Design decision (search → shop template) — no search results page implemented",
+    "risk": "HIGH",
+    "remaining_work": "Create search results template or wire shop template to show search results",
+    "test_required": "Search query shows matching products, not generic shop page"
+  },
+  {
+    "feature": "Desktop Navigation Menu",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-menu.php reads WordPress nav menus. Injection into frozen Vineta header depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-menu.php", "aureon/frontend/designs/vineta/js/vineta-data-shims.js"],
+    "root_cause": "shims.js broken",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js, verify menu items from WP appear in header",
+    "test_required": "All nav menu items show correct labels and URLs from WordPress menus"
+  },
+  {
+    "feature": "Mobile Navigation Menu",
+    "current_status": "PARTIAL",
+    "evidence": "Same as desktop menu — shims.js injection needed. Mobile menu open/close depends on main.js which has modal crash (may or may not affect hamburger menu).",
+    "affected_files": ["aureon/frontend/adapters/adapter-menu.php", "aureon/frontend/designs/vineta/js/main.js"],
+    "root_cause": "shims.js broken; main.js crash may affect mobile menu toggle",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js and main.js, verify mobile menu works",
+    "test_required": "Mobile menu opens, shows correct items, closes correctly"
+  },
+  {
+    "feature": "Footer — Dynamic Content",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-site.php aether_adapter_footer() reads columns from aether_footer_columns option. Falls back to hardcoded default columns. Injection depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-site.php"],
+    "root_cause": "shims.js broken",
+    "risk": "MEDIUM",
+    "remaining_work": "Fix shims.js, verify footer columns render from WP data",
+    "test_required": "Footer columns show correct links, brand name, copyright year"
+  },
+  {
+    "feature": "Announcement Bar",
+    "current_status": "MISSING",
+    "evidence": "No adapter found for announcement bar text. No Customizer control for announcement bar. Manifest requires 'announcement' data (manifest.json line 25) but corresponding adapter not verified.",
+    "affected_files": [],
+    "root_cause": "Adapter for announcement not confirmed in code",
+    "risk": "MEDIUM",
+    "remaining_work": "Create or verify announcement adapter",
+    "test_required": "Announcement bar shows configured text"
+  },
+  {
+    "feature": "Social Links",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-site.php calls aether_adapter_socials(). Injection depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-site.php"],
+    "root_cause": "shims.js broken",
+    "risk": "LOW",
+    "remaining_work": "Fix shims.js, verify social icons link correctly",
+    "test_required": "Social icons in header/footer link to correct URLs"
+  },
+  {
+    "feature": "Wishlist",
+    "current_status": "MISSING",
+    "evidence": "manifest.json data.optional includes 'wishlist'. adapter-wishlist.php exists. Requires WooCommerce Wishlist plugin. Plugin not confirmed as installed.",
+    "affected_files": ["aureon/frontend/adapters/adapter-wishlist.php"],
+    "root_cause": "Plugin dependency not installed/verified",
+    "risk": "LOW",
+    "remaining_work": "Install WC Wishlist plugin, verify adapter wiring",
+    "test_required": "Add to wishlist works, wishlist page shows saved items"
+  },
+  {
+    "feature": "Blog Grid",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-blog.php reads WordPress posts. Data injection into frozen blog-grid-01.html depends on shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-blog.php", "aureon/frontend/designs/vineta/blog-grid-01.html"],
+    "root_cause": "shims.js broken",
+    "risk": "MEDIUM",
+    "remaining_work": "Fix shims.js, verify blog posts render",
+    "test_required": "Blog page shows real WordPress posts with titles, dates, images"
+  },
+  {
+    "feature": "Blog Single Post",
+    "current_status": "PARTIAL",
+    "evidence": "manifest.json maps blog_single → blog-single.html. Real post content injection depends on shims.js.",
+    "affected_files": ["aureon/frontend/designs/vineta/blog-single.html"],
+    "root_cause": "shims.js broken",
+    "risk": "MEDIUM",
+    "remaining_work": "Fix shims.js, verify post content renders",
+    "test_required": "Single blog post shows correct title, content, author, date"
+  },
+  {
+    "feature": "404 Page",
+    "current_status": "WORKING_NEEDS_HARDENING",
+    "evidence": "manifest.json has no 404 key. Fallback route resolver checks for 404.html in pack dir (aureon_ferm_resolve_page line 463). 404.html exists in vineta/.",
+    "affected_files": ["aureon/frontend/designs/vineta/404.html"],
+    "root_cause": "Not in manifest pages map — relies on fallback resolver",
+    "risk": "LOW",
+    "remaining_work": "Add '404' key to manifest.json pages map",
+    "test_required": "404 page displays correctly for unknown URLs"
+  },
+  {
+    "feature": "Customizer — Logo",
+    "current_status": "WORKING_NEEDS_HARDENING",
+    "evidence": "ferm-page.php lines 255-284: custom_logo theme mod read, logo URL extracted, JS bridge replaces .header__logo or [data-header-logo] SVG with img tag. CONCERN: CSS selector '.header__logo,[data-header-logo]' may not match Vineta's actual header DOM.",
+    "affected_files": ["aureon/ferm-page.php"],
+    "root_cause": "CSS selector hard-coded in bridge — requires runtime verification against actual Vineta DOM",
+    "risk": "MEDIUM",
+    "remaining_work": "Verify .header__logo or data-header-logo exists in Vineta header HTML",
+    "test_required": "Set logo in Customizer, verify logo changes on all pages"
+  },
+  {
+    "feature": "Customizer — Colors (7 variables)",
+    "current_status": "WORKING_NEEDS_HARDENING",
+    "evidence": "ferm-page.php lines 82-108: 7 color CSS variables injected. Only applies when options are set in DB. Default: no injection (Vineta's own CSS colors used).",
+    "affected_files": ["aureon/ferm-page.php"],
+    "root_cause": "N/A — working as designed",
+    "risk": "LOW",
+    "remaining_work": "Verify all 7 variables map to Vineta's CSS custom property names",
+    "test_required": "Changing accent color in Customizer updates button colors site-wide"
+  },
+  {
+    "feature": "Customizer — Typography (2 variables)",
+    "current_status": "WORKING_NEEDS_HARDENING",
+    "evidence": "ferm-page.php lines 98-104: --font-heading and --font-body variables injected when options set. Vineta must use these exact variable names.",
+    "affected_files": ["aureon/ferm-page.php"],
+    "root_cause": "N/A — working as designed",
+    "risk": "LOW",
+    "remaining_work": "Verify --font-heading and --font-body are used in Vineta CSS",
+    "test_required": "Changing heading font in Customizer updates heading typography site-wide"
+  },
+  {
+    "feature": "Customizer — Hero Content",
+    "current_status": "PARTIAL",
+    "evidence": "adapter-hero.php reads aether_hero_slides from WP options. Adapter works correctly. Injection depends on broken shims.js.",
+    "affected_files": ["aureon/frontend/adapters/adapter-hero.php"],
+    "root_cause": "shims.js broken",
+    "risk": "HIGH",
+    "remaining_work": "Fix shims.js",
+    "test_required": "Hero heading, subheading, CTA from Customizer appear on homepage"
+  },
+  {
+    "feature": "Responsive Layout",
+    "current_status": "UNPROVEN",
+    "evidence": "Vineta ships responsive.css (33,330 bytes) and bootstrap.min.css. Cannot verify responsive behavior from static analysis. JS crashes may break responsive behaviors (e.g., mobile menu).",
+    "affected_files": ["aureon/frontend/assets/css/responsive.css"],
+    "root_cause": "Static analysis insufficient",
+    "risk": "MEDIUM",
+    "remaining_work": "Runtime test at 1440/1024/768/390px",
+    "test_required": "All pages display correctly at all breakpoints, mobile menu works"
+  },
+  {
+    "feature": "Accessibility",
+    "current_status": "UNPROVEN",
+    "evidence": "lang attribute set correctly. Alt text patterns good in adapters. Cannot verify heading hierarchy, focus management, ARIA from static analysis.",
+    "affected_files": [],
+    "root_cause": "Static analysis insufficient",
+    "risk": "MEDIUM",
+    "remaining_work": "Runtime accessibility audit with screen reader + keyboard nav",
+    "test_required": "All interactive elements keyboard-navigable, ARIA labels correct"
+  },
+  {
+    "feature": "Security — Output Escaping",
+    "current_status": "WORKING_NEEDS_HARDENING",
+    "evidence": "ferm-page.php uses esc_attr(), esc_url(), esc_js() throughout. Body HTML output has phpcs:ignore with documented rationale (client presentation HTML). Adapters use sanitize_text_field(), esc_url_raw().",
+    "affected_files": ["aureon/ferm-page.php", "aureon/frontend/adapters/"],
+    "root_cause": "N/A — acceptable",
+    "risk": "LOW",
+    "remaining_work": "Review adapter output escaping comprehensively when passed to wp_localize_script",
+    "test_required": "Input with special characters does not cause XSS"
+  },
+  {
+    "feature": "WC Session — Stability",
+    "current_status": "VERIFIED_WORKING",
+    "evidence": "mu-plugins/aureon-fix-wc-session.php: correctly hooks aureon_wc_session_early_init() to init(priority:0), rest_api_init, customize_preview_init, wp_ajax_woocommerce_add_to_cart. Guards against null session in checkout.",
+    "affected_files": ["mu-plugins/aureon-fix-wc-session.php"],
+    "root_cause": "N/A — working correctly",
+    "risk": "NONE",
+    "remaining_work": "None",
+    "test_required": "No 'order_awaiting_payment on null' PHP warnings in production"
+  },
+  {
+    "feature": "Asset Deploy Configuration",
+    "current_status": "BROKEN",
+    "evidence": "37 image 404s in console-errors.txt. pack_url() constructs URL as content_url() + 'frontend/designs/vineta/'. Requires exact volume mount or deploy copy.",
+    "affected_files": ["aureon/frontend/views/design.php", "docker-compose.yml", ".env"],
+    "root_cause": "Volume mount or deploy configuration does not map aureon/frontend/ → wp-content/frontend/",
+    "risk": "CRITICAL",
+    "remaining_work": "Fix docker-compose.yml volume mount or add deploy copy step",
+    "test_required": "All pack asset URLs return HTTP 200"
+  },
+  {
+    "feature": "Homepage HTTP 500",
+    "current_status": "RISK",
+    "evidence": "console-errors.txt line 24: Failed to load resource: status 500 at http://localhost:8080/. PHP fatal or runtime error was occurring at time of log capture.",
+    "affected_files": [],
+    "root_cause": "Unknown — requires PHP error log review",
+    "risk": "CRITICAL",
+    "remaining_work": "Check PHP error logs at time of 500. Could be resolved or could be recurring.",
+    "test_required": "Homepage returns HTTP 200 consistently"
+  }
+]
