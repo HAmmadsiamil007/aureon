@@ -36,7 +36,11 @@ $cart_count = function_exists( 'WC' ) && WC()->cart ? WC()->cart->get_cart_conte
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php wp_title( '|', true, 'right' ); ?></title>
-<?php wp_head(); ?>
+<?php
+if ( function_exists( 'WC' ) ) {
+	wp_enqueue_style( 'woocommerce-general', WC()->plugin_url() . '/assets/css/woocommerce.css', array(), WC()->version );
+}
+?>
 <?php if ( $pack_url ) : ?>
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/bootstrap.min.css">
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/styles.css">
@@ -343,6 +347,11 @@ img { max-width: 100%; height: auto; }
 	</div>
 </footer>
 
-<?php wp_footer(); ?>
+<?php
+if ( function_exists( 'WC' ) ) {
+	wp_enqueue_script( 'wc-account', WC()->plugin_url() . '/assets/js/frontend/account' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min' ) . '.js', array( 'jquery' ), WC()->version, true );
+	wp_print_scripts( array( 'wc-account' ) );
+}
+?>
 </body>
 </html>

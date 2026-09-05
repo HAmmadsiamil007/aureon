@@ -587,7 +587,7 @@ function vineta_enqueue_cart_bridge() {
 	wp_enqueue_style( 'vineta-icons', $pack_url . 'fonts/font-icons.css', array( 'vineta-fonts' ), '1.0.0' );
 
 	// Register the main Vineta data bridge script.
-	wp_register_script( 'vineta-data-shims', $pack_url . 'js/vineta-data-shims.js', array(), '1.0.0', true );
+	wp_register_script( 'vineta-data-shims', $pack_url . 'js/vineta-data-shims.js', array(), '1.0.2', true );
 	wp_localize_script(
 		'vineta-data-shims',
 		'vineta_bridge',

@@ -36,7 +36,11 @@ $cart_is_empty = $cart ? $cart->is_empty() : true;
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php wp_title( '|', true, 'right' ); ?></title>
-<?php wp_head(); ?>
+<?php
+if ( function_exists( 'WC' ) ) {
+	wp_enqueue_style( 'woocommerce-general', WC()->plugin_url() . '/assets/css/woocommerce.css', array(), WC()->version );
+}
+?>
 <?php if ( $pack_url ) : ?>
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/bootstrap.min.css">
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/styles.css">
@@ -324,7 +328,7 @@ img { max-width: 100%; height: auto; }
 						<?php endif; ?>
 						<div class="vt-total-row grand">
 							<span><?php esc_html_e( 'Total', 'woocommerce' ); ?></span>
-							<span><?php echo wp_kses_post( $cart->get_total( 'display' ) ); ?></span>
+							<span><?php echo wp_kses_post( wc_price( $cart->get_total( 'display' ) ) ); ?></span>
 						</div>
 						<a href="<?php echo esc_url( $checkout_url ); ?>" class="vt-btn-checkout" style="text-decoration:none;margin-top:20px;">
 							<?php esc_html_e( 'Proceed to Checkout', 'woocommerce' ); ?>
@@ -393,7 +397,12 @@ img { max-width: 100%; height: auto; }
 	</div>
 </footer>
 
-<?php wp_footer(); ?>
+<?php
+if ( function_exists( 'WC' ) ) {
+	wp_enqueue_script( 'wc-cart-fragments', WC()->plugin_url() . '/assets/js/frontend/cart-fragments' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min' ) . '.js', array( 'jquery' ), WC()->version, true );
+	wp_print_scripts( array( 'wc-cart-fragments' ) );
+}
+?>
 <script>
 jQuery(function($){
 	$('.vt-qty-minus').on('click', function(){

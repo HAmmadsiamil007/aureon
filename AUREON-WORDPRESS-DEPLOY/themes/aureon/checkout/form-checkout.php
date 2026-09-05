@@ -50,7 +50,12 @@ $cart_count = function_exists( 'WC' ) && WC()->cart ? WC()->cart->get_cart_conte
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php wp_title( '|', true, 'right' ); ?></title>
-<?php wp_head(); ?>
+<?php
+// Load only WooCommerce styles — NOT full wp_head() which triggers all 14 plugins
+if ( function_exists( 'WC' ) ) {
+	wp_enqueue_style( 'woocommerce-general', WC()->plugin_url() . '/assets/css/woocommerce.css', array(), WC()->version );
+}
+?>
 <?php if ( $pack_url ) : ?>
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/bootstrap.min.css">
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/styles.css">
@@ -386,7 +391,7 @@ img { max-width: 100%; height: auto; }
 						<?php endif; ?>
 						<div class="vt-order-total-row grand">
 							<span><?php esc_html_e( 'Total', 'woocommerce' ); ?></span>
-							<span><?php echo wp_kses_post( WC()->cart->get_total( 'display' ) ); ?></span>
+							<span><?php echo wp_kses_post( wc_price( WC()->cart->get_total( 'display' ) ) ); ?></span>
 						</div>
 					</div>
 
@@ -434,6 +439,12 @@ img { max-width: 100%; height: auto; }
 	</div>
 </footer>
 
-<?php wp_footer(); ?>
+<?php
+// Load only WooCommerce checkout JS — NOT full wp_footer() which triggers all 14 plugins
+if ( function_exists( 'WC' ) ) {
+	wp_enqueue_script( 'wc-checkout', WC()->plugin_url() . '/assets/js/frontend/checkout' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min' ) . '.js', array( 'jquery' ), WC()->version, true );
+	wp_print_scripts( array( 'wc-checkout' ) );
+}
+?>
 </body>
 </html>

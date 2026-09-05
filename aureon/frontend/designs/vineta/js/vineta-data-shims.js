@@ -1852,22 +1852,23 @@
         fillContactInfo: function() {
             var info = pageData.contact;
             if (!info) return;
-            var list = document.querySelector('[data-aureon-slot="static.contact_info"], .contact-list');
+            var list = document.querySelector('[data-aureon-slot="static.contact_info"], .contact-list, .footer-info');
             if (!list) return;
             var items = list.querySelectorAll('li');
             var addressText = (info.address || []).join(', ');
             for (var i = 0; i < items.length; i++) {
                 var txt = items[i].textContent.replace(/\s+/g, ' ').trim();
                 var link = items[i].querySelector('a');
-                if (/^Address/i.test(txt) && addressText && link) {
+                if (/(address|direction)/i.test(txt) && addressText && link) {
                     link.textContent = addressText;
-                } else if (/^Phone/i.test(txt) && info.phone && link) {
+                    link.href = '#';
+                } else if (/(phone|call|tel|^\d|^\()/i.test(txt) && info.phone && link) {
                     link.textContent = info.phone;
                     link.href = 'tel:' + info.phone.replace(/[^+\d]/g, '');
-                } else if (/^Email/i.test(txt) && info.email && link) {
+                } else if (/(email|@|mailto)/i.test(txt) && info.email && link) {
                     link.textContent = info.email;
                     link.href = 'mailto:' + info.email;
-                } else if (/^Open/i.test(txt) && info.hours) {
+                } else if (/(open|hours|time)/i.test(txt) && info.hours) {
                     var span = items[i].querySelector('span, .text-main');
                     if (span) span.textContent = info.hours;
                 }
@@ -2273,10 +2274,59 @@
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
+            window.setTimeout(function() { VinetaFooterFixes.init(); }, 100);
             window.setTimeout(VinetaVariations.init.bind(VinetaVariations), 600);
         });
     } else {
+        window.setTimeout(function() { VinetaFooterFixes.init(); }, 100);
         window.setTimeout(VinetaVariations.init.bind(VinetaVariations), 600);
+    }
+
+    // Footer fixes: dynamic copyright year, Snapchat link label, newsletter button label, marquee typo
+    var VinetaFooterFixes = {
+        init: function() {
+            // Fix "Life-time Guarantes" typo in announcement/marquee
+            var allP = document.querySelectorAll('p');
+            allP.forEach(function(el) {
+                if (el.textContent.includes('Life-time Guarantes')) {
+                    el.textContent = el.textContent.replace('Life-time Guarantes', 'Lifetime Guarantees');
+                }
+            });
+            // Dynamic copyright year
+            var footer = document.querySelector('footer, .footer');
+            if (footer) {
+                var allEls = footer.querySelectorAll('p, span');
+                var currentYear = new Date().getFullYear();
+                allEls.forEach(function(el) {
+                    if (/\b2025\b/.test(el.textContent)) {
+                        el.textContent = el.textContent.replace(/2025/g, String(currentYear));
+                    }
+                });
+            }
+            // Fix Snapchat link - add missing text
+            var snapLinks = document.querySelectorAll('a[href*="snapchat"]');
+            snapLinks.forEach(function(link) {
+                if (!link.textContent.trim()) {
+                    link.textContent = 'Snapchat';
+                    link.setAttribute('aria-label', 'Follow us on Snapchat');
+                }
+            });
+            // Fix newsletter submit button - add label
+            var nlBtns = document.querySelectorAll('.form-newsletter button[type="submit"], .newsletter button[type="submit"], .footer-newsletter button');
+            nlBtns.forEach(function(btn) {
+                if (!btn.textContent.trim()) {
+                    btn.innerHTML = '<i class="icon-arrow-right"></i>';
+                    btn.setAttribute('aria-label', 'Subscribe');
+                }
+            });
+        }
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            VinetaFooterFixes.init();
+        });
+    } else {
+        VinetaFooterFixes.init();
     }
 
 })();
