@@ -35,19 +35,19 @@ The frontend/ directory MUST be at wp-content/frontend/ alongside themes/.
   │       ├── loader.php           ← Engine boot loader
   │       └── assets.php           ← Asset pipeline
   ├── themes/
-  │   └── aureon/                  ← THEME
-  │       ├── ferm-page.php        ← Complete-page template router
-  │       ├── functions.php        ← Theme functions
-  │       ├── header.php           ← Document header
-  │       ├── footer.php           ← Document footer
-  │       └── inc/
-  │           ├── frontend.php     ← Engine integration (boot loader)
-  │           ├── aether-seo.php   ← SEO meta tags
-  │           ├── aether-ajax.php  ← AJAX handlers
-  │           └── ...
-  └── plugins/
-      └── aureon/                  ← AUREON PLUGIN
-          └── aureon.php           ← Plugin bootstrap
+   │   └── aureon/                  ← THEME
+   │       ├── ferm-page.php        ← Complete-page template router
+   │       ├── functions.php        ← Theme functions
+   │       ├── header.php           ← Document header
+   │       ├── footer.php           ← Document footer
+   │       └── inc/
+   │           ├── frontend.php     ← Engine integration (boot loader)
+   │           ├── aether-seo.php   ← SEO meta tags
+   │           ├── aether-ajax.php  ← AJAX handlers
+   │           └── ...
+   └── plugins/
+       └── aureon-studio/           ← AUREON STUDIO PLUGIN
+           └── aureon-studio.php    ← Plugin bootstrap
 
 ================================================================================
   STEP-BY-STEP INSTALLATION (InfinityFree / cPanel / Any Host)
@@ -63,9 +63,9 @@ The frontend/ directory MUST be at wp-content/frontend/ alongside themes/.
      a) Log into your hosting control panel (cPanel → File Manager)
      b) Navigate to: htdocs/wp-content/
      c) Upload these folders from AUREON-WORDPRESS-DEPLOY:
-        - themes/aureon/     → htdocs/wp-content/themes/aureon/
-        - frontend/          → htdocs/wp-content/frontend/
-        - plugins/aureon/    → htdocs/wp-content/plugins/aureon/
+         - themes/aureon/     → htdocs/wp-content/themes/aureon/
+         - frontend/          → htdocs/wp-content/frontend/
+         - plugins/aureon-studio/ → htdocs/wp-content/plugins/aureon-studio/
      d) CRITICAL: The frontend/ folder MUST be DIRECTLY inside wp-content/
         WRONG:  wp-content/themes/aureon/frontend/  (❌)
         RIGHT:  wp-content/frontend/                (✅)

@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Aureon Studio
+ * Plugin Name: AUREON Studio
  * Plugin URI: https://aureonstudio.com
  * Description: The entire collection of Aureon premium modules.
  * Version: 1.1.0
