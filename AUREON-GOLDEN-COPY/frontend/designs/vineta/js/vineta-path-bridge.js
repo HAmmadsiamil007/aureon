@@ -33,10 +33,12 @@
     'shop-filter-hidden.html':          '/shop/',
     'shop-collection.html':             '/shop/',
 
-    // Product pages (generic — individual products mapped via slug)
+    // Product pages — DO NOT map product-detail.html here.
+    // Data-shims replace these hrefs with real /product/slug/ URLs.
+    // Leaving them unmapped means the bridge won't touch them until
+    // data-shims overwrite them.
     'product-style-01.html':            '/shop/',
     'product-style-02.html':            '/shop/',
-    'product-detail.html':              '/shop/',
     'product-left-sidebar.html':        '/shop/',
     'product-full-width.html':          '/shop/',
     'product-360-view.html':            '/shop/',
@@ -95,18 +97,17 @@
     'newsletter-popup-03.html':         '/',
   };
 
-  // Pattern fallbacks for any other flat demo file not in the map:
-  // blog-*, product-*, shop-*, account-*, order-*, home-* variants all
-  // resolve to their WordPress route instead of a 404.
+  // Pattern fallbacks for any other flat demo file not in the map.
   function patternRoute(clean) {
     if (/^blog-/.test(clean)) return '/blog/';
-    if (/^product-/.test(clean)) return '/shop/';
     if (/^shop-/.test(clean)) return '/shop/';
     if (/^account-/.test(clean)) return '/my-account/';
     if (/^order-/.test(clean)) return '/my-account/';
     if (/^home-/.test(clean)) return '/';
     if (/^newsletter-/.test(clean)) return '/';
     if (clean === 'before-you-leave.html' || clean === '404.html') return '/';
+    // product-* demo pages (NOT product-detail.html) → /shop/
+    if (/^product-/.test(clean)) return '/shop/';
     return '';
   }
 
@@ -140,8 +141,10 @@
   }
 
   function rewriteLinks() {
-    // Rewrite <a href> links
+    // Rewrite <a href> links — skip links already set to /product/ by data-shims
     document.querySelectorAll('a[href]').forEach(function (a) {
+      // Skip links that data-shims already set to real WooCommerce URLs
+      if (a.getAttribute('data-vineta-filled')) return;
       var h = a.getAttribute('href');
       var rewritten = rewriteValue(h);
       if (rewritten !== h) a.href = rewritten;
@@ -162,14 +165,17 @@
     rewriteLinks();
   }
 
-  // Also observe for dynamically added links (Ferm rewriter may add some)
+  // Observe for dynamically added links — debounced to avoid interfering
+  // with data-shims product URL injection.
   if (typeof MutationObserver !== 'undefined') {
-    var obs = new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
-        m.addedNodes.forEach(function (n) {
-          if (n.querySelectorAll) rewriteLinks();
-        });
-      });
+    var pending = false;
+    var obs = new MutationObserver(function () {
+      if (pending) return;
+      pending = true;
+      setTimeout(function () {
+        pending = false;
+        rewriteLinks();
+      }, 100);
     });
     obs.observe(document.documentElement, { childList: true, subtree: true });
   }

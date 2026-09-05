@@ -949,9 +949,19 @@
         fillCard: function(card, product) {
             if (!card || !product) return;
             var href = product.url || '#';
-            // Product link targets
-            card.querySelectorAll('.product-img, .name-product').forEach(function(a) {
-                if (a.tagName === 'A') a.href = href;
+            // Mark card so the path-bridge MutationObserver skips it
+            card.setAttribute('data-vineta-filled', '1');
+            // Product link targets — cover ALL anchor types in the card
+            card.querySelectorAll('a').forEach(function(a) {
+                if (a.tagName !== 'A') return;
+                // Skip add-to-cart, wishlist, quickview, compare buttons
+                if (a.classList.contains('quickview') || a.classList.contains('box-icon') ||
+                    a.getAttribute('data-vineta-add') || a.closest('.list-product-btn')) return;
+                var curHref = a.getAttribute('href') || '';
+                // Only rewrite if it points to a frozen demo file or is empty
+                if (!curHref || curHref.indexOf('.html') >= 0 || curHref === '#') {
+                    a.href = href;
+                }
             });
             // Images
             var src = product.image || config.placeholder_image || '';

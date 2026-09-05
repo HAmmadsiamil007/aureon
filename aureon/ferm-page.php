@@ -64,55 +64,14 @@ echo '<html lang="' . esc_attr( get_locale() ) . '"' . aureon_ferm_render_attrs(
 // --- Head: WordPress essentials (admin bar, enqueued pack CSS/JS, WC scripts) ---
 echo "<head>\n";
 echo "<meta charset='" . get_bloginfo( 'charset' ) . "'>\n";
-// Favicon: use WordPress site_icon if set, else default to pack favicon.
-$site_icon = get_option( 'site_icon' );
-if ( $site_icon ) {
-	$icon_url = wp_get_attachment_image_url( $site_icon, '32' );
-	if ( $icon_url ) {
-		echo '<link rel="icon" href="' . esc_url( $icon_url ) . '" sizes="32x32">' . "\n";
-		echo '<link rel="apple-touch-icon" href="' . esc_url( wp_get_attachment_image_url( $site_icon, '180' ) ) . '">' . "\n";
-	}
-} else {
-	$default_favicon = $pack_url . 'favicon.svg';
-	echo '<link rel="icon" href="' . esc_url( $default_favicon ) . '" type="image/svg+xml">' . "\n";
-}
 wp_head();
-
-// --- Dynamic CSS from Customizer ---
-$aether_css = array();
-$color_map  = array(
-	'aether_color_bg'          => '--bg',
-	'aether_color_surface'     => '--surface',
-	'aether_color_text'        => '--text',
-	'aether_color_muted'       => '--muted',
-	'aether_color_accent'      => '--accent',
-	'aether_color_accent_hover' => '--accent-hover',
-	'aether_color_border'      => '--border',
-);
-foreach ( $color_map as $opt => $var ) {
-	$val = get_option( $opt, '' );
-	if ( $val ) {
-		$aether_css[] = $var . ':' . $val;
-	}
-}
-$font_heading = get_option( 'aether_font_heading', '' );
-$font_body    = get_option( 'aether_font_body', '' );
-if ( $font_heading ) {
-	$aether_css[] = '--font-heading:' . $font_heading;
-}
-if ( $font_body ) {
-	$aether_css[] = '--font-body:' . $font_body;
-}
-if ( ! empty( $aether_css ) ) {
-	echo '<style>:root{' . implode( ';', $aether_css ) . '}</style>' . "\n";
-}
 echo "</head>\n";
 
 // --- Body: extract and output from the source HTML ---
+$pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
 $body_content = aureon_ferm_extract_body( $html );
 if ( false !== $body_content ) {
 	// Server-side path rewrite: convert relative CDN paths to absolute before output.
-	$pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
 	if ( $pack_url ) {
 		$body_content = aureon_ferm_rewrite_paths( $body_content, $pack_url );
 	}
@@ -125,7 +84,6 @@ if ( false !== $body_content ) {
 
 // --- Footer: WooCommerce cart fragments, analytics, admin bar ---
 // Fix relative paths in frozen HTML: rewrite cdn/... and nav links to absolute URLs.
-$pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
 $site_url = home_url();
 if ( $pack_url ) {
 	echo "<script>\n";
@@ -153,27 +111,24 @@ if ( $pack_url ) {
 	echo "    }).join(', ');\n";
 	echo "  }\n";
 	echo "});\n";
-	// Rewrite nav/content links: all HTML files -> clean WordPress URLs
-	echo "var _vm={'index.html':'/','404.html':'/','home-fashion-02.html':'/','before-you-leave.html':'/','newsletter-popup-02.html':'/','newsletter-popup-03.html':'/','shop-default.html':'/shop/','shop-left-sidebar.html':'/shop/','shop-right-sidebar.html':'/shop/','shop-filter-drawer.html':'/shop/','shop-filter-sidebar.html':'/shop/','shop-filter-hidden.html':'/shop/','shop-fullwidth.html':'/shop/','shop-grid-3-columns.html':'/shop/','shop-horizontal-filter.html':'/shop/','shop-infinity-scroll.html':'/shop/','shop-load-more-button.html':'/shop/','shop-sub-collection.html':'/shop/','shop-sub-collection-02.html':'/shop/','shop-collection-list.html':'/shop/','blog-grid-01.html':'/blog/','blog-grid-02.html':'/blog/','blog-list-01.html':'/blog/','blog-list-02.html':'/blog/','blog-single.html':'/blog/','product-detail.html':'/shop/','product-3d.html':'/shop/','product-countdown-timer.html':'/shop/','product-description-accordions.html':'/shop/','product-description-tab.html':'/shop/','product-group.html':'/shop/','product-out-of-stock.html':'/shop/','product-pickup-available.html':'/shop/','product-swatch-dropdown.html':'/shop/','product-together.html':'/shop/','product-video.html':'/shop/','product-volume-discount.html':'/shop/','product-affiliate.html':'/shop/','product-bottom-thumbnail.html':'/shop/','product-buyX-getY.html':'/shop/','product-description-side-accordions.html':'/shop/','product-description-vertical.html':'/shop/','product-drawer-sidebar.html':'/shop/','product-external-zoom.html':'/shop/','product-grid.html':'/shop/','product-grid-02.html':'/shop/','product-inner-circle-zoom.html':'/shop/','product-inner-zoom.html':'/shop/','product-no-zoom.html':'/shop/','product-open-lightbox.html':'/shop/','product-right-thumbnail.html':'/shop/','product-stacked.html':'/shop/','product-style-01.html':'/shop/','product-style-02.html':'/shop/','product-style-03.html':'/shop/','product-swatch-dropdown-color.html':'/shop/','product-swatch-image.html':'/shop/','product-swatch-image-square.html':'/shop/','product-volume-discount-thumbnail.html':'/shop/','about-us.html':'/about-us/','contact-us.html':'/contact-us/','faq.html':'/faq/','cookies.html':'/cookies/','privacy-policy.html':'/privacy-policy/','term-and-condition.html':'/term-and-condition/','return-and-refund.html':'/return-and-refund/','shipping.html':'/shipping/','store-location.html':'/store-location/','coming-soon.html':'/coming-soon/','view-cart.html':'/cart/','cart-empty.html':'/cart/','cart-drawer-v2.html':'/cart/','checkout.html':'/checkout/','thank-you.html':'/checkout/','account-page.html':'/my-account/','account-addresses.html':'/my-account/','account-details.html':'/my-account/','account-orders.html':'/my-account/','wish-list.html':'/my-account/','compare.html':'/shop/'};\n";
+	// Rewrite nav/content links: Shopify paths -> WordPress paths
 	echo "document.querySelectorAll('a[href]').forEach(function(a){\n";
 	echo "  var h=a.getAttribute('href');\n";
 	echo "  if(!h||h.charAt(0)==='#'||h.indexOf('http')===0||h.indexOf('mailto:')===0||h.indexOf('tel:')===0||h.indexOf('javascript:')===0) return;\n";
-	echo "  if(h.indexOf('/wp-')===0||h.indexOf('/cart')===0||h.indexOf('/checkout')===0||h.indexOf('/my-account')===0||h.indexOf('/product/')===0||h.indexOf('/shop')===0||h.indexOf('/blog')===0||h.indexOf('/about-us')===0||h.indexOf('/contact-us')===0||h.indexOf('/faq')===0||h.indexOf('/privacy-policy')===0||h.indexOf('/shipping')===0||h.indexOf('/term-and-condition')===0||h.indexOf('/return-and-refund')===0||h.indexOf('/store-location')===0||h.indexOf('/cookies')===0||h.indexOf('/coming-soon')===0) return;\n";
-	echo "  var r=h.replace(/^\\.\\.\\//,'').replace(/^\\.\\//,'');\n";
-	echo "  if(_vm[r]){a.href=s+_vm[r];return;}\n";
-	echo "  var b=r.replace(/\\.html$/,'');\n";
-	echo "  if(b.indexOf('collections/')===0) a.href=s+'/product-category/'+b.replace('collections/','');\n";
-	echo "  else if(b.indexOf('products/')===0) a.href=s+'/product/'+b.replace('products/','');\n";
-	echo "  else if(b.indexOf('account/')===0) a.href=s+'/my-account/';\n";
-	echo "  else if(b.indexOf('blogs/')===0) a.href=s+'/blog/';\n";
-	echo "  else if(b.indexOf('pages/')===0) a.href=s+'/'+b.replace('pages/','');\n";
-	echo "  else if(b.indexOf('blog')===0) a.href=s+'/blog/';\n";
-	echo "  else if(b.indexOf('product')===0) a.href=s+'/shop/';\n";
-	echo "  else if(b.indexOf('shop')===0) a.href=s+'/shop/';\n";
-	echo "  else if(b.indexOf('account')===0||b.indexOf('order')===0||b.indexOf('wishlist')===0) a.href=s+'/my-account/';\n";
-	echo "  else if(b.indexOf('compare')===0) a.href=s+'/shop/';\n";
-	echo "  else if(b.indexOf('home')===0||b.indexOf('newsletter')===0) a.href=s+'/';\n";
-	echo "  else a.href=s+'/'+b;\n";
+	echo "  // Skip WordPress admin/API/cart/checkout/account paths\n";
+	echo "  if(h.indexOf('/wp-')===0||h.indexOf('/cart')===0||h.indexOf('/checkout')===0||h.indexOf('/my-account')===0||h.indexOf('/product/')===0||h.indexOf('/shop')===0||h.indexOf('/blog')===0) return;\n";
+	echo "  var rest=h.replace(/^\\.\\.\\//,'');\n";
+	echo "  // Map known Shopify paths to WordPress routes\n";
+	echo "  if(rest==='index.html'||rest==='./index.html'||rest==='') a.href=s+'/';\n";
+	echo "  else if(rest.indexOf('collections/')===0) a.href=s+'/product-category/'+rest.replace('collections/','').replace(/\\.html$/,'');\n";
+	echo "  else if(rest.indexOf('products/')===0) a.href=s+'/product/'+rest.replace('products/','').replace(/\\.html$/,'');\n";
+	echo "  else if(rest.indexOf('account/')===0) a.href=s+'/my-account/';\n";
+	echo "  else if(rest.indexOf('blogs/')===0) a.href=s+'/blog/';\n";
+	echo "  else if(rest.indexOf('pages/')===0) a.href=s+'/'+rest.replace('pages/','').replace(/\\.html$/,'');\n";
+	echo "  else if(rest.indexOf('cart')===0) a.href=s+'/cart/';\n";
+	echo "  else if(rest.indexOf('checkout')===0) a.href=s+'/checkout/';\n";
+	echo "  // For unknown paths, strip .html and point to site root\n";
+	echo "  else a.href=s+'/'+rest.replace(/\\.html$/,'');\n";
 	echo "});\n";
 	// Rewrite external _cdn.assets.struct.com URLs to live struct.com CDN
 	echo "document.querySelectorAll('[src],[href],[poster]').forEach(function(el){\n";
@@ -359,16 +314,6 @@ function aureon_ferm_resolve_page() {
 			}
 		}
 
-		// Single post (blog article).
-		if ( is_single() && ! empty( $pages['blog_single'] ) ) {
-			return $pages['blog_single'];
-		}
-
-		// Search results.
-		if ( is_search() && ! empty( $pages['search'] ) ) {
-			return $pages['search'];
-		}
-
 		// Cart.
 		if ( function_exists( 'is_cart' ) && is_cart() ) {
 			if ( ! empty( $pages['cart'] ) ) {
@@ -458,13 +403,9 @@ function aureon_ferm_resolve_page() {
 		return 'blogs/stories.html';
 	}
 
-	// 404 — serve the pack's designed 404 page when present.
+	// 404.
 	if ( is_404() ) {
-		$not_found = '404.html';
-		if ( file_exists( aether_active_design_dir() . $not_found ) ) {
-			return $not_found;
-		}
-		return 'pages/contact.html'; // Legacy fallback.
+		return 'pages/contact.html'; // Fallback to contact page.
 	}
 
 	return false;
@@ -718,110 +659,6 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 		'$1' . $site_url . '/checkout/$3',
 		$content
 	);
-
-	// === COMPREHENSIVE VINETA HTML FILE REWRITE MAP ===
-	// All Vineta flat HTML files -> clean WordPress URLs
-	$vineta_map = array(
-		// Shop variants -> /shop/
-		'shop-default.html'                 => '/shop/',
-		'shop-left-sidebar.html'            => '/shop/',
-		'shop-right-sidebar.html'           => '/shop/',
-		'shop-filter-drawer.html'           => '/shop/',
-		'shop-filter-sidebar.html'          => '/shop/',
-		'shop-filter-hidden.html'           => '/shop/',
-		'shop-fullwidth.html'               => '/shop/',
-		'shop-grid-3-columns.html'          => '/shop/',
-		'shop-horizontal-filter.html'       => '/shop/',
-		'shop-infinity-scroll.html'         => '/shop/',
-		'shop-load-more-button.html'        => '/shop/',
-		'shop-sub-collection.html'          => '/shop/',
-		'shop-sub-collection-02.html'       => '/shop/',
-		'shop-collection-list.html'         => '/shop/',
-		// Blog variants -> /blog/
-		'blog-grid-01.html'                 => '/blog/',
-		'blog-grid-02.html'                 => '/blog/',
-		'blog-list-01.html'                 => '/blog/',
-		'blog-list-02.html'                 => '/blog/',
-		'blog-single.html'                  => '/blog/',
-		// Product variants -> /shop/
-		'product-detail.html'               => '/shop/',
-		'product-3d.html'                   => '/shop/',
-		'product-countdown-timer.html'      => '/shop/',
-		'product-description-accordions.html' => '/shop/',
-		'product-description-tab.html'      => '/shop/',
-		'product-group.html'                => '/shop/',
-		'product-out-of-stock.html'         => '/shop/',
-		'product-pickup-available.html'     => '/shop/',
-		'product-swatch-dropdown.html'      => '/shop/',
-		'product-together.html'             => '/shop/',
-		'product-video.html'                => '/shop/',
-		'product-volume-discount.html'      => '/shop/',
-		'product-affiliate.html'            => '/shop/',
-		'product-bottom-thumbnail.html'     => '/shop/',
-		'product-buyX-getY.html'            => '/shop/',
-		'product-description-side-accordions.html' => '/shop/',
-		'product-description-vertical.html' => '/shop/',
-		'product-drawer-sidebar.html'       => '/shop/',
-		'product-external-zoom.html'        => '/shop/',
-		'product-grid.html'                 => '/shop/',
-		'product-grid-02.html'              => '/shop/',
-		'product-inner-circle-zoom.html'    => '/shop/',
-		'product-inner-zoom.html'           => '/shop/',
-		'product-no-zoom.html'              => '/shop/',
-		'product-open-lightbox.html'        => '/shop/',
-		'product-right-thumbnail.html'      => '/shop/',
-		'product-stacked.html'              => '/shop/',
-		'product-style-01.html'             => '/shop/',
-		'product-style-02.html'             => '/shop/',
-		'product-style-03.html'             => '/shop/',
-		'product-swatch-dropdown-color.html' => '/shop/',
-		'product-swatch-image.html'         => '/shop/',
-		'product-swatch-image-square.html'  => '/shop/',
-		'product-volume-discount-thumbnail.html' => '/shop/',
-		// Static pages -> WordPress page slugs
-		'about-us.html'                     => '/about-us/',
-		'contact-us.html'                   => '/contact-us/',
-		'faq.html'                          => '/faq/',
-		'cookies.html'                      => '/cookies/',
-		'privacy-policy.html'               => '/privacy-policy/',
-		'term-and-condition.html'           => '/term-and-condition/',
-		'return-and-refund.html'            => '/return-and-refund/',
-		'shipping.html'                     => '/shipping/',
-		'store-location.html'               => '/store-location/',
-		'coming-soon.html'                  => '/coming-soon/',
-		// Cart/Checkout/Account
-		'view-cart.html'                    => '/cart/',
-		'cart-empty.html'                   => '/cart/',
-		'cart-drawer-v2.html'               => '/cart/',
-		'checkout.html'                     => '/checkout/',
-		'thank-you.html'                    => '/checkout/',
-		'account-page.html'                 => '/my-account/',
-		'account-addresses.html'            => '/my-account/',
-		'account-details.html'              => '/my-account/',
-		'account-orders.html'               => '/my-account/',
-		// Wishlist / Compare
-		'wish-list.html'                    => '/my-account/',
-		'compare.html'                      => '/shop/',
-		// Home / Misc
-		'index.html'                        => '/',
-		'404.html'                          => '/',
-		'home-fashion-02.html'              => '/',
-		'before-you-leave.html'             => '/',
-		'newsletter-popup-02.html'          => '/',
-		'newsletter-popup-03.html'          => '/',
-	);
-
-	// Apply Vineta map: rewrite href="filename.html" to clean WordPress URLs
-	foreach ( $vineta_map as $html_file => $wp_url ) {
-		$escaped = preg_quote( $html_file, '/' );
-		$target  = $site_url . $wp_url;
-		// Match href="filename.html" or href='../filename.html'
-		$content = preg_replace(
-			'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?' . $escaped . ')(["\x27])/i',
-			'$1' . $target . '$3',
-			$content
-		);
-	}
 	// === Account page: rewrite Shopify login form to WooCommerce ===
 	// Note: Logged-in users are already routed to WooCommerce template via
 	// aureon_ferm_template_include() in frontend.php. This code only runs
