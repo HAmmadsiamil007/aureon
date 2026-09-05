@@ -587,7 +587,7 @@ function vineta_enqueue_cart_bridge() {
 	wp_enqueue_style( 'vineta-icons', $pack_url . 'fonts/font-icons.css', array( 'vineta-fonts' ), '1.0.0' );
 
 	// Register the main Vineta data bridge script.
-	wp_register_script( 'vineta-data-shims', $pack_url . 'js/vineta-data-shims.js', array(), '1.0.2', true );
+	wp_register_script( 'vineta-data-shims', $pack_url . 'js/vineta-data-shims.js', array(), '1.0.3', true );
 	wp_localize_script(
 		'vineta-data-shims',
 		'vineta_bridge',
@@ -696,6 +696,8 @@ function vineta_wc_inline_css_output() {
 
 	echo '<style id="vineta-wc-overrides">';
 	echo '#preloader{display:none!important}#fog-system{display:none!important}';
+	// Hide AETHER mobile chrome — Vineta header has its own mobile offcanvas.
+	echo '#mobileHeader{display:none!important}#mobileMenuOverlay{display:none!important}.mobile-header{display:none!important}.mobile-menu-overlay{display:none!important}';
 	echo '.header{position:relative;width:100%;background:#fff;border-bottom:1px solid #eee;z-index:100}';
 	echo '.header-container{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:12px 24px}';
 	echo '.brand-logo{display:block;height:32px}';
@@ -2756,6 +2758,127 @@ function vineta_html_splice_footer_menu( $html, $inner ) {
 		return $html;
 	}
 	return substr_replace( $html, $inner, $span['inner_start'], $span['inner_end'] - $span['inner_start'] );
+}
+
+
+/**
+ * Render the Vineta header from frozen HTML for standalone WC pages.
+ *
+ * Extracts the header markup (top bar + header) from index.html
+ * and rewrites Shopify paths to WordPress URLs.
+ */
+function vineta_render_standalone_header() {
+	if ( ! function_exists( 'aether_active_design' ) || 'vineta' !== aether_active_design() ) {
+		return;
+	}
+	if ( ! function_exists( 'aether_active_design_dir' ) ) {
+		return;
+	}
+	$pack_dir = aether_active_design_dir();
+	if ( ! $pack_dir ) {
+		return;
+	}
+	$index_file = $pack_dir . 'index.html';
+	if ( ! file_exists( $index_file ) ) {
+		return;
+	}
+	$html = file_get_contents( $index_file );
+	if ( ! $html ) {
+		return;
+	}
+
+	// Extract from <div id="wrapper"> to </header> (inclusive).
+	if ( preg_match( '/<div id="wrapper">(.*?)<\/header>\s*<!-- \/Header -->/s', $html, $m ) ) {
+		$header_html = $m[0];
+	} else {
+		return;
+	}
+
+	// Rewrite paths: cdn/ → absolute pack URL, relative links → WP URLs.
+	$site_url = home_url( '/' );
+	$pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
+
+	if ( $pack_url ) {
+		// Rewrite image src cdn/ paths
+		$header_html = preg_replace(
+			'/(<img\s[^>]*src\s*=\s*["\x27])((?:\.\.\/)?cdn\/)/i',
+			'$1' . $pack_url . '$2',
+			$header_html
+		);
+		// Rewrite srcset
+		$header_html = preg_replace_callback(
+			'/(<img\s[^>]*srcset\s*=\s*["\x27])([^"\x27]*)/i',
+			function ( $m ) use ( $pack_url ) {
+				$rewritten = preg_replace( '/((?:\.\.\/)?cdn\/)/', $pack_url . '$1', $m[2] );
+				return $m[1] . $rewritten;
+			},
+			$header_html
+		);
+		// Rewrite data-src lazyload
+		$header_html = preg_replace(
+			'/(data-src\s*=\s*["\x27])((?:\.\.\/)?cdn\/)/i',
+			'$1' . $pack_url . '$2',
+			$header_html
+		);
+	}
+
+	// Rewrite navigation links: Shopify → WordPress
+	$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : $site_url . 'shop/';
+	$cart_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'cart' ) : $site_url . 'cart/';
+	$account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : $site_url . 'my-account/';
+	$checkout_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'checkout' ) : $site_url . 'checkout/';
+
+	// index.html → homepage
+	$header_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])index\.html(["\x27])/i',
+		'$1' . $site_url . '$2',
+		$header_html
+	);
+	// shop-default.html → shop
+	$header_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])shop-default\.html(["\x27])/i',
+		'$1' . $shop_url . '$2',
+		$header_html
+	);
+	// collections/X.html → product-category/X
+	$header_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])collections\/([^"\x27]+)\.html(["\x27])/i',
+		'$1' . $site_url . 'product-category/$2$3',
+		$header_html
+	);
+	// wish-list.html → my-account (WooCommerce doesn't have native wishlist)
+	$header_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])wish-list\.html(["\x27])/i',
+		'$1' . $account_url . '$2',
+		$header_html
+	);
+	// #shoppingCart offcanvas → link to cart page
+	$header_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])#shoppingCart(["\x27])/i',
+		'$1' . $cart_url . '$2',
+		$header_html
+	);
+	// #login offcanvas → link to my-account
+	$header_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])#login(["\x27])/i',
+		'$1' . $account_url . '$2',
+		$header_html
+	);
+	// #search → keep as #search (modal handled by JS)
+	// blogs/X.html → blog
+	$header_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])blogs\/[^"\x27]*\.html(["\x27])/i',
+		'$1' . $site_url . 'blog$2',
+		$header_html
+	);
+
+	// Remove data-aureon-slot attributes (server-side only).
+	$header_html = preg_replace( '/\s*data-aureon-slot="[^"]*"/i', '', $header_html );
+
+	// Fix stray > before <img in logo (frozen HTML typo: >><img).
+	$header_html = str_replace( '>><img', '><img', $header_html );
+
+	echo $header_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 
