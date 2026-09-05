@@ -27,6 +27,21 @@ if ( ! function_exists( 'aether_is_complete_page_design' ) || ! aether_is_comple
 	return;
 }
 
+// WooCommerce pages (checkout, cart) must use their native templates, not the
+// frozen HTML. Bail out so the WC template routing handles them.
+$wc_pages = array();
+if ( function_exists( 'wc_get_page_id' ) ) {
+	$wc_pages = array(
+		'checkout' => wc_get_page_id( 'checkout' ),
+		'cart'     => wc_get_page_id( 'cart' ),
+	);
+}
+foreach ( $wc_pages as $wc_slug => $wc_id ) {
+	if ( $wc_id > 0 && is_page( $wc_id ) ) {
+		return;
+	}
+}
+
 $pack_dir = aether_active_design_dir();
 if ( ! $pack_dir ) {
 	return;

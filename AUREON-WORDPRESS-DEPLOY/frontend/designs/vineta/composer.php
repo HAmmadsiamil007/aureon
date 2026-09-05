@@ -1,12 +1,12 @@
 <?php
 /**
- * Vineta Design Pack — Thin Composer (Data Bridge)
+ * Vineta Design Pack ??? Thin Composer (Data Bridge)
  *
  * Maps AUREON/WooCommerce data to Vineta presentation format.
  * Handles cart AJAX, demo data fallback, and product remapping.
  *
  * This file is loaded by the frontend engine for the vineta design.
- * It does NOT contain any presentation logic — only data transformation.
+ * It does NOT contain any presentation logic ??? only data transformation.
  *
  * @package Aureon
  */
@@ -351,7 +351,7 @@ function vineta_has_real_categories() {
 }
 
 /**
- * Demo Content Filtering — Products
+ * Demo Content Filtering ??? Products
  */
 add_action( 'woocommerce_product_query', 'vineta_filter_demo_products' );
 function vineta_filter_demo_products( $q ) {
@@ -398,7 +398,7 @@ function vineta_filter_demo_products( $q ) {
 }
 
 /**
- * Demo Content Filtering — Categories
+ * Demo Content Filtering ??? Categories
  */
 add_filter( 'get_terms', 'vineta_filter_demo_categories', 10, 3 );
 function vineta_filter_demo_categories( $terms, $taxonomies, $args ) {
@@ -595,7 +595,7 @@ function vineta_enqueue_cart_bridge() {
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'nonce'    => wp_create_nonce( 'vineta_cart_nonce' ),
 			'site_url' => home_url( '/' ),
-			// Platform form endpoints (aether-newsletter.php / aether-ajax.php) —
+			// Platform form endpoints (aether-newsletter.php / aether-ajax.php) ???
 			// the frozen Vineta forms POST to demo files that do not exist here.
 			'aether_nonce'  => wp_create_nonce( 'aether_nonce' ),
 			'contact_nonce' => wp_create_nonce( 'aether_contact' ),
@@ -635,6 +635,108 @@ function vineta_inject_base_tag() {
 	echo '<base href="' . esc_url( $pack_url ) . '">' . "\n";
 	// Save WordPress jQuery reference before frozen HTML scripts overwrite it
 	echo "<script>if(window.jQuery){window._vinetaWpJQuery=window.jQuery;window._vinetaWpJQueryFn=window.jQuery.fn;}</script>\n";
+}
+
+// --- WC page header + footer + inline CSS ---
+// On checkout / cart / account pages the WC native template renders via
+// header.php then aether_compose_header() which outputs AETHER shell markup.
+// We hide the preloader, inject minimal header/nav CSS, and add a simple footer.
+add_action( 'wp_enqueue_scripts', 'vineta_wc_page_inline_css', 1001 );
+function vineta_wc_page_inline_css() {
+	if ( ! function_exists( 'aether_active_design' ) || 'vineta' !== aether_active_design() ) {
+		return;
+	}
+	if ( ! function_exists( 'aether_is_complete_page_design' ) || ! aether_is_complete_page_design() ) {
+		return;
+	}
+
+	$is_wc_page = false;
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		$is_wc_page = true;
+	}
+	if ( function_exists( 'is_cart' ) && is_cart() ) {
+		$is_wc_page = true;
+	}
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+		$is_wc_page = true;
+	}
+	if ( ! $is_wc_page && function_exists( 'wc_get_page_id' ) ) {
+		$wc_ids = array( wc_get_page_id( 'checkout' ), wc_get_page_id( 'cart' ), wc_get_page_id( 'myaccount' ) );
+		if ( is_page( $wc_ids ) ) {
+			$is_wc_page = true;
+		}
+	}
+
+	if ( ! $is_wc_page ) {
+		return;
+	}
+
+	// Re-enqueue WC-specific CSS that was dequeued by the isolation layer.
+	wp_enqueue_style( 'woocommerce-general' );
+	wp_enqueue_style( 'woocommerce-layout' );
+	wp_enqueue_style( 'woocommerce-smallscreen' );
+}
+add_action( 'wp_head', 'vineta_wc_inline_css_output', 1 );
+function vineta_wc_inline_css_output() {
+	if ( ! function_exists( 'aether_active_design' ) || 'vineta' !== aether_active_design() ) {
+		return;
+	}
+	if ( ! function_exists( 'aether_is_complete_page_design' ) || ! aether_is_complete_page_design() ) {
+		return;
+	}
+	$is_wc_page = false;
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) { $is_wc_page = true; }
+	if ( function_exists( 'is_cart' ) && is_cart() ) { $is_wc_page = true; }
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) { $is_wc_page = true; }
+	if ( ! $is_wc_page && function_exists( 'wc_get_page_id' ) ) {
+		$wc_ids = array( wc_get_page_id( 'checkout' ), wc_get_page_id( 'cart' ), wc_get_page_id( 'myaccount' ) );
+		if ( is_page( $wc_ids ) ) { $is_wc_page = true; }
+	}
+	if ( ! $is_wc_page ) { return; }
+
+	echo '<style id="vineta-wc-overrides">';
+	echo '#preloader{display:none!important}#fog-system{display:none!important}';
+	echo '.header{position:relative;width:100%;background:#fff;border-bottom:1px solid #eee;z-index:100}';
+	echo '.header-container{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:12px 24px}';
+	echo '.brand-logo{display:block;height:32px}';
+	echo '.brand-logo img{max-height:32px;width:auto}';
+	echo '.main-nav{display:flex;align-items:center}';
+	echo '.nav-links{display:flex;list-style:none;margin:0;padding:0;gap:24px}';
+	echo '.nav-links li a{text-decoration:none;color:#111;font-size:14px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}';
+	echo '.nav-links li a:hover{color:#666}';
+	echo '.page-hero{padding:40px 0 20px;background:#f8f8f8}';
+	echo '.page-hero h1{font-size:28px;font-weight:600;margin:0 0 8px}';
+	echo '.breadcrumb{display:flex;gap:8px;font-size:14px;color:#666;list-style:none;padding:0}';
+	echo '.breadcrumb a{color:#666;text-decoration:none}';
+	echo '.breadcrumb a:hover{color:#111}';
+	echo '.checkout-section{padding:40px 0}';
+	echo '.checkout-section h3{font-size:20px;font-weight:600;margin:0 0 16px}';
+	echo '.form-group{margin-bottom:16px}';
+	echo '.form-group label{display:block;font-size:14px;font-weight:500;margin-bottom:6px}';
+	echo '.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;background:#fff;box-sizing:border-box}';
+	echo '.form-group input:focus,.form-group select:focus{border-color:#111;outline:none}';
+	echo '.row{display:flex;flex-wrap:wrap;margin:0 -12px}';
+	echo '.row>[class*="col-"]{padding:0 12px}';
+	echo '.col-lg-7{flex:0 0 58.33%;max-width:58.33%}';
+	echo '.col-lg-5{flex:0 0 41.67%;max-width:41.67%}';
+	echo '.g-5{gap:24px}';
+	echo '.form-row-custom{display:grid;grid-template-columns:1fr 1fr;gap:12px}';
+	echo '.woocommerce-checkout-review-order{background:#f9f9f9;padding:24px;border-radius:8px}';
+	echo '.cart_item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #eee}';
+	echo '.cart_item img{width:80px;height:80px;object-fit:cover;border-radius:6px}';
+	echo '.cart_item .product-info{flex:1}';
+	echo '.cart_item .product-name{font-weight:500}';
+	echo '.cart_item .product-quantity{color:#666;font-size:13px}';
+	echo '.cart_item .product-total{font-weight:600}';
+	echo '#place_order{display:inline-block;padding:14px 32px;background:#111;color:#fff;border:none;border-radius:30px;font-size:16px;font-weight:600;cursor:pointer}';
+	echo '#place_order:hover{background:#333}';
+	echo '.shop_table{width:100%;border-collapse:collapse}';
+	echo '.shop_table th{padding:12px;text-align:left;border-bottom:2px solid #eee;font-size:14px;font-weight:600}';
+	echo '.shop_table td{padding:12px;border-bottom:1px solid #eee;font-size:14px}';
+	echo '.woocommerce-info{background:#f0f0f0;border-left:4px solid #999;padding:12px 16px;border-radius:6px;margin-bottom:12px;font-size:14px}';
+	echo '.woocommerce-error{background:#fef2f2;border-left:4px solid #dc3545;padding:12px 16px;border-radius:6px;margin-bottom:12px;font-size:14px}';
+	echo '.cart_totals{margin-top:24px}';
+	echo '</style>';
 }
 
 // --- jQuery compatibility bridge ---
@@ -801,10 +903,10 @@ function vineta_inject_product_data() {
 	echo "<script>\n";
 	echo "document.addEventListener('DOMContentLoaded',function(){\n";
 	echo "var p={$json};\n";
-	// Currency formatting: WC symbol + position (e.g. CHF + left_space → "CHF 139.00").
+	// Currency formatting: WC symbol + position (e.g. CHF + left_space ??? "CHF 139.00").
 	$cur_symbol = function_exists( 'get_woocommerce_currency_symbol' ) ? get_woocommerce_currency_symbol() : '$';
 	$cur_pos    = get_option( 'woocommerce_currency_pos', 'left' );
-	// WC returns some symbols entity-encoded (e.g. CHF as &#67;&#72;&#70;) — decode
+	// WC returns some symbols entity-encoded (e.g. CHF as &#67;&#72;&#70;) ??? decode
 	// before emitting into the inline script so the JS sees the real symbol.
 	$cur_symbol = html_entity_decode( (string) $cur_symbol, ENT_QUOTES, 'UTF-8' );
 	echo 'var curSym=' . wp_json_encode( $cur_symbol ) . ',curPos=' . wp_json_encode( $cur_pos ) . ";\n";
@@ -1005,7 +1107,7 @@ function vineta_inject_product_data() {
 	echo "      if(res.success){\n";
 	echo "        // Normalize before announcing: vineta_add_to_cart answers with raw WC\n";
 	echo "        // cart contents, but the vineta:cart-updated consumers (badge, drawer,\n";
-	echo "        // cart page) expect the {items,item_count,total_price} payload — re-fetch\n";
+	echo "        // cart page) expect the {items,item_count,total_price} payload ??? re-fetch\n";
 	echo "        // via vineta_cart_get like the variation path does.\n";
 	echo "        if(window.VinetaCart&&window.VinetaCart.get){\n";
 	echo "          window.VinetaCart.get().then(function(cart){\n";
@@ -1212,7 +1314,7 @@ function vineta_build_page_data() {
 		$currency = get_woocommerce_currency();
 	}
 
-	// Navigation — map WP nav menus to Vineta format.
+	// Navigation ??? map WP nav menus to Vineta format.
 	$nav_main   = vineta_get_nav_menu( 'primary' );
 	$nav_footer = vineta_get_nav_menu( 'footer' );
 
@@ -1271,7 +1373,7 @@ function vineta_build_page_data() {
 		),
 	);
 
-	// Contact details for the static.contact_info slot — driven by options so a
+	// Contact details for the static.contact_info slot ??? driven by options so a
 	// client can update address/hours/email without editing the frozen template.
 	$contact_address = vineta_get_customizer_value( 'aether_contact_address', array( '15 Yarran st, Punchbowl, NSW, Australia' ) );
 	if ( is_string( $contact_address ) && '' !== trim( $contact_address ) ) {
@@ -1285,7 +1387,7 @@ function vineta_build_page_data() {
 		'phone'   => sanitize_text_field( (string) vineta_get_customizer_value( 'aether_contact_phone', '' ) ),
 	);
 
-	// Search UI text — drive the frozen header/search placeholder from
+	// Search UI text ??? drive the frozen header/search placeholder from
 	// aether_search_placeholder instead of the static "Search" copy. Uses
 	// vineta_get_customizer_value() (same canonical reader as colors/hero/
 	// newsletter below) so Customizer UI, raw options and tokens all resolve.
@@ -1299,7 +1401,7 @@ function vineta_build_page_data() {
 		$page_data['product'] = $GLOBALS['vineta_product_page_data'];
 	}
 
-	// Chrome products — a small sample (8 newest) of the REAL catalog embedded
+	// Chrome products ??? a small sample (8 newest) of the REAL catalog embedded
 	// on every route. Shared chrome consumers (mini-cart recommendations,
 	// quick-view/quick-add, compare, search-featured and stray product bands on
 	// cart/checkout/account/blog templates) use it to render real products on
@@ -1843,7 +1945,7 @@ function vineta_build_collection_data() {
 		}
 	}
 
-	// Demo product fallback — only when the store master switch allows it;
+	// Demo product fallback ??? only when the store master switch allows it;
 	// otherwise an empty catalog renders the shop/category empty state.
 	if ( empty( $products ) && vineta_use_demo_fallback() ) {
 		$products = vineta_get_demo_products_for_collection( $term ? $term->slug : '' );
@@ -2094,7 +2196,7 @@ function vineta_auth_bridge() {
 	$register_nonce     = wp_create_nonce( 'woocommerce-register' );
 	$lost_nonce         = wp_create_nonce( 'lost_password' );
 
-	// WC notices (login errors, register errors, etc.) — the frozen Vineta page
+	// WC notices (login errors, register errors, etc.) ??? the frozen Vineta page
 	// has no notice container; print into one the bridge relocates above forms.
 	// The lost-password success state is delivered via ?reset-link-sent and only
 	// printed by WC's native templates, so synthesize the same confirmation here.
@@ -2202,17 +2304,17 @@ function vineta_auth_bridge() {
 }
 
 
-// ─────────────────────────────────────────────────────────────────────────
-// Vineta — Hero Banner Customizer UI (pack-level, 2026-09-04)
+// ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+// Vineta ??? Hero Banner Customizer UI (pack-level, 2026-09-04)
 //
 // Golden Core registers the generic "AETHER Frontend" section (hero slides
-// repeater, colors, layout…) with an active_callback that HIDES it whenever a
-// complete-page design (Vineta) is active — so clients could never reach the
+// repeater, colors, layout???) with an active_callback that HIDES it whenever a
+// complete-page design (Vineta) is active ??? so clients could never reach the
 // hero options from /wp-admin/customize.php. This pack-level section reuses
 // Core's own repeater control + the canonical aureon_settings option keys the
 // Vineta bridge already consumes (aether_hero_slides). No Golden Core change,
 // no second Customizer system.
-// ─────────────────────────────────────────────────────────────────────────
+// ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
 add_filter( 'aether_repeater_schemas', 'vineta_extend_hero_schema', 20 );
 /**
  * Add a tablet background image field to the hero slides schema (after the
@@ -2248,7 +2350,7 @@ function vineta_extend_hero_schema( $schemas ) {
 
 add_action( 'customize_register', 'vineta_customize_register_hero_banner', 30 );
 /**
- * Expose a "Vineta — Hero Banner" section with per-slide image uploads
+ * Expose a "Vineta ??? Hero Banner" section with per-slide image uploads
  * (laptop/desktop, tablet, mobile), heading + copy + CTA fields, bound to the
  * exact option the Vineta bridge reads (aether_hero_slides).
  *
@@ -2268,7 +2370,7 @@ function vineta_customize_register_hero_banner( $wp_customize ) {
 	$wp_customize->add_section(
 		'vineta_hero_banner',
 		array(
-			'title'    => __( 'Vineta — Hero Banner', 'aureon' ),
+			'title'    => __( 'Vineta ??? Hero Banner', 'aureon' ),
 			'priority' => 35,
 			'active_callback' => function() {
 				return function_exists( 'aether_active_design' ) && 'vineta' === aether_active_design();
@@ -2292,7 +2394,7 @@ function vineta_customize_register_hero_banner( $wp_customize ) {
 		array(
 			'label'       => __( 'Hero slides', 'aureon' ),
 			'section'     => 'vineta_hero_banner',
-			'description' => __( 'One slide per homepage banner. Upload a laptop/desktop image, plus optional tablet and mobile images; edit the headline, subline and buttons per slide. Save → the homepage updates.', 'aureon' ),
+			'description' => __( 'One slide per homepage banner. Upload a laptop/desktop image, plus optional tablet and mobile images; edit the headline, subline and buttons per slide. Save ??? the homepage updates.', 'aureon' ),
 			'choices'     => array(
 				'schema'     => $hero_schema,
 				'item_label' => isset( $hero_schema['label'] ) ? $hero_schema['label'] : __( 'Slide', 'aureon' ),
@@ -2302,8 +2404,8 @@ function vineta_customize_register_hero_banner( $wp_customize ) {
 	);
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-// Vineta — Customizer color bridge + color controls (2026-09-04)
+// ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+// Vineta ??? Customizer color bridge + color controls (2026-09-04)
 //
 // The Vineta pack ships the template's default scheme in styles.css
 // (:root --primary:#ff6f61 coral, light surfaces, black ink). The bridge below
@@ -2311,13 +2413,13 @@ function vineta_customize_register_hero_banner( $wp_customize ) {
 // Customizer; empty settings leave styles.css untouched, so the frontend
 // always matches the approved template by default. Saved values from the old
 // black scheme were cleared from the DB, so nothing can repaint the design.
-// ─────────────────────────────────────────────────────────────────────────
+// ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
 /**
  * Emit Vineta-native CSS custom properties from AUREON Customizer colors.
  *
  * Maps the Customizer color settings onto the CSS variables Vineta styles.css
  * actually consumes (--primary/--primary-2/--dark/--text/--line/--surface and
- * the body background). Empty settings are skipped entirely — the template
+ * the body background). Empty settings are skipped entirely ??? the template
  * default scheme from styles.css remains authoritative.
  *
  * Runs late (priority 20) so the rules appear after the enqueued pack CSS.
@@ -2370,7 +2472,7 @@ function vineta_emit_customizer_css() {
 		$body[] = 'background-color:' . $bg;
 	}
 
-	// Fonts — only when the client explicitly chooses one; otherwise the
+	// Fonts ??? only when the client explicitly chooses one; otherwise the
 	// template's Poppins stack from styles.css stays.
 	$font_body = vineta_get_customizer_value( 'aether_font_body', '' );
 	if ( $font_body ) {
@@ -2401,7 +2503,7 @@ add_action( 'wp_head', 'vineta_emit_customizer_css', 20 );
 
 add_action( 'customize_register', 'vineta_customize_register_colors', 32 );
 /**
- * "Vineta — Colors" section: per-scheme color pickers bound to the same
+ * "Vineta ??? Colors" section: per-scheme color pickers bound to the same
  * canonical option keys the bridge reads. Empty = use the template's default
  * scheme (coral accent #ff6f61, light surfaces). No Golden Core change; the
  * controls reuse Core's own Aureon_Customize_Color_Control.
@@ -2422,7 +2524,7 @@ function vineta_customize_register_colors( $wp_customize ) {
 	$wp_customize->add_section(
 		'vineta_colors',
 		array(
-			'title'    => __( 'Vineta — Colors', 'aureon' ),
+			'title'    => __( 'Vineta ??? Colors', 'aureon' ),
 			'priority' => 36,
 			'active_callback' => function() {
 				return function_exists( 'aether_active_design' ) && 'vineta' === aether_active_design();
@@ -2459,11 +2561,11 @@ function vineta_customize_register_colors( $wp_customize ) {
 }
 
 // =====================================================================
-// Server-rendered navigation — the assigned WordPress menus become real
+// Server-rendered navigation ??? the assigned WordPress menus become real
 // HTML in the frozen Vineta templates (header desktop menu + footer
 // Resource column). The client-side nav bridge stays untouched and simply
 // re-applies the same items (idempotent). Rendering on the server makes
-// the menu visible in every context — including the Customizer preview —
+// the menu visible in every context ??? including the Customizer preview ???
 // and keeps WordPress menus authoritative for the client.
 // =====================================================================
 add_action( 'template_redirect', 'vineta_server_render_menus_start', 25 );
@@ -2655,3 +2757,6 @@ function vineta_html_splice_footer_menu( $html, $inner ) {
 	}
 	return substr_replace( $html, $inner, $span['inner_start'], $span['inner_end'] - $span['inner_start'] );
 }
+
+
+

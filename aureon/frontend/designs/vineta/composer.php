@@ -637,6 +637,108 @@ function vineta_inject_base_tag() {
 	echo "<script>if(window.jQuery){window._vinetaWpJQuery=window.jQuery;window._vinetaWpJQueryFn=window.jQuery.fn;}</script>\n";
 }
 
+// --- WC page header + footer + inline CSS ---
+// On checkout / cart / account pages the WC native template renders via
+// header.php then aether_compose_header() which outputs AETHER shell markup.
+// We hide the preloader, inject minimal header/nav CSS, and add a simple footer.
+add_action( 'wp_enqueue_scripts', 'vineta_wc_page_inline_css', 1001 );
+function vineta_wc_page_inline_css() {
+	if ( ! function_exists( 'aether_active_design' ) || 'vineta' !== aether_active_design() ) {
+		return;
+	}
+	if ( ! function_exists( 'aether_is_complete_page_design' ) || ! aether_is_complete_page_design() ) {
+		return;
+	}
+
+	$is_wc_page = false;
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		$is_wc_page = true;
+	}
+	if ( function_exists( 'is_cart' ) && is_cart() ) {
+		$is_wc_page = true;
+	}
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+		$is_wc_page = true;
+	}
+	if ( ! $is_wc_page && function_exists( 'wc_get_page_id' ) ) {
+		$wc_ids = array( wc_get_page_id( 'checkout' ), wc_get_page_id( 'cart' ), wc_get_page_id( 'myaccount' ) );
+		if ( is_page( $wc_ids ) ) {
+			$is_wc_page = true;
+		}
+	}
+
+	if ( ! $is_wc_page ) {
+		return;
+	}
+
+	// Re-enqueue WC-specific CSS that was dequeued by the isolation layer.
+	wp_enqueue_style( 'woocommerce-general' );
+	wp_enqueue_style( 'woocommerce-layout' );
+	wp_enqueue_style( 'woocommerce-smallscreen' );
+}
+add_action( 'wp_head', 'vineta_wc_inline_css_output', 1 );
+function vineta_wc_inline_css_output() {
+	if ( ! function_exists( 'aether_active_design' ) || 'vineta' !== aether_active_design() ) {
+		return;
+	}
+	if ( ! function_exists( 'aether_is_complete_page_design' ) || ! aether_is_complete_page_design() ) {
+		return;
+	}
+	$is_wc_page = false;
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) { $is_wc_page = true; }
+	if ( function_exists( 'is_cart' ) && is_cart() ) { $is_wc_page = true; }
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) { $is_wc_page = true; }
+	if ( ! $is_wc_page && function_exists( 'wc_get_page_id' ) ) {
+		$wc_ids = array( wc_get_page_id( 'checkout' ), wc_get_page_id( 'cart' ), wc_get_page_id( 'myaccount' ) );
+		if ( is_page( $wc_ids ) ) { $is_wc_page = true; }
+	}
+	if ( ! $is_wc_page ) { return; }
+
+	echo '<style id="vineta-wc-overrides">';
+	echo '#preloader{display:none!important}#fog-system{display:none!important}';
+	echo '.header{position:relative;width:100%;background:#fff;border-bottom:1px solid #eee;z-index:100}';
+	echo '.header-container{display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto;padding:12px 24px}';
+	echo '.brand-logo{display:block;height:32px}';
+	echo '.brand-logo img{max-height:32px;width:auto}';
+	echo '.main-nav{display:flex;align-items:center}';
+	echo '.nav-links{display:flex;list-style:none;margin:0;padding:0;gap:24px}';
+	echo '.nav-links li a{text-decoration:none;color:#111;font-size:14px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}';
+	echo '.nav-links li a:hover{color:#666}';
+	echo '.page-hero{padding:40px 0 20px;background:#f8f8f8}';
+	echo '.page-hero h1{font-size:28px;font-weight:600;margin:0 0 8px}';
+	echo '.breadcrumb{display:flex;gap:8px;font-size:14px;color:#666;list-style:none;padding:0}';
+	echo '.breadcrumb a{color:#666;text-decoration:none}';
+	echo '.breadcrumb a:hover{color:#111}';
+	echo '.checkout-section{padding:40px 0}';
+	echo '.checkout-section h3{font-size:20px;font-weight:600;margin:0 0 16px}';
+	echo '.form-group{margin-bottom:16px}';
+	echo '.form-group label{display:block;font-size:14px;font-weight:500;margin-bottom:6px}';
+	echo '.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;background:#fff;box-sizing:border-box}';
+	echo '.form-group input:focus,.form-group select:focus{border-color:#111;outline:none}';
+	echo '.row{display:flex;flex-wrap:wrap;margin:0 -12px}';
+	echo '.row>[class*="col-"]{padding:0 12px}';
+	echo '.col-lg-7{flex:0 0 58.33%;max-width:58.33%}';
+	echo '.col-lg-5{flex:0 0 41.67%;max-width:41.67%}';
+	echo '.g-5{gap:24px}';
+	echo '.form-row-custom{display:grid;grid-template-columns:1fr 1fr;gap:12px}';
+	echo '.woocommerce-checkout-review-order{background:#f9f9f9;padding:24px;border-radius:8px}';
+	echo '.cart_item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #eee}';
+	echo '.cart_item img{width:80px;height:80px;object-fit:cover;border-radius:6px}';
+	echo '.cart_item .product-info{flex:1}';
+	echo '.cart_item .product-name{font-weight:500}';
+	echo '.cart_item .product-quantity{color:#666;font-size:13px}';
+	echo '.cart_item .product-total{font-weight:600}';
+	echo '#place_order{display:inline-block;padding:14px 32px;background:#111;color:#fff;border:none;border-radius:30px;font-size:16px;font-weight:600;cursor:pointer}';
+	echo '#place_order:hover{background:#333}';
+	echo '.shop_table{width:100%;border-collapse:collapse}';
+	echo '.shop_table th{padding:12px;text-align:left;border-bottom:2px solid #eee;font-size:14px;font-weight:600}';
+	echo '.shop_table td{padding:12px;border-bottom:1px solid #eee;font-size:14px}';
+	echo '.woocommerce-info{background:#f0f0f0;border-left:4px solid #999;padding:12px 16px;border-radius:6px;margin-bottom:12px;font-size:14px}';
+	echo '.woocommerce-error{background:#fef2f2;border-left:4px solid #dc3545;padding:12px 16px;border-radius:6px;margin-bottom:12px;font-size:14px}';
+	echo '.cart_totals{margin-top:24px}';
+	echo '</style>';
+}
+
 // --- jQuery compatibility bridge ---
 // The frozen HTML loads Bootstrap BEFORE its own jQuery, but WordPress jQuery
 // is already loaded. Bootstrap attaches to WP jQuery. Then Vineta jQuery loads
@@ -2655,4 +2757,6 @@ function vineta_html_splice_footer_menu( $html, $inner ) {
 	}
 	return substr_replace( $html, $inner, $span['inner_start'], $span['inner_end'] - $span['inner_start'] );
 }
+
+
 

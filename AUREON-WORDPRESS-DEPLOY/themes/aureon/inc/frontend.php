@@ -13,23 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-// Resolve the frontend engine directory — works on any hosting layout.
-$frontend_loader = get_template_directory() . '/../../frontend/views/loader.php';
-// Fallback: if the relative path doesn't resolve (e.g. different directory
-// structure on shared hosting), try WP_CONTENT_DIR which is always reliable.
-if ( ! file_exists( $frontend_loader ) ) {
-	$frontend_loader = WP_CONTENT_DIR . '/frontend/views/loader.php';
-}
-if ( ! file_exists( $frontend_loader ) ) {
-	wp_die(
-		'Aureon Frontend Engine Missing',
-		'The <code>wp-content/frontend/</code> directory was not found. '
-		. 'Please ensure the <code>frontend/</code> folder is uploaded to '
-		. '<code>wp-content/frontend/</code> alongside <code>wp-content/themes/</code>.',
-		array( 'back_link' => true )
-	);
-}
-require_once $frontend_loader;
+require_once get_template_directory() . '/../../frontend/views/loader.php';
 
 require_once get_template_directory() . '/inc/aether-tokens.php';
 require_once get_template_directory() . '/inc/aether-security.php';
@@ -320,7 +304,18 @@ function aureon_ferm_template_include( $template ) {
 
 	// Checkout must use WooCommerce's native template (not the frozen HTML
 	// which may contain a Shopify redirect). Let WC handle checkout routing.
+	// Also check by slug as a fallback when is_checkout() fails to detect.
 	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		return $template;
+	}
+	$wc_checkout_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'checkout' ) : 0;
+	if ( $wc_checkout_id > 0 && is_page( $wc_checkout_id ) ) {
+		return $template;
+	}
+
+	// Cart page — let WooCommerce handle it natively.
+	$wc_cart_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'cart' ) : 0;
+	if ( $wc_cart_id > 0 && is_page( $wc_cart_id ) ) {
 		return $template;
 	}
 
