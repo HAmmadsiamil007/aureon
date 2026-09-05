@@ -68,10 +68,10 @@ wp_head();
 echo "</head>\n";
 
 // --- Body: extract and output from the source HTML ---
+$pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
 $body_content = aureon_ferm_extract_body( $html );
 if ( false !== $body_content ) {
 	// Server-side path rewrite: convert relative CDN paths to absolute before output.
-	$pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
 	if ( $pack_url ) {
 		$body_content = aureon_ferm_rewrite_paths( $body_content, $pack_url );
 	}
@@ -84,7 +84,6 @@ if ( false !== $body_content ) {
 
 // --- Footer: WooCommerce cart fragments, analytics, admin bar ---
 // Fix relative paths in frozen HTML: rewrite cdn/... and nav links to absolute URLs.
-$pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
 $site_url = home_url();
 if ( $pack_url ) {
 	echo "<script>\n";
