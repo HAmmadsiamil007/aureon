@@ -953,117 +953,33 @@
             </div>
         </header>
         <!-- /Header -->
-        <!-- Slider -->
-        <section class="tf-slideshow slider-viewport slider-fashion-1 slider-default" data-aureon-slot="global.hero">
-            <div dir="ltr" class="swiper tf-sw-slideshow slider-effect-fade" data-effect="fade" data-preview="1"
-                data-tablet="1" data-mobile="1" data-centered="false" data-space="0" data-space-mb="0" data-loop="true"
-                data-auto-play="false" data-speed="800">
-                <div class="swiper-wrapper">
+        <!-- Hero -->
+        <section class="tf-slideshow slider-fashion" data-aureon-slot="hero">
+            <div class="swiper tf-swiper" data-swiper='{
+                    "slidesPerView": 1,
+                    "spaceBetween": 0,
+                    "speed": 800,
+                    "autoplay": { "delay": 5000, "disableOnInteraction": false },
+                    "pagination": { "el": ".sw-pagination-slider", "clickable": true },
+                    "navigation": { "prevEl": ".nav-prev-slider", "nextEl": ".nav-next-slider" }
+                }'>
+                <div class="swiper-wrapper" id="hero-slides">
                     <div class="swiper-slide">
-                        <div class="slider-wrap bg-type-1">
-                            <div class="image">
-                                <img src="images/slider/fashion/slider-fashion-1.png"
-                                    data-src="images/slider/fashion/slider-fashion-1.png" alt="slider" class="lazyload">
-                            </div>
-                            <div class="box-content">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-12 col-sm-6">
-                                            <div class="content-slider">
-                                                <div class="box-title-slider">
-                                                    <h1 class="heading fw-medium fade-item fade-item-1 text-dark-5">
-                                                        Style <br> Redefined
-                                                    </h1>
-                                                    <p class="sub text-md fade-item fade-item-2 text-dark-5">
-                                                        Discover the latest trends in fashion that speak your style.
-                                                    </p>
-                                                </div>
-                                                <div class="box-btn-slider fade-item fade-item-3">
-                                                    <a href="shop-default.html" class="tf-btn btn-dark2 animate-btn">
-                                                        Shop Collection
-                                                        <i class="icon icon-arr-right"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slider-wrap bg-type-2">
-                            <div class="image">
-                                <img src="images/slider/fashion/slider-fashion-2.png"
-                                    data-src="images/slider/fashion/slider-fashion-2.png" alt="slider" class="lazyload">
-                            </div>
-                            <div class="box-content">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-12 col-sm-6">
-                                            <div class="content-slider">
-                                                <div class="box-title-slider">
-                                                    <h2 class="heading  fw-medium fade-item fade-item-1 text-dark-5">
-                                                        Elegance <br> Redefined
-                                                    </h2>
-                                                    <p class="sub text-md fade-item fade-item-2 text-dark-5">
-                                                        Discover timeless styles for every occasion.
-                                                    </p>
-                                                </div>
-                                                <div class="box-btn-slider fade-item fade-item-3">
-                                                    <a href="shop-default.html" class="tf-btn animate-btn btn-dark2">
-                                                        Shop Collection
-                                                        <i class="icon icon-arr-right"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="slider-wrap bg-type-3">
-                            <div class="image">
-                                <img src="images/slider/fashion/slider-fashion-3.png"
-                                    data-src="images/slider/fashion/slider-fashion-3.png" alt="slider" class="lazyload">
-                            </div>
-                            <div class="box-content">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-5 offset-lg-7 col-sm-6 offset-sm-6 offset-3 col-12">
-                                            <div class="content-slider">
-                                                <div class="box-title-slider">
-                                                    <h2 class="heading  fw-medium fade-item fade-item-1 text-dark-5">
-                                                        Elevate Your <br> Wardrobe
-                                                    </h2>
-                                                    <p class="sub text-md fade-item fade-item-2 text-dark-5">
-                                                        Timeless pieces to refresh your look for every season.
-                                                    </p>
-                                                </div>
-                                                <div class="box-btn-slider fade-item fade-item-3">
-                                                    <a href="shop-default.html" class="tf-btn animate-btn btn-dark2">
-                                                        Shop Collection
-                                                        <i class="icon icon-arr-right"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="hero-content-wrap">
+                            <div class="image img-style">
+                                <img src="images/slider/fashion/slider-fashion-1.png" alt="Fashion Slider">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="wrap-pagination">
-                    <div class="container">
-                        <div class="sw-dots sw-pagination-slider justify-content-center"></div>
-                    </div>
+                <div class="slider-decor">
+                    <div class="prev-swiper nav-prev-slider"><i class="icon-arrow-left"></i></div>
+                    <div class="next-swiper nav-next-slider"><i class="icon-arrow-right"></i></div>
                 </div>
+                <div class="sw-pagination-slider sw-pagination-default"></div>
             </div>
         </section>
-        <!-- /Slider -->
+        <!-- /Hero -->
         <!-- Collection -->
         <div class="pt-24" data-aureon-slot="global.featured_categories"><div class="container"><div class="fl-control-sw2">
                     <div dir="ltr" class="swiper tf-swiper wow fadeInUp" data-swiper='{
@@ -2639,123 +2555,7 @@
         </section>
         <!-- Testimonial -->
 
-        <!-- Brand -->
-        <div class="flat-spacing-2 fade-edge">
-            <div class="container">
-                <div class="infiniteslide tf-brand" data-clone="2" data-style="left" data-speed="80">
-                    <div class="brand-item">
-                        <img src="images/brand/zara.png" alt="brand">
-                    </div>
-                    <div class="brand-item">
-                        <img src="images/brand/bear.png" alt="brand">
-                    </div>
-                    <div class="brand-item">
-                        <img src="images/brand/nike.png" alt="brand">
-                    </div>
-                    <div class="brand-item">
-                        <img src="images/brand/asos.png" alt="brand">
-                    </div>
-                    <div class="brand-item">
-                        <img src="images/brand/burberry.png" alt="brand">
-                    </div>
-                    <div class="brand-item">
-                        <img src="images/brand/forever.png" alt="brand">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Brand -->
-        <!-- Shop Gram -->
-        <section class="flat-spacing-4 pt-0">
-            <div class="container">
-                <div class="flat-title wow fadeInUp">
-                    <h2 class="title">Shop by @Gram</h2>
-                </div>
-                <div dir="ltr" class="swiper tf-swiper" data-swiper='{
-                        "slidesPerView": 2,
-                        "spaceBetween": 10,
-                        "speed": 800,
-                        "observer": true,
-                        "observeParents": true,
-                        "slidesPerGroup": 2,
-                        "pagination": { "el": ".sw-pagination-gallery", "clickable": true },
-                        "breakpoints": {
-                        "768": { "slidesPerView": 3},
-                        "1200": { "slidesPerView": 5}
-                        }
-                    }'>
-                    <div class="swiper-wrapper">
-                        <!-- item 1 -->
-                        <div class="swiper-slide">
-                            <div class="gallery-item hover-img hover-overlay wow fadeInLeft">
-                                <div class="image img-style">
-                                    <img src="images/gallery/fashion/gallery-1.jpg"
-                                        data-src="images/gallery/fashion/gallery-1.jpg" alt="" class="lazyload">
-                                </div>
-                                <a href="product-detail.html" class="box-icon hover-tooltip">
-                                    <span class="icon icon-cart2"></span>
-                                    <span class="tooltip">View Product</span>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- item 2 -->
-                        <div class="swiper-slide">
-                            <div class="gallery-item hover-img hover-overlay wow fadeInLeft" data-wow-delay="0.1s">
-                                <div class="image img-style">
-                                    <img src="images/gallery/fashion/gallery-2.jpg"
-                                        data-src="images/gallery/fashion/gallery-2.jpg" alt="" class="lazyload">
-                                </div>
-                                <a href="product-detail.html" class="box-icon hover-tooltip">
-                                    <span class="icon icon-cart2"></span>
-                                    <span class="tooltip">View Product</span>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- item 3 -->
-                        <div class="swiper-slide">
-                            <div class="gallery-item hover-img hover-overlay wow fadeInLeft" data-wow-delay="0.2s">
-                                <div class="image img-style">
-                                    <img src="images/gallery/fashion/gallery-3.jpg"
-                                        data-src="images/gallery/fashion/gallery-3.jpg" alt="" class="lazyload">
-                                </div>
-                                <a href="product-detail.html" class="box-icon hover-tooltip">
-                                    <span class="icon icon-cart2"></span>
-                                    <span class="tooltip">View Product</span>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- item 4 -->
-                        <div class="swiper-slide">
-                            <div class="gallery-item hover-img hover-overlay wow fadeInLeft" data-wow-delay="0.3s">
-                                <div class="image img-style">
-                                    <img src="images/gallery/fashion/gallery-4.jpg"
-                                        data-src="images/gallery/fashion/gallery-4.jpg" alt="" class="lazyload">
-                                </div>
-                                <a href="product-detail.html" class="box-icon hover-tooltip">
-                                    <span class="icon icon-cart2"></span>
-                                    <span class="tooltip">View Product</span>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- item 5 -->
-                        <div class="swiper-slide">
-                            <div class="gallery-item hover-img hover-overlay wow fadeInLeft" data-wow-delay="0.4s">
-                                <div class="image img-style">
-                                    <img src="images/gallery/fashion/gallery-5.jpg"
-                                        data-src="images/gallery/fashion/gallery-5.jpg" alt="" class="lazyload">
-                                </div>
-                                <a href="product-detail.html" class="box-icon hover-tooltip">
-                                    <span class="icon icon-cart2"></span>
-                                    <span class="tooltip">View Product</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <span class="d-flex d-xl-none sw-dot-default sw-pagination-gallery justify-content-center"></span>
-                </div>
-            </div>
-        </section>
-        <!-- /Shop Gram -->
+
         <!-- Icon box -->
         <div class="line-top flat-spacing-5">
             <div class="container">

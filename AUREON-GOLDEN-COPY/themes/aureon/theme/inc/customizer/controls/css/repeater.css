@@ -1,0 +1,202 @@
+/**
+ * Schema-driven repeater control styles.
+ *
+ * @package Aureon
+ * @since 1.2.0
+ */
+
+.aureon-repeater {
+	margin-top: 6px;
+}
+
+.aureon-repeater__items {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.aureon-repeater__item {
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+}
+
+.aureon-repeater__item.is-hidden {
+	opacity: 0.55;
+}
+
+.aureon-repeater__actionbar {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 6px 8px;
+	border-bottom: 1px solid #f0f0f1;
+	cursor: default;
+}
+
+.aureon-repeater__item.is-collapsed .aureon-repeater__body {
+	display: none;
+}
+
+.aureon-repeater__drag {
+	cursor: grab;
+	color: #787c82;
+}
+
+.aureon-repeater__drag:active {
+	cursor: grabbing;
+}
+
+.aureon-repeater__item-title {
+	flex: 1;
+	font-size: 12px;
+	font-weight: 600;
+	color: #1d2327;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.aureon-repeater__actions {
+	display: flex;
+	gap: 2px;
+}
+
+.aureon-repeater__actions .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	color: #787c82;
+	cursor: pointer;
+}
+
+.aureon-repeater__actions .dashicons:hover {
+	color: #1d2327;
+}
+
+.aureon-repeater__remove:hover {
+	color: #d63638 !important;
+}
+
+.aureon-repeater__body {
+	padding: 8px 10px 10px;
+}
+
+.aureon-repeater__wrap {
+	margin-bottom: 10px;
+}
+
+.aureon-repeater__body > .aureon-repeater__wrap:last-child {
+	margin-bottom: 0;
+}
+
+.aureon-repeater__label,
+.aureon-repeater__sub-label {
+	display: block;
+	margin-bottom: 3px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	color: #50575e;
+}
+
+.aureon-repeater__input {
+	width: 100%;
+}
+
+.aureon-repeater__input.aureon-repeater__color {
+	width: 100%;
+}
+
+.aureon-repeater__sub {
+	display: block;
+	margin-bottom: 6px;
+}
+
+.aureon-repeater__sub:last-child {
+	margin-bottom: 0;
+}
+
+.aureon-repeater__checkbox {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.aureon-repeater__checkbox input {
+	margin: 0;
+}
+
+.aureon-repeater__cta {
+	border: 1px dashed #c3c4c7;
+	border-radius: 4px;
+	padding: 8px;
+	background: #f6f7f7;
+}
+
+.aureon-repeater__image {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.aureon-repeater__thumb {
+	width: 64px;
+	height: 40px;
+	border: 1px solid #dcdcde;
+	border-radius: 3px;
+	background: #fcfcfd;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: #a7aaad;
+	overflow: hidden;
+}
+
+.aureon-repeater__thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.aureon-repeater__image-remove {
+	font-size: 12px;
+}
+
+.aureon-repeater__image-remove[data-has-image] {
+	display: inline;
+}
+
+.aureon-repeater__image-remove:not([data-has-image]) {
+	display: none;
+}
+
+.aureon-repeater__add {
+	width: 100%;
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	border-style: dashed;
+}
+
+.aureon-repeater__add .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+}
+
+.aureon-repeater.ui-sortable .aureon-repeater__item {
+	cursor: grab;
+}
+
+.aureon-repeater.ui-sortable .aureon-repeater__item.ui-sortable-helper {
+	cursor: grabbing;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}

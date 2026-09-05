@@ -72,6 +72,8 @@
   },
   "assets": {
     "css": [
+      "fonts/fonts.css",
+      "fonts/font-icons.css",
       "css/bootstrap.min.css",
       "css/swiper-bundle.min.css",
       "css/animate.css",

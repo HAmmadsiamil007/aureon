@@ -529,6 +529,10 @@
             });
             track.innerHTML = '';
             track.appendChild(frag);
+            // Bind add-to-cart handlers on homepage product cards
+            if (window.VinetaShop) {
+                VinetaShop.bindAddToCart(section);
+            }
         },
 
         renderCompare: function(products) {
@@ -1013,8 +1017,8 @@
             // Store id for cart binding, expose availability
             card.setAttribute('data-product-id', product.id || '');
             card.setAttribute('data-available', product.available ? 'In stock' : 'Out of stock');
-            // Add-to-cart button
-            var btnLink = card.querySelector('.list-product-btn a[href="#shoppingCart"]');
+            // Add-to-cart button — match both #shoppingCart and #quickAdd hrefs
+            var btnLink = card.querySelector('.list-product-btn a[href="#shoppingCart"], .list-product-btn a[href="#quickAdd"]');
             if (btnLink) {
                 btnLink.setAttribute('data-product-id', product.id || '');
                 btnLink.setAttribute('data-vineta-add', '1');

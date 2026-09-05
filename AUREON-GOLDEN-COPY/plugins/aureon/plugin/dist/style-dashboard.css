@@ -1,0 +1,4 @@
+﻿.aureon-module-action{display:inline-block;font-size:12px;font-weight:400;line-height:1;margin-left:10px;text-decoration:none}.aureon-dashboard__section-item-settings{align-items:center;display:flex}.aureon-dashboard__section-item-settings button{font-size:11px;height:30px;justify-content:center!important}.aureon-dashboard__section-item-settings button .components-spinner{margin-top:0}.aureon-dashboard__section-item-settings button svg{height:20px;margin:0!important;width:20px}.aureon-dashboard__section-item-settings button:not(:last-child){margin-right:5px}
+
+.aureon-dashboard__section-item-action input[type=file]{border:1px solid #ddd;padding:5px}.aureon-dashboard__section-item-export-popover .components-popover__content{padding:20px}
+.aureon-dashboard__section-item-modules{margin-top:20px}

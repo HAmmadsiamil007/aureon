@@ -1,0 +1,117 @@
+{
+  "main": [
+    {
+      "label": "Shop",
+      "url": "/shop/",
+      "children": [
+        {
+          "label": "Furniture",
+          "url": "/shop/furniture/",
+          "children": [
+            {"label": "All Furniture", "url": "/shop/furniture/"},
+            {"label": "Sofas", "url": "/shop/furniture/"},
+            {"label": "Tables", "url": "/shop/furniture/"},
+            {"label": "Chairs & Benches", "url": "/shop/furniture/"},
+            {"label": "Storage", "url": "/shop/furniture/"},
+            {"label": "Shelves", "url": "/shop/furniture/"}
+          ]
+        },
+        {
+          "label": "Lighting",
+          "url": "/shop/lighting/",
+          "children": [
+            {"label": "All Lighting", "url": "/shop/lighting/"},
+            {"label": "Portable", "url": "/shop/lighting/"},
+            {"label": "Floor", "url": "/shop/lighting/"},
+            {"label": "Table", "url": "/shop/lighting/"},
+            {"label": "Wall", "url": "/shop/lighting/"},
+            {"label": "Pendant", "url": "/shop/lighting/"}
+          ]
+        },
+        {
+          "label": "Accessories",
+          "url": "/shop/accessories/",
+          "children": [
+            {"label": "All Accessories", "url": "/shop/accessories/"},
+            {"label": "Mirrors", "url": "/shop/accessories/"},
+            {"label": "Vases", "url": "/shop/accessories/"},
+            {"label": "Plant Pots", "url": "/shop/accessories/"},
+            {"label": "Candle Holders", "url": "/shop/accessories/"},
+            {"label": "Bags & Baskets", "url": "/shop/accessories/"}
+          ]
+        },
+        {
+          "label": "Kids",
+          "url": "/shop/kids/",
+          "children": [
+            {"label": "All Kids", "url": "/shop/kids/"},
+            {"label": "Toys", "url": "/shop/kids/"},
+            {"label": "Textiles", "url": "/shop/kids/"},
+            {"label": "Furniture", "url": "/shop/kids/"},
+            {"label": "Lamps", "url": "/shop/kids/"}
+          ]
+        },
+        {
+          "label": "Textiles",
+          "url": "/shop/textiles/",
+          "children": [
+            {"label": "All Textiles", "url": "/shop/textiles/"},
+            {"label": "Cushions", "url": "/shop/textiles/"},
+            {"label": "Bedspreads & Throws", "url": "/shop/textiles/"},
+            {"label": "Towels", "url": "/shop/textiles/"}
+          ]
+        },
+        {
+          "label": "Kitchen",
+          "url": "/shop/kitchen/",
+          "children": [
+            {"label": "All Kitchen", "url": "/shop/kitchen/"},
+            {"label": "Glasses", "url": "/shop/kitchen/"},
+            {"label": "Plates", "url": "/shop/kitchen/"},
+            {"label": "Serveware", "url": "/shop/kitchen/"}
+          ]
+        },
+        {
+          "label": "Outdoor Living",
+          "url": "/shop/outdoor/",
+          "children": [
+            {"label": "All Outdoor", "url": "/shop/outdoor/"},
+            {"label": "Seating", "url": "/shop/outdoor/"},
+            {"label": "Accessories", "url": "/shop/outdoor/"},
+            {"label": "Textiles", "url": "/shop/outdoor/"}
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Inspiration",
+      "url": "/about/",
+      "children": [
+        {"label": "Stories", "url": "/blog/"},
+        {"label": "About Ferm Living", "url": "/about/"}
+      ]
+    },
+    {
+      "label": "Rooms",
+      "url": "/shop/",
+      "children": [
+        {"label": "The Living Room", "url": "/shop/furniture/"},
+        {"label": "The Dining Room", "url": "/shop/furniture/"},
+        {"label": "The Kitchen", "url": "/shop/kitchen/"},
+        {"label": "The Bedroom", "url": "/shop/textiles/"},
+        {"label": "The Hallway", "url": "/shop/accessories/"},
+        {"label": "The Kids' Room", "url": "/shop/kids/"}
+      ]
+    },
+    {
+      "label": "Professionals",
+      "url": "/about/",
+      "children": [
+        {"label": "B2B Login", "url": "#"},
+        {"label": "Image Bank", "url": "#"},
+        {"label": "Showrooms", "url": "/about/"},
+        {"label": "Catalogues", "url": "/about/"}
+      ]
+    }
+  ]
+}
