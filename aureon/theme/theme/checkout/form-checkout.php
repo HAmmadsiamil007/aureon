@@ -13,6 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Let WooCommerce redirect empty carts before we output any HTML.
+// Once HTML starts, WordPress cannot send Location headers.
+if ( function_exists( 'WC' ) && WC()->cart && WC()->cart->is_empty() && ! is_admin() ) {
+	wp_safe_redirect( wc_get_cart_url() );
+	exit;
+}
+
 $pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
 $site_url = home_url( '/' );
 $shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
@@ -379,7 +386,7 @@ img { max-width: 100%; height: auto; }
 						<?php endif; ?>
 						<div class="vt-order-total-row grand">
 							<span><?php esc_html_e( 'Total', 'woocommerce' ); ?></span>
-							<span><?php echo wp_kses_post( WC()->cart->get_total_to_display() ); ?></span>
+							<span><?php echo wp_kses_post( WC()->cart->get_total( 'display' ) ); ?></span>
 						</div>
 					</div>
 

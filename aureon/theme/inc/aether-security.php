@@ -21,6 +21,11 @@ function aether_send_security_headers() {
 		return;
 	}
 
+	// Skip if headers already sent (standalone templates output HTML early).
+	if ( headers_sent() ) {
+		return;
+	}
+
 	// X-Content-Type-Options — prevent MIME sniffing.
 	header( 'X-Content-Type-Options: nosniff' );
 

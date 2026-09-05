@@ -324,7 +324,7 @@ img { max-width: 100%; height: auto; }
 						<?php endif; ?>
 						<div class="vt-total-row grand">
 							<span><?php esc_html_e( 'Total', 'woocommerce' ); ?></span>
-							<span><?php echo wp_kses_post( $cart->get_total_to_display() ); ?></span>
+							<span><?php echo wp_kses_post( $cart->get_total( 'display' ) ); ?></span>
 						</div>
 						<a href="<?php echo esc_url( $checkout_url ); ?>" class="vt-btn-checkout" style="text-decoration:none;margin-top:20px;">
 							<?php esc_html_e( 'Proceed to Checkout', 'woocommerce' ); ?>

@@ -270,6 +270,13 @@ function aureon_aether_wc_page_templates( $template ) {
 	}
 
 	if ( is_checkout() && ! is_wc_endpoint_url( 'order-pay' ) ) {
+		// Redirect empty carts to the cart page before loading the template.
+		// WooCommerce normally does this, but our standalone template outputs
+		// HTML early which prevents the redirect from working.
+		if ( WC()->cart && WC()->cart->is_empty() && ! is_admin() && ! wp_doing_ajax() ) {
+			wp_safe_redirect( wc_get_cart_url() );
+			exit;
+		}
 		return get_template_directory() . '/checkout/form-checkout.php';
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Stage 2 ??? Frontend engine integration (shell).
+ * Stage 2 — Frontend engine integration (shell).
  *
  * Boots the frontend engine, registers the primary nav location, suppresses
  * theme presentation output the engine now owns, and enqueues AETHER shell
@@ -53,7 +53,7 @@ add_action( 'after_setup_theme', 'aureon_aether_frontend_boot', 30 );
  */
 function aureon_aether_suppress_theme_output() {
 	// Theme layout styles.
-	// NOTE: 'aureon-google-fonts' is deliberately NOT suppressed ??? the
+	// NOTE: 'aureon-google-fonts' is deliberately NOT suppressed — the
 	// dynamic Typography Manager (Font Manager) enqueues it, and AETHER
 	// bridges those families into --font-heading / --font-body tokens.
 	// 'aureon-fonts' (the legacy non-dynamic handle) stays suppressed.
@@ -64,7 +64,7 @@ function aureon_aether_suppress_theme_output() {
 		'aureon-style-grid',
 		'aureon-mobile-style',
 		'aureon-font-icons',
-		'font-awesome', // Theme's own FA 4.7 ??? AETHER loads FA 6.5.1.
+		'font-awesome', // Theme's own FA 4.7 — AETHER loads FA 6.5.1.
 		'aureon-rtl',
 		'aureon-fonts',
 		'aureon-child',
@@ -77,7 +77,7 @@ function aureon_aether_suppress_theme_output() {
 
 	// Complete-page isolation: aggressively suppress AETHER platform assets
 	// that may have been enqueued by other hooks before this late cleanup.
-	// Skip suppression on checkout/account pages ??? they use WC native templates
+	// Skip suppression on checkout/account pages — they use WC native templates
 	// and need WC CSS/JS for their forms and functionality.
 	$skip_suppression = false;
 	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
@@ -98,7 +98,7 @@ function aureon_aether_suppress_theme_output() {
 			'aether-pages',
 			'aether-fonts',
 			'aether-tokens',
-			// WooCommerce presentation CSS ??? complete-page designs have their own styling.
+			// WooCommerce presentation CSS — complete-page designs have their own styling.
 			'woocommerce-general',
 			'woocommerce-layout',
 			'woocommerce-smallscreen',
@@ -124,7 +124,7 @@ function aureon_aether_suppress_theme_output() {
 			'aether-main',
 			'aether-countdown',
 			'aether-phantom-bridge',
-			// WooCommerce JS that Ferm doesn't need ??? its own JS handles presentation.
+			// WooCommerce JS that Ferm doesn't need — its own JS handles presentation.
 			'wc-country-select',
 			'wc-address-i18n',
 			'wc-checkout',
@@ -166,7 +166,7 @@ add_action( 'wp_enqueue_scripts', 'aureon_aether_suppress_theme_output', 1000 );
  * Enqueue AETHER shell assets (source contract order).
  */
 function aureon_aether_enqueue_assets() {
-	// Design pack active ??? pack assets (aether_design_enqueue_assets) own the
+	// Design pack active → pack assets (aether_design_enqueue_assets) own the
 	// presentation layer. Luxury's design system never coexists with a pack
 	// (isolation by construction, M7). Platform CDNs + contract JS still load
 	// via aether_design_enqueue_assets for non-luxury designs.
@@ -270,10 +270,17 @@ function aureon_aether_wc_page_templates( $template ) {
 	}
 
 	if ( is_checkout() && ! is_wc_endpoint_url( 'order-pay' ) ) {
+		// Redirect empty carts to the cart page before loading the template.
+		// WooCommerce normally does this, but our standalone template outputs
+		// HTML early which prevents the redirect from working.
+		if ( WC()->cart && WC()->cart->is_empty() && ! is_admin() && ! wp_doing_ajax() ) {
+			wp_safe_redirect( wc_get_cart_url() );
+			exit;
+		}
 		return get_template_directory() . '/checkout/form-checkout.php';
 	}
 
-	// Skip account pages when a complete-page design is active ???
+	// Skip account pages when a complete-page design is active —
 	// ferm-page.php will serve the pack's account template instead.
 	if ( is_account_page() && ! ( function_exists( 'aether_is_complete_page_design' ) && aether_is_complete_page_design() ) ) {
 		return get_template_directory() . '/myaccount/my-account.php';
@@ -291,7 +298,7 @@ add_filter( 'template_include', 'aureon_aether_wc_page_templates', 99 );
  * client HTML directly. WordPress wp_head() and wp_footer() are still called
  * for admin bar, WooCommerce cart fragments, and enqueued pack CSS/JS.
  *
- * Runs at priority 998 ??? AFTER the WC page template router (priority 99)
+ * Runs at priority 998 — AFTER the WC page template router (priority 99)
  * so cart/checkout/account keep their AETHER templates.
  *
  * @param string $template The resolved template path.
@@ -313,7 +320,7 @@ function aureon_ferm_template_include( $template ) {
 		return $template;
 	}
 
-	// Cart page ??? let WooCommerce handle it natively.
+	// Cart page — let WooCommerce handle it natively.
 	$wc_cart_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'cart' ) : 0;
 	if ( $wc_cart_id > 0 && is_page( $wc_cart_id ) ) {
 		return $template;
@@ -351,4 +358,3 @@ function aureon_aether_favicons() {
 	<meta name="theme-color" content="#09090B">
 	<?php
 }
-
