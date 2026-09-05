@@ -1,5 +1,5 @@
 /**
- * Vineta Data Shims — Bridge between Vineta frontend and AUREON/WooCommerce.
+ * Vineta Data Shims ??? Bridge between Vineta frontend and AUREON/WooCommerce.
  *
  * Provides:
  * - Cart AJAX functions (add, update, get)
@@ -116,7 +116,7 @@
     }
 
 
-    // Cart UI consumer — renders the REAL WooCommerce cart into the frozen
+    // Cart UI consumer ??? renders the REAL WooCommerce cart into the frozen
     // Vineta DOM: the global #shoppingCart drawer (every page) and the
     // /cart/ page table. Reuses the frozen row markup as a clone template so
     // Vineta CSS/JS keep working. Handlers are bound with capture-phase
@@ -157,8 +157,8 @@
             if (totalEl) totalEl.textContent = this.money(c.total_price, currency, true);
 
             // Template: capture the frozen row ONCE (as a detached clone) so
-            // every later render — bfcache restores, empty->filled transitions,
-            // live AJAX adds — has a stable clone source even after the wrap was
+            // every later render ??? bfcache restores, empty->filled transitions,
+            // live AJAX adds ??? has a stable clone source even after the wrap was
             // emptied client-side. Never re-query the live drawer after capture:
             // Vineta's own JS can restructure those sections at any time.
             if (!this._drawerTemplateCached) {
@@ -184,7 +184,7 @@
             }
 
             if (!items.length) {
-                // empty state — remove demo rows and show a message
+                // empty state ??? remove demo rows and show a message
                 wrap.innerHTML = '';
                 var box = document.createElement('div');
                 box.className = 'tf-mini-cart-empty text-center py-5';
@@ -424,7 +424,7 @@
             .replace(/"/g, '&quot;');
     }
 
-    // Navigation consumer — replace the frozen demo menu with the real WP menu.
+    // Navigation consumer ??? replace the frozen demo menu with the real WP menu.
     // Runs synchronously at parse time (footer script), BEFORE Vineta main.js
     // clones .box-nav-menu into the mobile drawer on DOM ready, so both the
     // desktop header and the mobile menu show the real items. When the WP menu
@@ -462,7 +462,7 @@
             var footer = document.querySelector('footer,.footer');
             if (!footer) return;
             // The frozen Vineta footer ships two link columns ("About Us" /
-            // "Resource"). The WP footer menu maps to the Resource column —
+            // "Resource"). The WP footer menu maps to the Resource column ???
             // replace that list's links only, keep heading + presentation.
             var headings = footer.querySelectorAll('.footer-heading, h5, h6, .heading');
             var target = null;
@@ -500,7 +500,7 @@
     }
     window.VinetaNav = VinetaNav;
 
-    // Homepage consumer — fill the frozen Best-Sellers / featured-carousel DOM
+    // Homepage consumer ??? fill the frozen Best-Sellers / featured-carousel DOM
     // from real WooCommerce products and fill category tiles from real terms.
     var VinetaHome = {
         renderFeaturedProducts: function(products, slot) {
@@ -664,7 +664,7 @@
         renderCartRecommendations: function(products, slot) {
             if (!products || !products.length) return;
             // Prefer the explicit slot; fall back to the frozen drawer markup on
-            // templates that have not (yet) declared the slot — so no demo rows
+            // templates that have not (yet) declared the slot ??? so no demo rows
             // can survive on any page.
             var section = document.querySelector('[data-aureon-slot="' + slot + '"]')
                 || document.querySelector('#shoppingCart .tf-minicart-recommendations');
@@ -789,7 +789,7 @@
             }
             if (home.categories && home.categories.length) {
                 this.renderCategories(home.categories);
-                // Women/Men tabbed circles (flat-animate-tab) — same real terms,
+                // Women/Men tabbed circles (flat-animate-tab) ??? same real terms,
                 // grouped by their parent category so no static demo circle survives.
                 this.renderCategoryTabs(home.categories);
             } else {
@@ -867,8 +867,8 @@
         },
 
         // Client wiped the store (or no products exist yet): hide every product
-        // demo block — homepage bands, drawer recommendations, search featured
-        // carousel, quickview/quickadd + compare modal bodies — both via the
+        // demo block ??? homepage bands, drawer recommendations, search featured
+        // carousel, quickview/quickadd + compare modal bodies ??? both via the
         // canonical slots and the generic frozen markup on templates without
         // slots. Sections reappear automatically once real data exists.
         clearChromeDemo: function() {
@@ -908,7 +908,7 @@
                 if (card.closest('[data-aureon-slot]')) return;
                 var priceEl = card.querySelector('.price-new, .price, .price-wrap');
                 var txt = priceEl ? (priceEl.textContent || '') : '';
-                if (txt && !/\$|\u20ac|CHF|USD|EUR/.test(txt)) return;
+                if (txt && !/\$|\u20ac|CHF|USD|EUR|\u20a8|PKR|Rs/i.test(txt)) return;
                 var product = products[idx % products.length];
                 if (product && window.VinetaShop) {
                     try {
@@ -930,7 +930,7 @@
         }
     };
 
-    // Shop / collection consumer — render real WooCommerce products into the
+    // Shop / collection consumer ??? render real WooCommerce products into the
     // existing Vineta card markup. Keeps the frozen card DOM as the template
     // (classes, buttons, badges, hover structure all preserved) and only swaps
     // in real data per card. When no real products exist the frozen grid stays
@@ -957,11 +957,8 @@
                 // Skip add-to-cart, wishlist, quickview, compare buttons
                 if (a.classList.contains('quickview') || a.classList.contains('box-icon') ||
                     a.getAttribute('data-vineta-add') || a.closest('.list-product-btn')) return;
-                var curHref = a.getAttribute('href') || '';
-                // Only rewrite if it points to a frozen demo file or is empty
-                if (!curHref || curHref.indexOf('.html') >= 0 || curHref === '#') {
-                    a.href = href;
-                }
+                // Always overwrite product card links with the real WooCommerce URL
+                a.href = href;
             });
             // Images
             var src = product.image || config.placeholder_image || '';
@@ -1027,7 +1024,7 @@
             // Store id for cart binding, expose availability
             card.setAttribute('data-product-id', product.id || '');
             card.setAttribute('data-available', product.available ? 'In stock' : 'Out of stock');
-            // Add-to-cart button — match both #shoppingCart and #quickAdd hrefs
+            // Add-to-cart button ??? match both #shoppingCart and #quickAdd hrefs
             var btnLink = card.querySelector('.list-product-btn a[href="#shoppingCart"], .list-product-btn a[href="#quickAdd"]');
             if (btnLink) {
                 btnLink.setAttribute('data-product-id', product.id || '');
@@ -1158,7 +1155,7 @@
     }
     window.VinetaShop = VinetaShop;
 
-    // Blog archive consumer — render real WP posts into the frozen .blog-item
+    // Blog archive consumer ??? render real WP posts into the frozen .blog-item
     // cards, reusing the Vineta card DOM/CSS/JS.
     var VinetaBlog = {
         fillCard: function(card, post) {
@@ -1232,7 +1229,7 @@
         }
     };
 
-    // Blog single-article consumer — fill the article.* slots on blog-single.html
+    // Blog single-article consumer ??? fill the article.* slots on blog-single.html
     // with the real WP post content while keeping the frozen presentation.
     var VinetaArticle = {
         init: function() {
@@ -1320,7 +1317,7 @@
         VinetaArticle.init();
     } catch (e) { /* article failure must not break the rest of the bridge */ }
 
-    // Generic WordPress page content — the four legal/info templates
+    // Generic WordPress page content ??? the four legal/info templates
     // (privacy-policy, term-and-condition, shipping, return-and-refund) share
     // a `.s-term-user .content` region that ships demo placeholder copy. When
     // composer supplies real WP page content (pageData.page.content), replace
@@ -1386,7 +1383,7 @@
         }
     } catch (e) { /* global chrome fill failure must not break the bridge */ }
 
-    // Customizer bridge — update DOM with Customizer values.
+    // Customizer bridge ??? update DOM with Customizer values.
     var VinetaCustomizer = {
         updateLogo: function(logoUrl) {
             if (!logoUrl) return;
@@ -1438,7 +1435,7 @@
         updateColors: function(colors) {
             if (!colors) return;
             // Vineta styles.css consumes --primary/--primary-2/--dark/--text/--line/--surface.
-            // (ferm-page injects --accent/--bg/--main-color which Vineta never reads —
+            // (ferm-page injects --accent/--bg/--main-color which Vineta never reads ???
             //  this re-maps to the variables the pack actually uses, mirroring the
             //  server-side vineta_emit_customizer_css bridge in composer.php.)
             var root = document.documentElement;
@@ -1728,7 +1725,7 @@
             // bridges below (hero/announcement/footer/newsletter/social/site)
             // remain fully dynamic.
             if (Array.isArray(customizer.hero)) {
-                // Array present but empty = client cleared the hero → hide the
+                // Array present but empty = client cleared the hero ??? hide the
                 // banner until new slides are saved in the Customizer.
                 this.updateHeroSlides(customizer.hero);
             }
@@ -1752,10 +1749,10 @@
 
     window.VinetaCustomizer = VinetaCustomizer;
 
-    // Forms bridge — sends the frozen Vineta newsletter + contact forms to the
+    // Forms bridge ??? sends the frozen Vineta newsletter + contact forms to the
     // REAL platform endpoints (aether_newsletter_subscribe / aether_contact_submit)
     // instead of the demo actions they ship with (mail/subscribe*.php,
-    // contact/contact-process.php — files that do not exist on WordPress).
+    // contact/contact-process.php ??? files that do not exist on WordPress).
     // Bound in the CAPTURE phase on document so Vineta's own demo handlers in
     // main.js (blockForm / ajaxContactForm / ajaxSubscribe) can never run first
     // and fake a success or POST to a dead endpoint.
@@ -1785,7 +1782,7 @@
         isValidEmail: function(v) {
             return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
         },
-        // Reads the first email input inside a Vineta newsletter form — field
+        // Reads the first email input inside a Vineta newsletter form ??? field
         // names differ per instance (#subscribe-email vs .subscribe-email).
         emailOf: function(form) {
             var input = form.querySelector('input[type="email"]');
@@ -1841,7 +1838,7 @@
             this.post(fd, function(res) {
                 if (btn) btn.disabled = false;
                 if (res && res.success) {
-                    self.feedback(form, (res.data && res.data.message) ? res.data.message : 'Thank you — your message has been sent.', true);
+                    self.feedback(form, (res.data && res.data.message) ? res.data.message : 'Thank you ??? your message has been sent.', true);
                     form.querySelector('[name="name"]').value = '';
                     form.querySelector('[name="email"]').value = '';
                     form.querySelector('[name="message"]').value = '';
@@ -1914,7 +1911,7 @@
 
     VinetaForms.bind();
 
-    // Accessibility pass — presentation-level only: marks decorative images as
+    // Accessibility pass ??? presentation-level only: marks decorative images as
     // such (alt="") and derives aria-labels for Vineta inputs that rely on a
     // placeholder alone (login/register/lost-password/newsletter forms). Runs
     // after the dynamic consumers so images injected from real data keep the
@@ -1996,7 +1993,7 @@
         window.setTimeout(VinetaA11y.init, 400);
     }
 
-    // Variable-product variation UI — consumes the MODERN product schema
+    // Variable-product variation UI ??? consumes the MODERN product schema
     // (pageData.product.variants / options / product_type). The composer's
     // legacy inline variation builder reads an older schema whose attribute
     // options are term IDs, so it can never match a real variation. This
@@ -2177,7 +2174,7 @@
             var match = this.findVariant();
             if (!match) return;
             window.vinetaSelectedVariationId = match.id;
-            // Price region — update the visible .product-price block children
+            // Price region ??? update the visible .product-price block children
             // (.price-new / .price-old / sale badge) for the selected variation.
             if (!this.priceBlock) {
                 var zones = Array.prototype.slice.call(document.querySelectorAll('.product-price, .tf-product-info-price'));
@@ -2283,3 +2280,4 @@
     }
 
 })();
+

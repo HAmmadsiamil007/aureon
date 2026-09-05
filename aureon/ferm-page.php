@@ -8,7 +8,7 @@
  * outputs the <body> content from the design pack's HTML file, then
  * closes with wp_footer().
  *
- * The AETHER shell (header.php → aether_compose_header / footer.php →
+ * The AETHER shell (header.php ??? aether_compose_header / footer.php ???
  * aether_compose_footer) is NOT used for complete-page designs.
  *
  * Controlled by the "complete_page": true flag in the design pack's
@@ -398,7 +398,7 @@ function aureon_ferm_resolve_page() {
 		return 'blogs/stories.html';
 	}
 
-	// Search results — use blog page as fallback.
+	// Search results ??? use blog page as fallback.
 	if ( is_search() ) {
 		return 'blogs/stories.html';
 	}
@@ -507,7 +507,7 @@ function aureon_ferm_render_attrs( $attrs ) {
  */
 function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 	$site_url = home_url();
-	// Live CDN base — resolve from active pack or skip CDN rewriting.
+	// Live CDN base ??? resolve from active pack or skip CDN rewriting.
 	$live_cdn = '';
 	if ( function_exists( 'aether_active_design' ) ) {
 		$design = aether_active_design();
@@ -734,3 +734,4 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 
 	return $content;
 }
+

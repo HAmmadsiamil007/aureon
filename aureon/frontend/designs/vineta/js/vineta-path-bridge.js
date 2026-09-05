@@ -33,10 +33,11 @@
     'shop-filter-hidden.html':          '/shop/',
     'shop-collection.html':             '/shop/',
 
-    // Product pages ??? DO NOT map product-detail.html here.
-    // Data-shims replace these hrefs with real /product/slug/ URLs.
-    // Leaving them unmapped means the bridge won't touch them until
-    // data-shims overwrite them.
+    // Product pages ??? product-detail.html maps to /shop/ as safety fallback.
+    // Data-shims replace these hrefs with real /product/slug/ URLs FIRST,
+    // so normally this mapping never fires. But if data-shims fail to load,
+    // users at least land on the shop page instead of a 404.
+    'product-detail.html':              '/shop/',
     'product-style-01.html':            '/shop/',
     'product-style-02.html':            '/shop/',
     'product-left-sidebar.html':        '/shop/',
@@ -180,4 +181,5 @@
     obs.observe(document.documentElement, { childList: true, subtree: true });
   }
 })();
+
 

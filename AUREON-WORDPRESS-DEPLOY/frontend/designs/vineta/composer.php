@@ -578,6 +578,14 @@ function vineta_enqueue_cart_bridge() {
 		return;
 	}
 
+	// Enqueue frozen-HTML CSS that lives in <head> (stripped during body extraction).
+	wp_enqueue_style( 'vineta-bootstrap', $pack_url . 'css/bootstrap.min.css', array(), '1.0.0' );
+	wp_enqueue_style( 'vineta-swiper', $pack_url . 'css/swiper-bundle.min.css', array(), '1.0.0' );
+	wp_enqueue_style( 'vineta-animate', $pack_url . 'css/animate.css', array(), '1.0.0' );
+	wp_enqueue_style( 'vineta-styles', $pack_url . 'css/styles.css', array(), '1.0.0' );
+	wp_enqueue_style( 'vineta-fonts', $pack_url . 'fonts/fonts.css', array(), '1.0.0' );
+	wp_enqueue_style( 'vineta-icons', $pack_url . 'fonts/font-icons.css', array( 'vineta-fonts' ), '1.0.0' );
+
 	// Register the main Vineta data bridge script.
 	wp_register_script( 'vineta-data-shims', $pack_url . 'js/vineta-data-shims.js', array(), '1.0.0', true );
 	wp_localize_script(

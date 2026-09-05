@@ -908,7 +908,7 @@
                 if (card.closest('[data-aureon-slot]')) return;
                 var priceEl = card.querySelector('.price-new, .price, .price-wrap');
                 var txt = priceEl ? (priceEl.textContent || '') : '';
-                if (txt && !/\$|\u20ac|CHF|USD|EUR/.test(txt)) return;
+                if (txt && !/\$|\u20ac|CHF|USD|EUR|\u20a8|PKR|Rs/i.test(txt)) return;
                 var product = products[idx % products.length];
                 if (product && window.VinetaShop) {
                     try {
@@ -957,11 +957,8 @@
                 // Skip add-to-cart, wishlist, quickview, compare buttons
                 if (a.classList.contains('quickview') || a.classList.contains('box-icon') ||
                     a.getAttribute('data-vineta-add') || a.closest('.list-product-btn')) return;
-                var curHref = a.getAttribute('href') || '';
-                // Only rewrite if it points to a frozen demo file or is empty
-                if (!curHref || curHref.indexOf('.html') >= 0 || curHref === '#') {
-                    a.href = href;
-                }
+                // Always overwrite product card links with the real WooCommerce URL
+                a.href = href;
             });
             // Images
             var src = product.image || config.placeholder_image || '';
@@ -2283,4 +2280,5 @@
     }
 
 })();
+
 

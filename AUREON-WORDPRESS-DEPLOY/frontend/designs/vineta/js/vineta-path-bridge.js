@@ -1,5 +1,5 @@
 /**
- * Vineta Path Bridge — rewrites frozen-HTML links to WordPress permalinks.
+ * Vineta Path Bridge ??? rewrites frozen-HTML links to WordPress permalinks.
  *
  * The generic ferm-page.php rewriter handles Shopify-style paths
  * (collections/, products/, blogs/). Vineta uses flat file names
@@ -14,7 +14,7 @@
 
   var S = (window.vineta_bridge && window.vineta_bridge.site_url) ? window.vineta_bridge.site_url.replace(/\/$/, '') : '';
 
-  // Vineta flat-file → WordPress permalink map.
+  // Vineta flat-file ??? WordPress permalink map.
   var MAP = {
     // Shop pages
     'shop-default.html':                '/shop/',
@@ -33,10 +33,11 @@
     'shop-filter-hidden.html':          '/shop/',
     'shop-collection.html':             '/shop/',
 
-    // Product pages — DO NOT map product-detail.html here.
-    // Data-shims replace these hrefs with real /product/slug/ URLs.
-    // Leaving them unmapped means the bridge won't touch them until
-    // data-shims overwrite them.
+    // Product pages — product-detail.html maps to /shop/ as safety fallback.
+    // Data-shims replace these hrefs with real /product/slug/ URLs FIRST,
+    // so normally this mapping never fires. But if data-shims fail to load,
+    // users at least land on the shop page instead of a 404.
+    'product-detail.html':              '/shop/',
     'product-style-01.html':            '/shop/',
     'product-style-02.html':            '/shop/',
     'product-left-sidebar.html':        '/shop/',
@@ -106,7 +107,7 @@
     if (/^home-/.test(clean)) return '/';
     if (/^newsletter-/.test(clean)) return '/';
     if (clean === 'before-you-leave.html' || clean === '404.html') return '/';
-    // product-* demo pages (NOT product-detail.html) → /shop/
+    // product-* demo pages (NOT product-detail.html) ??? /shop/
     if (/^product-/.test(clean)) return '/shop/';
     return '';
   }
@@ -141,7 +142,7 @@
   }
 
   function rewriteLinks() {
-    // Rewrite <a href> links — skip links already set to /product/ by data-shims
+    // Rewrite <a href> links ??? skip links already set to /product/ by data-shims
     document.querySelectorAll('a[href]').forEach(function (a) {
       // Skip links that data-shims already set to real WooCommerce URLs
       if (a.getAttribute('data-vineta-filled')) return;
@@ -165,7 +166,7 @@
     rewriteLinks();
   }
 
-  // Observe for dynamically added links — debounced to avoid interfering
+  // Observe for dynamically added links ??? debounced to avoid interfering
   // with data-shims product URL injection.
   if (typeof MutationObserver !== 'undefined') {
     var pending = false;
@@ -180,3 +181,4 @@
     obs.observe(document.documentElement, { childList: true, subtree: true });
   }
 })();
+
