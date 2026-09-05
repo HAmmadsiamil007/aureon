@@ -319,9 +319,10 @@ function aureon_ferm_template_include( $template ) {
 		return $template;
 	}
 
-	// Logged-in account pages: use WooCommerce's native account template.
-	// The frozen login.html is only for the logged-out state.
-	if ( is_user_logged_in() && function_exists( 'is_account_page' ) && is_account_page() ) {
+	// Account pages: use the standalone Vineta account template for both
+	// logged-in and logged-out states. The template handles login/register
+	// forms and the full account dashboard.
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
 		$acc_tpl = get_template_directory() . '/myaccount/my-account.php';
 		return file_exists( $acc_tpl ) ? $acc_tpl : $template;
 	}
