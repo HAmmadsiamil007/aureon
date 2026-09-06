@@ -1,40 +1,72 @@
 {
-  "release_candidate": "AUREON-VINETA-RC-2026-09-06",
-  "generated": "2026-09-06",
-  "canonical_tree": "AUREON-WORDPRESS-DEPLOY",
-  "git": {
-    "branch": "master",
-    "commit": "4f48ea0",
-    "commit_message": "docs: preflight, revalidation, acceptance matrix, RC manifest, readiness report",
-    "pristine_check": "working tree clean at manifest time (untracked helper dirs excluded)"
-  },
-  "fixes_included": [
-    {"id": "T-01", "commit": "2d8f4e0", "summary": "untracked vineta/components/shell/header.php committed (auth-page header no longer lost on fresh clone)"},
-    {"id": "T-02", "commit": "dd001c5", "summary": "root config-mutating scripts quarantined to scripts/one-off/ with README"},
-    {"id": "T-11", "commit": "c97552d", "summary": "demo 'auto' mode no longer stubbed to always-true; falls back to demo only when catalog empty"},
-    {"id": "T-12", "commit": "c97552d", "summary": "404 fallback now serves pack 404.html (legacy pages/contact.html retained as last resort)"},
-    {"id": "T-14", "commit": "c97552d", "summary": "VinetaPageData injected exactly once (wp_head 5); double wp_localize_script injection removed"},
-    {"id": "T-15", "commit": "c97552d", "summary": "tests/contract-tests.cjs — 57-check selector contract suite, exit 0"},
-    {"id": "FINAL-PHASE", "commit": null, "summary": "Final-plan Phases 1-2/22/33-34 executed: historical-issue recheck (3 pre-resolved, 1 stale), core-integrity diff classification (CORE zero changes), future-edit contract ratified, final production report issued (verdict BLOCKED-B1)"}
-  ],
-  "scope": {
-    "file_count": 1964,
-    "excluded_from_hash": ["*.zip archives", ".serena/ cache"],
-    "hash_manifest": "test-results/release-candidate-sha256.txt",
-    "hash_manifest_sha256": "1c3d79354565d9c3a6a393f89bc6de50b385279745d5fcdae57b2574e833f66c"
-  },
-  "verification_at_build_time": {
-    "php_lint": "ALL PHP files in themes/aureon + frontend lint clean (php 8.2.31 CLI)",
-    "contract_tests": "57/57 PASS",
-    "golden_copy": "UNTOUCHED (verified: diffs vs canonical are exactly the recent feature commits; golden = pre-auth-pages snapshot)",
-    "stale_trees": "UNTOUCHED (aureon/ 142-file drift, theme/, frontend/ — frozen)"
-  },
-  "gates": {
-    "local_regression_full": "BLOCKED-B1 (no WordPress runtime in environment; static gates only)",
-    "production_deploy": "BLOCKED-B1",
-    "production_smoke": "BLOCKED-B1",
-    "mail": "BLOCKED-B1",
-    "payment_sandbox": "BLOCKED-B1"
-  },
-  "rule": "This manifest represents the exact tested canonical tree at commit c97552d. Static verification evidence attached. Runtime gates remain honestly BLOCKED until a runtime is provided (QUESTIONS.md Q1)."
+    "release_candidate": "AUREON-VINETA-RC-2026-09-06",
+    "generated": "2026-09-06",
+    "canonical_tree": "AUREON-WORDPRESS-DEPLOY",
+    "git": {
+        "branch": "master",
+        "commit": "1289995",
+        "commit_message": "docs: final-plan revalidation, future-edit contract, production report",
+        "pristine_check": "working tree clean at manifest time (untracked helper dirs excluded)"
+    },
+    "fixes_included": [
+        {
+            "id": "T-01",
+            "commit": "2d8f4e0",
+            "summary": "untracked vineta/components/shell/header.php committed (auth-page header no longer lost on fresh clone)"
+        },
+        {
+            "id": "T-02",
+            "commit": "dd001c5",
+            "summary": "root config-mutating scripts quarantined to scripts/one-off/ with README"
+        },
+        {
+            "id": "T-11",
+            "commit": "c97552d",
+            "summary": "demo 'auto' mode no longer stubbed to always-true; falls back to demo only when catalog empty"
+        },
+        {
+            "id": "T-12",
+            "commit": "c97552d",
+            "summary": "404 fallback now serves pack 404.html (legacy pages/contact.html retained as last resort)"
+        },
+        {
+            "id": "T-14",
+            "commit": "c97552d",
+            "summary": "VinetaPageData injected exactly once (wp_head 5); double wp_localize_script injection removed"
+        },
+        {
+            "id": "T-15",
+            "commit": "c97552d",
+            "summary": "tests/contract-tests.cjs — 57-check selector contract suite, exit 0"
+        },
+        {
+            "id": "FINAL-PHASE",
+            "commit": null,
+            "summary": "Final-plan Phases 1-2/22/33-34 executed: historical-issue recheck (3 pre-resolved, 1 stale), core-integrity diff classification (CORE zero changes), future-edit contract ratified, final production report issued (verdict BLOCKED-B1)"
+        }
+    ],
+    "scope": {
+        "file_count": 1972,
+        "excluded_from_hash": [
+            "*.zip archives",
+            ".serena/ cache"
+        ],
+        "hash_manifest": "test-results/release-candidate-sha256.txt",
+        "hash_manifest_sha256": "e3570bde718412dff661df36625674e6600fe90b9644620a467b46b4d1561f60",
+        "note": "Manifest regenerated 2026-09-06 (robust -print0 pipeline) after discovering the original 1964-file manifest silently dropped 8 files whose paths contain spaces/unicode. 1972 = exact tree at commit 1289995."
+    },
+    "verification_at_build_time": {
+        "php_lint": "ALL PHP files in themes/aureon + frontend lint clean (php 8.2.31 CLI)",
+        "contract_tests": "57/57 PASS",
+        "golden_copy": "UNTOUCHED (verified: diffs vs canonical are exactly the recent feature commits; golden = pre-auth-pages snapshot)",
+        "stale_trees": "UNTOUCHED (aureon/ 142-file drift, theme/, frontend/ — frozen)"
+    },
+    "gates": {
+        "local_regression_full": "BLOCKED-B1 (no WordPress runtime in environment; static gates only)",
+        "production_deploy": "BLOCKED-B1",
+        "production_smoke": "BLOCKED-B1",
+        "mail": "BLOCKED-B1",
+        "payment_sandbox": "BLOCKED-B1"
+    },
+    "rule": "This manifest represents the exact tested canonical tree at commit c97552d. Static verification evidence attached. Runtime gates remain honestly BLOCKED until a runtime is provided (QUESTIONS.md Q1)."
 }
