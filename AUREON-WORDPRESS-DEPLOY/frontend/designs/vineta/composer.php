@@ -290,7 +290,9 @@ function vineta_show_demo_content() {
 	if ( 'force_demo' === $mode ) {
 		return true;
 	}
-	return true;
+	// 'auto': demo content only when the catalog has no real (non-demo)
+	// products. Never let demo fallback overwrite a populated store.
+	return ! vineta_has_real_products();
 }
 
 function vineta_has_real_products() {
@@ -611,9 +613,9 @@ function vineta_enqueue_cart_bridge() {
 	wp_register_script( 'vineta-path-bridge', $pack_url . 'js/vineta-path-bridge.js', array(), '1.0.0', true );
 	wp_enqueue_script( 'vineta-path-bridge' );
 
-	// Inject VinetaPageData for complete-page dynamic data.
-	$page_data = vineta_build_page_data();
-	wp_localize_script( 'vineta-data-shims', 'VinetaPageData', $page_data );
+	// NOTE: VinetaPageData is injected exactly once, via vineta_inject_page_data()
+	// on wp_head (priority 5) below. Do NOT also wp_localize_script() it here —
+	// the double definition previously made injection order route-dependent.
 }
 
 // --- Inject VinetaPageData as inline script for all complete-page routes ---

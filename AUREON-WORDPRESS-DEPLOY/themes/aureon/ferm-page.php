@@ -420,7 +420,12 @@ function aureon_ferm_resolve_page() {
 
 	// 404.
 	if ( is_404() ) {
-		return 'pages/contact.html'; // Fallback to contact page.
+		// The vineta pack ships 404.html at its root; the legacy
+		// pages/contact.html path does not exist in current packs.
+		if ( file_exists( aether_active_design_dir() . '404.html' ) ) {
+			return '404.html';
+		}
+		return 'pages/contact.html'; // Legacy ferm-era fallback.
 	}
 
 	return false;
