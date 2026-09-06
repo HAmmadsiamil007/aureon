@@ -1,0 +1,106 @@
+{
+  "audit_note": "Read-only inventory generated 2026-09-06. Counts and roles verified by file-tree inspection. Paths are relative to repo root. This is a curated inventory of architecturally-significant files, not a byte-for-byte listing of all ~8,000 files (raw file lists reproducible via `find <tree> -type f`).",
+  "canonical_tree": "AUREON-WORDPRESS-DEPLOY",
+  "trees": [
+    {"path": "AUREON-WORDPRESS-DEPLOY", "files": 1983, "status": "CANONICAL", "designs": ["vineta"]},
+    {"path": "AUREON-GOLDEN-COPY", "files": 1977, "status": "STALE_SNAPSHOT", "diff_vs_canonical": 12},
+    {"path": "aureon", "files": 1709, "status": "STALE_SOURCE_CLAIM", "diff_note": "~100 files behind canonical; older ferm-page.php"},
+    {"path": "theme", "files": 1091, "status": "GITIGNORED_STAGING", "diff_vs_canonical": 146},
+    {"path": "frontend", "files": 598, "status": "ORPHANED", "designs": ["fermliving", "lumen"], "referenced_by_runtime": false},
+    {"path": "Report", "files": 10, "status": "ARCHIVE_DOCS"}
+  ],
+  "layers": [
+    {
+      "layer": "WORDPRESS_THEME",
+      "root": "AUREON-WORDPRESS-DEPLOY/themes/aureon",
+      "entry": "functions.php",
+      "version": {"constant": "AUREON_VERSION", "value": "3.6.1"},
+      "files": [
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/functions.php", "role": "theme bootstrap; requires inc/frontend.php; defines AUREON_VERSION", "executed": true, "layer": "GOLDEN_CORE", "safe_to_edit": "REVIEW", "risk": "HIGH"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/inc/frontend.php", "role": "AETHER boot; asset suppression (priority 1000); template_include routing at 99 (WC pages) and 998 (ferm-page)", "executed": true, "layer": "BRIDGE", "safe_to_edit": "REVIEW", "risk": "HIGH"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/ferm-page.php", "lines": 751, "role": "complete-page renderer: serves frozen pack HTML, route resolver (manifest-first, hardcoded fallback), server-side path rewriting, login form rewrite, logo bridge", "executed": true, "layer": "BRIDGE", "safe_to_edit": "NO_CLIENT", "risk": "HIGH", "duplicates": 8},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/header.php", "lines": 34, "role": "AETHER shell header entry (used only by non-complete-page designs)", "executed": "COND_BLOCKED", "layer": "GOLDEN_CORE", "risk": "MEDIUM", "note": "current default design is complete-page so shell is bypassed on most routes"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/footer.php", "role": "AETHER shell footer entry", "executed": "COND_BLOCKED", "layer": "GOLDEN_CORE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/cart.php", "lines": 26, "role": "cart page -> aether_render_section('cart') via AETHER shell", "executed": true, "layer": "BRIDGE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/checkout/form-checkout.php", "role": "standalone Vineta checkout; own header/footer; uses WC checkout fields; blocks shell CSS stripping", "executed": true, "layer": "BRIDGE", "risk": "HIGH"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/myaccount/my-account.php", "lines": 435, "role": "account router: ?auth=login|register -> standalone pages; logged-in -> premium dashboard (own HTML doc)", "executed": true, "layer": "BRIDGE", "risk": "HIGH"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/myaccount/login.php", "role": "standalone Vineta login page", "executed": true, "layer": "BRIDGE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/myaccount/register.php", "role": "standalone Vineta register page", "executed": true, "layer": "BRIDGE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/woocommerce/checkout/thankyou.php", "role": "order-received endpoint template", "executed": true, "layer": "BRIDGE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/inc/customizer.php", "lines": 1575, "role": "platform Customizer registration", "executed": true, "layer": "GOLDEN_CORE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/inc/aether-security.php", "role": "security headers, CSP nonce, HSTS", "executed": true, "layer": "GOLDEN_CORE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/inc/aether-newsletter.php", "role": "newsletter table + AJAX + REST + admin export", "executed": true, "layer": "GOLDEN_CORE", "risk": "MEDIUM", "note": "creates DB table; admin CSV export endpoint needs capability check verification"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/inc/aether-ajax.php", "role": "wishlist/quick-view/contact AJAX", "executed": true, "layer": "GOLDEN_CORE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/themes/aureon/inc/aether-analytics.php", "role": "GA4 dataLayer events (view_item, add_to_cart, purchase)", "executed": true, "layer": "GOLDEN_CORE", "risk": "LOW"}
+      ]
+    },
+    {
+      "layer": "FRONTEND_ENGINE",
+      "root": "AUREON-WORDPRESS-DEPLOY/frontend",
+      "files": [
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/views/loader.php", "lines": 70, "role": "engine boot: tokens, design, registry, renderer, viewmodel, assets, composer; loads pack composer + adapters + sections (both base and pack)", "executed": true, "layer": "GOLDEN_CORE", "risk": "HIGH"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/views/design.php", "lines": 226, "role": "design resolution, pack dir/url, manifest read+sanitize, complete-page flag, pack token defaults", "executed": true, "layer": "GOLDEN_CORE", "risk": "HIGH", "issue": "hardcoded default 'vineta' contradicts docblock 'luxury'"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/views/assets.php", "lines": 208, "role": "pack asset enqueue from manifest.json (css/js with deps/priority)", "executed": true, "layer": "BRIDGE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/views/renderer.php", "lines": 178, "role": "section/component renderer with pack-first path resolution", "executed": true, "layer": "GOLDEN_CORE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/views/composer.php", "lines": 72, "role": "page composition from sections", "executed": "COND_BLOCKED", "layer": "GOLDEN_CORE", "risk": "MEDIUM", "note": "blocked on complete-page routes"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/manifest/components.php", "lines": 78, "role": "component template registry (54 entries)", "executed": true, "layer": "GOLDEN_CORE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/adapters/*.php", "count": 23, "role": "WP/WC data extraction into viewmodels (the only layer allowed to touch WP/WC per docs)", "executed": true, "layer": "BRIDGE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/sections/*.php", "count": 26, "role": "AETHER shell sections (luxury-era presentation)", "executed": "COND_BLOCKED", "layer": "DEAD_ON_COMPLETE_PAGE_ROUTES", "risk": "LOW"}
+      ]
+    },
+    {
+      "layer": "DESIGN_PACK_VINETA",
+      "root": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta",
+      "files": [
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta/composer.php", "lines": 2885, "role": "pack composer: 60 functions; 11 aether_adapter_* filters; demo/real content switching; cart AJAX (4 endpoints); VinetaPageData producer; product page data builder; search/auth footer bridges; Customizer hero+colors+CSS emission; server-rendered menu splicing into frozen HTML; standalone header renderer", "executed": true, "layer": "BRIDGE+CLIENT (mixing violation)", "safe_to_edit": "REVIEW", "risk": "CRITICAL", "note": "single largest architecture risk: client-specific logic contains bridge+core responsibilities"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta/manifest.json", "lines": 148, "role": "pack descriptor: pages mapping, assets list, complete_page=true, data schema", "executed": true, "layer": "CONTRACT", "risk": "MEDIUM", "note": "checkout: 'checkout.html' entry exists but runtime forces WC native template for checkout"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta/index.html", "role": "frozen homepage HTML (~50 demo templates total across pages)", "executed": true, "layer": "CLIENT", "safe_to_edit": "YES", "risk": "LOW"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta/js/vineta-data-shims.js", "role": "cart AJAX client, VinetaPageData consumer, customizer bridge", "executed": true, "layer": "BRIDGE", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta/js/vineta-path-bridge.js", "role": "client-side link/path rewriting", "executed": true, "layer": "BRIDGE", "risk": "LOW"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta/js/main.js", "role": "pack UI JS (menus, sliders, popups)", "executed": true, "layer": "CLIENT", "risk": "LOW"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta/js/shop.js", "role": "shop/product UI logic incl. add-to-cart wiring", "executed": true, "layer": "CLIENT", "risk": "MEDIUM"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta/demo/*.json", "role": "demo products/categories/assets dataset", "executed": true, "layer": "DEMO", "risk": "LOW"},
+        {"path": "AUREON-WORDPRESS-DEPLOY/frontend/designs/vineta/components/shell/header.php", "role": "pack shadow of shell/header; calls vineta_render_standalone_header()", "executed": "UNVERIFIED", "layer": "BRIDGE", "risk": "MEDIUM", "status": "UNTRACKED_IN_GIT"}
+      ]
+    },
+    {
+      "layer": "MU_PLUGIN",
+      "root": "AUREON-WORDPRESS-DEPLOY/mu-plugins",
+      "files": [
+        {"path": "AUREON-WORDPRESS-DEPLOY/mu-plugins/ob-buffer.php", "lines": 17, "role": "output buffer to allow WC redirects despite early output; discards buffer at template_redirect priority 0", "executed": true, "layer": "GOLDEN_CORE", "risk": "MEDIUM", "note": "interacts with ferm-page early HTML output"}
+      ]
+    },
+    {
+      "layer": "PLUGIN",
+      "root": "AUREON-WORDPRESS-DEPLOY/plugins/aureon-studio",
+      "files": [
+        {"path": "AUREON-WORDPRESS-DEPLOY/plugins/aureon-studio/aureon-studio.php", "version": "1.1.0", "role": "17-module GeneratePress-derived plugin (backgrounds, blog, colors, elements, hooks, menu-plus, page-header, sections, spacing, typography, woocommerce, ...)", "executed": true, "layer": "GOLDEN_CORE", "risk": "MEDIUM", "note": "frontend surface largely suppressed on complete-page designs; Customizer surface unknown-active"}
+      ]
+    },
+    {
+      "layer": "ORPHANED",
+      "root": "frontend",
+      "files": [
+        {"path": "frontend/designs/fermliving/**", "role": "previous client pack (Shopify CDN era)", "executed": false, "layer": "DEAD", "risk": "CONFUSION"},
+        {"path": "frontend/designs/lumen/**", "role": "engine-era design", "executed": false, "layer": "DEAD", "risk": "CONFUSION"},
+        {"path": "frontend/tests/**", "role": "Playwright suite targeting orphaned tree", "executed": "manually", "layer": "DEAD", "risk": "FALSE_CONFIDENCE"}
+      ]
+    },
+    {
+      "layer": "ROOT_ARTIFACTS",
+      "files": [
+        {"path": "enable_cod.php", "role": "DANGEROUS: hardcodes /var/www/html/wp-load.php and force-enables COD gateway option", "executed": "if run manually", "layer": "UNCLASSIFIED", "risk": "CRITICAL"},
+        {"path": "update-contact.php", "role": "DANGEROUS: overwrites aureon_settings contact fields with placeholder data", "executed": "if run manually", "layer": "UNCLASSIFIED", "risk": "CRITICAL"},
+        {"path": "rendered-home.html", "role": "empty file (0 bytes)", "executed": false, "layer": "JUNK", "risk": "LOW"},
+        {"path": "woocommerce-products.csv", "role": "catalog import seed data", "executed": false, "layer": "DEMO", "risk": "LOW"},
+        {"path": "ferm-image-urls.json", "role": "legacy pack CDN image list", "executed": false, "layer": "DEAD", "risk": "LOW"}
+      ]
+    }
+  ],
+  "generated_files_detected": ["AUREON-WORDPRESS-DEPLOY/themes/aureon/assets/dist/*.asset.php (WP build artifacts)", "AUREON-WORDPRESS-DEPLOY/plugins/aureon-studio.zip", "AUREON-WORDPRESS-DEPLOY/themes/aureon.zip"],
+  "duplicates_found": {
+    "ferm-page.php_paths": 9,
+    "full_tree_copies": 4,
+    "note": "duplicates documented in 01-CANONICAL-TREE-AUDIT.md"
+  }
+}

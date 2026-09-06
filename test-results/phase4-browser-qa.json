@@ -1,0 +1,362 @@
+{
+  "1440x900": {
+    "console_errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "failed_requests": [
+      "404 http://localhost:8080/nonexistent-page-xyz?qa=20182813"
+    ],
+    "routes": {
+      "/": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "-"
+      },
+      "/shop": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Shop -"
+      },
+      "/product/floral-green-kurta-2": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Floral Green Kurta -"
+      },
+      "/product-category/women": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Women Archives -"
+      },
+      "/cart": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Cart -"
+      },
+      "/checkout": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Cart -"
+      },
+      "/blog": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Blog -"
+      },
+      "/my-account?auth=login": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Login \u2014"
+      },
+      "/?s=kurta&post_type=product": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "You searched for kurta -"
+      },
+      "/nonexistent-page-xyz": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Page not found -"
+      }
+    }
+  },
+  "1024x768": {
+    "console_errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "failed_requests": [
+      "404 http://localhost:8080/nonexistent-page-xyz?qa=20182813"
+    ],
+    "routes": {
+      "/": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "-"
+      },
+      "/shop": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Shop -"
+      },
+      "/product/floral-green-kurta-2": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Floral Green Kurta -"
+      },
+      "/product-category/women": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Women Archives -"
+      },
+      "/cart": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Cart -"
+      },
+      "/checkout": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Cart -"
+      },
+      "/blog": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Blog -"
+      },
+      "/my-account?auth=login": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Login \u2014"
+      },
+      "/?s=kurta&post_type=product": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "You searched for kurta -"
+      },
+      "/nonexistent-page-xyz": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Page not found -"
+      }
+    }
+  },
+  "768x1024": {
+    "console_errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "failed_requests": [
+      "404 http://localhost:8080/nonexistent-page-xyz?qa=20182813"
+    ],
+    "routes": {
+      "/": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "-"
+      },
+      "/shop": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Shop -"
+      },
+      "/product/floral-green-kurta-2": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Floral Green Kurta -"
+      },
+      "/product-category/women": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Women Archives -"
+      },
+      "/cart": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Cart -"
+      },
+      "/checkout": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Cart -"
+      },
+      "/blog": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Blog -"
+      },
+      "/my-account?auth=login": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Login \u2014"
+      },
+      "/?s=kurta&post_type=product": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "You searched for kurta -"
+      },
+      "/nonexistent-page-xyz": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Page not found -"
+      }
+    }
+  },
+  "390x844": {
+    "console_errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "failed_requests": [
+      "404 http://localhost:8080/nonexistent-page-xyz?qa=20182813"
+    ],
+    "routes": {
+      "/": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "-"
+      },
+      "/shop": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Shop -"
+      },
+      "/product/floral-green-kurta-2": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Floral Green Kurta -"
+      },
+      "/product-category/women": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Women Archives -"
+      },
+      "/cart": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Cart -"
+      },
+      "/checkout": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Cart -"
+      },
+      "/blog": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Blog -"
+      },
+      "/my-account?auth=login": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Login \u2014"
+      },
+      "/?s=kurta&post_type=product": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "You searched for kurta -"
+      },
+      "/nonexistent-page-xyz": {
+        "overflowX": false,
+        "overflowBy": 0,
+        "h1": 1,
+        "imgsNoAlt": 0,
+        "inputsNoLabel": 0,
+        "title": "Page not found -"
+      }
+    }
+  }
+}
