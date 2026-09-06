@@ -213,7 +213,8 @@ img { max-width: 100%; height: auto; }
 <section class="vt-checkout-section">
 	<?php if ( function_exists( 'wc_print_notices' ) ) { wc_print_notices(); } ?>
 	<form name="checkout" class="checkout woocommerce-checkout" action="<?php echo esc_url( $checkout_url ); ?>" method="post" enctype="multipart/form-data">
-		<?php wp_nonce_field( 'woocommerce-process-checkout', 'woocommerce-process-checkout-nonce' ); ?>
+		<?php // Action string must match WC 8.x exactly: 'woocommerce-process_checkout' (underscore) — a hyphen fails verification with "unable to process". ?>
+		<?php wp_nonce_field( 'woocommerce-process_checkout', 'woocommerce-process-checkout-nonce' ); ?>
 		<input type="hidden" name="ship_to_different_address" value="0">
 
 		<div class="vt-checkout-grid">
@@ -395,7 +396,11 @@ img { max-width: 100%; height: auto; }
 						</div>
 					</div>
 
-					<button type="submit" class="vt-btn-order" id="place_order" name="woocommerce-process-checkout">
+					<!-- WC 8.x native processor triggers on woocommerce_checkout_place_order
+						(class-wc-form-handler.php checkout_action()); the old name silently
+						skipped all server-side processing. -->
+					<input type="hidden" name="woocommerce_checkout_place_order" value="1">
+					<button type="submit" class="vt-btn-order" id="place_order" name="woocommerce_checkout_place_order">
 						<?php esc_html_e( 'Place Order', 'woocommerce' ); ?>
 					</button>
 					<div class="vt-secure-note">
@@ -440,9 +445,49 @@ img { max-width: 100%; height: auto; }
 </footer>
 
 <?php
-// Load only WooCommerce checkout JS — NOT full wp_footer() which triggers all 14 plugins
+// Load only WooCommerce checkout JS — NOT full wp_footer() which triggers all 14 plugins.
+// IMPORTANT: enqueue the EXISTING wc-checkout registration (made by
+// WC_Frontend_Scripts during wp_enqueue_scripts, together with the
+// wc_checkout_params localize blob). Re-registering with args here wipes
+// that blob and checkout.min.js silently bails (no AJAX, dead form).
 if ( function_exists( 'WC' ) ) {
-	wp_enqueue_script( 'wc-checkout', WC()->plugin_url() . '/assets/js/frontend/checkout' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min' ) . '.js', array( 'jquery' ), WC()->version, true );
+	// checkout.min.js depends on jquery-blockui (it calls e.blockUI in its
+	// guard) — ensure it is registered + enqueued so the dependency prints.
+	if ( ! wp_script_is( 'jquery-blockui', 'registered' ) ) {
+		wp_register_script(
+			'jquery-blockui',
+			WC()->plugin_url() . '/assets/js/jquery-blockui/jquery.blockUI.min.js',
+			array( 'jquery' ),
+			WC()->version,
+			true
+		);
+	}
+	wp_enqueue_script( 'jquery-blockui' );
+	if ( ! wp_script_is( 'wc-checkout', 'registered' ) ) {
+		// Self-healing fallback: register + restore the essential params.
+		wp_register_script(
+			'wc-checkout',
+			WC()->plugin_url() . '/assets/js/frontend/checkout' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min' ) . '.js',
+			array( 'jquery', 'jquery-blockui' ),
+			WC()->version,
+			true
+		);
+		wp_localize_script(
+			'wc-checkout',
+			'wc_checkout_params',
+			array(
+				'ajax_url'                  => WC()->ajax_url(),
+				'wc_ajax_url'               => WC_AJAX::get_endpoint( '%%endpoint%%' ),
+				'update_order_review_nonce' => wp_create_nonce( 'update-order-review' ),
+				'apply_coupon_nonce'        => wp_create_nonce( 'apply-coupon' ),
+				'remove_coupon_nonce'       => wp_create_nonce( 'remove-coupon' ),
+				'option_guest_checkout'     => get_option( 'woocommerce_enable_guest_checkout' ),
+				'checkout_url'              => WC_AJAX::get_endpoint( 'checkout' ),
+				'is_checkout'               => 1,
+			)
+		);
+	}
+	wp_enqueue_script( 'wc-checkout' );
 	wp_print_scripts( array( 'wc-checkout' ) );
 }
 ?>

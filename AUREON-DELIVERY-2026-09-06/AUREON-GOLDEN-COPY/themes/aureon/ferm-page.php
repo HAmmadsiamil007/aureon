@@ -420,7 +420,12 @@ function aureon_ferm_resolve_page() {
 
 	// 404.
 	if ( is_404() ) {
-		return 'pages/contact.html'; // Fallback to contact page.
+		// The vineta pack ships 404.html at its root; the legacy
+		// pages/contact.html path does not exist in current packs.
+		if ( file_exists( aether_active_design_dir() . '404.html' ) ) {
+			return '404.html';
+		}
+		return 'pages/contact.html'; // Legacy ferm-era fallback.
 	}
 
 	return false;
@@ -615,7 +620,25 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 		);
 	}
 
-	// Rewrite nav/content links: Shopify paths -> WordPress routes
+	// Rewrite relative pack-asset paths (images/) to absolute pack URLs.
+	// Frozen templates ship relative paths that only resolve at the site
+	// root; on nested routes (e.g. /product/{slug}, the 404 template) the
+	// browser resolves them against the current path and they 404.
+	if ( $pack_url ) {
+		$content = preg_replace(
+			'/((?:src|href|poster|data-src)\s*=\s*["\'])((?:\.\/)?(?:images|fonts)\/)/i',
+			'$1' . $pack_url . '$2',
+			$content
+		);
+		// Inline CSS url(images/...) references inside style attributes/blocks.
+		// Groups: 1 = optional quote, 2 = images/ or fonts/ prefix.
+		$content = preg_replace(
+			'/url\((["\x27]?)((?:\.\/)?(?:images|fonts)\/)/i',
+			'url($1' . $pack_url . '$2',
+			$content
+		);
+	}
+
 	// Index/home: index.html -> /
 	$content = preg_replace(
 		'/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/)?index\.html)(["\x27])/i',

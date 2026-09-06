@@ -1,357 +1,435 @@
 <?php
 /**
- * WooCommerce My Account Template — Vineta Standalone
+ * WooCommerce My Account — Premium Standalone Pages
  *
- * Self-contained my-account page with Vineta design. Does NOT use get_header()
- * / get_footer() because the AETHER shell is stripped of CSS on complete-page
- * designs. Instead, includes Vineta CSS directly and renders its own header
- * and footer markup.
+ * ?auth=login    → premium login page
+ * ?auth=register → premium register page
+ * Logged in      → styled dashboard
+ * Logged out     → redirect to ?auth=login
  *
  * @package Aureon
  */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
-$site_url = home_url( '/' );
-$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
-$cart_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'cart' ) : home_url( '/cart/' );
-$account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : home_url( '/my-account/' );
+$is_logged_in = is_user_logged_in();
+$auth_param   = isset( $_GET['auth'] ) ? sanitize_text_field( wp_unslash( $_GET['auth'] ) ) : '';
+$endpoint     = function_exists( 'WC' ) && WC()->query ? (string) WC()->query->get_current_endpoint() : '';
 
-$menu_items = wp_get_nav_menu_items( 'primary' );
-if ( ! $menu_items ) {
-	$menu_items = array();
+/*
+ * Route ?auth=login → login.php (standalone)
+ */
+if ( ! $is_logged_in && 'login' === $auth_param ) {
+	$login_file = get_stylesheet_directory() . '/myaccount/login.php';
+	if ( file_exists( $login_file ) ) {
+		require $login_file;
+		exit;
+	}
 }
 
-$is_logged_in = is_user_logged_in();
-$current_user = wp_get_current_user();
-$endpoint = function_exists( 'WC' ) && WC()->query ? (string) WC()->query->get_current_endpoint() : '';
-$register_enabled = 'yes' === get_option( 'woocommerce_enable_myaccount_registration' );
-$cart_count = function_exists( 'WC' ) && WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
-?>
+/*
+ * Route ?auth=register → register.php (standalone)
+ */
+if ( ! $is_logged_in && 'register' === $auth_param ) {
+	$register_file = get_stylesheet_directory() . '/myaccount/register.php';
+	if ( file_exists( $register_file ) ) {
+		require $register_file;
+		exit;
+	}
+}
+
+/*
+ * Logged-in → styled My Account dashboard
+ */
+if ( $is_logged_in ) {
+	show_admin_bar( false );
+	$user           = wp_get_current_user();
+	$display_name   = $user->display_name ?: $user->user_login;
+	$email          = $user->user_email;
+	$member_since   = date( 'Y', strtotime( $user->user_registered ) );
+	$avatar_url     = get_avatar_url( $user->ID, array( 'size' => 96 ) );
+
+	$dashboard_url = wc_get_account_endpoint_url( '' );
+	$orders_url    = wc_get_account_endpoint_url( 'orders' );
+	$downloads_url = wc_get_account_endpoint_url( 'downloads' );
+	$address_url   = wc_get_account_endpoint_url( 'edit-address' );
+	$details_url   = wc_get_account_endpoint_url( 'edit-account' );
+	$logout_url    = wc_get_account_endpoint_url( 'customer-logout' );
+
+	// Stats
+	$orders_count  = wc_get_customer_order_count( $user->ID );
+	$address_count = 0;
+	$types         = array( 'billing', 'shipping' );
+	foreach ( $types as $type ) {
+		$val = get_user_meta( $user->ID, $type . '_address_1', true );
+		if ( $val ) {
+			$address_count++;
+		}
+	}
+
+	$first_name = explode( ' ', $display_name )[0] ?: $display_name;
+	?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-<meta charset="<?php bloginfo( 'charset' ); ?>">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?php wp_title( '|', true, 'right' ); ?></title>
-<?php
-if ( function_exists( 'WC' ) ) {
-	wp_enqueue_style( 'woocommerce-general', WC()->plugin_url() . '/assets/css/woocommerce.css', array(), WC()->version );
-}
-?>
-<?php if ( $pack_url ) : ?>
-<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/bootstrap.min.css">
-<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/styles.css">
-<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>fonts/fonts.css">
-<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>fonts/font-icons.css">
-<?php endif; ?>
-<style>
-/* === RESET & BASE === */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Cabinet Grotesk', 'Satoshi', 'Poppins', sans-serif; color: #111; background: #fff; -webkit-font-smoothing: antialiased; }
-a { text-decoration: none; color: inherit; }
-ul, ol { list-style: none; }
-img { max-width: 100%; height: auto; }
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title><?php esc_html_e( 'My Account', 'aureon' ); ?> &mdash; <?php bloginfo( 'name' ); ?></title>
+	<?php $pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
+	if ( $pack_url ) : ?>
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/swiper-bundle.min.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/animate.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/styles.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>fonts/fonts.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>fonts/font-icons.css">
+	<?php endif; ?>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	<style>
+		*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+		body {
+			font-family: 'Poppins', sans-serif;
+			background: #f5f0eb;
+			color: #111;
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			-webkit-font-smoothing: antialiased;
+		}
+		a { text-decoration: none; color: inherit; }
 
-/* === HEADER === */
-.vt-header { background: #fff; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; z-index: 1000; }
-.vt-header-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto; padding: 0 24px; height: 72px; }
-.vt-logo { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: #111; }
-.vt-nav { display: flex; gap: 28px; align-items: center; }
-.vt-nav a { font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; color: #333; transition: color 0.2s; }
-.vt-nav a:hover { color: #999; }
-.vt-header-actions { display: flex; gap: 16px; align-items: center; }
-.vt-header-actions a { color: #333; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
-.vt-header-actions a:hover { color: #999; }
-.vt-cart-badge { background: #111; color: #fff; font-size: 11px; font-weight: 600; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+		/* === HEADER === */
+		.vt-hdr { background: #fff; border-bottom: 1px solid #ebebeb; position: sticky; top: 0; z-index: 100; }
+		.vt-hdr-in { display: flex; align-items: center; justify-content: space-between; max-width: 1400px; margin: 0 auto; padding: 14px 40px; }
+		.vt-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+		.vt-logo img { height: 36px; width: auto; }
+		.vt-logo-t { font-size: 22px; font-weight: 700; color: #111; letter-spacing: -0.5px; }
+		.vt-nav { display: flex; align-items: center; gap: 28px; }
+		.vt-nav a { text-decoration: none; color: #555; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+		.vt-nav a:hover { color: #111; }
 
-/* === PAGE TITLE === */
-.vt-page-title { background: #f8f8f8; padding: 48px 0 32px; text-align: center; }
-.vt-page-title h1 { font-size: 32px; font-weight: 600; margin-bottom: 12px; }
-.vt-breadcrumb { display: flex; gap: 8px; justify-content: center; font-size: 14px; color: #888; }
-.vt-breadcrumb a { color: #888; }
-.vt-breadcrumb a:hover { color: #111; }
-.vt-breadcrumb span { color: #ccc; }
+		/* === BANNER === */
+		.vt-ban { background: #fff; border-bottom: 1px solid #ebebeb; padding: 24px 40px; }
+		.vt-ban-in { max-width: 1200px; margin: 0 auto; }
+		.vt-ban h1 { font-size: 24px; font-weight: 600; color: #111; }
+		.vt-crumb { font-size: 13px; color: #888; margin-top: 4px; }
+		.vt-crumb a { color: #888; }
+		.vt-crumb a:hover { color: #ff6f61; }
 
-/* === ACCOUNT LAYOUT === */
-.vt-account-section { padding: 64px 0 100px; }
-.vt-account-grid { display: grid; grid-template-columns: 240px 1fr; gap: 40px; max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+		/* === DASHBOARD LAYOUT === */
+		.vt-wrap { max-width: 1200px; margin: 0 auto; padding: 40px 40px 80px; display: grid; grid-template-columns: 280px 1fr; gap: 32px; }
 
-/* === SIDEBAR NAV === */
-.vt-account-nav { background: #fafafa; border: 1px solid #ebebeb; border-radius: 16px; padding: 8px; height: fit-content; position: sticky; top: 96px; }
-.vt-account-nav a {
-	display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-radius: 10px;
-	font-size: 14px; font-weight: 500; color: #555; transition: all 0.2s;
-}
-.vt-account-nav a:hover { background: #f0f0f0; color: #111; }
-.vt-account-nav a.active { background: #111; color: #fff; }
-.vt-account-nav a i { width: 18px; text-align: center; }
+		/* === SIDEBAR === */
+		.vt-side { display: flex; flex-direction: column; }
+		.vt-prof {
+			background: #fff;
+			border-radius: 16px;
+			padding: 32px 28px;
+			text-align: center;
+			box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+			margin-bottom: 16px;
+		}
+		.vt-avatar {
+			width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
+			margin-bottom: 16px; border: 3px solid #f0f0f0;
+		}
+		.vt-avatar-fb {
+			width: 80px; height: 80px; border-radius: 50%;
+			background: linear-gradient(135deg, #ff6f61, #ff9a90);
+			color: #fff; display: flex; align-items: center; justify-content: center;
+			font-size: 28px; font-weight: 600; margin: 0 auto 16px;
+		}
+		.vt-uname { font-size: 18px; font-weight: 600; color: #111; margin-bottom: 4px; }
+		.vt-uemail { font-size: 13px; color: #888; margin-bottom: 20px; word-break: break-all; }
+		.vt-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+		.vt-stat { background: #fafafa; border-radius: 10px; padding: 14px 12px; text-align: center; }
+		.vt-stat-n { font-size: 22px; font-weight: 600; color: #111; line-height: 1; }
+		.vt-stat-l { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
 
-/* === FORM CARD === */
-.vt-form-card { background: #fff; border: 1px solid #ebebeb; border-radius: 16px; padding: 32px; }
-.vt-form-card h2 { font-size: 22px; font-weight: 600; margin-bottom: 24px; }
+		/* === NAV === */
+		.vt-nav-box { background: #fff; border-radius: 16px; padding: 8px; box-shadow: 0 2px 20px rgba(0,0,0,0.04); }
+		.vt-nav-i {
+			display: flex; align-items: center; gap: 12px;
+			padding: 13px 20px; border-radius: 10px;
+			font-size: 14px; font-weight: 500; color: #555;
+			transition: all 0.2s; cursor: pointer;
+		}
+		.vt-nav-i:hover { background: #fafafa; color: #111; }
+		.vt-nav-i.on { background: #111; color: #fff; }
+		.vt-nav-i svg { width: 18px; height: 18px; flex-shrink: 0; }
+		.vt-nav-i.on svg { opacity: 0.8; }
 
-/* === FORM FIELDS === */
-.vt-field { margin-bottom: 16px; }
-.vt-field label { display: block; font-size: 13px; font-weight: 500; color: #333; margin-bottom: 6px; }
-.vt-field input, .vt-field select, .vt-field textarea {
-	width: 100%; padding: 12px 16px; border: 1px solid #e0e0e0; border-radius: 8px;
-	font-size: 14px; font-family: inherit; color: #111; background: #fff;
-	transition: border-color 0.2s; outline: none;
-}
-.vt-field input:focus, .vt-field select:focus { border-color: #111; }
-.vt-field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+		/* === MAIN === */
+		.vt-main { min-height: 400px; }
 
-/* === BUTTONS === */
-.vt-btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: #111; color: #fff; border: none; border-radius: 99px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: background 0.2s; text-decoration: none; }
-.vt-btn-primary:hover { background: #333; }
-.vt-btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: transparent; color: #111; border: 1px solid #ddd; border-radius: 99px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.2s; text-decoration: none; }
-.vt-btn-outline:hover { border-color: #111; background: #f8f8f8; }
+		.vt-wel {
+			background: #fff; border-radius: 16px; padding: 36px 40px;
+			box-shadow: 0 2px 20px rgba(0,0,0,0.04); margin-bottom: 24px;
+		}
+		.vt-wel h2 { font-size: 22px; font-weight: 600; color: #111; margin-bottom: 8px; }
+		.vt-wel p { font-size: 14px; color: #888; line-height: 1.6; }
 
-/* === DASHBOARD === */
-.vt-dashboard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
-.vt-dashboard-card { background: #fafafa; border: 1px solid #ebebeb; border-radius: 12px; padding: 24px; }
-.vt-dashboard-card h3 { font-size: 14px; font-weight: 500; color: #888; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-.vt-dashboard-card .vt-value { font-size: 28px; font-weight: 700; color: #111; }
-.vt-dashboard-card .vt-sub { font-size: 13px; color: #888; margin-top: 4px; }
+		.vt-acts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+		.vt-act {
+			background: #fff; border-radius: 16px; padding: 28px 24px;
+			box-shadow: 0 2px 20px rgba(0,0,0,0.04); transition: all 0.3s;
+			cursor: pointer; display: block;
+		}
+		.vt-act:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+		.vt-act-ic {
+			width: 44px; height: 44px; border-radius: 12px;
+			display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+		}
+		.vt-act-ic svg { width: 22px; height: 22px; }
+		.vt-act-ic.crl { background: #fff0ee; color: #ff6f61; }
+		.vt-act-ic.drk { background: #f0f0f0; color: #111; }
+		.vt-act-ic.mtd { background: #f5f5f5; color: #888; }
+		.vt-act h3 { font-size: 15px; font-weight: 600; color: #111; margin-bottom: 6px; }
+		.vt-act p { font-size: 13px; color: #888; line-height: 1.5; }
 
-/* === ORDERS TABLE === */
-.vt-orders-table { width: 100%; border-collapse: collapse; }
-.vt-orders-table thead th { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #888; padding: 0 12px 12px; text-align: left; border-bottom: 1px solid #eee; }
-.vt-orders-table tbody td { padding: 16px 12px; font-size: 14px; color: #333; border-bottom: 1px solid #f5f5f5; }
-.vt-order-status { display: inline-block; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 600; }
-.vt-order-status.processing { background: #fff3cd; color: #856404; }
-.vt-order-status.completed { background: #d4edda; color: #155724; }
-.vt-order-status.on-hold { background: #fff3cd; color: #856404; }
-.vt-order-status.cancelled { background: #f8d7da; color: #721c24; }
-.vt-order-status.refunded { background: #e2e3e5; color: #383d41; }
-.vt-order-status.pending { background: #fff3cd; color: #856404; }
+		/* === SECTION === */
+		.vt-sec { background: #fff; border-radius: 16px; padding: 36px 40px; box-shadow: 0 2px 20px rgba(0,0,0,0.04); }
+		.vt-sec h2 { font-size: 20px; font-weight: 600; color: #111; margin-bottom: 24px; }
 
-/* === LOGIN / REGISTER === */
-.vt-auth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto; padding: 0 24px; }
-.vt-auth-divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
-.vt-auth-divider::before, .vt-auth-divider::after { content: ''; flex: 1; height: 1px; background: #eee; }
-.vt-auth-divider span { font-size: 13px; color: #888; white-space: nowrap; }
-.vt-form-check { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
-.vt-form-check input[type="checkbox"] { accent-color: #111; width: 16px; height: 16px; }
-.vt-form-check label { font-size: 14px; color: #555; }
-.vt-form-links { margin-top: 16px; font-size: 14px; }
-.vt-form-links a { color: #555; }
-.vt-form-links a:hover { color: #111; text-decoration: underline; }
+		/* === TABLE === */
+		.vt-tbl { width: 100%; border-collapse: collapse; }
+		.vt-tbl th {
+			text-align: left; font-size: 11px; font-weight: 600; color: #888;
+			text-transform: uppercase; letter-spacing: 0.8px;
+			padding: 0 16px 16px; border-bottom: 1px solid #f0f0f0;
+		}
+		.vt-tbl td { padding: 16px; font-size: 14px; color: #333; border-bottom: 1px solid #f8f8f8; vertical-align: middle; }
+		.vt-tbl tr:last-child td { border-bottom: none; }
+		.vt-tbl tr:hover td { background: #fafafa; }
+		.vt-badge { display: inline-block; padding: 4px 12px; border-radius: 99px; font-size: 12px; font-weight: 500; }
+		.vt-badge.pending { background: #fff8e1; color: #c78b00; }
+		.vt-badge.completed { background: #e8f5e9; color: #2e7d32; }
+		.vt-badge.processing { background: #e3f2fd; color: #1565c0; }
+		.vt-badge.cancelled { background: #fbe9e7; color: #c62828; }
+		.vt-badge.on-hold { background: #fff3e0; color: #e65100; }
+		.vt-badge.refunded { background: #f3e5f5; color: #7b1fa2; }
 
-/* === EMPTY STATE === */
-.vt-empty-state { text-align: center; padding: 48px 24px; color: #888; }
-.vt-empty-state i { font-size: 48px; margin-bottom: 16px; color: #ddd; }
-.vt-empty-state p { font-size: 16px; margin-bottom: 24px; }
+		.vt-empty { text-align: center; padding: 60px 20px; }
+		.vt-empty svg { width: 48px; height: 48px; color: #ccc; margin-bottom: 16px; }
+		.vt-empty h3 { font-size: 16px; font-weight: 500; color: #555; margin-bottom: 8px; }
+		.vt-empty p { font-size: 13px; color: #999; margin-bottom: 24px; }
+		.vt-empty a { display: inline-block; padding: 12px 32px; background: #111; color: #fff; border-radius: 99px; font-size: 14px; font-weight: 500; transition: all 0.3s; }
+		.vt-empty a:hover { background: #333; }
 
-/* === WC NOTICES === */
-.woocommerce-notices-wrapper { margin-bottom: 24px; }
-.woocommerce-notices-wrapper .woocommerce-message,
-.woocommerce-notices-wrapper .woocommerce-error,
-.woocommerce-notices-wrapper .woocommerce-info { padding: 12px 16px; border-radius: 8px; margin-bottom: 8px; font-size: 14px; }
-.woocommerce-notices-wrapper .woocommerce-message { background: #f0fff4; border: 1px solid #ccffe0; color: #006600; }
-.woocommerce-notices-wrapper .woocommerce-error { background: #fff5f5; border: 1px solid #ffcccc; color: #cc0000; list-style: none; }
-.woocommerce-notices-wrapper .woocommerce-info { background: #f0f7ff; border: 1px solid #cce0ff; color: #0066cc; }
+		/* === WC FORMS === */
+		.vt-fm .form-row { margin-bottom: 20px; }
+		.vt-fm label { display: block; font-size: 13px; font-weight: 500; color: #333; margin-bottom: 6px; }
+		.vt-fm input, .vt-fm select, .vt-fm textarea {
+			width: 100%; padding: 12px 16px; border: 1.5px solid #e8e8e8;
+			border-radius: 10px; font-size: 14px; font-family: 'Poppins', sans-serif;
+			color: #111; background: #fafafa; transition: all 0.3s; outline: none;
+		}
+		.vt-fm input:focus, .vt-fm select:focus, .vt-fm textarea:focus {
+			border-color: #111; background: #fff; box-shadow: 0 0 0 3px rgba(17,17,17,0.04);
+		}
+		.vt-fm .form-row-half { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+		.vt-fm .button {
+			display: inline-block; padding: 13px 36px; background: #111; color: #fff;
+			border: none; border-radius: 99px; font-size: 14px; font-weight: 600;
+			font-family: 'Poppins', sans-serif; cursor: pointer; transition: all 0.3s;
+			text-transform: uppercase; letter-spacing: 0.5px;
+		}
+		.vt-fm .button:hover { background: #333; transform: translateY(-1px); }
+		.vt-fm .woocommerce-message { background: #e8f5e9; border: 1px solid #c8e6c9; color: #2e7d32; padding: 12px 16px; border-radius: 10px; font-size: 13px; margin-bottom: 20px; }
+		.vt-fm .woocommerce-error { background: #fff5f5; border: 1px solid #ffcccc; color: #cc0000; padding: 12px 16px; border-radius: 10px; font-size: 13px; margin-bottom: 20px; }
+		.vt-fm .woocommerce-info { background: #e3f2fd; border: 1px solid #bbdefb; color: #1565c0; padding: 12px 16px; border-radius: 10px; font-size: 13px; margin-bottom: 20px; }
+		.vt-fm ul { list-style: none; padding: 0; }
+		.vt-fm ul li { padding: 6px 0; font-size: 14px; }
 
-/* === FOOTER === */
-.vt-footer { background: #111; color: #fff; padding: 64px 0 0; }
-.vt-footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 48px; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-.vt-footer h4 { font-size: 16px; font-weight: 600; margin-bottom: 20px; }
-.vt-footer p { font-size: 14px; color: #999; line-height: 1.6; margin-bottom: 16px; }
-.vt-footer a { color: #999; font-size: 14px; transition: color 0.2s; }
-.vt-footer a:hover { color: #fff; }
-.vt-footer-links { display: flex; flex-direction: column; gap: 10px; }
-.vt-footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 24px 0; margin-top: 48px; text-align: center; font-size: 13px; color: #666; }
+		/* === FOOTER === */
+		.vt-ft { background: #111; color: #999; padding: 32px 40px; text-align: center; font-size: 13px; margin-top: auto; }
+		.vt-ft a { color: #ccc; text-decoration: none; }
+		.vt-ft a:hover { color: #fff; }
 
-/* === RESPONSIVE === */
-@media (max-width: 991px) {
-	.vt-account-grid { grid-template-columns: 1fr; }
-	.vt-account-nav { position: static; }
-	.vt-dashboard-grid { grid-template-columns: 1fr 1fr; }
-	.vt-nav { display: none; }
-	.vt-auth-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 575px) {
-	.vt-dashboard-grid { grid-template-columns: 1fr; }
-	.vt-header-inner { padding: 0 16px; height: 60px; }
-	.vt-footer-grid { grid-template-columns: 1fr; gap: 32px; }
-}
-</style>
+		/* === RESPONSIVE === */
+		@media (max-width: 900px) {
+			.vt-wrap { grid-template-columns: 1fr; padding: 24px 20px 60px; }
+			.vt-acts { grid-template-columns: 1fr; }
+			.vt-fm .form-row-half { grid-template-columns: 1fr; }
+		}
+		@media (max-width: 576px) {
+			.vt-hdr-in { padding: 12px 20px; }
+			.vt-ban { padding: 16px 20px; }
+			.vt-wel, .vt-sec, .vt-prof { padding: 24px 20px; }
+			.vt-nav-i { padding: 12px 16px; }
+		}
+	</style>
 </head>
-<body <?php body_class( 'woocommerce-account woocommerce-myaccount' ); ?>>
+<body>
 <?php wp_body_open(); ?>
 
-<!-- HEADER -->
-<header class="vt-header">
-	<div class="vt-header-inner">
-		<a href="<?php echo esc_url( $site_url ); ?>" class="vt-logo">AUREON</a>
+<?php
+if ( function_exists( 'vineta_render_standalone_header' ) ) {
+	vineta_render_standalone_header();
+} else {
+?>
+<header class="vt-hdr">
+	<div class="vt-hdr-in">
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="vt-logo">
+			<?php $logo_url = function_exists( 'aether_logo_url' ) ? aether_logo_url() : '';
+			if ( $logo_url ) : ?>
+				<img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php bloginfo( 'name' ); ?>">
+			<?php else : ?>
+				<span class="vt-logo-t"><?php bloginfo( 'name' ); ?></span>
+			<?php endif; ?>
+		</a>
 		<nav class="vt-nav">
-			<?php foreach ( $menu_items as $item ) : ?>
-				<a href="<?php echo esc_url( $item->url ); ?>"><?php echo esc_html( $item->title ); ?></a>
-			<?php endforeach; ?>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
+			<a href="<?php echo esc_url( $dashboard_url ); ?>" style="color:#111;font-weight:600;">My Account</a>
+			<a href="<?php echo esc_url( $logout_url ); ?>">Log Out</a>
 		</nav>
-		<div class="vt-header-actions">
-			<a href="<?php echo esc_url( $account_url ); ?>"><i class="far fa-user"></i></a>
-			<a href="<?php echo esc_url( $cart_url ); ?>">
-				<i class="fas fa-shopping-bag"></i>
-				<?php if ( $cart_count > 0 ) : ?>
-					<span class="vt-cart-badge"><?php echo esc_html( $cart_count ); ?></span>
-				<?php endif; ?>
-			</a>
-		</div>
 	</div>
 </header>
+<?php } ?>
 
-<!-- PAGE TITLE -->
-<div class="vt-page-title">
-	<h1><?php esc_html_e( 'My Account', 'woocommerce' ); ?></h1>
-	<div class="vt-breadcrumb">
-		<a href="<?php echo esc_url( $site_url ); ?>"><?php esc_html_e( 'Home', 'woocommerce' ); ?></a>
-		<span>/</span>
-		<strong><?php esc_html_e( 'My Account', 'woocommerce' ); ?></strong>
+<div class="vt-ban">
+	<div class="vt-ban-in">
+		<h1>My Account</h1>
+		<div class="vt-crumb"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a> &nbsp;/&nbsp; My Account</div>
 	</div>
 </div>
 
-<?php do_action( 'woocommerce_before_my_account' ); ?>
-<?php wc_print_notices(); ?>
-
-<?php if ( $is_logged_in ) : ?>
-
-	<!-- LOGGED IN -->
-	<section class="vt-account-section">
-		<div class="vt-account-grid">
-			<!-- SIDEBAR -->
-			<nav class="vt-account-nav">
-				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'dashboard' ) ); ?>" class="<?php echo ( '' === $endpoint || 'dashboard' === $endpoint ) ? 'active' : ''; ?>">
-					<i class="fas fa-th-large"></i> <?php esc_html_e( 'Dashboard', 'woocommerce' ); ?>
-				</a>
-				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'orders' ) ); ?>" class="<?php echo ( 'orders' === $endpoint ) ? 'active' : ''; ?>">
-					<i class="fas fa-box"></i> <?php esc_html_e( 'Orders', 'woocommerce' ); ?>
-				</a>
-				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'downloads' ) ); ?>" class="<?php echo ( 'downloads' === $endpoint ) ? 'active' : ''; ?>">
-					<i class="fas fa-download"></i> <?php esc_html_e( 'Downloads', 'woocommerce' ); ?>
-				</a>
-				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-address' ) ); ?>" class="<?php echo ( 'edit-address' === $endpoint || 'edit-account' === $endpoint ) ? 'active' : ''; ?>">
-					<i class="fas fa-map-marker-alt"></i> <?php esc_html_e( 'Addresses', 'woocommerce' ); ?>
-				</a>
-				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'edit-account' ) ); ?>" class="<?php echo ( 'edit-account' === $endpoint ) ? 'active' : ''; ?>">
-					<i class="fas fa-user-cog"></i> <?php esc_html_e( 'Account Details', 'woocommerce' ); ?>
-				</a>
-				<a href="<?php echo esc_url( wc_get_account_endpoint_url( 'customer-logout' ) ); ?>">
-					<i class="fas fa-sign-out-alt"></i> <?php esc_html_e( 'Logout', 'woocommerce' ); ?>
-				</a>
-			</nav>
-
-			<!-- CONTENT -->
-			<div>
-				<?php wc_account_content(); ?>
-			</div>
-		</div>
-	</section>
-
-<?php else : ?>
-
-	<!-- LOGGED OUT -->
-	<section class="vt-account-section">
-		<div class="vt-auth-grid">
-			<!-- LOGIN -->
-			<div class="vt-form-card">
-				<h2><?php esc_html_e( 'Login', 'woocommerce' ); ?></h2>
-				<form class="woocommerce-form-login" method="post">
-					<?php do_action( 'woocommerce_login_form_start' ); ?>
-					<div class="vt-field">
-						<label for="username"><?php esc_html_e( 'Email address', 'woocommerce' ); ?> <span style="color:#cc0000;">*</span></label>
-						<input type="text" class="woocommerce-Input" name="username" id="username" autocomplete="username" value="<?php echo esc_attr( ! empty( $_POST['username'] ) ? wp_unslash( $_POST['username'] ) : '' ); // phpcs:ignore ?>">
-					</div>
-					<div class="vt-field">
-						<label for="password"><?php esc_html_e( 'Password', 'woocommerce' ); ?> <span style="color:#cc0000;">*</span></label>
-						<input class="woocommerce-Input" type="password" name="password" id="password" autocomplete="current-password">
-					</div>
-					<?php do_action( 'woocommerce_login_form' ); ?>
-					<div class="vt-form-check">
-						<input type="checkbox" name="rememberme" id="rememberme" value="forever" checked>
-						<label for="rememberme"><?php esc_html_e( 'Remember me', 'woocommerce' ); ?></label>
-					</div>
-					<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
-					<button type="submit" class="vt-btn-primary" name="login" value="<?php esc_attr_e( 'Login', 'woocommerce' ); ?>"><?php esc_html_e( 'Login', 'woocommerce' ); ?></button>
-					<div class="vt-form-links">
-						<a href="<?php echo esc_url( wc_lostpassword_url() ); ?>"><?php esc_html_e( 'Lost your password?', 'woocommerce' ); ?></a>
-					</div>
-					<?php do_action( 'woocommerce_login_form_end' ); ?>
-				</form>
-			</div>
-
-			<!-- REGISTER -->
-			<?php if ( $register_enabled ) : ?>
-				<div class="vt-form-card">
-					<h2><?php esc_html_e( 'Register', 'woocommerce' ); ?></h2>
-					<form method="post" class="woocommerce-form-register">
-						<?php do_action( 'woocommerce_register_form_start' ); ?>
-						<div class="vt-field">
-							<label for="reg_email"><?php esc_html_e( 'Email address', 'woocommerce' ); ?> <span style="color:#cc0000;">*</span></label>
-							<input type="email" class="woocommerce-Input" name="email" id="reg_email" value="<?php echo esc_attr( ! empty( $_POST['email'] ) ? wp_unslash( $_POST['email'] ) : '' ); // phpcs:ignore ?>" autocomplete="email">
-						</div>
-						<div class="vt-field">
-							<label for="reg_password"><?php esc_html_e( 'Password', 'woocommerce' ); ?> <span style="color:#cc0000;">*</span></label>
-							<input type="password" class="woocommerce-Input" name="password" id="reg_password" autocomplete="new-password">
-						</div>
-						<?php do_action( 'woocommerce_register_form' ); ?>
-						<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-						<button type="submit" class="vt-btn-primary" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
-						<?php do_action( 'woocommerce_register_form_end' ); ?>
-					</form>
-				</div>
+<div class="vt-wrap">
+	<aside class="vt-side">
+		<div class="vt-prof">
+			<?php if ( $avatar_url ) : ?>
+				<img src="<?php echo esc_url( $avatar_url ); ?>" alt="<?php echo esc_attr( $display_name ); ?>" class="vt-avatar">
 			<?php else : ?>
-				<div class="vt-form-card">
-					<h2><?php esc_html_e( 'Register', 'woocommerce' ); ?></h2>
-					<div class="vt-empty-state">
-						<p><?php esc_html_e( 'Registration is currently disabled.', 'woocommerce' ); ?></p>
-					</div>
-				</div>
+				<div class="vt-avatar-fb"><?php echo esc_html( strtoupper( mb_substr( $display_name, 0, 1 ) ) ); ?></div>
 			<?php endif; ?>
-		</div>
-	</section>
-
-<?php endif; ?>
-
-<!-- FOOTER -->
-<footer class="vt-footer">
-	<div class="vt-footer-grid">
-		<div>
-			<h4>AUREON</h4>
-			<p><?php esc_html_e( 'Premium fashion and lifestyle store. Curated collections for the modern wardrobe.', 'woocommerce' ); ?></p>
-		</div>
-		<div>
-			<h4><?php esc_html_e( 'Quick Links', 'woocommerce' ); ?></h4>
-			<div class="vt-footer-links">
-				<a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Shop', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/about-us/' ) ); ?>"><?php esc_html_e( 'About Us', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/contact-us/' ) ); ?>"><?php esc_html_e( 'Contact', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>"><?php esc_html_e( 'FAQ', 'woocommerce' ); ?></a>
+			<div class="vt-uname"><?php echo esc_html( $display_name ); ?></div>
+			<div class="vt-uemail"><?php echo esc_html( $email ); ?></div>
+			<div class="vt-stats">
+				<div class="vt-stat">
+					<div class="vt-stat-n"><?php echo esc_html( $orders_count ); ?></div>
+					<div class="vt-stat-l">Orders</div>
+				</div>
+				<div class="vt-stat">
+					<div class="vt-stat-n"><?php echo esc_html( $address_count ); ?></div>
+					<div class="vt-stat-l">Addresses</div>
+				</div>
 			</div>
 		</div>
-		<div>
-			<h4><?php esc_html_e( 'Policies', 'woocommerce' ); ?></h4>
-			<div class="vt-footer-links">
-				<a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>"><?php esc_html_e( 'Shipping', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/term-and-condition/' ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/return-and-refund/' ) ); ?>"><?php esc_html_e( 'Returns & Refunds', 'woocommerce' ); ?></a>
+
+		<nav class="vt-nav-box">
+			<a href="<?php echo esc_url( $dashboard_url ); ?>" class="vt-nav-i <?php echo empty( $endpoint ) ? 'on' : ''; ?>">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+				Dashboard
+			</a>
+			<a href="<?php echo esc_url( $orders_url ); ?>" class="vt-nav-i <?php echo 'orders' === $endpoint ? 'on' : ''; ?>">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+				Orders
+			</a>
+			<a href="<?php echo esc_url( $address_url ); ?>" class="vt-nav-i <?php echo 'edit-address' === $endpoint ? 'on' : ''; ?>">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+				Addresses
+			</a>
+			<a href="<?php echo esc_url( $details_url ); ?>" class="vt-nav-i <?php echo 'edit-account' === $endpoint ? 'on' : ''; ?>">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+				Account Details
+			</a>
+			<a href="<?php echo esc_url( $logout_url ); ?>" class="vt-nav-i">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+				Log Out
+			</a>
+		</nav>
+	</aside>
+
+	<main class="vt-main">
+		<?php if ( empty( $endpoint ) ) : ?>
+			<div class="vt-wel">
+				<h2>Welcome back, <?php echo esc_html( $first_name ); ?>!</h2>
+				<p>From your account dashboard you can view your recent orders, manage your shipping addresses, and update your account details.</p>
 			</div>
-		</div>
-	</div>
-	<div class="vt-footer-bottom">
-		&copy; <?php echo esc_html( date( 'Y' ) ); ?> AUREON. <?php esc_html_e( 'All rights reserved.', 'woocommerce' ); ?>
-	</div>
-</footer>
+			<div class="vt-acts">
+				<a href="<?php echo esc_url( $orders_url ); ?>" class="vt-act">
+					<div class="vt-act-ic crl">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+					</div>
+					<h3>Orders</h3>
+					<p>View and track your recent orders</p>
+				</a>
+				<a href="<?php echo esc_url( $address_url ); ?>" class="vt-act">
+					<div class="vt-act-ic drk">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+					</div>
+					<h3>Addresses</h3>
+					<p>Manage your shipping & billing</p>
+				</a>
+				<a href="<?php echo esc_url( $details_url ); ?>" class="vt-act">
+					<div class="vt-act-ic mtd">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+					</div>
+					<h3>Account Details</h3>
+					<p>Update your personal information</p>
+				</a>
+			</div>
+
+		<?php elseif ( 'view-order' === $endpoint ) : ?>
+			<div class="vt-sec">
+				<h2>Order Details</h2>
+				<?php if ( function_exists( 'woocommerce_account_content' ) ) { woocommerce_account_content(); } ?>
+			</div>
+
+		<?php elseif ( 'edit-address' === $endpoint || 'edit-account' === $endpoint || 'customer-logout' === $endpoint || 'lost-password' === $endpoint ) : ?>
+			<div class="vt-sec vt-fm">
+				<?php if ( function_exists( 'woocommerce_account_content' ) ) { woocommerce_account_content(); } ?>
+			</div>
+
+		<?php elseif ( 'orders' === $endpoint ) : ?>
+			<div class="vt-sec">
+				<h2>Your Orders</h2>
+				<?php if ( function_exists( 'woocommerce_account_content' ) ) { woocommerce_account_content(); } ?>
+			</div>
+
+		<?php elseif ( 'downloads' === $endpoint ) : ?>
+			<div class="vt-sec">
+				<h2>Your Downloads</h2>
+				<?php if ( function_exists( 'woocommerce_account_content' ) ) { woocommerce_account_content(); } ?>
+			</div>
+
+		<?php else : ?>
+			<div class="vt-sec vt-fm">
+				<?php if ( function_exists( 'woocommerce_account_content' ) ) { woocommerce_account_content(); } ?>
+			</div>
+		<?php endif; ?>
+	</main>
+</div>
 
 <?php
-if ( function_exists( 'WC' ) ) {
-	wp_enqueue_script( 'wc-account', WC()->plugin_url() . '/assets/js/frontend/account' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min' ) . '.js', array( 'jquery' ), WC()->version, true );
-	wp_print_scripts( array( 'wc-account' ) );
-}
+if ( function_exists( 'vineta_get_frozen_footer' ) ) {
+	echo vineta_get_frozen_footer();
+} else {
 ?>
+<footer class="vt-ft">
+	&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. All rights reserved.
+	&nbsp;&middot;&nbsp;
+	<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy Policy</a>
+	&nbsp;&middot;&nbsp;
+	<a href="<?php echo esc_url( home_url( '/terms-and-conditions/' ) ); ?>">Terms of Service</a>
+</footer>
+<?php } ?>
+
+<?php if ( $pack_url ) : ?>
+<script src="<?php echo esc_url( $pack_url ); ?>js/bootstrap.min.js"></script>
+<script src="<?php echo esc_url( $pack_url ); ?>js/main.js"></script>
+<?php endif; ?>
 </body>
 </html>
+<?php
+	return;
+}
+
+/*
+ * Logged out, no ?auth param → redirect to ?auth=login
+ */
+wp_safe_redirect( add_query_arg( 'auth', 'login', get_permalink( wc_get_page_id( 'myaccount' ) ) ) );
+exit;
