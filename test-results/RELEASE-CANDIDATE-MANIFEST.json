@@ -1,10 +1,10 @@
 {
-    "release_candidate": "AUREON-VINETA-RC-2026-09-06",
+    "release_candidate": "AUREON-VINETA-RC-2026-09-06-r3",
     "generated": "2026-09-06",
     "canonical_tree": "AUREON-WORDPRESS-DEPLOY",
     "git": {
         "branch": "master",
-        "commit": "1289995",
+        "commit": "6c3c7a0",
         "commit_message": "docs: final-plan revalidation, future-edit contract, production report",
         "pristine_check": "working tree clean at manifest time (untracked helper dirs excluded)"
     },
@@ -46,14 +46,14 @@
         }
     ],
     "scope": {
-        "file_count": 1972,
+        "file_count": 2036,
         "excluded_from_hash": [
             "*.zip archives",
             ".serena/ cache"
         ],
         "hash_manifest": "test-results/release-candidate-sha256.txt",
-        "hash_manifest_sha256": "e3570bde718412dff661df36625674e6600fe90b9644620a467b46b4d1561f60",
-        "note": "Manifest regenerated 2026-09-06 (robust -print0 pipeline) after discovering the original 1964-file manifest silently dropped 8 files whose paths contain spaces/unicode. 1972 = exact tree at commit 1289995."
+        "hash_manifest_sha256": "d72118c8cccc13716ecf50fbae1e331010663b882cf3235c8b470ce1f570be63",
+        "note": "r3 (2026-09-06, commit 6c3c7a0): regenerated after final local validation (V-01..V-08) over the git-tracked shipping tree only — 2036 files, reproducible from any clone. r2 delta: checkout form fixes (9874eb4), snapchat icon fix, composer/ferm image-path absolutization, hidden homepage H1."
     },
     "verification_at_build_time": {
         "php_lint": "ALL PHP files in themes/aureon + frontend lint clean (php 8.2.31 CLI)",
@@ -62,11 +62,11 @@
         "stale_trees": "UNTOUCHED (aureon/ 142-file drift, theme/, frontend/ — frozen)"
     },
     "gates": {
-        "local_regression_full": "BLOCKED-B1 (no WordPress runtime in environment; static gates only)",
+        "local_regression_full": "PASS (2026-09-06 local Docker runtime: orders E2E, Customizer/menu round-trips, browser QA — see docs/forensics/FINAL-VALIDATION-ADDENDUM.md)",
         "production_deploy": "BLOCKED-B1",
         "production_smoke": "BLOCKED-B1",
         "mail": "BLOCKED-B1",
         "payment_sandbox": "BLOCKED-B1"
     },
-    "rule": "This manifest represents the exact tested canonical tree at commit c97552d. Static verification evidence attached. Runtime gates remain honestly BLOCKED until a runtime is provided (QUESTIONS.md Q1)."
+    "rule": "This manifest represents the exact tested canonical tree at commit 6c3c7a0 (RC-2026-09-06-r3). Local runtime gates executed and passed; production gates remain honestly BLOCKED (staging host, SMTP, payment sandbox)."
 }
