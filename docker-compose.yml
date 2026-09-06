@@ -1,0 +1,63 @@
+# AUREON / Vineta — local runtime (reconstructed 2026-09-06)
+# Engine binds now point at the CANONICAL release-candidate tree
+# (AUREON-WORDPRESS-DEPLOY), not the stale aureon/ archive tree.
+# Named volumes are reused as-is, so the database, uploads and
+# plugin files survive recreation untouched.
+services:
+  db:
+    image: mysql:8.0
+    container_name: wordpress-db-1
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - wordpress_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress-wordpress-1
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_wp_data:/var/www/html
+      # --- CANONICAL RC ENGINE BINDS (AUREON-WORDPRESS-DEPLOY) ---
+      - ./AUREON-WORDPRESS-DEPLOY/frontend:/var/www/html/wp-content/frontend
+      - ./AUREON-WORDPRESS-DEPLOY/plugins/aureon-studio:/var/www/html/wp-content/plugins/aureon-studio
+      - ./AUREON-WORDPRESS-DEPLOY/themes/aureon:/var/www/html/wp-content/themes/aureon
+      - ./AUREON-WORDPRESS-DEPLOY/themes/aureon/ferm-page.php:/var/www/html/wp-content/themes/aureon/ferm-page.php
+      - ./AUREON-WORDPRESS-DEPLOY/mu-plugins:/var/www/html/wp-content/mu-plugins
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: wordpress-phpmyadmin-1
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: "3306"
+
+volumes:
+  wordpress_wp_data:
+    external: true
+  wordpress_db_data:
+    external: true
