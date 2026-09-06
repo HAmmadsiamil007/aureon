@@ -4,8 +4,8 @@
   "canonical_tree": "AUREON-WORDPRESS-DEPLOY",
   "git": {
     "branch": "master",
-    "commit": "c97552d",
-    "commit_message": "fix: demo auto-mode, 404 fallback, single VinetaPageData injection + contract tests",
+    "commit": "4f48ea0",
+    "commit_message": "docs: preflight, revalidation, acceptance matrix, RC manifest, readiness report",
     "pristine_check": "working tree clean at manifest time (untracked helper dirs excluded)"
   },
   "fixes_included": [
@@ -14,7 +14,8 @@
     {"id": "T-11", "commit": "c97552d", "summary": "demo 'auto' mode no longer stubbed to always-true; falls back to demo only when catalog empty"},
     {"id": "T-12", "commit": "c97552d", "summary": "404 fallback now serves pack 404.html (legacy pages/contact.html retained as last resort)"},
     {"id": "T-14", "commit": "c97552d", "summary": "VinetaPageData injected exactly once (wp_head 5); double wp_localize_script injection removed"},
-    {"id": "T-15", "commit": "c97552d", "summary": "tests/contract-tests.cjs — 57-check selector contract suite, exit 0"}
+    {"id": "T-15", "commit": "c97552d", "summary": "tests/contract-tests.cjs — 57-check selector contract suite, exit 0"},
+    {"id": "FINAL-PHASE", "commit": null, "summary": "Final-plan Phases 1-2/22/33-34 executed: historical-issue recheck (3 pre-resolved, 1 stale), core-integrity diff classification (CORE zero changes), future-edit contract ratified, final production report issued (verdict BLOCKED-B1)"}
   ],
   "scope": {
     "file_count": 1964,
