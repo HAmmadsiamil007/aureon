@@ -2822,6 +2822,15 @@ function vineta_render_standalone_header() {
 			'$1' . $pack_url . '$2',
 			$header_html
 		);
+		// Rewrite relative pack-asset paths (images/) to absolute pack URLs.
+		// Pack-relative paths resolve against the site root, not the pack
+		// directory, so the logo (and any other images/ asset in the extracted
+		// header) 404s on every route unless absolutized server-side.
+		$header_html = preg_replace(
+			'/(<img\s[^>]*src\s*=\s*["\x27])((?:\.\/)?images\/)/i',
+			'$1' . $pack_url . '$2',
+			$header_html
+		);
 	}
 
 	// Rewrite navigation links: Shopify → WordPress
