@@ -44,6 +44,7 @@ if ( ! $is_logged_in && 'register' === $auth_param ) {
  * Logged-in → styled My Account dashboard
  */
 if ( $is_logged_in ) {
+	show_admin_bar( false );
 	$user           = wp_get_current_user();
 	$display_name   = $user->display_name ?: $user->user_login;
 	$email          = $user->user_email;
@@ -76,6 +77,15 @@ if ( $is_logged_in ) {
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php esc_html_e( 'My Account', 'aureon' ); ?> &mdash; <?php bloginfo( 'name' ); ?></title>
+	<?php $pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
+	if ( $pack_url ) : ?>
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/bootstrap.min.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/swiper-bundle.min.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/animate.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/styles.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>fonts/fonts.css">
+	<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>fonts/font-icons.css">
+	<?php endif; ?>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 	<style>
@@ -254,7 +264,13 @@ if ( $is_logged_in ) {
 	</style>
 </head>
 <body>
+<?php wp_body_open(); ?>
 
+<?php
+if ( function_exists( 'vineta_render_standalone_header' ) ) {
+	vineta_render_standalone_header();
+} else {
+?>
 <header class="vt-hdr">
 	<div class="vt-hdr-in">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="vt-logo">
@@ -272,6 +288,7 @@ if ( $is_logged_in ) {
 		</nav>
 	</div>
 </header>
+<?php } ?>
 
 <div class="vt-ban">
 	<div class="vt-ban-in">
@@ -387,6 +404,11 @@ if ( $is_logged_in ) {
 	</main>
 </div>
 
+<?php
+if ( function_exists( 'vineta_get_frozen_footer' ) ) {
+	echo vineta_get_frozen_footer();
+} else {
+?>
 <footer class="vt-ft">
 	&copy; <?php echo esc_html( date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. All rights reserved.
 	&nbsp;&middot;&nbsp;
@@ -394,7 +416,12 @@ if ( $is_logged_in ) {
 	&nbsp;&middot;&nbsp;
 	<a href="<?php echo esc_url( home_url( '/terms-and-conditions/' ) ); ?>">Terms of Service</a>
 </footer>
+<?php } ?>
 
+<?php if ( $pack_url ) : ?>
+<script src="<?php echo esc_url( $pack_url ); ?>js/bootstrap.min.js"></script>
+<script src="<?php echo esc_url( $pack_url ); ?>js/main.js"></script>
+<?php endif; ?>
 </body>
 </html>
 <?php
