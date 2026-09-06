@@ -1,0 +1,26 @@
+{
+    "assets": {
+        "logo": {
+            "src": "images/logo/logo.svg",
+            "alt": "Vineta"
+        },
+        "heading": {
+            "text": ""
+        },
+        "hero": {
+            "image": "images/slider/fashion/slider-fashion-1.jpg",
+            "headline": "Discover Your Style",
+            "subline": "New arrivals for the modern lifestyle",
+            "accent": "Shop Now",
+            "badge": "",
+            "primary_cta": {
+                "label": "Shop Now",
+                "url": "#"
+            },
+            "secondary_cta": {
+                "label": "Explore",
+                "url": "#"
+            }
+        }
+    }
+}

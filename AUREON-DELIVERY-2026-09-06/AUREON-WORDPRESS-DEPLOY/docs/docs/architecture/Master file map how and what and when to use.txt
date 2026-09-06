@@ -1,0 +1,322 @@
+Yes. I went back through the documentation set and the workflow we established. The most important thing is that **different documents have different jobs**. You should not give the CLI every `.md` file every time.
+
+Your architecture documentation explicitly separates the Core, Client Frontend, and Bridge responsibilities: Core owns data/business/WordPress/WooCommerce/security/routing; the client owns HTML/CSS/JS/presentation; the bridge translates between them. 
+
+Also, your earlier questions document identifies the template-creation decisions around source inventory, route mapping, bridge requirements, testing, and reusable templates. 
+
+## Master file map
+
+| File                                             | Main purpose                                                          | When to use                                           | What CLI should do with it                                             | Give to CLI?                             |
+| ------------------------------------------------ | --------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------- |
+| `00-START-HERE.md`                               | Entry-point instructions                                              | **Every template task**                               | Read first; establishes mission, rules, scope                          | **YES — first**                          |
+| `CLIENT-FRONTEND-CAPABILITY-CONTRACT.md`         | Defines what every frontend must support and what Core/Bridge provide | Template creation, bridge mapping, replacement, edits | Treat as **contract/acceptance authority**                             | **YES — always**                         |
+| `GOLDEN-AUREON-PRODUCTIZED-WORKFLOW.md`          | Complete lifecycle: create → audit → replace → edit → test            | Any new client project                                | Follow the workflow in order                                           | **YES — always for major work**          |
+| `NEW-CLIENT-TEMPLATE-CREATION-PLAN.md`           | Detailed raw frontend/template preparation                            | **Creating a new frontend template**                  | Use for source audit, cleanup, template readiness                      | **YES — template creation**              |
+| `FRONTEND-REPLACEMENT-PLAN.md`                   | Replace current frontend without breaking platform features           | **When template is ready**                            | Archive old pack, install new pack, activate, isolate, regression test | **YES — replacement**                    |
+| `FRONTEND-EDIT-PLAN.md`                          | Safely modify an existing client frontend                             | Minor/major frontend changes                          | Snapshot → edit → contract diff → regression                           | **YES — edits**                          |
+| `DEMO-REFERENCE-CONTENT-SYSTEM.md`               | Demo/fallback behavior                                                | Demo system work                                      | Understand demo → real → demo rules                                    | **YES — when demo involved**             |
+| `DEMO-REFERENCE-SYSTEM-IMPLEMENTATION-PLAN.md`   | Implementation details for demo system                                | Modifying/implementing demo                           | Use for demo architecture, not general template creation               | **ONLY when demo work**                  |
+| `DIRECTORY-STRUCTURE.md`                         | Where Core/client/pack files belong                                   | Creating/installing client pack                       | Follow canonical folder layout                                         | **YES — setup/integration**              |
+| `FERM-TEMPLATE-CONTRACT.md`                      | Ferm-specific template contract from earlier work                     | Ferm template reference                               | Use as historical/client-specific contract                             | **YES for Ferm work**                    |
+| `FERM-JS-COMPATIBILITY-MAP.md`                   | Maps Ferm JS behavior and dependencies                                | Ferm integration/bridge                               | Understand existing JS hooks/behavior                                  | **YES for Ferm integration**             |
+| `FERM-TEMPLATE-READY-REPORT.md`                  | Previous Ferm template readiness evidence                             | Verification/reference                                | Compare current state to prior baseline                                | **OPTIONAL**                             |
+| `reports/00-CORE-REPORT-INDEX.md`                | Index of Core forensic reports                                        | Deep Core investigation                               | Find the right Core report                                             | **WHEN investigating Core**              |
+| `reports/12-WOOCOMMERCE-ARCHITECTURE.md`         | WooCommerce architecture                                              | Product/cart/commerce integration                     | Understand WC layer                                                    | **Bridge/replacement work**              |
+| `reports/13-PRODUCT-AND-VARIATION-CONTRACT.md`   | Product/variation contract                                            | Product/variable product mapping                      | Map frontend slots to WC data                                          | **Bridge/replacement work**              |
+| `reports/14-CART-CHECKOUT-ACCOUNT-CONTRACT.md`   | Commerce/account contracts                                            | Cart, checkout, login                                 | Map those features safely                                              | **Bridge/replacement work**              |
+| `reports/15-MENU-ARCHITECTURE.md`                | Menu system                                                           | Header/footer/menu integration                        | Preserve WP menu capability                                            | **Bridge/replacement work**              |
+| `reports/16-SEARCH-ARCHITECTURE.md`              | Search contract                                                       | Search integration                                    | Map search UI to platform                                              | **Bridge/replacement work**              |
+| `reports/17-CUSTOMIZER-ARCHITECTURE.md`          | Customizer architecture                                               | Customizer integration                                | Map frontend slots                                                     | **Bridge/replacement work**              |
+| `reports/18-CUSTOMIZER-SETTING-CATALOG.md`       | Detailed Customizer settings                                          | Customizer mapping                                    | Determine supported settings                                           | **Bridge/replacement work**              |
+| `reports/19-DEMO-CONTENT-AND-FALLBACK.md`        | Core demo/fallback contract                                           | Demo integration                                      | Understand fallback hierarchy                                          | **Demo/replacement**                     |
+| `reports/20-DATA-AND-FERMPAGEDATA-CONTRACT.md`   | Normalized data bridge                                                | Data mapping                                          | Understand `FermPageData` contract                                     | **Bridge/replacement**                   |
+| `reports/21-BRIDGE-API-CONTRACT.md`              | Bridge API                                                            | Frontend integration                                  | Implement/map bridge endpoints                                         | **Bridge/replacement**                   |
+| `reports/22-AJAX-REST-AND-ENDPOINTS.md`          | AJAX/REST endpoints                                                   | Cart/search/forms/etc.                                | Map UI actions to backend                                              | **Bridge/replacement**                   |
+| `reports/23-SECURITY-ARCHITECTURE.md`            | Security rules                                                        | Any integration/edit                                  | Preserve nonce/auth/security                                           | **YES for integration**                  |
+| `reports/24-MEDIA-AND-ASSET-CONTRACT.md`         | Media/image rules                                                     | Asset integration                                     | Map image slots/fallbacks                                              | **YES for integration**                  |
+| `reports/25-PERFORMANCE-ARCHITECTURE.md`         | Performance                                                           | Template/replacement QA                               | Keep client pack lightweight                                           | **YES for performance QA**               |
+| `reports/26-CLIENT-PACK-ARCHITECTURE.md`         | Client pack structure                                                 | Template/replacement                                  | Understand pack boundaries                                             | **YES**                                  |
+| `reports/27-ACTIVE-PACK-ISOLATION.md`            | Client isolation                                                      | Replacement/testing                                   | Ensure old client assets disappear                                     | **YES for replacement**                  |
+| `reports/28-CORE-EXTENSION-CONTRACT.md`          | When Core may be extended                                             | Proposed Core changes                                 | Apply strict generic-defect test                                       | **ONLY if Core issue appears**           |
+| `reports/29-HOOK-FILTER-ACTION-CATALOG.md`       | Available WP hooks                                                    | Bridge/Core extension                                 | Find extension points before editing                                   | **When needed**                          |
+| `reports/30-DEPENDENCY-MATRIX.md`                | Dependencies                                                          | Integration/debugging                                 | Understand dependencies                                                | **When needed**                          |
+| `reports/31-FEATURE-CATALOG.md`                  | Full platform feature list                                            | Replacement/acceptance                                | Ensure no feature is lost                                              | **YES for full replacement QA**          |
+| `reports/32-CLIENT-INTEGRATION-REQUIREMENTS.md`  | Client integration rules                                              | Bridge/replacement                                    | Check required integrations                                            | **YES**                                  |
+| `reports/33-FRONTEND-COMPATIBILITY-CHECKLIST.md` | Compatibility checklist                                               | **Before replacement**                                | Run compatibility gate                                                 | **YES — critical**                       |
+| `reports/34-DO-NOT-BREAK-RULES.md`               | Protected behaviors                                                   | Every change                                          | Treat as hard rules                                                    | **YES — always for editing/integration** |
+| `reports/35-CORE-RISKS-AND-BOUNDARIES.md`        | Risk/boundary rules                                                   | Core/client decisions                                 | Avoid architecture mistakes                                            | **YES for major work**                   |
+| `reports/36-RUNTIME-VERIFICATION-MATRIX.md`      | Runtime tests                                                         | Testing                                               | Execute verification matrix                                            | **YES for QA**                           |
+| `reports/37-GOLDEN-CORE-REFERENCE.md`            | Golden Core reference                                                 | Deep architecture/review                              | Identify authoritative Core                                            | **YES for replacement/Core questions**   |
+| `reports/38-DEMO-REFERENCE-SYSTEM-CONTRACT.md`   | Detailed demo contract                                                | Demo integration                                      | Apply demo safety rules                                                | **YES when demo is involved**            |
+| `DEMO-MODES.md`                                  | AUTO/FORCE_DEMO/DISABLED                                              | Demo testing                                          | Know demo mode behavior                                                | **Demo QA**                              |
+| `TRANSITION-TEST-PLAN.md`                        | Demo↔real acceptance                                                  | Demo lifecycle testing                                | Run state transitions                                                  | **YES for transition QA**                |
+| `TRANSITION-TEST-REPORT.md`                      | Previous transition evidence                                          | Reference                                             | Compare previous results                                               | **OPTIONAL**                             |
+| `FERM-RUNTIME-TESTING-CHECKLIST.md`              | Ferm runtime QA                                                       | Ferm final testing                                    | Execute route/image/network/console checks                             | **YES for Ferm QA**                      |
+| `FERM-RUNTIME-ACCEPTANCE-CLARIFICATION.md`       | Clarifies what was actually tested                                    | Audit/reporting                                       | Prevent false PASS claims                                              | **YES for Ferm acceptance**              |
+| `FERM-DEMO-THEME-FINAL-ACCEPTANCE-REPORT.md`     | Previous Ferm acceptance                                              | Historical evidence                                   | Reference previous verified behavior                                   | **OPTIONAL**                             |
+| `FERM-COMPLETE-DEMO-IMAGE-AUDIT.md`              | Ferm image audit                                                      | Demo image work                                       | Validate image references                                              | **When image work**                      |
+| `FERM-COMPLETE-DEMO-DATASET-REPORT.md`           | Demo dataset                                                          | Demo work                                             | Understand dataset                                                     | **When demo work**                       |
+| `INFINITYFREE-DEPLOYMENT-FIX.md`                 | InfinityFree deployment path issue                                    | Hosting/deployment                                    | Use when deploying to InfinityFree                                     | **ONLY InfinityFree work**               |
+| `FERM-WORDPRESS-MENU-INTEGRATION-REPORT.md`      | Ferm menu mapping                                                     | Menu integration                                      | Preserve menu behavior                                                 | **When menu integration**                |
+
+## The simplest way to use the files
+
+### A. When creating a brand-new frontend template
+
+Give OpenCode:
+
+```text
+00-START-HERE.md
+CLIENT-FRONTEND-CAPABILITY-CONTRACT.md
+GOLDEN-AUREON-PRODUCTIZED-WORKFLOW.md
+NEW-CLIENT-TEMPLATE-CREATION-PLAN.md
+DIRECTORY-STRUCTURE.md
+reports/31-FEATURE-CATALOG.md
+reports/33-FRONTEND-COMPATIBILITY-CHECKLIST.md
+reports/34-DO-NOT-BREAK-RULES.md
+```
+
+For your Ferm template, also:
+
+```text
+FERM-TEMPLATE-CONTRACT.md
+FERM-JS-COMPATIBILITY-MAP.md
+```
+
+The source/template workflow explicitly expects route mapping, testing, and capability decisions, so these are the useful inputs rather than the entire historical documentation tree. 
+
+---
+
+### B. When connecting the finished template to Golden AUREON
+
+Give:
+
+```text
+00-START-HERE.md
+CLIENT-FRONTEND-CAPABILITY-CONTRACT.md
+GOLDEN-AUREON-PRODUCTIZED-WORKFLOW.md
+FRONTEND-REPLACEMENT-PLAN.md
+DIRECTORY-STRUCTURE.md
+reports/12-WOOCOMMERCE-ARCHITECTURE.md
+reports/13-PRODUCT-AND-VARIATION-CONTRACT.md
+reports/14-CART-CHECKOUT-ACCOUNT-CONTRACT.md
+reports/15-MENU-ARCHITECTURE.md
+reports/16-SEARCH-ARCHITECTURE.md
+reports/17-CUSTOMIZER-ARCHITECTURE.md
+reports/20-DATA-AND-FERMPAGEDATA-CONTRACT.md
+reports/21-BRIDGE-API-CONTRACT.md
+reports/22-AJAX-REST-AND-ENDPOINTS.md
+reports/23-SECURITY-ARCHITECTURE.md
+reports/24-MEDIA-AND-ASSET-CONTRACT.md
+reports/26-CLIENT-PACK-ARCHITECTURE.md
+reports/27-ACTIVE-PACK-ISOLATION.md
+reports/31-FEATURE-CATALOG.md
+reports/32-CLIENT-INTEGRATION-REQUIREMENTS.md
+reports/33-FRONTEND-COMPATIBILITY-CHECKLIST.md
+reports/34-DO-NOT-BREAK-RULES.md
+reports/36-RUNTIME-VERIFICATION-MATRIX.md
+reports/37-GOLDEN-CORE-REFERENCE.md
+```
+
+That is your **connection pack**.
+
+---
+
+### C. When testing after replacement
+
+Use:
+
+```text
+CLIENT-FRONTEND-CAPABILITY-CONTRACT.md
+reports/31-FEATURE-CATALOG.md
+reports/33-FRONTEND-COMPATIBILITY-CHECKLIST.md
+reports/34-DO-NOT-BREAK-RULES.md
+reports/36-RUNTIME-VERIFICATION-MATRIX.md
+reports/27-ACTIVE-PACK-ISOLATION.md
+```
+
+Then add the client-specific test documents.
+
+Your old QA documentation already establishes desktop/tablet/mobile, browser, network, console, isolation, and security as important acceptance categories. 
+
+---
+
+### D. When editing an existing client frontend
+
+Use:
+
+```text
+00-START-HERE.md
+CLIENT-FRONTEND-CAPABILITY-CONTRACT.md
+FRONTEND-EDIT-PLAN.md
+reports/34-DO-NOT-BREAK-RULES.md
+reports/33-FRONTEND-COMPATIBILITY-CHECKLIST.md
+reports/36-RUNTIME-VERIFICATION-MATRIX.md
+```
+
+And the client's own:
+
+```text
+TEMPLATE-CONTRACT.md
+FEATURE-CAPABILITY-MATRIX.md
+ROUTE-MAP.md
+ASSET-MANIFEST.json
+JS-COMPATIBILITY-MAP.md
+```
+
+---
+
+# The files I would NOT give the CLI by default
+
+Don't dump all 38 reports into every prompt.
+
+Especially avoid automatically giving:
+
+```text
+old screenshots
+old phase reports
+old acceptance reports
+old debugging reports
+historical transition reports
+old raw prompts
+```
+
+unless the current task needs them.
+
+The goal is:
+
+```text
+RELEVANT CONTRACT
++
+RELEVANT IMPLEMENTATION PLAN
++
+RELEVANT FEATURE REPORTS
++
+RELEVANT TEST MATRIX
+```
+
+not:
+
+```text
+40+ documents
+→ CLI guesses what matters
+```
+
+---
+
+# Recommended CLI bundles
+
+I would actually keep four standard document bundles.
+
+### Bundle 1 — `TEMPLATE_CREATION_DOCS`
+
+```text
+00-START-HERE.md
+CLIENT-FRONTEND-CAPABILITY-CONTRACT.md
+GOLDEN-AUREON-PRODUCTIZED-WORKFLOW.md
+NEW-CLIENT-TEMPLATE-CREATION-PLAN.md
+DIRECTORY-STRUCTURE.md
+reports/31-FEATURE-CATALOG.md
+reports/33-FRONTEND-COMPATIBILITY-CHECKLIST.md
+reports/34-DO-NOT-BREAK-RULES.md
+```
+
+### Bundle 2 — `BRIDGE_INTEGRATION_DOCS`
+
+```text
+00-START-HERE.md
+CLIENT-FRONTEND-CAPABILITY-CONTRACT.md
+GOLDEN-AUREON-PRODUCTIZED-WORKFLOW.md
+reports/12-WOOCOMMERCE-ARCHITECTURE.md
+reports/13-PRODUCT-AND-VARIATION-CONTRACT.md
+reports/14-CART-CHECKOUT-ACCOUNT-CONTRACT.md
+reports/15-MENU-ARCHITECTURE.md
+reports/16-SEARCH-ARCHITECTURE.md
+reports/17-CUSTOMIZER-ARCHITECTURE.md
+reports/20-DATA-AND-FERMPAGEDATA-CONTRACT.md
+reports/21-BRIDGE-API-CONTRACT.md
+reports/22-AJAX-REST-AND-ENDPOINTS.md
+reports/23-SECURITY-ARCHITECTURE.md
+reports/24-MEDIA-AND-ASSET-CONTRACT.md
+reports/26-CLIENT-PACK-ARCHITECTURE.md
+```
+
+### Bundle 3 — `REPLACEMENT_DOCS`
+
+```text
+00-START-HERE.md
+CLIENT-FRONTEND-CAPABILITY-CONTRACT.md
+GOLDEN-AUREON-PRODUCTIZED-WORKFLOW.md
+FRONTEND-REPLACEMENT-PLAN.md
+reports/27-ACTIVE-PACK-ISOLATION.md
+reports/31-FEATURE-CATALOG.md
+reports/32-CLIENT-INTEGRATION-REQUIREMENTS.md
+reports/33-FRONTEND-COMPATIBILITY-CHECKLIST.md
+reports/34-DO-NOT-BREAK-RULES.md
+reports/36-RUNTIME-VERIFICATION-MATRIX.md
+reports/37-GOLDEN-CORE-REFERENCE.md
+```
+
+### Bundle 4 — `EDIT_AND_QA_DOCS`
+
+```text
+00-START-HERE.md
+CLIENT-FRONTEND-CAPABILITY-CONTRACT.md
+FRONTEND-EDIT-PLAN.md
+reports/33-FRONTEND-COMPATIBILITY-CHECKLIST.md
+reports/34-DO-NOT-BREAK-RULES.md
+reports/36-RUNTIME-VERIFICATION-MATRIX.md
+```
+
+For Ferm specifically, add:
+
+```text
+FERM-RUNTIME-TESTING-CHECKLIST.md
+FERM-RUNTIME-ACCEPTANCE-CLARIFICATION.md
+```
+
+---
+
+# And for your current `fermliving-template-workspace`
+
+I'd give the CLI this exact order:
+
+```text
+00-START-HERE.md
+        ↓
+CLIENT-FRONTEND-CAPABILITY-CONTRACT.md
+        ↓
+GOLDEN-AUREON-PRODUCTIZED-WORKFLOW.md
+        ↓
+NEW-CLIENT-TEMPLATE-CREATION-PLAN.md
+        ↓
+FERM-TEMPLATE-CONTRACT.md
+        ↓
+FERM-JS-COMPATIBILITY-MAP.md
+        ↓
+FEATURE-CAPABILITY-MATRIX.md
+        ↓
+ROUTE-MAP.md
+        ↓
+ASSET-MANIFEST.json
+        ↓
+JS-COMPATIBILITY-MAP.md
+        ↓
+actual TEMPLATE/
+```
+
+Then, only when moving into connection:
+
+```text
+TEMPLATE/
++
+BRIDGE_INTEGRATION_DOCS
++
+actual Golden AUREON repository
++
+runtime Docker environment
+```
+
+One final rule is worth keeping prominent: **the client frontend is not supposed to know whether data is DEMO or REAL; it receives normalized presentation data, while AUREON owns the business/platform layer and the bridge translates between them.** 
+
+That is the cleanest way to keep your CLI focused and avoid accidentally modifying the wrong layer.

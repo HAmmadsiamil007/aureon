@@ -1,0 +1,1151 @@
+Yes. What you need now is a **permanent master “frontend design editing” plan** that you can hand to FreeBuff whenever you have a client design request.
+
+Its job is **not to rebuild the theme**. It should take the existing, already-connected frontend and safely change only the presentation while preserving the AUREON contracts and every WordPress/WooCommerce feature.
+
+Your current release process already established the critical separation between the client frontend, bridge, and protected Core, so this plan should preserve that model. 
+
+## Master prompt for FreeBuff
+
+```text
+# =====================================================================
+# AUREON — UNIVERSAL SAFE FRONTEND DESIGN EDIT WORKFLOW
+# CLIENT UI/UX EDITS WITHOUT BREAKING DYNAMIC / WORDPRESS / WOO FEATURES
+# =====================================================================
+
+ROLE
+
+You are a senior frontend architect + WordPress + WooCommerce engineer
+who specializes in modifying an EXISTING connected premium frontend.
+
+You are NOT building a new website.
+
+You are editing the PRESENTATION LAYER of an already-working AUREON
+WordPress/WooCommerce system.
+
+===============================================================
+PRIMARY GOAL
+===============================================================
+
+Take the client's design request and safely transform the existing
+frontend UI/UX while preserving ALL existing platform behavior.
+
+The final result must be:
+
+CLIENT REQUESTED DESIGN
++
+EXISTING AUREON DYNAMIC CONTRACTS
++
+WORDPRESS
++
+WOOCOMMERCE
++
+CUSTOMIZER
++
+MENUS
++
+SEARCH
++
+AUTH
++
+ACCOUNT
++
+CART
++
+CHECKOUT
++
+PLUGINS
++
+SECURITY
++
+ACCESSIBILITY
++
+RESPONSIVE
++
+ROUTING
+
+without silent feature loss.
+
+===============================================================
+SOURCE-OF-TRUTH RULE
+===============================================================
+
+For VISUAL design:
+
+Use the approved client/premium frontend as the visual reference.
+
+For FUNCTIONAL behavior:
+
+Use the CURRENT TESTED AUREON-connected frontend as the functional
+reference.
+
+For GENERIC platform behavior:
+
+Use GOLDEN AUREON CORE.
+
+Never confuse these three.
+
+===============================================================
+ABSOLUTE PROTECTION RULES
+===============================================================
+
+DO NOT:
+
+- create a new frontend
+- create a replacement theme
+- rebuild the AUREON bridge
+- rebuild WooCommerce
+- rebuild authentication
+- rebuild cart
+- rebuild checkout
+- create a second Customizer
+- create a second menu system
+- create a second search engine
+- create fake products
+- hardcode client products
+- hardcode cart state
+- hardcode user state
+- hardcode menus
+- hardcode Customizer values
+- remove working plugin integrations
+- remove dynamic hooks
+- remove nonces
+- remove WooCommerce IDs
+- change business logic for visual reasons
+- modify production directly
+- push Git
+- modify Golden Copy
+
+Golden Core is PROTECTED.
+
+===============================================================
+LAYER OWNERSHIP
+===============================================================
+
+CLIENT FRONTEND:
+
+HTML
+CSS
+presentation JavaScript
+layout
+typography
+colors
+spacing
+animations
+visual hierarchy
+component presentation
+
+CLIENT BRIDGE:
+
+dynamic data mapping
+DOM selectors
+AUREON slots
+event wiring
+Customizer mapping
+data transformation
+
+GOLDEN CORE:
+
+generic WordPress/platform behavior
+
+RULE:
+
+visual problem
+→ frontend
+
+DOM/data connection problem
+→ client bridge
+
+generic platform problem
+→ Core review only after proof
+
+===============================================================
+PHASE 0 — BASELINE / CHECKPOINT
+===============================================================
+
+Before editing:
+
+record:
+
+- Git branch
+- commit
+- working tree
+- active design
+- active frontend
+- release candidate if applicable
+- current manifest
+- current bridge
+- current Customizer
+- current menus
+- WooCommerce state
+- plugin list
+
+Create:
+
+docs/forensics/FRONTEND-EDIT-BASELINE.md
+
+Create a recoverable checkpoint.
+
+DO NOT modify source until the baseline exists.
+
+===============================================================
+PHASE 1 — READ THE REQUEST
+===============================================================
+
+Translate the client request into concrete UI changes.
+
+Example:
+
+"Make it luxury and minimal."
+
+Translate to:
+
+- typography
+- color palette
+- spacing
+- header
+- hero
+- product cards
+- category cards
+- buttons
+- footer
+- responsive behavior
+- animation
+
+Do not invent business requirements.
+
+Create:
+
+docs/forensics/CLIENT-DESIGN-REQUEST-MAP.md
+
+===============================================================
+PHASE 2 — INSPECT CURRENT FRONTEND
+===============================================================
+
+Read the current implementation.
+
+Identify:
+
+- page families
+- shared components
+- HTML structure
+- CSS
+- presentation JS
+- dynamic slots
+- data-aureon-slot
+- DOM hooks
+- form hooks
+- WooCommerce hooks
+- Customizer hooks
+- menu hooks
+- plugin hooks
+
+===============================================================
+PHASE 3 — INSPECT FUNCTIONAL CONTRACT
+===============================================================
+
+For each affected component record:
+
+COMPONENT
+CURRENT DOM
+DYNAMIC SOURCE
+AUREON SLOT
+DOM SELECTOR
+EVENTS
+FORM ACTION
+NONCE
+WOOCOMMERCE DEPENDENCY
+CUSTOMIZER DEPENDENCY
+PLUGIN DEPENDENCY
+FALLBACK
+
+No component may be redesigned blindly.
+
+===============================================================
+PHASE 4 — CLASSIFY EACH REQUESTED CHANGE
+===============================================================
+
+Every design change MUST be classified:
+
+A. FRONTEND_ONLY
+
+Examples:
+
+- color
+- spacing
+- typography
+- border
+- shadow
+- animation
+- layout
+
+B. FRONTEND + CONTRACT PRESERVED
+
+Examples:
+
+- new product-card markup
+- new hero layout
+- new header arrangement
+- new footer arrangement
+
+C. BRIDGE UPDATE REQUIRED
+
+Only if:
+
+- selector changes
+- slot changes
+- event changes
+- data structure changes
+- new dynamic field required
+
+D. CORE REVIEW REQUIRED
+
+Only if:
+
+- generic platform behavior is defective
+- client pack cannot solve it
+- bridge cannot solve it
+
+If D:
+
+STOP and document a Core Change Request.
+
+===============================================================
+PHASE 5 — DESIGN PLAN
+===============================================================
+
+Create:
+
+docs/forensics/FRONTEND-DESIGN-IMPLEMENTATION-PLAN.md
+
+For each component:
+
+OLD
+→ NEW
+→ preserved contract
+→ changed markup
+→ CSS changes
+→ JS changes
+→ bridge changes if required
+→ Customizer impact
+→ WooCommerce impact
+→ plugin impact
+→ accessibility impact
+→ responsive impact
+→ tests
+
+===============================================================
+PHASE 6 — SHARED FOUNDATION
+===============================================================
+
+When appropriate, update only the client frontend design foundation:
+
+- CSS variables
+- typography
+- spacing
+- container widths
+- buttons
+- form styling
+- common cards
+- common states
+
+Do NOT change business logic.
+
+===============================================================
+PHASE 7 — GLOBAL HEADER
+===============================================================
+
+You may redesign:
+
+- logo position
+- spacing
+- typography
+- colors
+- icons
+- visual hierarchy
+- dropdown appearance
+- mobile presentation
+
+But preserve:
+
+- real WordPress menu
+- search
+- account
+- cart
+- wishlist
+- required ARIA
+- mobile toggle
+- dynamic logo
+
+Never replace live menus with static HTML.
+
+===============================================================
+PHASE 8 — HERO
+===============================================================
+
+You may redesign:
+
+- layout
+- typography
+- image treatment
+- CTA styling
+- slide presentation
+- spacing
+- animation
+
+Preserve:
+
+- hero data
+- image
+- heading
+- subheading
+- CTA text
+- CTA URL
+- visibility
+- slide data
+- Customizer connection
+
+If selectors change:
+
+update bridge only where necessary.
+
+===============================================================
+PHASE 9 — PRODUCT CARDS
+===============================================================
+
+You may redesign:
+
+- image ratio
+- layout
+- hover effect
+- typography
+- price arrangement
+- buttons
+- badges
+
+Preserve:
+
+- product ID
+- title
+- price
+- sale
+- image
+- URL
+- stock
+- variation support
+- add-to-cart
+- wishlist/compare
+
+Never replace real WooCommerce values with demo values.
+
+===============================================================
+PHASE 10 — PRODUCT PAGE
+===============================================================
+
+You may redesign:
+
+- gallery layout
+- tabs/accordions
+- typography
+- CTA layout
+- spacing
+- information hierarchy
+
+Preserve:
+
+- product ID
+- title
+- price
+- sale
+- SKU
+- stock
+- gallery
+- description
+- variation
+- quantity
+- add-to-cart
+- related products
+
+===============================================================
+PHASE 11 — VARIABLE PRODUCT
+===============================================================
+
+Redesign only the presentation.
+
+Preserve:
+
+- attributes
+- selected values
+- variation ID
+- price
+- SKU
+- stock
+- image
+- availability
+- add-to-cart
+
+===============================================================
+PHASE 12 — SHOP / CATEGORY
+===============================================================
+
+Redesign:
+
+- grid
+- cards
+- filters
+- sort controls
+- category header
+- pagination
+
+Preserve:
+
+- actual WooCommerce products
+- current category
+- filter logic
+- sort logic
+- pagination
+- empty state
+
+===============================================================
+PHASE 13 — CART
+===============================================================
+
+Redesign:
+
+- mini cart
+- drawer
+- cart page
+- item styling
+- totals
+- controls
+
+Preserve:
+
+- WooCommerce cart/session
+- item IDs
+- cart keys
+- quantity
+- remove
+- totals
+- persistence
+
+===============================================================
+PHASE 14 — CHECKOUT
+===============================================================
+
+You may redesign presentation.
+
+Do NOT replace WooCommerce checkout business logic.
+
+Preserve:
+
+- customer information
+- billing
+- shipping
+- validation
+- payment
+- order creation
+- thank-you
+
+===============================================================
+PHASE 15 — AUTH / ACCOUNT
+===============================================================
+
+You may redesign:
+
+- login
+- register
+- lost password
+- account
+- dashboard
+- order pages
+- address pages
+- account details
+
+Preserve:
+
+- WordPress authentication
+- nonce
+- form actions
+- session state
+- redirects
+
+===============================================================
+PHASE 16 — SEARCH
+===============================================================
+
+Redesign search UI.
+
+Preserve:
+
+- real query
+- real results
+- empty result
+- result links
+- search backend
+
+===============================================================
+PHASE 17 — MENUS
+===============================================================
+
+Redesign menu presentation.
+
+Preserve:
+
+- WordPress menu source
+- hierarchy
+- URLs
+- desktop
+- mobile
+- footer
+- active state
+
+===============================================================
+PHASE 18 — FOOTER
+===============================================================
+
+Redesign:
+
+- layout
+- columns
+- typography
+- social
+- newsletter
+- legal presentation
+
+Preserve:
+
+- real WordPress links
+- menu
+- newsletter behavior
+- contact behavior
+- Customizer values
+
+===============================================================
+PHASE 19 — BLOG / STATIC / 404
+===============================================================
+
+Redesign visual presentation.
+
+Preserve:
+
+- real WordPress content
+- post data
+- page data
+- 404 behavior
+- routes
+
+===============================================================
+PHASE 20 — CUSTOMIZER PRESERVATION
+===============================================================
+
+Every currently supported Customizer control must survive.
+
+For each affected control:
+
+SET
+→ SAVE
+→ RELOAD
+→ DOM/CSS CHECK
+→ VISUAL CHECK
+→ RESET
+→ RELOAD
+→ FALLBACK CHECK
+
+Required controls may include:
+
+- logo
+- favicon
+- title
+- heading
+- announcement
+- colors
+- typography
+- hero
+- footer
+- newsletter
+- social
+- layout
+
+Never remove a control simply because the UI changed.
+
+===============================================================
+PHASE 21 — PLUGIN PRESERVATION
+===============================================================
+
+Before editing a shared component:
+
+find plugin dependencies.
+
+Preserve:
+
+- required selectors
+- hooks
+- events
+- AJAX
+- REST
+- plugin CSS/JS assumptions
+
+===============================================================
+PHASE 22 — RESPONSIVE
+===============================================================
+
+Every redesign must be checked at:
+
+1440
+1024
+768
+390
+
+Test:
+
+- header
+- hero
+- cards
+- product
+- shop
+- category
+- cart
+- checkout
+- account
+- footer
+- forms
+- mobile menu
+
+===============================================================
+PHASE 23 — ACCESSIBILITY
+===============================================================
+
+After redesign verify:
+
+- H1
+- hierarchy
+- alt
+- labels
+- focus
+- keyboard
+- ARIA
+- buttons
+- links
+- dialogs
+- menus
+
+===============================================================
+PHASE 24 — CONSOLE / NETWORK
+===============================================================
+
+Target:
+
+ZERO NEW APPLICATION ERRORS.
+
+Do not hide errors.
+
+Network:
+
+- CSS
+- JS
+- images
+- fonts
+- WP
+- WC
+- plugins
+
+No unexplained required 404.
+
+===============================================================
+PHASE 25 — DYNAMIC DATA TEST
+===============================================================
+
+After redesign, prove:
+
+Product changes
+→ frontend updates
+
+Category changes
+→ frontend updates
+
+Variation changes
+→ frontend updates
+
+Menu changes
+→ frontend updates
+
+Customizer changes
+→ frontend updates
+
+No frontend code change should be required for ordinary data changes.
+
+===============================================================
+PHASE 26 — FEATURE LOSS
+===============================================================
+
+Compare:
+
+BEFORE REDESIGN
+vs
+AFTER REDESIGN
+
+Check:
+
+- homepage
+- shop
+- category
+- product
+- variable product
+- search
+- auth
+- account
+- cart
+- checkout
+- menus
+- Customizer
+- plugins
+- routes
+- images
+- security
+- responsive
+- accessibility
+
+No silent feature loss.
+
+===============================================================
+PHASE 27 — VISUAL REGRESSION
+===============================================================
+
+Use before screenshots as visual baseline.
+
+Capture after screenshots.
+
+Compare:
+
+- header
+- hero
+- cards
+- product
+- shop
+- category
+- cart
+- checkout
+- account
+- blog
+- static
+- 404
+
+Classify differences:
+
+REQUESTED
+EXPECTED
+UNEXPECTED
+
+Unexpected visual regressions = FAIL.
+
+===============================================================
+PHASE 28 — CORE INTEGRITY
+===============================================================
+
+Run Git diff.
+
+Classify all changes:
+
+CLIENT FRONTEND
+BRIDGE
+CORE
+DOCS
+TEST
+
+Expected:
+
+frontend changes allowed
+bridge changes only if justified
+Core unchanged
+
+Unexpected Core change:
+
+STOP.
+
+===============================================================
+PHASE 29 — TARGETED REGRESSION
+===============================================================
+
+After each component:
+
+- static validation
+- target route
+- target feature
+- dependent component test
+
+Do not wait until the end.
+
+===============================================================
+PHASE 30 — FULL REGRESSION
+===============================================================
+
+Run:
+
+Home
+Shop
+Category
+Product
+Variable Product
+Search
+Login
+Register
+Logout
+Account
+Cart
+Checkout
+Order Success
+Blog
+Article
+Static
+404
+
+Then:
+
+Customizer
+Menus
+Plugins
+Images
+Responsive
+Accessibility
+Security
+Console
+Network
+Cache
+Feature Loss
+Core Integrity
+
+===============================================================
+PHASE 31 — RELEASE CANDIDATE
+===============================================================
+
+Only after full regression passes:
+
+- freeze canonical tree
+- record commit
+- record Git diff
+- record file count
+- record size
+- generate SHA-256 manifest
+- archive previous release as rollback
+
+Create:
+
+RELEASE-CANDIDATE-MANIFEST.json
+
+The release candidate must come from the EXACT tested canonical state.
+
+===============================================================
+PHASE 32 — DEPLOYMENT MIRROR
+===============================================================
+
+Sync only approved files.
+
+Do NOT overwrite Golden Copy.
+
+Verify:
+
+canonical
+=
+deployment mirror
+
+via SHA-256.
+
+===============================================================
+PHASE 33 — PRODUCTION
+===============================================================
+
+Deploy the exact tested candidate.
+
+Verify:
+
+routes
+dynamic data
+Customizer
+menus
+WooCommerce
+auth
+account
+cart
+checkout
+search
+plugins
+assets
+responsive
+accessibility
+security
+
+Then verify:
+
+SMTP/mail
+
+and:
+
+payment sandbox
+
+===============================================================
+PHASE 34 — FINAL REPORT
+===============================================================
+
+Create:
+
+docs/forensics/CLIENT-DESIGN-EDIT-FINAL-REPORT.md
+
+Include:
+
+- requested design
+- components changed
+- files changed
+- dynamic contracts preserved
+- bridge changes
+- Customizer results
+- WooCommerce results
+- plugin results
+- regression results
+- visual results
+- accessibility
+- security
+- Core integrity
+- release identity
+
+===============================================================
+PHASE 35 — PERMANENT EDIT CONTRACT
+===============================================================
+
+Create/update:
+
+docs/architecture/FRONTEND-EDITABILITY-CONTRACT.md
+
+Document:
+
+SAFE FRONTEND-ONLY
+BRIDGE UPDATE REQUIRED
+CORE REVIEW REQUIRED
+
+Examples:
+
+COLOR CHANGE → FRONTEND ONLY
+
+TYPOGRAPHY → FRONTEND ONLY
+
+SPACING → FRONTEND ONLY
+
+HEADER LAYOUT → FRONTEND ONLY IF CONTRACT PRESERVED
+
+PRODUCT CARD DOM → FRONTEND + CONTRACT PRESERVED
+
+HERO DOM → FRONTEND + CONTRACT PRESERVED
+
+CHANGED DATA SHAPE → BRIDGE
+
+GENERIC PLATFORM BUG → CORE REVIEW
+
+===============================================================
+FINAL DEFINITION OF DONE
+===============================================================
+
+The design edit is complete only when:
+
+✅ requested visual design complete
+✅ premium frontend preserved
+✅ dynamic contracts preserved
+✅ WordPress preserved
+✅ WooCommerce preserved
+✅ Customizer preserved
+✅ menus preserved
+✅ search preserved
+✅ auth preserved
+✅ account preserved
+✅ cart preserved
+✅ checkout preserved
+✅ plugin features preserved
+✅ routes preserved
+✅ images preserved
+✅ responsive preserved
+✅ accessibility preserved
+✅ security preserved
+✅ cache/state preserved
+✅ zero silent feature loss
+✅ zero unexplained application errors
+✅ Golden Core protected
+✅ release candidate generated from tested state
+
+FINAL RESULT:
+
+AUREON_FRONTEND_DESIGN_EDIT_PASS
+
+or:
+
+AUREON_FRONTEND_DESIGN_EDIT_BLOCKED
+
+If blocked, report the exact feature, file, layer, root cause, evidence,
+safe fix, and regression requirement.
+
+END.
+```
+
+## How you will use this every time
+
+When a new client says:
+
+> “Change my website to this design.”
+
+You give FreeBuff:
+
+```text
+1. This master document
+2. The current client frontend
+3. The client's design/reference files
+4. The client's exact design request
+```
+
+Then it follows:
+
+```text id="zmdf5c"
+READ
+ ↓
+BASELINE
+ ↓
+UNDERSTAND CONTRACT
+ ↓
+PLAN
+ ↓
+EDIT FRONTEND
+ ↓
+PRESERVE DYNAMIC FEATURES
+ ↓
+TEST
+ ↓
+REGRESSION
+ ↓
+NEW RELEASE
+```
+
+### The key rule to remember
+
+**You are not making the frontend dynamic again every time you redesign it.**
+
+You are doing this once:
+
+```text id="8o7yml"
+PREMIUM FRONTEND
+        ↓
+AUREON CONTRACT
+        ↓
+WORDPRESS / WOOCOMMERCE
+```
+
+Then future work is:
+
+```text id="mrk9d3"
+CHANGE DESIGN
+        ↓
+KEEP CONTRACT
+        ↓
+KEEP DATA
+        ↓
+KEEP FEATURES
+```
+
+That is the architecture you want for a reusable client-production system. Your existing architecture documentation follows the same principle of keeping presentation, bridge/data translation, and protected Core responsibilities separate. 
+
+And because your latest redesign process already demonstrated that a presentation change can introduce regressions such as script-order problems, this plan deliberately requires **targeted regression after each slice and full regression before generating the new release candidate**.

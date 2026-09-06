@@ -1,0 +1,32 @@
+services:
+  wordpress:
+    image: wordpress:latest
+    container_name: aureon-wordpress-1
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: aureon
+      WORDPRESS_DB_PASSWORD: aureon
+      WORDPRESS_DB_NAME: aureon
+    volumes:
+      - wordpress_data:/var/www/html
+      - ./AUREON-WORDPRESS-DEPLOY/themes:/var/www/html/wp-content/themes
+      - ./AUREON-WORDPRESS-DEPLOY/plugins:/var/www/html/wp-content/plugins
+      - ./AUREON-WORDPRESS-DEPLOY/mu-plugins:/var/www/html/wp-content/mu-plugins
+      - ./AUREON-WORDPRESS-DEPLOY/frontend:/var/www/html/wp-content/frontend
+  db:
+    image: mysql:8.0
+    container_name: aureon-db-1
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: aureon
+      MYSQL_USER: aureon
+      MYSQL_PASSWORD: aureon
+      MYSQL_ROOT_PASSWORD: aureon
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  wordpress_data:
+  db_data:

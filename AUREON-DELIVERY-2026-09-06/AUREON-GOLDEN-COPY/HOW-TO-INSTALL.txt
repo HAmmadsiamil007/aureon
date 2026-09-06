@@ -1,0 +1,226 @@
+================================================================================
+  AUREON WORDPRESS THEME — COMPLETE INSTALLATION GUIDE
+  Version: 3.6.1 | Design: Vineta (Khaadi Client Store)
+================================================================================
+
+IMPORTANT: This theme requires BOTH the theme AND the frontend engine.
+The frontend/ directory MUST be at wp-content/frontend/ alongside themes/.
+
+================================================================================
+  FOLDER STRUCTURE (after upload to wp-content/)
+================================================================================
+
+  wp-content/
+  ├── frontend/                    ← FRONTEND ENGINE (REQUIRED!)
+  │   ├── adapters/                ← Data adapters (WP → presentation)
+  │   ├── assets/                  ← Platform CSS/JS/fonts
+  │   ├── components/              ← PHP template components
+  │   ├── designs/
+  │   │   └── vineta/              ← Vineta design pack
+  │   │       ├── composer.php     ← Data bridge (hero, products, etc.)
+  │   │       ├── css/             ← Design CSS files
+  │   │       ├── demo/            ← Demo product/category JSON
+  │   │       ├── fonts/           ← Icon fonts (font-icons.css)
+  │   │       ├── images/          ← Static images (hero, brands, etc.)
+  │   │       ├── index.html       ← Frozen homepage template
+  │   │       ├── js/              ← JavaScript (data-shims, path-bridge)
+  │   │       ├── manifest.json    ← Design pack manifest
+  │   │       └── tokens.php       ← Design token defaults
+  │   ├── manifest/
+  │   ├── sections/
+  │   ├── tokens/
+  │   └── views/
+  │       ├── composer.php         ← Main page composer
+  │       ├── design.php           ← Design resolution
+  │       ├── loader.php           ← Engine boot loader
+  │       └── assets.php           ← Asset pipeline
+  ├── themes/
+   │   └── aureon/                  ← THEME
+   │       ├── ferm-page.php        ← Complete-page template router
+   │       ├── functions.php        ← Theme functions
+   │       ├── header.php           ← Document header
+   │       ├── footer.php           ← Document footer
+   │       └── inc/
+   │           ├── frontend.php     ← Engine integration (boot loader)
+   │           ├── aether-seo.php   ← SEO meta tags
+   │           ├── aether-ajax.php  ← AJAX handlers
+   │           └── ...
+   └── plugins/
+       └── aureon-studio/           ← AUREON STUDIO PLUGIN
+           └── aureon-studio.php    ← Plugin bootstrap
+
+================================================================================
+  STEP-BY-STEP INSTALLATION (InfinityFree / cPanel / Any Host)
+================================================================================
+
+  1. PREREQUISITES
+     - WordPress 6.0+ installed and working
+     - PHP 7.4+ (8.0+ recommended)
+     - WooCommerce plugin installed and activated
+     - MySQL database access
+
+  2. UPLOAD FILES
+     a) Log into your hosting control panel (cPanel → File Manager)
+     b) Navigate to: htdocs/wp-content/
+     c) Upload these folders from AUREON-WORDPRESS-DEPLOY:
+         - themes/aureon/     → htdocs/wp-content/themes/aureon/
+         - frontend/          → htdocs/wp-content/frontend/
+         - plugins/aureon-studio/ → htdocs/wp-content/plugins/aureon-studio/
+     d) CRITICAL: The frontend/ folder MUST be DIRECTLY inside wp-content/
+        WRONG:  wp-content/themes/aureon/frontend/  (❌)
+        RIGHT:  wp-content/frontend/                (✅)
+
+  3. FIX PATHS (InfinityFree Specific)
+     If you get "Failed opening required loader.php" error:
+     - The theme auto-detects the frontend location
+     - If it still fails, check that frontend/views/loader.php exists
+     - InfinityFree path: /home/volX_4/infinityfree.com/if0_XXXXXXX/htdocs/
+
+  4. ACTIVATE THEME
+     a) Go to WP Admin → Appearance → Themes
+     b) Activate "Aureon" theme
+     c) The Vineta design should auto-detect (active design: vineta)
+
+  5. ACTIVATE PLUGINS
+     a) Go to WP Admin → Plugins
+     b) Activate these essential plugins:
+        - WooCommerce (required)
+        - Yoast SEO (SEO optimization)
+        - Wordfence Security (firewall + malware scan)
+        - WP Super Cache (caching/performance)
+        - Smush (image optimization)
+        - Redirection (URL management)
+        - UpdraftPlus (backups)
+        - Contact Form 7 (contact forms)
+        - Classic Editor (compatibility)
+
+  6. CONFIGURE WOOCOMMERCE
+     a) Run WooCommerce Setup Wizard
+     b) Set store location, currency, payment methods
+     c) Create these pages (auto-created by WC):
+        - Shop, Cart, Checkout, My Account
+
+  7. SET UP PAGES
+     a) Create pages matching the navigation:
+        - Shop (WC auto-creates this)
+        - Blog
+        - Contact
+        - About Us
+     b) Set a static front page (Settings → Reading)
+
+  8. CONFIGURE MENUS
+     a) Go to Appearance → Menus
+     b) Create "Primary" menu with your navigation links
+     c) Create "Footer" menu for footer links
+     d) The theme auto-maps these to Vineta navigation
+
+  9. SET ACTIVE DESIGN
+     The theme defaults to "vineta" design. If not:
+     a) Go to WP Admin → Appearance → Customize
+     b) Or set via wp-cli:
+        wp option update aether_active_design vineta
+
+ 10. CONFIGURE HERO BANNER
+     a) Go to WP Admin → Customize → Hero Banner
+     b) Add slide images (will show on homepage)
+     c) The hero displays images only (no text/buttons by default)
+     d) Add heading/CTA buttons via Customizer if needed
+
+ 11. IMPORT DEMO PRODUCTS (Optional)
+     If the store appears empty:
+     a) The theme has demo product fallback (auto-enabled)
+     b) Or import via WooCommerce → Products → Import
+     c) Demo products are filtered out when real products exist
+
+ 12. PERMALINKS
+     Go to Settings → Permalinks → Select "Post name" structure
+     This ensures proper URL routing for shop/product pages
+
+================================================================================
+  TROUBLESHOOTING
+================================================================================
+
+  PROBLEM: "Failed opening required loader.php"
+  CAUSE:   frontend/ directory not uploaded or wrong location
+  FIX:     Ensure wp-content/frontend/views/loader.php exists
+
+  PROBLEM: Icons not showing (empty squares)
+  CAUSE:   font-icons.css not loaded
+  FIX:     Check frontend/designs/vineta/fonts/font-icons.css exists
+
+  PROBLEM: Product cards empty
+  CAUSE:   No products in database
+  FIX:     Import products or enable demo mode in Customizer
+
+  PROBLEM: Hero banner not showing
+  CAUSE:   No hero slides configured
+  FIX:     Add slides in Customizer → Hero Banner
+
+  PROBLEM: 404 errors on shop/product pages
+  CAUSE:   Permalinks not set
+  FIX:     Settings → Permalinks → Post name
+
+  PROBLEM: Theme shows wrong design
+  CAUSE:   aether_active_design option not set
+  FIX:     wp option update aether_active_design vineta
+
+  PROBLEM: Translation loading too early warning
+  CAUSE:   WordPress 6.7+ stricter textdomain loading
+  FIX:     This is a notice, not an error. Safe to ignore.
+
+================================================================================
+  INCLUDED PLUGINS (Tested & Compatible)
+================================================================================
+
+  PLUGIN                  VERSION    PURPOSE
+  ─────────────────────── ────────── ─────────────────────────────────
+  WooCommerce             8.9.0      E-commerce (REQUIRED)
+  Yoast SEO               28.4       SEO optimization
+  Wordfence Security      9.0.0      Firewall + malware scan
+  WP Super Cache          3.1.3      Page caching
+  Smush                   4.3.2      Image optimization
+  Redirection             5.10.0     URL redirects
+  UpdraftPlus             1.26.7     Backups
+  Contact Form 7          6.1.7      Contact forms
+  Classic Editor          1.7.0      Editor compatibility
+
+================================================================================
+  URL ROUTING
+================================================================================
+
+  The Vineta design uses frozen HTML templates with JavaScript URL rewriting.
+  Links like shop-default.html, product-detail.html are automatically rewritten
+  to WordPress permalinks (/shop/, /product/name/) by vineta-path-bridge.js.
+
+  This works on:
+  - Local development (Docker, XAMPP, etc.)
+  - Shared hosting (InfinityFree, GoDaddy, etc.)
+  - VPS/dedicated servers
+
+  No .htaccess changes needed — the JS bridge handles all routing.
+
+================================================================================
+  DEVELOPMENT
+================================================================================
+
+  For local development with Docker:
+  1. Clone the repository
+  2. Run: docker-compose up -d
+  3. Access at http://localhost:8080
+  4. Admin: http://localhost:8080/wp-admin (admin / admin123)
+
+  The .serena/ folder contains AI agent configuration for code assistance.
+  The docs/ folder contains architecture documentation.
+
+================================================================================
+  SUPPORT
+================================================================================
+
+  Theme: Aureon (Vineta Design Pack)
+  Version: 3.6.1
+  Repository: https://github.com/HAmmadsiamil007/aureon.git
+
+  For issues, check the troubleshooting section above or review the
+  documentation in the docs/ folder.
+
+================================================================================

@@ -1,0 +1,32 @@
+{
+  "package": "AUREON-DELIVERY-2026-09-06",
+  "created": "2026-09-06",
+  "source_repo": "https://github.com/HAmmadsiamil007/aureon",
+  "release_candidate": {
+    "id": "RC-2026-09-06",
+    "commit": "1289995",
+    "sha256_manifest": "test-results/release-candidate-sha256.txt (1,972 files, self-hash e3570bde718412df)",
+    "verdict": "AUREON_CLIENT_PRODUCTION_READY_BLOCKED (10 PASS / 24 BLOCKED / 3 N/A / 0 FAIL)"
+  },
+  "contents": {
+    "AUREON-WORDPRESS-DEPLOY/": "Tested release artifact - deploy to wp-content (themes/aureon 3.6.1, plugins/aureon-studio 1.1.0, mu-plugins/ob-buffer.php, frontend/ engine + vineta pack)",
+    "AUREON-GOLDEN-COPY/": "Immutable baseline snapshot - never deploy, never modify",
+    "docs/": "Documentation: HOW-TO-INSTALL.md (updated), THEME-GUIDE.md (updated), DOCKER.md (new), forensics/ audits, DECISIONS-LOG.md, reports",
+    ".serena/": "Tooling config + AI memories (project.yml, project.local.yml, memories/; caches excluded)",
+    "docker-compose.yml": "One-command local WordPress (bind-mounts the deploy tree)",
+    "DELIVERY-README.md": "Package map + install pointer"
+  },
+  "excluded_from_package": [
+    ".serena/cache (machine-local)",
+    ".playwright-mcp (test artifacts)",
+    "node_modules",
+    "*.zip archives >100MB (none found; 41MB theme zip retained)"
+  ],
+  "documentation_updates_in_this_package": [
+    "docs/HOW-TO-INSTALL.md - superseded 2026-09-04 version (theme version corrected to 3.6.1, layout rules, verification checklist)",
+    "docs/THEME-GUIDE.md - new: theme vs design-pack model, pack switching, required companions",
+    "docs/DOCKER.md - new: compose quick start + wp-cli activation + design switching",
+    "DELIVERY-README.md - new: package map, WordPress layout diagram, release-state summary"
+  ],
+  "integrity_rule": "Any file change after RC 1289995 = new release candidate + regenerated SHA-256 manifest before deployment."
+}
