@@ -331,3 +331,21 @@
 .icon-whatsapp:before {
   content: "\ea93";
 }
+
+/* ---------------------------------------------------------------
+   Snapchat fallback fix (2026-09-06)
+   Codepoint \e96a is absent from the shipped icomoon build, so the
+   browser rendered the raw ligature text "Snapchat" instead of the
+   glyph. Until the font is regenerated with the glyph, render the
+   SVG ghost (images/icons/snapchat.svg) via mask + currentColor so
+   it inherits size and color exactly like the font glyphs.
+   --------------------------------------------------------------- */
+.icon-snapchat:before {
+  content: "" !important;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask: url("../images/icons/snapchat.svg") no-repeat center / contain;
+  mask: url("../images/icons/snapchat.svg") no-repeat center / contain;
+}
