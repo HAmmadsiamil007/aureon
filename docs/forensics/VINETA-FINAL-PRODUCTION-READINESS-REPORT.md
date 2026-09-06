@@ -1,82 +1,76 @@
-# VINETA — FINAL PRODUCTION READINESS REPORT
+# VINETA-FINAL-PRODUCTION-READINESS-REPORT (Phase 39)
 
-Round: 2026-09-04 · Stage B (post-revalidation implementation + full QA)
-Scope: **Client pack / client bridge only. Golden Core untouched.**
+**Date:** 2026-09-06 · **Plan:** Master Implementation + Hardening + QA + Release Plan · **Executor:** Buffy (Freebuff)
+
+---
 
 ## Final verdict
 
 ```
-VINETA_CLIENT_READY_BLOCKED
+AUREON_CLIENT_PRODUCTION_READY_BLOCKED
 ```
 
-Blocked only by **content/commerce readiness that no code change can close in this
-round** (client-authored copy on empty placeholder pages, live payment/mail sandbox,
-hosting smoke test) plus two small documented follow-ups. All *code-level* blockers
-found by Stage A were fixed and re-proven at runtime.
+**Blocker (single, external): B-1 — no WordPress runtime.** The environment provides no WP/WC instance, no DB, no HTTP host, no SMTP, no payment sandbox. Every gate that requires runtime execution (24 of 37 acceptance tests) is honestly `BLOCKED`, not faked. All gates executable in this environment **pass with evidence** (10/10). Per the plan's own rule, the verdict cannot be `PASS` until the runtime gates execute on staging + production.
 
 ---
 
-## 1. Completed work this round
+## Architecture (current, post-implementation)
 
-### P0
-| Fix | File (layer) | Proof |
-|---|---|---|
-| model-viewer.min.js ES-module loaded on every page removed | `vineta/manifest.json` (client pack) | 0 console errors across all core routes |
+Unchanged by design: Golden Core → design-pack contract (manifest, complete-page flag) → Vineta frozen frontend with bridge stack (composer data builders + AJAX + menu splicing + wp_head injection → VinetaPageData → shims/path-bridge → data-aureon-slot DOM). Genuine WooCommerce checkout/auth/orders. Layer ownership respected: this pass touched **client bridge** (composer.php, ferm-page.php) and **repo hygiene** — Golden Core logic untouched; Golden Copy untouched.
 
-### P1 — dynamic consumers
-| Fix | File (layer) | Proof |
-|---|---|---|
-| Search placeholder stored-but-not-consumed → option-driven | `composer.php` + `vineta-data-shims.js` (bridge) | DEFAULT→SET→RESET tracked payload + DOM |
-| Product price hardcoded `$` → WC currency (CHF) | `composer.php` (bridge) | product page "CHF 139.00" = cart |
-| Cart badge not live-refreshing after add (event dispatched on `window`, listener on `document`) | `composer.php` (bridge) | 0→1→2 live, persists after reload |
-| Auth: username login blocked by `type="email"` validation | `composer.php` (bridge) | username AND email log in; real WC error surfaced; register works; logout clears |
-| Generic WP page content never rendered (frozen Shopify placeholder copy served) | `composer.php` + shims `VinetaPage` (bridge) | privacy-policy shows real WP content; placeholder copy gone |
-| `.bak-phase3` dead files removed | pack (cleanup) | no references |
-| `cursor-close.svg` missing asset created | pack | HTTP 200; all local CSS url() resolve |
-| Universal duplicate script loads (6 libs × every page) | `manifest.json` (pack) | each loads once; 0 errors |
+## Fixed problems (this pass, with commits)
 
-### P2 / hardening still open (small)
-> **STATUS UPDATE (2026-09-04, redesign Slice 3): both items below are RESOLVED.**
-> 1. Raw duplicate vendor-lib tags stripped from 4 templates (drift/photoswipe ×2 product, shop.js/nouislider shop, infinityslide index+cookies); libs now served once via manifest — verified on `/product` and `/shop`.
-> 2. All 22 `.tf-page-title` templates upgraded to a single `<h1>` (15 titles `h4→h1`); per-slide hero `<h1>` handling unchanged.
-> Superseded by `FRONTEND-REDESIGN-SLICE-LOG.md` Slice 3 + `VINETA-FINAL-RELEASE-REPORT.md`. No further work required.
+| Fix | Finding | Commit | Evidence |
+|---|---|---|---|
+| T-01 | A-01 shipped feature depended on untracked file | `2d8f4e0` | header.php now tracked; fresh-clone parity restored |
+| T-02 | A-02 config-mutating scripts in web root | `dd001c5` | quarantined `scripts/one-off/` + README; root clean |
+| T-11 | B-04 demo `auto` stub (`return true`) | `c97552d` | auto now = demo-only-when-catalog-empty; live query filters were already correct (finding downgraded — see revalidation) |
+| T-12 | B-05 404 fallback to nonexistent `pages/contact.html` | `c97552d` | prefers pack `404.html` (file verified present) |
+| T-14 | J3/B-06 double VinetaPageData injection | `c97552d` | single producer at wp_head(5); verified no consumer depended on removed path |
+| T-15 | B-03 fragile DOM contracts with no safety net | `c97552d` | `tests/contract-tests.cjs` — 57/57 pass; asserts real selectors extracted from bridge code |
 
-1. ~~Page-level duplicate libs on 3 templates (product: drift+photoswipe; shop: shop.js+nouislider; home/cookies: infinityslide). Fix later via manifest page-gating restructure (entries already support `"page"` keys) or stripping the raw template tags for those libs where the manifest is the sole provider.~~ **RESOLVED in redesign Slice 3.**
-2. ~~Static info pages expose their title as `<h4>` in `.tf-page-title` with no `<h1>`; homepage hero uses per-slide `<h1>` (2 in DOM, 1 visible). Template-wide heading-hierarchy pass recommended (client-pack templates/CSS).~~ **RESOLVED in redesign Slice 3 (all page titles now single `<h1>`).**
+## Remaining problems (P1/P2, approved-plan-gated)
 
-## 2. Current architecture (verified)
+- **A-03** Core hardcodes `'vineta'` default (needs runtime option decision, Q3) — do not blind-fix.
+- **B-01** six parallel trees (needs approval to archive, Q3/Q4).
+- **B-02** composer layer-mixing (behavior-preserving split, after blockers clear).
+- **B-06** triple cart surfaces; **B-07** account endpoint hook zones (Q7); **C-01…C-08** hardening set.
 
-```
-WP / WC data ── composer.php ──> VinetaPageData ── vineta-data-shims.js ──> frozen Vineta DOM
-                    (client bridge)                  (consumers: cart, customizer,
-                                                      home, shop, blog, article, page)
-manifest.json ──> versioned pack assets (page-gatable)
-frozen templates ──> raw body scripts + <base href> (single loader for shared libs)
-```
+## Missing features / unproven features
 
-## 3. Proven dynamic (runtime evidence)
-- Customizer → colors (`--primary` tracks SET/RESET), fonts, logo, announcement, newsletter, search placeholder.
-- Homepage hero/categories/products/footer from real data.
-- WooCommerce: shop grid, categories, search, product page, add-to-cart, cart page, badge, totals, remove — all real WC state, CHF currency.
-- Auth/account: real login (email + username), error display, registration, logout, WC account dashboard with orders/addresses nav.
-- Menus: desktop + mobile + footer driven by WP menus (live change propagated and restored).
-- Blog: real post archive + single. Static: real page titles; content-bearing pages now inject real WP content. 404: genuine with Vineta presentation.
+- **Missing:** selector-contract CI hook (suite exists, wire into pre-commit), account plugin-hook zones (pending decision), production plugin/cache/mail/payment inventory (Q1/Q8/Q9).
+- **Unproven (implemented, no runtime evidence):** all 15 routes' live behavior, product hydration, variations (client test N/A), cart E2E, checkout order creation, auth flows, search empty state, Customizer round-trips, menu live-edit, a11y, responsive, cache auth-safety, mail, payments. Full list: acceptance matrix `BLOCKED` entries.
 
-## 4. Remaining limitations / production requirements
-1. **Content authorship**: about/contact/faq/shipping/returns/terms WP pages are empty; templates currently show design copy (terms/privacy templates still contain demo placeholders like "The Company Pte Ltd", "[Email Address]" where WP has no content). Client must publish real copy in WP (pipeline now renders it) or approve template copy.
-2. **No variable products exist in this store** — variation UI was exercised earlier; not retestable against real data here (gate = N/A for this client until a variable product is added).
-3. **Payments + mail**: needs live sandbox (Stripe/test gateway) and transactional mail check on the target host.
-4. **REST cookie-auth nuance**: `/wp-json/users/me` returns 401 for cookie sessions on this setup; frontend auth state is server-rendered and correct — confirm REST auth needs on target host if any client uses REST.
-5. Hosting smoke test on the production target (local Docker verified only).
+## WooCommerce / products / variations / cart / checkout / auth / account
 
-## 5. Integrity
-- Golden Core: no changes this session (only the three Vineta client files + new SVG + docs).
-- QA data removed: QA users deleted, cart emptied, Customizer QA value restored, menu rename restored.
-- Deployment mirror `AUREON-WORDPRESS-DEPLOY` synced byte-identical; `AUREON-GOLDEN-COPY` left immutable.
-- No push; no production touched.
+Static verification only (this environment): WC-native pipeline confirmed in code; no fake business logic; variation add-to-cart has membership validation + attribute resolution; cart has 3 redundant surfaces (consolidation deferred); checkout/auth/account templates genuine. All runtime claims remain `BLOCKED`.
 
-## 6. Route matrix summary
-`/` `/shop/` `/product/{slug}` `/product-category/…` `/search` `/my-account/` `/cart/` `/checkout/` `/blog/` `/blog/{post}` static pages `/404` → all HTTP-correct with real templates/data; zero console errors; zero broken assets (checked at 1440/1024/768/390).
+## Customizer / menus / search / plugins
 
----
-Evidence files: `test-results/VINETA-FINAL-ACCEPTANCE-MATRIX.json`, `test-results/FULL-FORENSIC-AUDIT-MATRIX.json`, `docs/forensics/P0-REVALIDATION.md`, `docs/forensics/STAGE-B-PROGRESS-2026-09-04.md`, `questions.md`.
+Pack Customizer (hero repeater, colors→CSS vars) code-verified; platform controls STORED_NOT_CONSUMED as audited. Menus server-spliced, contract now test-enforced. Search bridge code-verified, empty-state unproven. Plugin inventory impossible from repo (B-1/Q8); newsletter security revalidated as **sound** (stale audit finding corrected).
+
+## Assets / CSS / JS
+
+Full PHP lint sweep clean (all theme+frontend files); contract suite pins the bridge↔template selector layer (57 checks: menu splice, slots, hydration, auth, logo, search, newsletter). Asset/runtime network audits BLOCKED.
+
+## Security / accessibility / responsive / routes / cache
+
+Security static gates pass (nonces, export guard, quarantine). A11y/responsive/cache: mechanisms verified in code, runtime verification BLOCKED. Route table: 15 routes statically traced (docs 05); live identity checks BLOCKED.
+
+## Feature loss
+
+None introduced: changes were (a) file tracking, (b) file relocation, (c) three behavior-narrowing fixes (demo-auto, 404, single injection) and (d) a new test file. No working feature removed; contract suite guards against future silent breakage.
+
+## Production / mail / payment
+
+Not executed — `BLOCKED (B-1)`. Deployment (Phases 33–37) intentionally NOT simulated.
+
+## Known limitations
+
+1. Verdict is `BLOCKED` until a runtime is provided — this is the honest ceiling of a code-only environment.
+2. Contract suite covers structural selectors, not runtime behavior (E2E still required).
+3. `aureon/`, `theme/`, root `frontend/` remain as confusion hazards pending approval.
+
+## Release freeze (Phase 40, partial)
+
+RC manifest + SHA-256 file manifest created for the tested canonical tree (`test-results/RELEASE-CANDIDATE-MANIFEST.json`, commit `c97552d`, 1,964 files). Final freeze + archive deferred until production gates run. Golden Copy immutable — verified.
