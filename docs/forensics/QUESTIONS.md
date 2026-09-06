@@ -1,6 +1,6 @@
 # QUESTIONS.md — Decisions & Blockers Requiring User Input
 
-Only questions **not answerable from code**. Evidence cited for each. (Per audit rules: no question whose answer is discoverable in the repo is listed here.)
+> **STATUS UPDATE 2026-09-06:** Q2 resolved (T-01, commit `2d8f4e0`). Q3/Q4/Q7 decided — see `DECISIONS-LOG.md`. Remaining open: **Q1 (runtime access — the sole release blocker)** and Q5/Q6/Q8/Q9 (packaging-time decisions, not code work). Only questions **not answerable from code** are listed.
 
 ## P0 BLOCKERS
 
@@ -20,13 +20,13 @@ Only questions **not answerable from code**. Evidence cited for each. (Per audit
 
 ## ARCHITECTURE
 
-### Q3. Restore Core default design to `luxury` and select vineta via option/constant?
+### Q3. ~~Restore Core default design to `luxury` and select vineta via option/constant?~~ **DECIDED 2026-09-06: keep `vineta` default; no Core change.** See DECISIONS-LOG.md. Multi-client escape hatch documented (AETHER_DESIGN constant / aether_active_design option).
 - **Why:** `views/design.php` hardcodes `'vineta'` (Core↔client coupling, unreachable luxury engine). The fix is one line + a runtime setting — but the runtime change needs the live DB/wp-config (ties to Q1).
 - **Options:** (a) restore default + set option `aether_active_design=vineta`; (b) keep hardcode and accept coupling.
 - **Recommendation:** (a).
 - **Consequence:** (b) blocks every future client pack and makes the luxury engine permanently dead.
 
-### Q4. Keep the `luxury` AETHER engine at all?
+### Q4. ~~Keep the `luxury` AETHER engine at all?~~ **DECIDED 2026-09-06: archive stale trees, delete nothing; Golden Copy immutable.** Execution deferred to the packaging window so the tested RC stays byte-identical. See DECISIONS-LOG.md.
 - **Why:** ~598-file root `frontend/` + engine sections/assets are dead under vineta. Deleting shrinks and de-confuses the repo; keeping preserves a Core regression harness and the multi-client story.
 - **Options:** (a) keep + maintain; (b) archive (move out of deploy tree, keep in git history); (c) delete.
 - **Recommendation:** (b).
@@ -50,7 +50,7 @@ Only questions **not answerable from code**. Evidence cited for each. (Per audit
 
 ## ACCOUNT / PLUGINS
 
-### Q7. Should the custom account dashboard gain WC endpoint-hook zones for plugin compatibility?
+### Q7. ~~Should the custom account dashboard gain WC endpoint-hook zones for plugin compatibility?~~ **DECIDED 2026-09-06: option (b) refined — do not invent hooks; document the existing endpoint surfaces as the supported insertion points and bind future edits to preserve them.** Account-plugin injection via `woocommerce_account_*` hooks is a documented limitation; adopting such a plugin later = BRIDGE_UPDATE. See DECISIONS-LOG.md.
 - **Why:** current template bypasses `woocommerce_account_*` hooks — account plugins (subscriptions, rewards) would not render.
 - **Options:** (a) add hook zones (small template change); (b) accept limitation, document "no account plugins".
 - **Recommendation:** (a) — cheap insurance.
@@ -76,4 +76,4 @@ Only questions **not answerable from code**. Evidence cited for each. (Per audit
 
 ## Consolidated chat question (per audit instructions)
 
-> **One decision needed to unblock everything else:** Can you provide a testable WordPress runtime for this project — a staging/Docker instance or a config export (active plugin list, PHP version, cache setup, gateway state) from the live server? With it, the plan's UNPROVEN items become tested and the implementation plan can start at T-01. Without it, I can still execute repo-level fixes (T-01, T-02, T-05, T-11, T-12) but production readiness stays uncertified.
+> **SUPERSEDED 2026-09-06:** the consolidated ask is unchanged in substance and now the ONLY release blocker: provide a testable WordPress runtime (staging/Docker instance or production config export). All code work and all decidable questions (Q2–Q4, Q7) are closed — see DECISIONS-LOG.md. Verdict remains AUREON_CLIENT_PRODUCTION_READY_BLOCKED until Q1 is answered with a real environment.

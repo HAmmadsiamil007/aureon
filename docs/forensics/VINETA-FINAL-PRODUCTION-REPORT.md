@@ -1,6 +1,10 @@
 # VINETA-FINAL-PRODUCTION-REPORT (Final Plan Phase 34)
 
-**Date:** 2026-09-06 · **Commit:** `4f48ea0` · **RC:** RC-2026-09-06 · **Executor:** Buffy (Freebuff)
+**Date:** 2026-09-06 · **Commit:** `4f48ea0` (identity; decisions recorded through `aeb0407+`) · **RC:** RC-2026-09-06 · **Executor:** Buffy (Freebuff)
+
+> **STATUS VOCABULARY (binding):** throughout this report and the acceptance matrix, "passes" always means *executable static/local checks that actually ran*. The single summary sentence is: **37 acceptance gates: 10 PASS, 24 BLOCKED by unavailable runtime/environment, 3 N/A, 0 FAIL.** "All executable gates pass" must never be read as "production is proven."
+>
+> **DECISIONS RECORDED 2026-09-06 (DECISIONS-LOG.md):** Q3 — default design stays `vineta`, no Core change; Q4 — archive stale trees, delete nothing, Golden Copy immutable; Q7 — document existing account endpoint surfaces as supported insertion points, do not invent hooks. Q1 (runtime access) is now the sole release blocker.
 
 ---
 
@@ -31,7 +35,7 @@ A-01, A-02, B-04(+downgrade), B-05, T-14 double-injection — all committed with
 
 ## REMAINING / BROKEN / MISSING
 
-- Remaining P1/P2: A-03 Core design-slug hardcode (needs runtime decision), B-01 tree consolidation (needs approval), B-02 composer split, B-06 cart-surface consolidation, B-07 account hook zones, C-01…C-08 hardening.
+- Remaining P1/P2: A-03 Core design-slug hardcode (**DECIDED Q3: accepted, no Core change** — multi-client escape hatch documented), B-01 tree consolidation (**DECIDED Q4: archive at packaging window; RC byte-identical until then**), B-02 composer split, B-06 cart-surface consolidation, B-07 account hook zones (**DECIDED Q7: documented limitation; existing endpoint surfaces are the supported insertion points**), C-01…C-08 hardening.
 - Broken: none known at code level (0 FAIL in matrix).
 - Missing: runtime inventory (WP/WC/plugin versions), deploy pipeline, contract-CI wiring.
 
