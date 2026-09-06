@@ -587,7 +587,7 @@ function vineta_enqueue_cart_bridge() {
 	wp_enqueue_style( 'vineta-icons', $pack_url . 'fonts/font-icons.css', array( 'vineta-fonts' ), '1.0.0' );
 
 	// Register the main Vineta data bridge script.
-	wp_register_script( 'vineta-data-shims', $pack_url . 'js/vineta-data-shims.js', array(), '1.0.3', true );
+	wp_register_script( 'vineta-data-shims', $pack_url . 'js/vineta-data-shims.js', array(), '1.0.4', true );
 	wp_localize_script(
 		'vineta-data-shims',
 		'vineta_bridge',
@@ -738,6 +738,34 @@ function vineta_wc_inline_css_output() {
 	echo '.woocommerce-info{background:#f0f0f0;border-left:4px solid #999;padding:12px 16px;border-radius:6px;margin-bottom:12px;font-size:14px}';
 	echo '.woocommerce-error{background:#fef2f2;border-left:4px solid #dc3545;padding:12px 16px;border-radius:6px;margin-bottom:12px;font-size:14px}';
 	echo '.cart_totals{margin-top:24px}';
+	// AETHER shell footer styling for WC pages
+	echo '.footer{background:#f8f5f0;padding:60px 0 0;color:#333}';
+	echo '.footer .container{max-width:1200px;margin:0 auto;padding:0 24px}';
+	echo '.footer-top{display:flex;gap:48px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid #e8e4de}';
+	echo '.footer-brand{flex:0 0 200px}';
+	echo '.footer-brand .footer-logo{font-size:24px;font-weight:700;color:#222;text-decoration:none;display:block;margin-bottom:12px}';
+	echo '.footer-brand .footer-tagline{font-size:13px;color:#888;line-height:1.6;margin-bottom:16px}';
+	echo '.footer-social{display:flex;gap:10px}';
+	echo '.footer-social a{width:36px;height:36px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;color:#555;text-decoration:none;transition:all .2s;font-size:14px}';
+	echo '.footer-social a:hover{background:#222;color:#fff}';
+	echo '.footer-links{flex:1;min-width:140px}';
+	echo '.footer-heading{font-size:16px;font-weight:600;color:#222;margin-bottom:16px;text-transform:uppercase;letter-spacing:.5px}';
+	echo '.footer-links ul{list-style:none;padding:0;margin:0}';
+	echo '.footer-links ul li{margin-bottom:10px}';
+	echo '.footer-links ul li a{font-size:14px;color:#666;text-decoration:none;transition:color .2s}';
+	echo '.footer-links ul li a:hover{color:#222}';
+	echo '.footer-newsletter{flex:1;min-width:220px}';
+	echo '.footer-newsletter p{font-size:13px;color:#888;line-height:1.6;margin-bottom:12px}';
+	echo '.footer-newsletter-form{display:flex;gap:0}';
+	echo '.footer-newsletter-form input[type="email"]{flex:1;padding:10px 14px;border:1px solid #ddd;border-radius:6px 0 0 6px;font-size:14px;outline:none}';
+	echo '.footer-newsletter-form input[type="email"]:focus{border-color:#222}';
+	echo '.footer-newsletter-form button{padding:10px 16px;background:#222;color:#fff;border:none;border-radius:0 6px 6px 0;cursor:pointer;font-size:14px;transition:background .2s}';
+	echo '.footer-newsletter-form button:hover{background:#444}';
+	echo '.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:20px 0;flex-wrap:wrap;gap:12px}';
+	echo '.footer-legal{display:flex;gap:20px;flex-wrap:wrap}';
+	echo '.footer-legal a{font-size:13px;color:#888;text-decoration:none;transition:color .2s}';
+	echo '.footer-legal a:hover{color:#222}';
+	echo '.footer-copyright{font-size:13px;color:#888}';
 	echo '</style>';
 }
 
@@ -2879,6 +2907,123 @@ function vineta_render_standalone_header() {
 	$header_html = str_replace( '>><img', '><img', $header_html );
 
 	echo $header_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+}
+
+/**
+ * Extract the frozen Vineta footer HTML from index.html.
+ *
+ * Used by standalone WC templates (checkout, etc.) that cannot use the
+ * AETHER shell footer because the shell lacks CSS on complete-page designs.
+ *
+ * @return string Footer HTML or empty string on failure.
+ */
+function vineta_get_frozen_footer() {
+	if ( ! function_exists( 'aether_active_design' ) || 'vineta' !== aether_active_design() ) {
+		return '';
+	}
+	if ( ! function_exists( 'aether_active_design_dir' ) ) {
+		return '';
+	}
+	$pack_dir = aether_active_design_dir();
+	if ( ! $pack_dir ) {
+		return '';
+	}
+	$index_file = $pack_dir . 'index.html';
+	if ( ! file_exists( $index_file ) ) {
+		return '';
+	}
+	$html = file_get_contents( $index_file );
+	if ( ! $html ) {
+		return '';
+	}
+
+	// Extract footer: from <footer ...> to </footer> (inclusive).
+	if ( preg_match( '/<footer\s+id="footer"[^>]*>.*?<\/footer>\s*<!-- \/Footer -->/s', $html, $m ) ) {
+		$footer_html = $m[0];
+	} else {
+		return '';
+	}
+
+	$site_url = home_url( '/' );
+	$pack_url = function_exists( 'aether_pack_url' ) ? aether_pack_url() : '';
+
+	// Rewrite image paths (images/ → pack URL)
+	if ( $pack_url ) {
+		$footer_html = preg_replace(
+			'/(<img\s[^>]*src\s*=\s*["\x27])((?:\.\.\/)?images\/)/i',
+			'$1' . $pack_url . '$2',
+			$footer_html
+		);
+		$footer_html = preg_replace(
+			'/(data-src\s*=\s*["\x27])((?:\.\.\/)?images\/)/i',
+			'$1' . $pack_url . '$2',
+			$footer_html
+		);
+	}
+
+	// Rewrite footer links: .html → WordPress permalinks
+	$shop_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : $site_url . 'shop/';
+	$cart_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'cart' ) : $site_url . 'cart/';
+	$account_url = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'myaccount' ) : $site_url . 'my-account/';
+
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])index\.html(["\x27])/i',
+		'$1' . $site_url . '$2',
+		$footer_html
+	);
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])shop-default\.html(["\x27])/i',
+		'$1' . $shop_url . '$2',
+		$footer_html
+	);
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])about-us\.html(["\x27])/i',
+		'$1' . $site_url . 'about-us$2',
+		$footer_html
+	);
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])contact-us\.html(["\x27])/i',
+		'$1' . $site_url . 'contact-us$2',
+		$footer_html
+	);
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])privacy-policy\.html(["\x27])/i',
+		'$1' . $site_url . 'privacy-policy$2',
+		$footer_html
+	);
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])term-and-condition\.html(["\x27])/i',
+		'$1' . $site_url . 'term-and-condition$2',
+		$footer_html
+	);
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])return-and-refund\.html(["\x27])/i',
+		'$1' . $site_url . 'return-and-refund$2',
+		$footer_html
+	);
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])faq\.html(["\x27])/i',
+		'$1' . $site_url . 'faq$2',
+		$footer_html
+	);
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])shipping\.html(["\x27])/i',
+		'$1' . $site_url . 'shipping$2',
+		$footer_html
+	);
+	$footer_html = preg_replace(
+		'/(<a\s[^>]*href\s*=\s*["\x27])store-location\.html(["\x27])/i',
+		'$1' . $site_url . 'store-location$2',
+		$footer_html
+	);
+
+	// Update copyright year
+	$footer_html = preg_replace( '/Copyright\s+©\s+\d{4}/', 'Copyright &copy; ' . date( 'Y' ), $footer_html );
+
+	// Remove data-aureon-slot attributes
+	$footer_html = preg_replace( '/\s*data-aureon-slot="[^"]*"/i', '', $footer_html );
+
+	return $footer_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 

@@ -951,7 +951,7 @@
             var href = product.url || '#';
             // Mark card so the path-bridge MutationObserver skips it
             card.setAttribute('data-vineta-filled', '1');
-            // Product link targets — cover ALL anchor types in the card
+            // Product link targets ??? cover ALL anchor types in the card
             card.querySelectorAll('a').forEach(function(a) {
                 if (a.tagName !== 'A') return;
                 // Skip add-to-cart, wishlist, quickview, compare buttons
@@ -1852,22 +1852,23 @@
         fillContactInfo: function() {
             var info = pageData.contact;
             if (!info) return;
-            var list = document.querySelector('[data-aureon-slot="static.contact_info"], .contact-list');
+            var list = document.querySelector('[data-aureon-slot="static.contact_info"], .contact-list, .footer-info');
             if (!list) return;
             var items = list.querySelectorAll('li');
             var addressText = (info.address || []).join(', ');
             for (var i = 0; i < items.length; i++) {
                 var txt = items[i].textContent.replace(/\s+/g, ' ').trim();
                 var link = items[i].querySelector('a');
-                if (/^Address/i.test(txt) && addressText && link) {
+                if (/(address|direction)/i.test(txt) && addressText && link) {
                     link.textContent = addressText;
-                } else if (/^Phone/i.test(txt) && info.phone && link) {
+                    link.href = '#';
+                } else if (/(phone|call|tel|^\d|^\()/i.test(txt) && info.phone && link) {
                     link.textContent = info.phone;
                     link.href = 'tel:' + info.phone.replace(/[^+\d]/g, '');
-                } else if (/^Email/i.test(txt) && info.email && link) {
+                } else if (/(email|@|mailto)/i.test(txt) && info.email && link) {
                     link.textContent = info.email;
                     link.href = 'mailto:' + info.email;
-                } else if (/^Open/i.test(txt) && info.hours) {
+                } else if (/(open|hours|time)/i.test(txt) && info.hours) {
                     var span = items[i].querySelector('span, .text-main');
                     if (span) span.textContent = info.hours;
                 }
@@ -2273,11 +2274,222 @@
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function() {
+            window.setTimeout(function() { VinetaFooterFixes.init(); }, 100);
             window.setTimeout(VinetaVariations.init.bind(VinetaVariations), 600);
         });
     } else {
+        window.setTimeout(function() { VinetaFooterFixes.init(); }, 100);
         window.setTimeout(VinetaVariations.init.bind(VinetaVariations), 600);
     }
 
-})();
+    // Footer fixes: dynamic copyright year, Snapchat link label, newsletter button label, marquee typo
+    var VinetaFooterFixes = {
+        init: function() {
+            // Fix "Life-time Guarantes" typo in announcement/marquee
+            var allP = document.querySelectorAll('p');
+            allP.forEach(function(el) {
+                if (el.textContent.includes('Life-time Guarantes')) {
+                    el.textContent = el.textContent.replace('Life-time Guarantes', 'Lifetime Guarantees');
+                }
+            });
+            // Dynamic copyright year
+            var footer = document.querySelector('footer, .footer');
+            if (footer) {
+                var allEls = footer.querySelectorAll('p, span');
+                var currentYear = new Date().getFullYear();
+                allEls.forEach(function(el) {
+                    if (/\b2025\b/.test(el.textContent)) {
+                        el.textContent = el.textContent.replace(/2025/g, String(currentYear));
+                    }
+                });
+            }
+            // Fix Snapchat link - add missing text
+            var snapLinks = document.querySelectorAll('a[href*="snapchat"]');
+            snapLinks.forEach(function(link) {
+                if (!link.textContent.trim()) {
+                    link.textContent = 'Snapchat';
+                    link.setAttribute('aria-label', 'Follow us on Snapchat');
+                }
+            });
+            // Fix newsletter submit button - add label
+            var nlBtns = document.querySelectorAll('.form-newsletter button[type="submit"], .newsletter button[type="submit"], .footer-newsletter button');
+            nlBtns.forEach(function(btn) {
+                if (!btn.textContent.trim()) {
+                    btn.innerHTML = '<i class="icon-arrow-right"></i>';
+                    btn.setAttribute('aria-label', 'Subscribe');
+                }
+            });
+        }
+    };
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            VinetaFooterFixes.init();
+        });
+    } else {
+        VinetaFooterFixes.init();
+    }
+
+    // Newsletter Popup — replaces the frozen blank-banner popup with a
+    // CSS-styled version using the coral brand gradient and dynamic content.
+    var VinetaNewsletterPopup = {
+        init: function() {
+            var data = (window.VinetaPageData && window.VinetaPageData.customizer && window.VinetaPageData.customizer.newsletter) || {};
+            var heading = data.heading || 'Sign up to our Newsletter';
+            var text = data.text || 'Be the first to get the latest news about trends, promotions, and much more!';
+            var siteUrl = (window.VinetaPageData && window.VinetaPageData.site && window.VinetaPageData.site.url) || '/';
+            var privacyUrl = siteUrl + 'privacy-policy/';
+
+            // Remove the old blank-banner popup
+            var old = document.querySelector('.modal-newsletter');
+            if (old && old.parentNode) old.parentNode.removeChild(old);
+
+            // Inject styles
+            var css = document.createElement('style');
+            css.textContent = [
+                '.vn-popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1050;display:none;opacity:0;transition:opacity .3s}',
+                '.vn-popup-overlay.vn-show{display:block;opacity:1}',
+                '.vn-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.92);z-index:1051;width:480px;max-width:92vw;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,.25);display:none;opacity:0;transition:opacity .35s ease,transform .35s ease}',
+                '.vn-popup.vn-show{display:block;opacity:1;transform:translate(-50%,-50%) scale(1)}',
+                '.vn-banner{position:relative;height:220px;background:linear-gradient(135deg,#ff6f61 0%,#ff8a7a 40%,#ffb4a2 70%,#ffd6c0 100%);overflow:hidden;display:flex;align-items:center;justify-content:center}',
+                '.vn-banner::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.08\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")} ',
+                '.vn-banner::after{content:"";position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:80px;height:80px;background:#ff6f61;border-radius:50%;display:flex;align-items:center;justify-content:center}',
+                '.vn-banner-icon{position:relative;z-index:2;color:#fff;font-size:42px;line-height:1}',
+                '.vn-close{position:absolute;top:12px;right:12px;z-index:5;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s}',
+                '.vn-close:hover{background:rgba(255,255,255,.4)}',
+                '.vn-body{padding:36px 32px 28px;text-align:center}',
+                '.vn-body h3{font-family:var(--font-heading,"Playfair Display",serif);font-size:22px;font-weight:700;color:#222;margin:0 0 8px;line-height:1.3}',
+                '.vn-body p{font-size:14px;color:#666;margin:0 0 20px;line-height:1.6}',
+                '.vn-form{position:relative;margin-bottom:16px}',
+                '.vn-form input[type="email"]{width:100%;padding:14px 44px 14px 16px;border:1.5px solid #ddd;border-radius:8px;font-size:14px;color:#333;background:#fafafa;outline:none;transition:border-color .2s}',
+                '.vn-form input[type="email"]:focus{border-color:#ff6f61}',
+                '.vn-form input[type="email"]::placeholder{color:#aaa}',
+                '.vn-form .vn-mail-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#999;font-size:16px;pointer-events:none}',
+                '.vn-submit{width:100%;padding:14px;border:none;border-radius:8px;background:#222;color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s;letter-spacing:.3px}',
+                '.vn-submit:hover{background:#ff6f61}',
+                '.vn-social{display:flex;gap:12px;justify-content:center;margin:16px 0 12px}',
+                '.vn-social a{width:36px;height:36px;border-radius:50%;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:#555;text-decoration:none;transition:background .2s,color .2s;font-size:14px}',
+                '.vn-social a:hover{background:#ff6f61;color:#fff}',
+                '.vn-privacy{font-size:12px;color:#999;margin:0}',
+                '.vn-privacy a{color:#666;text-decoration:underline}',
+                '@media(max-width:520px){.vn-popup{width:95vw}.vn-banner{height:160px}.vn-body{padding:24px 20px 20px}}'
+            ].join('\n');
+            document.head.appendChild(css);
+
+            // Build popup HTML
+            var overlay = document.createElement('div');
+            overlay.className = 'vn-popup-overlay';
+            overlay.id = 'vn-newsletter-overlay';
+
+            var popup = document.createElement('div');
+            popup.className = 'vn-popup';
+            popup.id = 'vn-newsletter-popup';
+            popup.setAttribute('role', 'dialog');
+            popup.setAttribute('aria-label', 'Newsletter signup');
+
+            popup.innerHTML =
+                '<div class="vn-banner">' +
+                    '<span class="vn-banner-icon">&#9993;</span>' +
+                    '<button class="vn-close" aria-label="Close newsletter popup">&times;</button>' +
+                '</div>' +
+                '<div class="vn-body">' +
+                    '<h3>' + escapeHtml(heading) + '</h3>' +
+                    '<p>' + escapeHtml(text) + '</p>' +
+                    '<form class="vn-form" data-mailchimp="true">' +
+                        '<input type="email" name="email" placeholder="Your email address" required aria-label="Email address">' +
+                        '<span class="vn-mail-icon">&#9993;</span>' +
+                    '</form>' +
+                    '<button class="vn-submit" type="button">Subscribe</button>' +
+                    '<div class="vn-social">' +
+                        '<a href="https://x.com/" aria-label="Follow us on X" target="_blank" rel="noopener">&#120143;</a>' +
+                        '<a href="https://www.facebook.com/" aria-label="Follow us on Facebook" target="_blank" rel="noopener">f</a>' +
+                        '<a href="https://www.instagram.com/" aria-label="Follow us on Instagram" target="_blank" rel="noopener">&#9737;</a>' +
+                        '<a href="https://www.youtube.com/" aria-label="Follow us on YouTube" target="_blank" rel="noopener">&#9654;</a>' +
+                    '</div>' +
+                    '<p class="vn-privacy">Will be used in accordance with our <a href="' + escapeHtml(privacyUrl) + '">Privacy Policy</a></p>' +
+                '</div>';
+
+            document.body.appendChild(overlay);
+            document.body.appendChild(popup);
+
+            // Auto-show after 3 seconds (once per session per page)
+            var pageKey = 'vn_popup_' + window.location.pathname;
+            if (!sessionStorage.getItem(pageKey)) {
+                setTimeout(function() {
+                    showPopup();
+                }, 3000);
+            }
+
+            // Close handlers
+            function closePopup() {
+                popup.classList.remove('vn-show');
+                overlay.classList.remove('vn-show');
+                sessionStorage.setItem(pageKey, '1');
+            }
+
+            popup.querySelector('.vn-close').addEventListener('click', closePopup);
+            overlay.addEventListener('click', closePopup);
+
+            // Subscribe button
+            popup.querySelector('.vn-submit').addEventListener('click', function() {
+                var emailInput = popup.querySelector('input[type="email"]');
+                var email = emailInput ? emailInput.value.trim() : '';
+                if (!email || !emailInput.checkValidity()) {
+                    if (emailInput) emailInput.focus();
+                    return;
+                }
+                // Send to WP AJAX
+                var fd = new FormData();
+                fd.append('action', 'aether_newsletter_subscribe');
+                fd.append('email', email);
+                var ajaxUrl = (window.vineta_bridge && window.vineta_bridge.ajax_url) || '/wp-admin/admin-ajax.php';
+                fetch(ajaxUrl, { method: 'POST', body: fd, credentials: 'same-origin' })
+                    .then(function(r) { return r.json(); })
+                    .then(function(res) {
+                        if (res.success) {
+                            emailInput.value = '';
+                            popup.querySelector('.vn-body').innerHTML =
+                                '<h3 style="color:#ff6f61;margin-top:20px">Thank you!</h3>' +
+                                '<p>You have been subscribed to our newsletter.</p>';
+                            setTimeout(closePopup, 2500);
+                        } else {
+                            var msg = (res.data && res.data.message) || 'Something went wrong. Please try again.';
+                            alert(msg);
+                        }
+                    })
+                    .catch(function() {
+                        alert('Network error. Please try again later.');
+                    });
+            });
+
+            // Keyboard: Escape to close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && popup.classList.contains('vn-show')) {
+                    closePopup();
+                }
+            });
+
+            function showPopup() {
+                overlay.classList.add('vn-show');
+                popup.classList.add('vn-show');
+            }
+
+            function escapeHtml(str) {
+                var div = document.createElement('div');
+                div.appendChild(document.createTextNode(str));
+                return div.innerHTML;
+            }
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            VinetaNewsletterPopup.init();
+        });
+    } else {
+        VinetaNewsletterPopup.init();
+    }
+
+    })();
+
+
 

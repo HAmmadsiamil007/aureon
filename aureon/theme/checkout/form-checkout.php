@@ -58,6 +58,8 @@ if ( function_exists( 'WC' ) ) {
 ?>
 <?php if ( $pack_url ) : ?>
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/bootstrap.min.css">
+<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/swiper-bundle.min.css">
+<link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/animate.css">
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>css/styles.css">
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>fonts/fonts.css">
 <link rel="stylesheet" href="<?php echo esc_url( $pack_url ); ?>fonts/font-icons.css">
@@ -176,7 +178,13 @@ img { max-width: 100%; height: auto; }
 <body <?php body_class( 'woocommerce-checkout-page' ); ?>>
 <?php wp_body_open(); ?>
 
-<!-- HEADER -->
+<?php
+// Render the Vineta frozen header (extracted from index.html via composer.php)
+if ( function_exists( 'vineta_render_standalone_header' ) ) {
+	vineta_render_standalone_header();
+} else {
+	// Fallback: simple header if function not available
+?>
 <header class="vt-header">
 	<div class="vt-header-inner">
 		<a href="<?php echo esc_url( $site_url ); ?>" class="vt-logo">AUREON</a>
@@ -196,6 +204,7 @@ img { max-width: 100%; height: auto; }
 		</div>
 	</div>
 </header>
+<?php } ?>
 
 <!-- PAGE TITLE -->
 <div class="vt-page-title">
@@ -408,43 +417,30 @@ img { max-width: 100%; height: auto; }
 	</form>
 </section>
 
-<!-- FOOTER -->
-<footer class="vt-footer">
-	<div class="vt-footer-grid">
-		<div>
-			<h4>AUREON</h4>
-			<p><?php esc_html_e( 'Premium fashion and lifestyle store. Curated collections for the modern wardrobe.', 'woocommerce' ); ?></p>
-		</div>
-		<div>
-			<h4><?php esc_html_e( 'Quick Links', 'woocommerce' ); ?></h4>
-			<div class="vt-footer-links">
-				<a href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Shop', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/about-us/' ) ); ?>"><?php esc_html_e( 'About Us', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/contact-us/' ) ); ?>"><?php esc_html_e( 'Contact', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>"><?php esc_html_e( 'FAQ', 'woocommerce' ); ?></a>
-			</div>
-		</div>
-		<div>
-			<h4><?php esc_html_e( 'Policies', 'woocommerce' ); ?></h4>
-			<div class="vt-footer-links">
-				<a href="<?php echo esc_url( home_url( '/shipping/' ) ); ?>"><?php esc_html_e( 'Shipping', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/term-and-condition/' ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'woocommerce' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/return-and-refund/' ) ); ?>"><?php esc_html_e( 'Returns & Refunds', 'woocommerce' ); ?></a>
-			</div>
-		</div>
-	</div>
-	<div class="vt-footer-bottom">
-		&copy; <?php echo esc_html( date( 'Y' ) ); ?> AUREON. <?php esc_html_e( 'All rights reserved.', 'woocommerce' ); ?>
-	</div>
-</footer>
+<?php
+// Render the Vineta frozen footer (extracted from index.html via composer.php)
+$footer_html = '';
+if ( function_exists( 'vineta_get_frozen_footer' ) ) {
+	$footer_html = vineta_get_frozen_footer();
+}
+if ( ! $footer_html ) {
+	// Fallback: minimal footer
+	$footer_html = '<footer class="footer"><div class="container"><div class="footer-bottom"><div class="footer-copyright">&copy; ' . date('Y') . ' AUREON. All rights reserved.</div></div></div></footer>';
+}
+echo $footer_html;
+?>
 
 <?php
-// Load only WooCommerce checkout JS — NOT full wp_footer() which triggers all 14 plugins
+// Load WooCommerce checkout JS + Vineta frozen header scripts
 if ( function_exists( 'WC' ) ) {
 	wp_enqueue_script( 'wc-checkout', WC()->plugin_url() . '/assets/js/frontend/checkout' . ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min' ) . '.js', array( 'jquery' ), WC()->version, true );
 	wp_print_scripts( array( 'wc-checkout' ) );
 }
+// Load Bootstrap JS + Vineta main.js for frozen header interactions (mobile menu, offcanvas)
+if ( $pack_url ) :
 ?>
+<script src="<?php echo esc_url( $pack_url ); ?>js/bootstrap.min.js"></script>
+<script src="<?php echo esc_url( $pack_url ); ?>js/main.js"></script>
+<?php endif; ?>
 </body>
 </html>
