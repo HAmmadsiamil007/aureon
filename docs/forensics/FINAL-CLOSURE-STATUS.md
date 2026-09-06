@@ -32,6 +32,18 @@
 - Canonical ↔ mirror: the deploy tree **is** the canonical tree; manifest now represents it byte-exact (1,972/1,972 hashed). A *remote* production mirror does not exist in this environment — remote sync remains **BLOCKED (B-1)**.
 - Golden Copy: diffs vs canonical remain exactly the 5+3 baseline (pre-auth-pages snapshot) — **untouched and immutable**, verified from the correct working directory this time.
 
+## STATUS-BOARD RECONCILIATION (2026-09-06, binding)
+
+External status summaries present several items as ✅ that the acceptance matrix holds at BLOCKED. The matrix is authoritative. Items that are **code-complete but runtime-UNPROVEN** and therefore stay BLOCKED: production route verification, Customizer round-trips, WooCommerce/cart/checkout E2E, auth/account flows, menus live-edit, responsive (1440/1024/768/390), accessibility, console/network, cache/state, "deploy mirror" beyond the local canonical tree, SMTP, payment sandbox. BLOCKED ≠ BROKEN — and ✅ in a narrative board never overrides a BLOCKED in the evidence matrix.
+
+## RELEASE DISCIPLINE (binding, pre-deployment)
+
+```
+release candidate → test → manifest → hash → deploy
+```
+
+Any code change after RC `1289995` (1,972-file SHA-256 manifest) creates a **new release candidate** and **must regenerate + re-record the manifest before deployment**. Never deploy a build whose hashes do not match a recorded manifest. Small "production fixes" are not exempt.
+
 ## FINAL STATUS
 
 ```
