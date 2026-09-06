@@ -2303,11 +2303,18 @@
                     }
                 });
             }
-            // Fix Snapchat link - add missing text
+            // Fix Snapchat icon - the shipped icomoon build lacks the snapchat
+            // glyph (codepoint \e96a), so the anchor renders empty and the old
+            // band-aid injected the raw word "Snapchat", wiping the <i> element.
+            // Restore the sibling-consistent icon markup instead; the SVG ghost
+            // is painted by the .icon-snapchat mask rule in fonts/font-icons.css.
             var snapLinks = document.querySelectorAll('a[href*="snapchat"]');
             snapLinks.forEach(function(link) {
-                if (!link.textContent.trim()) {
-                    link.textContent = 'Snapchat';
+                if (!link.querySelector('i.icon-snapchat')) {
+                    link.textContent = '';
+                    var snapIcon = document.createElement('i');
+                    snapIcon.className = 'icon icon-snapchat';
+                    link.appendChild(snapIcon);
                     link.setAttribute('aria-label', 'Follow us on Snapchat');
                 }
             });
