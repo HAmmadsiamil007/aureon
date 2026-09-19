@@ -1,0 +1,182 @@
+[
+  {
+    "route": "home",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "shop",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "category",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "search",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "blog",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "blog-single",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "about",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "contact",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "store-location",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "faq",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "privacy",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "cart",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "checkout",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "account",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "404",
+    "viewport": "desktop",
+    "ok": true,
+    "errors": 1
+  },
+  {
+    "route": "home",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "shop",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "category",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "search",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "blog",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "blog-single",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "about",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "contact",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "store-location",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "faq",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "privacy",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "cart",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "checkout",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "account",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 0
+  },
+  {
+    "route": "404",
+    "viewport": "mobile",
+    "ok": true,
+    "errors": 1
+  }
+]

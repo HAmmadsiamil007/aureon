@@ -89,6 +89,14 @@ if ( false !== $body_content ) {
 	// Server-side path rewrite: convert relative CDN paths to absolute before output.
 	if ( $pack_url ) {
 		$body_content = aureon_ferm_rewrite_paths( $body_content, $pack_url );
+		// jQuery single-source: WordPress prints jQuery in <head> (vineta-data-shims
+		// declares a jquery dependency), so the pack's own js/jquery.min.js script
+		// tag in the frozen body is redundant — strip it before output.
+		$body_content = preg_replace(
+			'/<script[^>]*src\s*=\s*["\x27][^"\x27]*js\/jquery\.min\.js["\x27][^>]*><\/script>/i',
+			'',
+			$body_content
+		);
 	}
 	echo '<body' . aureon_ferm_render_attrs( $body_attrs['body'] ) . ">\n";
 	echo $body_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- client presentation HTML, already escaped at source.
@@ -260,175 +268,174 @@ exit;
 
 
 /**
- * Map WordPress route to a complete-page HTML file path (relative to pack dir).
+ * Map a WordPress route class to its canonical route identifier.
  *
- * Uses the manifest.json "pages" mapping when available, falls back to
- * the hardcoded Ferm route map for backward compatibility.
+ * Single source of truth for route classification. The manifest "pages"
+ * mapping is the ONLY template authority — there is intentionally no legacy
+ * route fallback here. An unmapped route class returns '404' so a WordPress
+ * route can NEVER silently render the wrong page with HTTP 200.
  *
- * @return string|false File path or false if no match.
+ * @return string Route class identifier.
  */
-function aureon_ferm_resolve_page() {
-	// Try manifest pages mapping first.
-	$manifest = aether_design_manifest();
-	if ( ! empty( $manifest['pages'] ) ) {
-		$pages = $manifest['pages'];
-
-		// Homepage.
-		if ( is_front_page() || ( is_home() && ! is_paged() ) ) {
-			if ( ! empty( $pages['home'] ) ) {
-				return $pages['home'];
-			}
-		}
-
-		// Single product.
-		if ( function_exists( 'is_product' ) && is_product() ) {
-			$slug = get_query_var( 'product' );
-			if ( $slug && ! empty( $pages['products'][ $slug ] ) ) {
-				return $pages['products'][ $slug ];
-			}
-			// Fallback: first available product page from manifest.
-			if ( ! empty( $pages['products'] ) && is_array( $pages['products'] ) ) {
-				return reset( $pages['products'] );
-			}
-		}
-
-		// Product archive / shop page.
-		if ( is_post_type_archive( 'product' ) || is_page( 'shop' ) ) {
-			if ( ! empty( $pages['collections'] ) && is_array( $pages['collections'] ) ) {
-				return reset( $pages['collections'] );
-			}
-		}
-
-		// Product category.
-		if ( is_tax( 'product_cat' ) ) {
-			$slug = get_query_var( 'product_cat' );
-			if ( $slug && ! empty( $pages['collections'][ $slug ] ) ) {
-				return $pages['collections'][ $slug ];
-			}
-			if ( ! empty( $pages['collections'] ) && is_array( $pages['collections'] ) ) {
-				return reset( $pages['collections'] );
-			}
-		}
-
-		// Static pages.
-		if ( is_page() ) {
-			$slug = get_query_var( 'pagename' );
-			if ( $slug && ! empty( $pages['pages'][ $slug ] ) ) {
-				return $pages['pages'][ $slug ];
-			}
-			// Fallback: check the 'static' key in manifest.
-			if ( $slug && ! empty( $pages['static'][ $slug ] ) ) {
-				return $pages['static'][ $slug ];
-			}
-		}
-
-		// Blog / posts archive.
-		if ( is_home() || is_post_type_archive( 'post' ) || is_page( 'blog' ) || is_page( 'stories' ) ) {
-			if ( ! empty( $pages['blog'] ) ) {
-				return $pages['blog'];
-			}
-		}
-
-		// Cart.
-		if ( function_exists( 'is_cart' ) && is_cart() ) {
-			if ( ! empty( $pages['cart'] ) ) {
-				return $pages['cart'];
-			}
-		}
-
-		// Checkout.
-		if ( function_exists( 'is_checkout' ) && is_checkout() ) {
-			if ( ! empty( $pages['checkout'] ) ) {
-				return $pages['checkout'];
-			}
-		}
-
-		// Account.
-		if ( function_exists( 'is_account_page' ) && is_account_page() ) {
-			if ( ! empty( $pages['account'] ) ) {
-				return $pages['account'];
-			}
-		}
-	}
-
-	// --- Fallback: generic route map (backward compatibility) ---
-	// Homepage.
-	if ( is_front_page() || ( is_home() && ! is_paged() ) ) {
-		return 'index.html';
-	}
-
-	// Single product.
+function aureon_ferm_route_class() {
+	// Single product (most specific first).
 	if ( function_exists( 'is_product' ) && is_product() ) {
-		$slug = get_query_var( 'product' );
-		if ( $slug ) {
-			$file = 'products/' . $slug . '.html';
-			if ( file_exists( aether_active_design_dir() . $file ) ) {
-				return $file;
-			}
-		}
-		// Fallback: first available product page.
-		$products_dir = aether_active_design_dir() . 'products/';
-		if ( is_dir( $products_dir ) ) {
-			$files = glob( $products_dir . '*.html' );
-			if ( ! empty( $files ) ) {
-				return 'products/' . basename( $files[0] );
-			}
-		}
-		return false;
+		return 'product';
+	}
+
+	// Cart / checkout / account (WooCommerce route classes).
+	if ( function_exists( 'is_cart' ) && is_cart() ) {
+		return 'cart';
+	}
+	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
+		return 'checkout';
+	}
+	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+		return 'account';
 	}
 
 	// Product archive / shop page.
 	if ( is_post_type_archive( 'product' ) || is_page( 'shop' ) ) {
-		return 'collections/furniture.html';
+		return 'shop';
 	}
 
-	// Product category.
+	// Product category taxonomy.
 	if ( is_tax( 'product_cat' ) ) {
-		$slug = get_query_var( 'product_cat' );
-		if ( $slug ) {
-			$file = 'collections/' . $slug . '.html';
-			if ( file_exists( aether_active_design_dir() . $file ) ) {
-				return $file;
-			}
-		}
-		return 'collections/furniture.html';
+		return 'category';
 	}
 
-	// Static pages.
-	if ( is_page() ) {
-		$slug = get_query_var( 'pagename' );
-		$page_map = array(
-			'contact'       => 'pages/contact.html',
-			'about'         => 'pages/about.html',
-			'store-locator' => 'pages/store-locator.html',
-			'store locator' => 'pages/store-locator.html',
-		);
-		if ( isset( $page_map[ $slug ] ) ) {
-			return $page_map[ $slug ];
-		}
+	// Search results (before is_page/is_home so ?s= never mismatches).
+	if ( is_search() ) {
+		return 'search';
+	}
+
+	// Single blog post.
+	if ( is_singular( 'post' ) ) {
+		return 'blog_single';
 	}
 
 	// Blog / posts archive.
 	if ( is_home() || is_post_type_archive( 'post' ) || is_page( 'blog' ) || is_page( 'stories' ) ) {
-		return 'blogs/stories.html';
+		return 'blog';
 	}
 
-	// Search results — use blog page as fallback.
-	if ( is_search() ) {
-		return 'blogs/stories.html';
+	// Static pages (slug-mapped below).
+	if ( is_page() ) {
+		return 'static';
 	}
 
-	// 404.
-	if ( is_404() ) {
-		// The vineta pack ships 404.html at its root; the legacy
-		// pages/contact.html path does not exist in current packs.
-		if ( file_exists( aether_active_design_dir() . '404.html' ) ) {
-			return '404.html';
-		}
-		return 'pages/contact.html'; // Legacy ferm-era fallback.
+	// Homepage.
+	if ( is_front_page() || ( is_home() && ! is_paged() ) ) {
+		return 'home';
+	}
+
+	// Unknown route (includes WordPress 404) — must render the 404 page.
+	return '404';
+}
+
+/**
+ * Map a route class + context to a manifest pages key.
+ *
+ * @param string $class Route class from aureon_ferm_route_class().
+ * @param array  $pages Manifest pages mapping.
+ * @return string|false Manifest file path, or false when unmapped.
+ */
+function aureon_ferm_manifest_file_for( $class, $pages ) {
+	switch ( $class ) {
+		case 'home':
+			return ! empty( $pages['home'] ) ? $pages['home'] : false;
+
+		case 'product':
+			$slug = get_query_var( 'product' );
+			if ( $slug && ! empty( $pages['products'][ $slug ] ) ) {
+				return $pages['products'][ $slug ];
+			}
+			return ! empty( $pages['product_generic'] ) ? $pages['product_generic'] : false;
+
+		case 'shop':
+			if ( ! empty( $pages['shop'] ) ) {
+				return $pages['shop'];
+			}
+			if ( ! empty( $pages['collections'] ) && is_array( $pages['collections'] ) ) {
+				return reset( $pages['collections'] );
+			}
+			return false;
+
+		case 'category':
+			$slug = get_query_var( 'product_cat' );
+			if ( $slug && ! empty( $pages['collections'][ $slug ] ) ) {
+				return $pages['collections'][ $slug ];
+			}
+			if ( ! empty( $pages['collections']['default'] ) ) {
+				return $pages['collections']['default'];
+			}
+			if ( ! empty( $pages['shop'] ) ) {
+				return $pages['shop'];
+			}
+			return false;
+
+		case 'search':
+			return ! empty( $pages['search'] ) ? $pages['search'] : false;
+
+		case 'blog_single':
+			return ! empty( $pages['blog_single'] ) ? $pages['blog_single'] : false;
+
+		case 'blog':
+			return ! empty( $pages['blog'] ) ? $pages['blog'] : false;
+
+		case 'cart':
+			return ! empty( $pages['cart'] ) ? $pages['cart'] : false;
+
+		case 'checkout':
+			return ! empty( $pages['checkout'] ) ? $pages['checkout'] : false;
+
+		case 'account':
+			return ! empty( $pages['account'] ) ? $pages['account'] : false;
+
+		case 'static':
+			$slug = get_query_var( 'pagename' );
+			if ( $slug && ! empty( $pages['pages'][ $slug ] ) ) {
+				return $pages['pages'][ $slug ];
+			}
+			if ( $slug && ! empty( $pages['static'][ $slug ] ) ) {
+				return $pages['static'][ $slug ];
+			}
+			return false;
+
+		case '404':
+			// Prefer an explicit manifest 404 page, then a pack-root 404.html.
+			if ( ! empty( $pages['404'] ) ) {
+				return $pages['404'];
+			}
+			if ( file_exists( aether_active_design_dir() . '404.html' ) ) {
+				return '404.html';
+			}
+			return false;
 	}
 
 	return false;
+}
+
+/**
+ * Map WordPress route to a complete-page HTML file path (relative to pack dir).
+ *
+ * Manifest-authoritative: the design pack's manifest.json "pages" mapping is
+ * the ONLY template source. There is deliberately no legacy route fallback —
+ * an unmapped route must fail loudly (false => HTTP 404 in the caller), never
+ * silently serve the wrong page behind HTTP 200.
+ *
+ * @return string|false File path or false if no match.
+ */
+function aureon_ferm_resolve_page() {
+	$manifest = aether_design_manifest();
+	if ( empty( $manifest['pages'] ) ) {
+		return false;
+	}
+
+	$pages = $manifest['pages'];
+	$class = aureon_ferm_route_class();
+
+	return aureon_ferm_manifest_file_for( $class, $pages );
 }
 
 
@@ -680,6 +687,30 @@ function aureon_ferm_rewrite_paths( $content, $pack_url ) {
 		'$1' . $site_url . '/$3$5',
 		$content
 	);
+
+	// Static pack pages (manifest "pages.static" map): bare filenames like
+	// about-us.html, privacy-policy.html -> real WordPress page permalinks.
+	// Server-side so links work even when the JS bridge is blocked/broken.
+	$manifest = function_exists( 'aether_design_manifest' ) ? aether_design_manifest() : array();
+	if ( ! empty( $manifest['pages']['static'] ) && is_array( $manifest['pages']['static'] ) ) {
+		foreach ( $manifest['pages']['static'] as $slug => $file ) {
+			if ( ! is_string( $file ) || '' === $file || ! is_string( $slug ) || '' === $slug ) {
+				continue;
+			}
+			$url = home_url( '/' . $slug . '/' );
+			if ( function_exists( 'get_page_by_path' ) ) {
+				$page = get_page_by_path( $slug );
+				if ( $page instanceof WP_Post && 'publish' === $page->post_status ) {
+					$permalink = get_permalink( $page );
+					if ( $permalink ) {
+						$url = $permalink;
+					}
+				}
+			}
+			$pattern = '/(<a\s[^>]*href\s*=\s*["\x27])((?:\.\.\/|\.\/)?' . preg_quote( $file, '/' ) . ')(["\x27])/i';
+			$content = preg_replace( $pattern, '$1' . esc_url_raw( $url ) . '$3', $content );
+		}
+	}
 
 	// Bare Shopify filenames: account.html, cart.html, checkout.html
 	$content = preg_replace(

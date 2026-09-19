@@ -30,6 +30,10 @@ require_once AUREON_STUDIO_DIR_PATH . 'inc/deprecated.php';
 require_once AUREON_STUDIO_DIR_PATH . 'inc/class-rest.php';
 require_once AUREON_STUDIO_DIR_PATH . 'inc/class-singleton.php';
 
+// Snippet registry: safe replacement for eval()-based hook/element PHP.
+// Loads unconditionally so hook/element modules always resolve snippets.
+require_once AUREON_STUDIO_DIR_PATH . 'inc/class-snippet-registry.php';
+
 if ( ! function_exists( 'aureon_is_module_active' ) ) {
 	/**
 	 * Checks if a module is active.

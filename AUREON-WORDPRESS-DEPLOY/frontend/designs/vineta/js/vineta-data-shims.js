@@ -1852,25 +1852,35 @@
         fillContactInfo: function() {
             var info = pageData.contact;
             if (!info) return;
-            var list = document.querySelector('[data-aureon-slot="static.contact_info"], .contact-list, .footer-info');
-            if (!list) return;
-            var items = list.querySelectorAll('li');
-            var addressText = (info.address || []).join(', ');
-            for (var i = 0; i < items.length; i++) {
-                var txt = items[i].textContent.replace(/\s+/g, ' ').trim();
-                var link = items[i].querySelector('a');
-                if (/(address|direction)/i.test(txt) && addressText && link) {
-                    link.textContent = addressText;
-                    link.href = '#';
-                } else if (/(phone|call|tel|^\d|^\()/i.test(txt) && info.phone && link) {
-                    link.textContent = info.phone;
-                    link.href = 'tel:' + info.phone.replace(/[^+\d]/g, '');
-                } else if (/(email|@|mailto)/i.test(txt) && info.email && link) {
-                    link.textContent = info.email;
-                    link.href = 'mailto:' + info.email;
-                } else if (/(open|hours|time)/i.test(txt) && info.hours) {
-                    var span = items[i].querySelector('span, .text-main');
-                    if (span) span.textContent = info.hours;
+            var lists = document.querySelectorAll('[data-aureon-slot="static.contact_info"], .contact-list, .footer-info, .mb-contact, .mb-info');
+            for (var l = 0; l < lists.length; l++) {
+                var list = lists[l];
+                var items = list.querySelectorAll('li, p');
+                var addressText = (info.address || []).join(', ');
+                for (var i = 0; i < items.length; i++) {
+                    var txt = items[i].textContent.replace(/\s+/g, ' ').trim();
+                    var link = items[i].querySelector('a');
+                    // Match the value nodes too (mobile menu ships values as plain
+                    // text/`b` tags, e.g. "Email: <b>your@email.com</b>").
+                    var val = items[i].querySelector('b, span, .text-main');
+                    if (/(address|direction)/i.test(txt) && addressText) {
+                        if (link) { link.textContent = addressText; link.href = '#'; }
+                        else if (val) { val.textContent = addressText; }
+                        else if (/:/.test(txt)) { items[i].textContent = txt.replace(/:.*/, ': ') + addressText; }
+                    } else if (/(phone|call|tel|^\d|^\()/i.test(txt) && info.phone) {
+                        var tel = 'tel:' + info.phone.replace(/[^+\d]/g, '');
+                        if (link) { link.textContent = info.phone; link.href = tel; }
+                        else if (val) { val.textContent = info.phone; }
+                        else if (/:/.test(txt)) { items[i].textContent = txt.replace(/:.*/, ': ') + info.phone; }
+                    } else if (/(email|@|mailto)/i.test(txt) && info.email) {
+                        var mail = 'mailto:' + info.email;
+                        if (link) { link.textContent = info.email; link.href = mail; }
+                        else if (val) { val.textContent = info.email; }
+                        else if (/:/.test(txt)) { items[i].textContent = txt.replace(/:.*/, ': ') + info.email; }
+                    } else if (/(open|hours|time)/i.test(txt) && info.hours) {
+                        if (val) { val.textContent = info.hours; }
+                        else if (/:/.test(txt)) { items[i].textContent = txt.replace(/:.*/, ': ') + info.hours; }
+                    }
                 }
             }
         },

@@ -1,0 +1,272 @@
+{
+  "404": {
+    "route": "/nonexistent-xyz-404/",
+    "requests": 90,
+    "totalBytes": 2825170,
+    "byType": {
+      "document": {
+        "count": 1,
+        "bytes": 113664
+      },
+      "stylesheet": {
+        "count": 9,
+        "bytes": 1022409
+      },
+      "script": {
+        "count": 26,
+        "bytes": 1020516
+      },
+      "image": {
+        "count": 45,
+        "bytes": 668581
+      },
+      "font": {
+        "count": 9,
+        "bytes": 0
+      }
+    }
+  },
+  "home": {
+    "route": "/",
+    "requests": 109,
+    "totalBytes": 3809596,
+    "byType": {
+      "document": {
+        "count": 1,
+        "bytes": 149983
+      },
+      "stylesheet": {
+        "count": 9,
+        "bytes": 1022409
+      },
+      "script": {
+        "count": 26,
+        "bytes": 1020516
+      },
+      "image": {
+        "count": 67,
+        "bytes": 1494060
+      },
+      "font": {
+        "count": 6,
+        "bytes": 122628
+      }
+    }
+  },
+  "shop": {
+    "route": "/shop/",
+    "requests": 144,
+    "totalBytes": 6201237,
+    "byType": {
+      "document": {
+        "count": 2,
+        "bytes": 247885
+      },
+      "font": {
+        "count": 10,
+        "bytes": 0
+      },
+      "stylesheet": {
+        "count": 9,
+        "bytes": 1022409
+      },
+      "script": {
+        "count": 28,
+        "bytes": 1084312
+      },
+      "image": {
+        "count": 95,
+        "bytes": 3846631
+      }
+    }
+  },
+  "category": {
+    "route": "/product-category/women/",
+    "requests": 142,
+    "totalBytes": 6201185,
+    "byType": {
+      "document": {
+        "count": 2,
+        "bytes": 247833
+      },
+      "stylesheet": {
+        "count": 9,
+        "bytes": 1022409
+      },
+      "script": {
+        "count": 28,
+        "bytes": 1084312
+      },
+      "image": {
+        "count": 95,
+        "bytes": 3846631
+      },
+      "font": {
+        "count": 8,
+        "bytes": 0
+      }
+    }
+  },
+  "search": {
+    "route": "/?s=kurta",
+    "requests": 126,
+    "totalBytes": 4994477,
+    "byType": {
+      "document": {
+        "count": 1,
+        "bytes": 237458
+      },
+      "stylesheet": {
+        "count": 9,
+        "bytes": 1022409
+      },
+      "script": {
+        "count": 26,
+        "bytes": 1020516
+      },
+      "image": {
+        "count": 82,
+        "bytes": 2714094
+      },
+      "font": {
+        "count": 8,
+        "bytes": 0
+      }
+    }
+  },
+  "blog": {
+    "route": "/blog/",
+    "requests": 112,
+    "totalBytes": 3682144,
+    "byType": {
+      "document": {
+        "count": 2,
+        "bytes": 145159
+      },
+      "stylesheet": {
+        "count": 9,
+        "bytes": 1022409
+      },
+      "script": {
+        "count": 26,
+        "bytes": 1020516
+      },
+      "image": {
+        "count": 67,
+        "bytes": 1494060
+      },
+      "font": {
+        "count": 8,
+        "bytes": 0
+      }
+    }
+  },
+  "blog-single": {
+    "route": "/hello-world/",
+    "requests": 105,
+    "totalBytes": 3387141,
+    "byType": {
+      "document": {
+        "count": 2,
+        "bytes": 147778
+      },
+      "stylesheet": {
+        "count": 10,
+        "bytes": 1023064
+      },
+      "script": {
+        "count": 27,
+        "bytes": 1023466
+      },
+      "image": {
+        "count": 58,
+        "bytes": 1192833
+      },
+      "font": {
+        "count": 8,
+        "bytes": 0
+      }
+    }
+  },
+  "cart": {
+    "route": "/cart/",
+    "requests": 42,
+    "totalBytes": 1509488,
+    "byType": {
+      "document": {
+        "count": 2,
+        "bytes": 58067
+      },
+      "stylesheet": {
+        "count": 9,
+        "bytes": 1022409
+      },
+      "script": {
+        "count": 18,
+        "bytes": 408274
+      },
+      "image": {
+        "count": 4,
+        "bytes": 12922
+      },
+      "font": {
+        "count": 9,
+        "bytes": 7816
+      }
+    }
+  },
+  "checkout": {
+    "route": "/checkout/",
+    "requests": 43,
+    "totalBytes": 1501672,
+    "byType": {
+      "document": {
+        "count": 3,
+        "bytes": 58067
+      },
+      "stylesheet": {
+        "count": 9,
+        "bytes": 1022409
+      },
+      "script": {
+        "count": 18,
+        "bytes": 408274
+      },
+      "image": {
+        "count": 4,
+        "bytes": 12922
+      },
+      "font": {
+        "count": 9,
+        "bytes": 0
+      }
+    }
+  },
+  "account": {
+    "route": "/my-account/",
+    "requests": 29,
+    "totalBytes": 1342476,
+    "byType": {
+      "document": {
+        "count": 3,
+        "bytes": 13078
+      },
+      "stylesheet": {
+        "count": 8,
+        "bytes": 1023907
+      },
+      "image": {
+        "count": 2,
+        "bytes": 5839
+      },
+      "script": {
+        "count": 3,
+        "bytes": 270376
+      },
+      "font": {
+        "count": 13,
+        "bytes": 29276
+      }
+    }
+  }
+}

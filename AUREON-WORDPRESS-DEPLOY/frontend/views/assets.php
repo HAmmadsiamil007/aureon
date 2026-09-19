@@ -151,6 +151,11 @@ function aether_is_pack_asset_page_match( $page_key ) {
 		case 'collection':
 			return is_post_type_archive( 'product' ) || is_tax( 'product_cat' ) || is_page( 'shop' )
 				|| 0 === strpos( $request_uri, '/product-category/' ) || 0 === strpos( $request_uri, '/shop/' );
+		case 'contact':
+			if ( $queried_id > 0 && is_page() ) {
+				return is_page( 'contact' ) || is_page( 'contact-us' );
+			}
+			return 0 === strpos( $request_uri, '/contact' );
 		default:
 			return true;
 	}

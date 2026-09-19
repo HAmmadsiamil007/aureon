@@ -1,0 +1,502 @@
+[
+  {
+    "page": "home",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "home--desktop.png"
+  },
+  {
+    "page": "home",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "home--mobile.png"
+  },
+  {
+    "page": "shop",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "shop--desktop.png"
+  },
+  {
+    "page": "shop",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "shop--mobile.png"
+  },
+  {
+    "page": "cart",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "cart--desktop.png"
+  },
+  {
+    "page": "cart",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "cart--mobile.png"
+  },
+  {
+    "page": "checkout",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "checkout--desktop.png"
+  },
+  {
+    "page": "checkout",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "checkout--mobile.png"
+  },
+  {
+    "page": "my-account",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "ReferenceError: jQuery is not defined"
+    ],
+    "file": "my-account--desktop.png"
+  },
+  {
+    "page": "my-account",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "ReferenceError: jQuery is not defined"
+    ],
+    "file": "my-account--mobile.png"
+  },
+  {
+    "page": "wishlist",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "wishlist--desktop.png"
+  },
+  {
+    "page": "wishlist",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "wishlist--mobile.png"
+  },
+  {
+    "page": "blog",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "blog--desktop.png"
+  },
+  {
+    "page": "blog",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "blog--mobile.png"
+  },
+  {
+    "page": "single-post",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "single-post--desktop.png"
+  },
+  {
+    "page": "single-post",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "single-post--mobile.png"
+  },
+  {
+    "page": "about",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "about--desktop.png"
+  },
+  {
+    "page": "about",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "about--mobile.png"
+  },
+  {
+    "page": "about-us",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "about-us--desktop.png"
+  },
+  {
+    "page": "about-us",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "about-us--mobile.png"
+  },
+  {
+    "page": "about-ferm-living",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "about-ferm-living--desktop.png"
+  },
+  {
+    "page": "about-ferm-living",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "about-ferm-living--mobile.png"
+  },
+  {
+    "page": "contact",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "contact--desktop.png"
+  },
+  {
+    "page": "contact",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "contact--mobile.png"
+  },
+  {
+    "page": "contact-us",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "contact-us--desktop.png"
+  },
+  {
+    "page": "contact-us",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "contact-us--mobile.png"
+  },
+  {
+    "page": "faq",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "faq--desktop.png"
+  },
+  {
+    "page": "faq",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "faq--mobile.png"
+  },
+  {
+    "page": "shipping",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "shipping--desktop.png"
+  },
+  {
+    "page": "shipping",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "shipping--mobile.png"
+  },
+  {
+    "page": "return-and-refund",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "return-and-refund--desktop.png"
+  },
+  {
+    "page": "return-and-refund",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "return-and-refund--mobile.png"
+  },
+  {
+    "page": "term-and-condition",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "term-and-condition--desktop.png"
+  },
+  {
+    "page": "term-and-condition",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "term-and-condition--mobile.png"
+  },
+  {
+    "page": "privacy-policy",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "privacy-policy--desktop.png"
+  },
+  {
+    "page": "privacy-policy",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "privacy-policy--mobile.png"
+  },
+  {
+    "page": "cookies",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "cookies--desktop.png"
+  },
+  {
+    "page": "cookies",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "cookies--mobile.png"
+  },
+  {
+    "page": "store-location",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "store-location--desktop.png"
+  },
+  {
+    "page": "store-location",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "store-location--mobile.png"
+  },
+  {
+    "page": "store-locator",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "store-locator--desktop.png"
+  },
+  {
+    "page": "store-locator",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "store-locator--mobile.png"
+  },
+  {
+    "page": "coming-soon",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "coming-soon--desktop.png"
+  },
+  {
+    "page": "coming-soon",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "coming-soon--mobile.png"
+  },
+  {
+    "page": "sample-page",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "sample-page--desktop.png"
+  },
+  {
+    "page": "sample-page",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "sample-page--mobile.png"
+  },
+  {
+    "page": "search",
+    "viewport": "desktop",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "search--desktop.png"
+  },
+  {
+    "page": "search",
+    "viewport": "mobile",
+    "status": 200,
+    "errors": [
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "search--mobile.png"
+  },
+  {
+    "page": "404",
+    "viewport": "desktop",
+    "status": 404,
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "404--desktop.png"
+  },
+  {
+    "page": "404",
+    "viewport": "mobile",
+    "status": 404,
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Error: Function rdt not implemented.",
+      "Error: Function snaptr not implemented."
+    ],
+    "file": "404--mobile.png"
+  }
+]

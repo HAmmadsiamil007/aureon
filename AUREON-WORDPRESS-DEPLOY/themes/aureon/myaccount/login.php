@@ -224,6 +224,8 @@ if ( function_exists( 'vineta_get_frozen_footer' ) ) {
 <?php } ?>
 
 <?php if ( $pack_url ) : ?>
+<?php wp_enqueue_script( 'jquery' ); ?>
+<script src="<?php echo esc_url( includes_url( 'js/jquery/jquery.min.js' ) ); ?>"></script>
 <script src="<?php echo esc_url( $pack_url ); ?>js/bootstrap.min.js"></script>
 <script src="<?php echo esc_url( $pack_url ); ?>js/main.js"></script>
 <?php endif; ?>

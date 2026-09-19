@@ -1,0 +1,509 @@
+setting,registered_in,readers,status
+aether_analytics_ga4_id,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-analytics.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_announcement_enabled,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\views\composer.php",CONNECTED
+aether_announcement_height,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_announcement_items,"frontend/designs\vineta\composer.php","frontend\adapters\adapter-shell.php | frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php",CONNECTED
+aether_announcement_text,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\adapters\adapter-shell.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php",CONNECTED
+aether_announcement_url,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_categories_label,,"frontend\adapters\adapter-wc-categories.php",ENGINE_DEMO
+aether_categories_subtitle,,"frontend\adapters\adapter-wc-categories.php",ENGINE_DEMO
+aether_category_items,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php",CONNECTED
+aether_color_accent,"themes/aureon\inc\customizer\fields\frontend.php | frontend/designs\vineta\composer.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_color_accent_hover,"themes/aureon\inc\customizer\fields\frontend.php | frontend/designs\vineta\composer.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_color_bg,"themes/aureon\inc\customizer\fields\frontend.php | frontend/designs\vineta\composer.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_color_border,"themes/aureon\inc\customizer\fields\frontend.php | frontend/designs\vineta\composer.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_color_error,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_color_muted,"themes/aureon\inc\customizer\fields\frontend.php | frontend/designs\vineta\composer.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_color_success,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_color_surface,"themes/aureon\inc\customizer\fields\frontend.php | frontend/designs\vineta\composer.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_color_surface_2,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_color_surface_3,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_color_text,"themes/aureon\inc\customizer\fields\frontend.php | frontend/designs\vineta\composer.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_coming_soon_date,,"frontend\adapters\adapter-coming-soon.php",ENGINE_DEMO
+aether_contact_address,"frontend/designs\vineta\composer.php","frontend\adapters\adapter-contact.php | frontend\designs\vineta\composer.php | frontend\tokens\tokens.php",CONNECTED
+aether_contact_hours,"frontend/designs\vineta\composer.php","frontend\adapters\adapter-contact.php | frontend\designs\vineta\composer.php | frontend\tokens\tokens.php",CONNECTED
+aether_contact_phone,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php",CONNECTED
+aether_contact_recipient,"frontend/designs\vineta\composer.php","themes/aureon\inc\aether-ajax.php",CONNECTED
+aether_container_max,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_demo_content,"frontend/designs\vineta\composer.php","frontend\adapters\adapter-about.php | frontend\adapters\adapter-faq.php | frontend\adapters\adapter-product.php | frontend\adapters\adapter-team.php | frontend\adapters\adapter-testimonials.php | frontend\adapters\adapter-wc-categories.php | frontend\adapters\adapter-wc-products.php | frontend\designs\vineta\composer.php | frontend\tokens\tokens.php",CONNECTED
+aether_demo_mode,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php",CONNECTED
+aether_faq_items,,"frontend\adapters\adapter-faq.php",ENGINE_DEMO
+aether_fog_enabled,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\views\composer.php",CONNECTED
+aether_font_body,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_font_heading,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_footer_columns,,"frontend\adapters\adapter-site.php | frontend\designs\vineta\composer.php",ENGINE_DEMO
+aether_grid_gap,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_header_height,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_hero_slides,"themes/aureon\inc\customizer\fields\frontend.php | frontend/designs\vineta\composer.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\adapters\adapter-hero.php | frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\tokens\tokens.php | frontend\_so_import\_so_sync.php",CONNECTED
+aether_motion_enabled,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\views\viewmodel.php",CONNECTED
+aether_motion_parallax,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\views\viewmodel.php",CONNECTED
+aether_motion_reveal,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\views\viewmodel.php",CONNECTED
+aether_motion_text,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\views\viewmodel.php",CONNECTED
+aether_motion_tilt,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\views\viewmodel.php",CONNECTED
+aether_newsletter_heading,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\_so_import\_so_import.php",CONNECTED
+aether_newsletter_text,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php | frontend\sections\section-newsletter.php | frontend\tokens\tokens.php | frontend\_so_import\_so_import.php",CONNECTED
+aether_nonce,"frontend/designs\vineta\composer.php","themes/aureon\inc\aether-ajax.php | themes/aureon\inc\aether-newsletter.php | themes/aureon\inc\frontend.php | frontend\designs\vineta\composer.php | frontend\views\assets.php",CONNECTED
+aether_preloader_enabled,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php | frontend\views\composer.php",CONNECTED
+aether_product_colors,,"frontend\adapters\adapter-product.php",ENGINE_DEMO
+aether_product_items,,"frontend\adapters\adapter-wc-products.php",ENGINE_DEMO
+aether_product_reviews,,"frontend\adapters\adapter-product.php",ENGINE_DEMO
+aether_product_score,,"frontend\adapters\adapter-product.php",ENGINE_DEMO
+aether_product_score_bars,,"frontend\adapters\adapter-product.php",ENGINE_DEMO
+aether_product_score_count,,"frontend\adapters\adapter-product.php",ENGINE_DEMO
+aether_product_sizes,,"frontend\adapters\adapter-product.php",ENGINE_DEMO
+aether_product_trust,,"frontend\adapters\adapter-product.php",ENGINE_DEMO
+aether_radius_lg,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_radius_md,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_radius_sm,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_reviews_count,,"frontend\adapters\adapter-testimonials.php",ENGINE_DEMO
+aether_reviews_score,,"frontend\adapters\adapter-testimonials.php",ENGINE_DEMO
+aether_search_placeholder,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php",CONNECTED
+aether_search_suggestions,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php",CONNECTED
+aether_shop_per_page,"themes/aureon\inc\customizer\fields\frontend.php","themes/aureon\archive-product.php | themes/aureon\inc\customizer\fields\frontend.php | frontend\tokens\tokens.php",CONNECTED
+aether_size_table,,"frontend\adapters\adapter-product.php",ENGINE_DEMO
+aether_social_items,"frontend/designs\vineta\composer.php","frontend\designs\vineta\composer.php | frontend\designs\vineta\tokens.php",CONNECTED
+aether_social_twitter,"frontend/designs\vineta\composer.php","themes/aureon\inc\aether-seo.php",CONNECTED
+aether_spec_items,,"frontend\adapters\adapter-product.php",ENGINE_DEMO
+aether_team_items,,"frontend\adapters\adapter-team.php",ENGINE_DEMO
+aether_testimonial_items,,"frontend\adapters\adapter-testimonials.php",ENGINE_DEMO
+aureon_copyright,"plugins/aureon-studio\copyright\functions\functions.php","themes/aureon\inc\structure\footer.php | plugins/aureon-studio\copyright\functions\functions.php | plugins/aureon-studio\inc\class-dashboard.php | plugins/aureon-studio\inc\class-rest.php | plugins/aureon-studio\inc\legacy\import-export.php | plugins/aureon-studio\inc\legacy\reset.php",CONNECTED
+aureon_header_helper,"themes/aureon\inc\customizer.php","themes/aureon\inc\customizer.php",CONNECTED
+author,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php",CONNECTED
+auto_hide_sticky,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+back_to_top,"themes/aureon\inc\customizer.php","themes/aureon\inc\css-output.php | themes/aureon\inc\customizer\fields\back-to-top.php | themes/aureon\inc\general.php | themes/aureon\inc\structure\footer.php",CONNECTED
+back_to_top_background_color,"themes/aureon\inc\customizer\fields\back-to-top.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+back_to_top_background_color_hover,"themes/aureon\inc\customizer\fields\back-to-top.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+back_to_top_text_color,"themes/aureon\inc\customizer\fields\back-to-top.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+back_to_top_text_color_hover,"themes/aureon\inc\customizer\fields\back-to-top.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+background_color,"themes/aureon\inc\customizer\fields\body.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\elements\class-hero.php | plugins/aureon-studio\elements\class-metabox.php | plugins/aureon-studio\page-header\functions\functions.php",CONNECTED
+blog_layout_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\theme-functions.php",CONNECTED
+body_attachment,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+body_font_size,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+body_font_transform,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+body_font_weight,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+body_image,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+body_line_height,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+body_position,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+body_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+body_size,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+breadcrumbs,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+buttons_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+buttons_font_transform,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+buttons_font_weight,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+cart_menu_item,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\woocommerce\functions\customizer\customizer.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+cart_menu_item_content,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+cart_menu_item_icon,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+categories,"plugins/aureon-studio\blog\functions\customizer.php","frontend\adapters\adapter-blog.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php",CONNECTED
+column_layout,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\columns.php | plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+columns,"plugins/aureon-studio\blog\functions\customizer.php | plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\blog\functions\columns.php | plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+columns_gap,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+combine_css,"themes/aureon\inc\customizer.php","themes/aureon\inc\class-theme-update.php | themes/aureon\inc\general.php",CONNECTED
+comments,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+container_alignment,"themes/aureon\inc\customizer.php","themes/aureon\inc\css-output.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\elements\class-hero.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+container_width,"themes/aureon\inc\customizer.php | plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | themes/aureon\inc\general.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\elements\class-block-elements.php | plugins/aureon-studio\elements\class-hero.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+content_attachment,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+content_background_color,"themes/aureon\inc\customizer\fields\content.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+content_bottom,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+content_element_separator,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+content_image,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+content_layout_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php | plugins/aureon-studio\elements\class-metabox.php",CONNECTED
+content_left,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | themes/aureon\inc\customizer\helpers.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\sections\functions\aureon-sections.php",CONNECTED
+content_link_color,"themes/aureon\inc\customizer\fields\content.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+content_link_hover_color,"themes/aureon\inc\customizer\fields\content.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+content_position,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+content_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+content_right,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | themes/aureon\inc\customizer\helpers.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\sections\functions\aureon-sections.php",CONNECTED
+content_size,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+content_text_color,"themes/aureon\inc\customizer\fields\content.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+content_top,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+css_print_method,"plugins/aureon-studio\general\class-external-file-css.php","plugins/aureon-studio\general\class-external-file-css.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+date,"plugins/aureon-studio\blog\functions\customizer.php","frontend\adapters\adapter-blog.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php",CONNECTED
+distraction_free,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+dynamic_css_cache,"themes/aureon\inc\customizer.php","themes/aureon\inc\general.php",CONNECTED
+entry_meta_link_color,"themes/aureon\inc\customizer\fields\content.php","themes/aureon\inc\css-output.php",CONNECTED
+entry_meta_link_color_hover,"themes/aureon\inc\customizer\fields\content.php","themes/aureon\inc\css-output.php",CONNECTED
+entry_meta_text_color,"themes/aureon\inc\customizer\fields\content.php","themes/aureon\inc\css-output.php",CONNECTED
+excerpt_length,"plugins/aureon-studio\blog\functions\customizer.php","frontend\adapters\adapter-blog.php | plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+featured_column,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php",CONNECTED
+font_awesome_essentials,"themes/aureon\inc\customizer.php","themes/aureon\inc\general.php",CONNECTED
+font_body,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\class-theme-update.php | themes/aureon\inc\typography.php",CONNECTED
+font_buttons,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_footer,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_heading_1,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_heading_2,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_heading_3,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_heading_4,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_heading_5,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_heading_6,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_manager,"themes/aureon\inc\customizer.php","themes/aureon\inc\class-typography.php | themes/aureon\inc\customizer.php | plugins/aureon-studio\inc\class-rest.php",CONNECTED
+font_navigation,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_secondary_navigation,"plugins/aureon-studio\typography\functions\secondary-nav-fonts.php","themes/aureon\inc\typography.php | plugins/aureon-studio\secondary-nav\functions\functions.php | plugins/aureon-studio\typography\functions\migration.php",CONNECTED
+font_site_tagline,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+font_top_bar,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_attachment,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_background_color,"themes/aureon\inc\customizer\fields\footer-bar.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_bar_alignment,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php",CONNECTED
+footer_bottom,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_image,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_inner_width,"themes/aureon\inc\customizer.php","themes/aureon\inc\class-html-attributes.php | themes/aureon\inc\markup.php",CONNECTED
+footer_layout_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php",CONNECTED
+footer_left,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_link_color,"themes/aureon\inc\customizer\fields\footer-bar.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_link_hover_color,"themes/aureon\inc\customizer\fields\footer-bar.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_position,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_right,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_size,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_text_color,"themes/aureon\inc\customizer\fields\footer-bar.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_top,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_transform,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_weight,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_widget_attachment,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_widget_background_color,"themes/aureon\inc\customizer\fields\footer-widgets.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_widget_container_bottom,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_widget_container_left,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\migration.php",CONNECTED
+footer_widget_container_right,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\migration.php",CONNECTED
+footer_widget_container_top,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_widget_image,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_widget_link_color,"themes/aureon\inc\customizer\fields\footer-widgets.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_widget_link_hover_color,"themes/aureon\inc\customizer\fields\footer-widgets.php","themes/aureon\inc\css-output.php",CONNECTED
+footer_widget_position,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_widget_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_widget_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\theme-functions.php",CONNECTED
+footer_widget_size,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+footer_widget_text_color,"themes/aureon\inc\customizer\fields\footer-widgets.php","themes/aureon\inc\css-output.php",CONNECTED
+form_background_color,"themes/aureon\inc\customizer\fields\forms.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+form_background_color_focus,"themes/aureon\inc\customizer\fields\forms.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+form_border_color,"themes/aureon\inc\customizer\fields\forms.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+form_border_color_focus,"themes/aureon\inc\customizer\fields\forms.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+form_button_background_color,"themes/aureon\inc\customizer\fields\buttons.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+form_button_background_color_hover,"themes/aureon\inc\customizer\fields\buttons.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+form_button_text_color,"themes/aureon\inc\customizer\fields\buttons.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+form_button_text_color_hover,"themes/aureon\inc\customizer\fields\buttons.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+form_text_color,"themes/aureon\inc\customizer\fields\forms.php","themes/aureon\inc\css-output.php",CONNECTED
+form_text_color_focus,"themes/aureon\inc\customizer\fields\forms.php","themes/aureon\inc\css-output.php",CONNECTED
+global_colors,"themes/aureon\inc\customizer.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\theme-functions.php | plugins/aureon-studio\inc\class-rest.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+google_font_display,"themes/aureon\inc\customizer.php","themes/aureon\inc\class-typography.php",CONNECTED
+header_alignment_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php",CONNECTED
+header_attachment,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+header_background_color,"themes/aureon\inc\customizer\fields\header.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\elements\class-hero.php",CONNECTED
+header_bottom,"themes/aureon\inc\customizer.php | plugins/aureon-studio\spacing\functions\customizer\header-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+header_image,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+header_inner_width,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php",CONNECTED
+header_layout_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php",CONNECTED
+header_left,"plugins/aureon-studio\spacing\functions\customizer\header-spacing.php","themes/aureon\inc\css-output.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+header_link_color,"themes/aureon\inc\customizer\fields\header.php","themes/aureon\inc\css-output.php",CONNECTED
+header_link_hover_color,"themes/aureon\inc\customizer\fields\header.php","themes/aureon\inc\css-output.php",CONNECTED
+header_position,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+header_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+header_right,"plugins/aureon-studio\spacing\functions\customizer\header-spacing.php","themes/aureon\inc\css-output.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+header_size,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+header_text_color,"themes/aureon\inc\customizer\fields\header.php","themes/aureon\inc\css-output.php",CONNECTED
+header_top,"themes/aureon\inc\customizer.php | plugins/aureon-studio\spacing\functions\customizer\header-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+heading_1_font_size,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_1_line_height,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_1_margin_bottom,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_1_transform,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_1_weight,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_2_font_size,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_2_line_height,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_2_margin_bottom,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_2_transform,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_2_weight,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_3_font_size,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_3_line_height,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_3_margin_bottom,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_3_transform,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_3_weight,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_4_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_4_line_height,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_4_transform,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_4_weight,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_5_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_5_line_height,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_5_transform,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_5_weight,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_6_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_6_line_height,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_6_transform,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+heading_6_weight,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+hide_tagline,"themes/aureon\inc\customizer.php","themes/aureon\inc\structure\header.php | themes/aureon\inc\theme-functions.php | plugins/aureon-studio\elements\class-elements-helper.php",CONNECTED
+icons,"themes/aureon\inc\customizer.php","themes/aureon\inc\customizer.php | themes/aureon\inc\deprecated.php | themes/aureon\inc\general.php | themes/aureon\inc\plugin-compat.php | themes/aureon\inc\structure\navigation.php | themes/aureon\inc\theme-functions.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\secondary-nav\functions\functions.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+infinite_scroll,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\elements\class-block.php | plugins/aureon-studio\inc\deprecated.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+infinite_scroll_button,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+inline_logo_site_branding,"themes/aureon\inc\customizer.php","themes/aureon\inc\structure\header.php | themes/aureon\inc\theme-functions.php",CONNECTED
+layout_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\theme-functions.php",CONNECTED
+left_sidebar_width,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+link_color,"themes/aureon\inc\customizer\fields\body.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\elements\class-hero.php | plugins/aureon-studio\page-header\functions\functions.php",CONNECTED
+link_color_hover,"themes/aureon\inc\customizer\fields\body.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\elements\class-hero.php | plugins/aureon-studio\page-header\functions\functions.php",CONNECTED
+link_color_visited,"themes/aureon\inc\customizer\fields\body.php","themes/aureon\inc\css-output.php | themes/aureon\inc\customizer\fields\body.php",CONNECTED
+logo,"themes/aureon\inc\customizer.php","themes/aureon\inc\class-theme-update.php | themes/aureon\inc\structure\header.php | plugins/aureon-studio\page-header\functions\functions.php | plugins/aureon-studio\page-header\functions\metabox.php",CONNECTED
+logo_width,"themes/aureon\inc\customizer.php","themes/aureon\inc\css-output.php",CONNECTED
+masonry,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\columns.php | plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\inc\deprecated.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+masonry_load_more,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+masonry_loading,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+menu_item,"plugins/aureon-studio\spacing\functions\customizer\navigation-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+menu_item_height,"plugins/aureon-studio\spacing\functions\customizer\navigation-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+menu_mini_cart,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+merge_top_bar,"plugins/aureon-studio\secondary-nav\functions\functions.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+mobile_columns,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+mobile_columns_gap,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+mobile_content_bottom,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\migration.php",CONNECTED
+mobile_content_left,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\sections\functions\aureon-sections.php | plugins/aureon-studio\spacing\functions\migration.php",CONNECTED
+mobile_content_right,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\sections\functions\aureon-sections.php | plugins/aureon-studio\spacing\functions\migration.php",CONNECTED
+mobile_content_top,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\spacing\functions\migration.php",CONNECTED
+mobile_footer_widget_container_bottom,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_footer_widget_container_left,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_footer_widget_container_right,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_footer_widget_container_top,"plugins/aureon-studio\spacing\functions\customizer\footer-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_header,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\disable-elements\functions\functions.php | plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\typography\functions\functions.php",CONNECTED
+mobile_header_auto_hide_sticky,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+mobile_header_bottom,"plugins/aureon-studio\spacing\functions\customizer\header-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_header_branding,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\elements\class-elements-helper.php | plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+mobile_header_left,"plugins/aureon-studio\spacing\functions\customizer\header-spacing.php","themes/aureon\inc\css-output.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_header_logo,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\elements\class-elements-helper.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+mobile_header_right,"plugins/aureon-studio\spacing\functions\customizer\header-spacing.php","themes/aureon\inc\css-output.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_header_sticky,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\elements\class-elements-helper.php | plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+mobile_header_top,"plugins/aureon-studio\spacing\functions\customizer\header-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_heading_1_font_size,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+mobile_heading_2_font_size,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+mobile_heading_3_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+mobile_heading_4_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+mobile_heading_5_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+mobile_menu_breakpoint,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+mobile_menu_item,"plugins/aureon-studio\spacing\functions\customizer\navigation-spacing.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_menu_item_height,"plugins/aureon-studio\spacing\functions\customizer\navigation-spacing.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_menu_label,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+mobile_navigation_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\typography\functions\functions.php",CONNECTED
+mobile_related_upsell_columns,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+mobile_widget_bottom,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_widget_left,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_widget_right,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+mobile_widget_top,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+nav_alignment_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php",CONNECTED
+nav_drop_point,"themes/aureon\inc\customizer.php","themes/aureon\inc\css-output.php",CONNECTED
+nav_dropdown_direction,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php | themes/aureon\inc\structure\navigation.php",CONNECTED
+nav_dropdown_type,"themes/aureon\inc\customizer.php","themes/aureon\inc\css-output.php | themes/aureon\inc\general.php | themes/aureon\inc\markup.php | themes/aureon\inc\plugin-compat.php | themes/aureon\inc\structure\navigation.php",CONNECTED
+nav_image,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+nav_inner_width,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+nav_item_current_image,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+nav_item_current_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+nav_item_hover_image,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+nav_item_hover_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+nav_item_image,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+nav_item_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+nav_layout_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+nav_position_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\css-output.php | themes/aureon\inc\theme-functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+nav_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+nav_search,"themes/aureon\inc\customizer.php","themes/aureon\inc\css-output.php | themes/aureon\inc\customizer\fields\primary-navigation.php | themes/aureon\inc\customizer.php | themes/aureon\inc\general.php | themes/aureon\inc\markup.php | themes/aureon\inc\structure\navigation.php",CONNECTED
+nav_search_modal,"themes/aureon\inc\customizer.php","themes/aureon\inc\customizer\fields\search-modal.php | themes/aureon\inc\structure\navigation.php | themes/aureon\inc\structure\search-modal.php",CONNECTED
+navigation_as_header,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\elements\class-elements-helper.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\secondary-nav\functions\functions.php | plugins/aureon-studio\typography\functions\functions.php",CONNECTED
+navigation_background_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\functions.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\elements\class-hero.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+navigation_background_current_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\functions.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+navigation_background_hover_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\functions.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+navigation_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+navigation_font_transform,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+navigation_font_weight,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+navigation_search_background_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+navigation_search_text_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+navigation_text_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\elements\class-hero.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\secondary-nav\functions\functions.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+navigation_text_current_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+navigation_text_hover_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+off_canvas_desktop_toggle_label,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+off_canvas_menu_item_height,"plugins/aureon-studio\spacing\functions\customizer\navigation-spacing.php","plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+off_canvas_panel_on_add_to_cart,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+page_header_position,"plugins/aureon-studio\page-header\functions\functions.php","plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\page-header\functions\functions.php",CONNECTED
+page_post_image,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\images.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+page_post_image_alignment,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+page_post_image_height,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\images.php",CONNECTED
+page_post_image_padding,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+page_post_image_position,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+page_post_image_size,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\images.php",CONNECTED
+page_post_image_width,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\images.php",CONNECTED
+paragraph_margin,"themes/aureon\inc\typography.php | plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\class-typography-migration.php | themes/aureon\inc\css-output.php",CONNECTED
+post_content,"themes/aureon\inc\customizer.php | plugins/aureon-studio\blog\functions\customizer.php","themes/aureon\inc\theme-functions.php | plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\library\customizer\deprecated.php",CONNECTED
+post_header_position,"plugins/aureon-studio\page-header\functions\functions.php","plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\page-header\functions\functions.php",CONNECTED
+post_image,"plugins/aureon-studio\blog\functions\customizer.php","frontend\adapters\adapter-blog.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\images.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+post_image_alignment,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+post_image_height,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\images.php",CONNECTED
+post_image_padding,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+post_image_position,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\images.php",CONNECTED
+post_image_size,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\images.php",CONNECTED
+post_image_width,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\images.php",CONNECTED
+product_archive_add_to_cart,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_archive_alignment,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_archive_description,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_archive_image,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_archive_image_alignment,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_archive_price,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_archive_rating,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_archive_sale_flash,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_archive_sale_flash_overlay,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_description,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_meta,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_related,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_results_count,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_secondary_image,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_sorting,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_tabs,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+product_upsells,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+products_per_page,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+quantity_buttons,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+read_more,"plugins/aureon-studio\blog\functions\customizer.php","frontend\adapters\adapter-blog.php | plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+read_more_button,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\elements\class-block.php",CONNECTED
+related_upsell_columns,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+retina_logo,"themes/aureon\inc\customizer.php","themes/aureon\inc\structure\header.php | plugins/aureon-studio\elements\class-elements-helper.php | plugins/aureon-studio\elements\class-hero.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+right_sidebar_width,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+search_modal_bg_color,"themes/aureon\inc\customizer\fields\search-modal.php","themes/aureon\inc\css-output.php",CONNECTED
+search_modal_overlay_bg_color,"themes/aureon\inc\customizer\fields\search-modal.php","themes/aureon\inc\css-output.php",CONNECTED
+search_modal_text_color,"themes/aureon\inc\customizer\fields\search-modal.php","themes/aureon\inc\css-output.php",CONNECTED
+secondary_menu_item,"plugins/aureon-studio\spacing\functions\customizer\secondary-nav-spacing.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_menu_item_height,"plugins/aureon-studio\spacing\functions\customizer\secondary-nav-spacing.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_nav_alignment,"plugins/aureon-studio\secondary-nav\functions\functions.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_nav_dropdown_direction,"plugins/aureon-studio\secondary-nav\functions\functions.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_nav_inner_width,"plugins/aureon-studio\secondary-nav\functions\functions.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_nav_layout_setting,"plugins/aureon-studio\secondary-nav\functions\functions.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_nav_mobile_label,"plugins/aureon-studio\secondary-nav\functions\functions.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_nav_position_setting,"plugins/aureon-studio\secondary-nav\functions\functions.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_navigation_font_size,"plugins/aureon-studio\typography\functions\secondary-nav-fonts.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_navigation_font_transform,"plugins/aureon-studio\typography\functions\secondary-nav-fonts.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_navigation_font_weight,"plugins/aureon-studio\typography\functions\secondary-nav-fonts.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+secondary_sub_menu_item_height,"plugins/aureon-studio\spacing\functions\customizer\secondary-nav-spacing.php","plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+separator,"plugins/aureon-studio\spacing\functions\customizer\content-spacing.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\columns.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+sidebar_layout,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+sidebar_widget_attachment,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+sidebar_widget_background_color,"themes/aureon\inc\customizer\fields\sidebar-widgets.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+sidebar_widget_image,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+sidebar_widget_link_color,"themes/aureon\inc\customizer\fields\sidebar-widgets.php","themes/aureon\inc\css-output.php",CONNECTED
+sidebar_widget_link_hover_color,"themes/aureon\inc\customizer\fields\sidebar-widgets.php","themes/aureon\inc\css-output.php",CONNECTED
+sidebar_widget_position,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+sidebar_widget_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+sidebar_widget_size,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+sidebar_widget_text_color,"themes/aureon\inc\customizer\fields\sidebar-widgets.php","themes/aureon\inc\css-output.php",CONNECTED
+single_author,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php",CONNECTED
+single_categories,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php",CONNECTED
+single_date,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php",CONNECTED
+single_layout_setting,"themes/aureon\inc\customizer.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\theme-functions.php",CONNECTED
+single_post_image,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\images.php | plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+single_post_image_alignment,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+single_post_image_height,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\images.php",CONNECTED
+single_post_image_padding,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+single_post_image_position,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\migrate.php | plugins/aureon-studio\library\customizer\active-callbacks.php",CONNECTED
+single_post_image_size,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\images.php",CONNECTED
+single_post_image_width,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\images.php",CONNECTED
+single_post_navigation,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php",CONNECTED
+single_product_image_width,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+single_product_sale_flash,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+single_sidebar_layout,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+single_tags,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php",CONNECTED
+site_tagline_color,"themes/aureon\inc\customizer\fields\header.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\page-header\functions\functions.php",CONNECTED
+site_tagline_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+site_tagline_font_transform,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+site_tagline_font_weight,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+slideout_background_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_background_current_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_background_hover_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_close_button,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_font_size,"plugins/aureon-studio\typography\functions\slideout-nav-fonts.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_font_transform,"plugins/aureon-studio\typography\functions\slideout-nav-fonts.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_font_weight,"plugins/aureon-studio\typography\functions\slideout-nav-fonts.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_menu,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\menu-plus\fields\slideout-nav-colors.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_menu_side,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_menu_style,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_mobile_font_size,"plugins/aureon-studio\typography\functions\slideout-nav-fonts.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_submenu_background_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_submenu_background_current_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_submenu_background_hover_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_submenu_text_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_submenu_text_current_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_submenu_text_hover_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_text_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_text_current_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+slideout_text_hover_color,"plugins/aureon-studio\colors\functions\slideout-nav-colors.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+smooth_scroll,"plugins/aureon-studio\general\smooth-scroll.php","plugins/aureon-studio\general\smooth-scroll.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+sticky_add_to_cart_panel,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+sticky_menu,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\elements\class-elements-helper.php | plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+sticky_menu_effect,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+sticky_menu_item_height,"plugins/aureon-studio\spacing\functions\customizer\navigation-spacing.php","plugins/aureon-studio\spacing\functions\functions.php",CONNECTED
+sticky_menu_logo,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\elements\class-elements-helper.php | plugins/aureon-studio\library\customizer\active-callbacks.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\page-header\functions\functions.php | plugins/aureon-studio\page-header\functions\metabox.php",CONNECTED
+sticky_menu_logo_position,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php",CONNECTED
+sticky_navigation_logo,"plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php","plugins/aureon-studio\elements\class-elements-helper.php | plugins/aureon-studio\menu-plus\functions\aureon-menu-plus.php | plugins/aureon-studio\typography\functions\functions.php",CONNECTED
+structure,"themes/aureon\inc\customizer.php","themes/aureon\inc\customizer\helpers.php | themes/aureon\inc\customizer.php | themes/aureon\inc\structure\navigation.php | themes/aureon\inc\theme-functions.php",CONNECTED
+sub_menu_item_height,"plugins/aureon-studio\spacing\functions\customizer\navigation-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+sub_menu_width,"plugins/aureon-studio\spacing\functions\customizer\navigation-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+sub_nav_item_current_image,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+sub_nav_item_current_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+sub_nav_item_hover_image,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+sub_nav_item_hover_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+sub_nav_item_image,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+sub_nav_item_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\backgrounds\functions\secondary-nav-backgrounds.php","plugins/aureon-studio\backgrounds\functions\functions.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+subnavigation_background_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\functions.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+subnavigation_background_current_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\functions.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+subnavigation_background_hover_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\functions.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+subnavigation_text_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+subnavigation_text_current_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+subnavigation_text_hover_color,"themes/aureon\inc\customizer\fields\primary-navigation.php | plugins/aureon-studio\colors\functions\secondary-nav-colors.php","themes/aureon\inc\css-output.php | plugins/aureon-studio\secondary-nav\functions\functions.php",CONNECTED
+tablet_columns,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+tablet_columns_gap,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+tablet_navigation_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\plugin-compat.php | plugins/aureon-studio\typography\functions\functions.php",CONNECTED
+tablet_related_upsell_columns,"plugins/aureon-studio\woocommerce\functions\customizer\customizer.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+tags,"plugins/aureon-studio\blog\functions\customizer.php","plugins/aureon-studio\blog\functions\aureon-blog.php | plugins/aureon-studio\blog\functions\migrate.php",CONNECTED
+text_color,"themes/aureon\inc\customizer\fields\body.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php | plugins/aureon-studio\elements\class-hero.php | plugins/aureon-studio\page-header\functions\functions.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+top_bar_alignment,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php",CONNECTED
+top_bar_attachment,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+top_bar_background_color,"themes/aureon\inc\customizer\fields\top-bar.php | plugins/aureon-studio\colors\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_bottom,"plugins/aureon-studio\spacing\functions\customizer\top-bar-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_font_transform,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_font_weight,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_image,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+top_bar_inner_width,"themes/aureon\inc\customizer.php","themes/aureon\inc\class-html-attributes.php",CONNECTED
+top_bar_left,"plugins/aureon-studio\spacing\functions\customizer\top-bar-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_link_color,"themes/aureon\inc\customizer\fields\top-bar.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_link_color_hover,"themes/aureon\inc\customizer\fields\top-bar.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_position,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+top_bar_repeat,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+top_bar_right,"plugins/aureon-studio\spacing\functions\customizer\top-bar-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_size,"plugins/aureon-studio\backgrounds\functions\functions.php","plugins/aureon-studio\backgrounds\functions\functions.php",CONNECTED
+top_bar_text_color,"themes/aureon\inc\customizer\fields\top-bar.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_top,"plugins/aureon-studio\spacing\functions\customizer\top-bar-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+top_bar_width,"themes/aureon\inc\customizer.php","themes/aureon\inc\markup.php",CONNECTED
+typography,"themes/aureon\inc\customizer.php","themes/aureon\inc\aether-tokens.php | themes/aureon\inc\class-typography.php | plugins/aureon-studio\inc\class-rest.php | plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+underline_links,"themes/aureon\inc\customizer.php","themes/aureon\inc\block-editor.php | themes/aureon\inc\css-output.php",CONNECTED
+use_dynamic_typography,"themes/aureon\inc\customizer.php","themes/aureon\inc\theme-functions.php",CONNECTED
+wc_alt_button_background,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_alt_button_background_hover,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_alt_button_text,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_alt_button_text_hover,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_error_message_background,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_error_message_text,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_info_message_background,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_info_message_text,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_mini_cart_background_color,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_mini_cart_button_background,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_mini_cart_button_background_hover,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_mini_cart_button_text,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_mini_cart_button_text_hover,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_mini_cart_text_color,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_panel_cart_background_color,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_panel_cart_button_background,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_panel_cart_button_background_hover,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_panel_cart_button_text,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_panel_cart_button_text_hover,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_panel_cart_text_color,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_price_color,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_price_slider_background_color,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_price_slider_bar_color,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_product_tab,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_product_tab_highlight,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_rating_stars,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_sale_sticker_background,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_sale_sticker_text,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_success_message_background,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+wc_success_message_text,"plugins/aureon-studio\colors\functions\woocommerce-colors.php","plugins/aureon-studio\woocommerce\functions\functions.php",CONNECTED
+widget_bottom,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+widget_content_font_size,"plugins/aureon-studio\typography\functions\functions.php","themes/aureon\inc\css-output.php",CONNECTED
+widget_left,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+widget_right,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","themes/aureon\inc\css-output.php",CONNECTED
+widget_top,"plugins/aureon-studio\spacing\functions\customizer\sidebar-spacing.php","themes/aureon\inc\css-output.php",CONNECTED

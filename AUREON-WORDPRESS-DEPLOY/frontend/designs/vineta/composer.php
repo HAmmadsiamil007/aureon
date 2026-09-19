@@ -47,25 +47,13 @@ function vineta_header_data( $data ) {
 }
 
 // --- Footer data ---
-add_filter( 'aether_adapter_footer_data', 'vineta_footer_data' );
-function vineta_footer_data( $data ) {
-	return array(
-		'usp_items'  => aureon_get_option( 'aether_footer_usp_items', array() ),
-		'newsletter' => array(
-			'heading' => aureon_get_option( 'aether_newsletter_heading', 'Subscribe Newsletter' ),
-			'text'    => aureon_get_option( 'aether_newsletter_text', '' ),
-		),
-		'columns'    => aureon_get_option( 'aether_footer_columns', array() ),
-		'legal'      => array(
-			array( 'label' => 'Privacy Policy', 'url' => '#' ),
-			array( 'label' => 'Terms & Conditions', 'url' => '#' ),
-			array( 'label' => 'Returns & Refunds', 'url' => '#' ),
-			array( 'label' => 'FAQ', 'url' => '#' ),
-		),
-		'payments'   => aureon_get_option( 'aether_footer_payments', array() ),
-		'socials'    => aureon_get_option( 'aether_social_items', array() ),
-	);
-}
+// The aether_adapter_footer_data bridge was REMOVED (C4/C7 dead-code
+// closure): no apply_filters( 'aether_adapter_footer_data', ... ) exists
+// anywhere in the runtime, so the payload it built (usp_items, payments,
+// legacy column data) was never consumed. The live footer contract is:
+//   server-rendered WordPress menus (authoritative links)
+//   + pageData.customizer footer/newsletter/social payloads below
+//   + the shims' updateFooter/updateNewsletter/updateSocial bridges.
 
 // --- WC Products data mapping ---
 add_filter( 'aether_adapter_wc_products_data', 'vineta_wc_products_data' );
@@ -123,8 +111,69 @@ add_filter( 'aether_adapter_search_data', 'vineta_search_data' );
 function vineta_search_data( $data ) {
 	return array(
 		'placeholder' => aureon_get_option( 'aether_search_placeholder', 'Search products...' ),
-		'suggestions'  => array( 'Fashion', 'Electronics', 'Jewelry', 'Skincare', 'Furniture' ),
+		'suggestions' => vineta_get_search_suggestions(),
 	);
+}
+
+/**
+ * Search suggestions — store-aware, not hardcoded.
+ *
+ * Source order:
+ *  1. Curated Customizer list (aether_search_suggestions), when set.
+ *  2. Real WooCommerce product categories (most used), store-relevant by
+ *     construction. Empty stores yield an empty list — the frozen "Popular
+ *     searches" row is hidden by the consumer so nothing fake is shown.
+ *
+ * @return string[] Suggestion labels (max 5).
+ */
+/**
+ * Resolve a static legal/info page URL from the WP page of the same path,
+ * falling back to the canonical site URL for the manifest static key.
+ * Never returns '#'.
+ */
+function vineta_get_static_page_url( $slug ) {
+	$page = function_exists( 'get_page_by_path' ) ? get_page_by_path( $slug ) : null;
+	if ( $page instanceof WP_Post && 'publish' === $page->post_status ) {
+		$url = get_permalink( $page );
+		if ( $url ) {
+			return esc_url_raw( $url );
+		}
+	}
+	return esc_url_raw( home_url( '/' . $slug . '/' ) );
+}	function vineta_get_search_suggestions() {
+		$curated = aureon_get_option( 'aether_search_suggestions', array() );
+		// The Customizer saves the curated list as a textarea (one suggestion
+		// per line); programmatic saves may pass a plain string array. Accept
+		// both shapes.
+		if ( is_string( $curated ) && '' !== trim( $curated ) ) {
+			$curated = preg_split( '/\r\n|\r|\n/', $curated );
+		}
+		if ( is_array( $curated ) ) {
+			$curated = array_values( array_filter( array_map( 'sanitize_text_field', $curated ) ) );
+			if ( ! empty( $curated ) ) {
+				return array_slice( $curated, 0, 5 );
+			}
+		}
+
+	$suggestions = array();
+	if ( function_exists( 'get_terms' ) ) {
+		$terms = get_terms( array(
+			'taxonomy'   => 'product_cat',
+			'hide_empty' => true,
+			'number'     => 5,
+			'orderby'    => 'count',
+			'order'      => 'DESC',
+		) );
+		if ( ! is_wp_error( $terms ) && is_array( $terms ) ) {
+			foreach ( $terms as $term ) {
+				if ( ! empty( $term->name ) ) {
+					$suggestions[] = $term->name;
+				}
+			}
+		}
+	}
+
+	return $suggestions;
 }
 
 // --- Newsletter ---
@@ -575,21 +624,23 @@ function vineta_enqueue_cart_bridge() {
 	if ( ! function_exists( 'aether_active_design' ) || 'vineta' !== aether_active_design() ) {
 		return;
 	}
+	// WP emoji script is never used by the pack (icons are CSS fonts) — drop it.
+	remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+	remove_action( 'wp_print_styles', 'print_emoji_styles' );
 	$pack_url = aether_pack_url();
 	if ( ! $pack_url ) {
 		return;
 	}
 
-	// Enqueue frozen-HTML CSS that lives in <head> (stripped during body extraction).
-	wp_enqueue_style( 'vineta-bootstrap', $pack_url . 'css/bootstrap.min.css', array(), '1.0.0' );
-	wp_enqueue_style( 'vineta-swiper', $pack_url . 'css/swiper-bundle.min.css', array(), '1.0.0' );
-	wp_enqueue_style( 'vineta-animate', $pack_url . 'css/animate.css', array(), '1.0.0' );
-	wp_enqueue_style( 'vineta-styles', $pack_url . 'css/styles.css', array(), '1.0.0' );
-	wp_enqueue_style( 'vineta-fonts', $pack_url . 'fonts/fonts.css', array(), '1.0.0' );
-	wp_enqueue_style( 'vineta-icons', $pack_url . 'fonts/font-icons.css', array( 'vineta-fonts' ), '1.0.0' );
+	// CSS: the manifest "assets" list is the SINGLE authority for pack CSS.
+	// (frontend/views/assets.php enqueues it with filemtime versions). Do NOT
+	// also enqueue the same files here — dual handles previously double-loaded
+	// every stylesheet (~1.9MB/page). Only AUREON-specific JS is enqueued here.
 
-	// Register the main Vineta data bridge script.
-	wp_register_script( 'vineta-data-shims', $pack_url . 'js/vineta-data-shims.js', array(), '1.0.3', true );
+	// Register the main Vineta data bridge script. jQuery dependency: WP core
+	// prints jQuery in <head>; frozen-body jQuery tags are stripped server-side
+	// (single jQuery source contract).
+	wp_register_script( 'vineta-data-shims', $pack_url . 'js/vineta-data-shims.js', array( 'jquery' ), '1.0.4', true );
 	wp_localize_script(
 		'vineta-data-shims',
 		'vineta_bridge',
@@ -1330,6 +1381,8 @@ function vineta_build_page_data() {
 		$template = 'product';
 	} elseif ( is_404() ) {
 		$template = '404';
+	} elseif ( is_singular( 'post' ) ) {
+		$template = 'article';
 	} elseif ( is_post_type_archive( 'product' ) || is_page( 'shop' ) ) {
 		$template = 'collection';
 	} elseif ( is_tax( 'product_cat' ) ) {
@@ -1387,7 +1440,9 @@ function vineta_build_page_data() {
 	$page_data['contact'] = array(
 		'address' => array_map( 'sanitize_text_field', (array) $contact_address ),
 		'hours'   => sanitize_text_field( (string) vineta_get_customizer_value( 'aether_contact_hours', '8am - 7pm, Mon - Sat' ) ),
-		'email'   => sanitize_email( (string) get_option( 'admin_email', 'contact@vineta.com' ) ),
+		// No fake business email: fall back to empty so templates show a safe
+		// empty state instead of inventing a contact address.
+		'email'   => sanitize_email( (string) get_option( 'admin_email' ) ),
 		'phone'   => sanitize_text_field( (string) vineta_get_customizer_value( 'aether_contact_phone', '' ) ),
 	);
 
@@ -1397,7 +1452,7 @@ function vineta_build_page_data() {
 	// newsletter below) so Customizer UI, raw options and tokens all resolve.
 	$page_data['search'] = array(
 		'placeholder' => sanitize_text_field( (string) vineta_get_customizer_value( 'aether_search_placeholder', 'Search products...' ) ),
-		'suggestions' => array( 'Fashion', 'Electronics', 'Jewelry', 'Skincare', 'Furniture' ),
+		'suggestions' => vineta_get_search_suggestions(),
 	);
 
 	// Inject product data on single product pages.
@@ -1504,11 +1559,8 @@ function vineta_build_page_data() {
 		'newsletter'   => array(
 			'heading'  => vineta_get_customizer_value( 'aether_newsletter_heading', '' ),
 			'text'     => vineta_get_customizer_value( 'aether_newsletter_text', '' ),
-			'subtitle' => vineta_get_customizer_value( 'aether_newsletter_subtitle', '' ),
 		),
 		'social'       => vineta_get_customizer_value( 'aether_social_items', array() ),
-		'usp_items'    => vineta_get_customizer_value( 'aether_footer_usp_items', array() ),
-		'heading'      => vineta_get_customizer_value( 'aether_site_heading', '' ),
 		// colors/fonts payload REMOVED per client directive (2026-09-04): the
 		// saved values painted the pack black; frontend renders the original
 		// approved Vineta design from styles.css as-is.
@@ -2404,6 +2456,460 @@ function vineta_customize_register_hero_banner( $wp_customize ) {
 				'item_label' => isset( $hero_schema['label'] ) ? $hero_schema['label'] : __( 'Slide', 'aureon' ),
 				'title_key'  => isset( $hero_schema['title_key'] ) ? $hero_schema['title_key'] : 'headline',
 			),
+		)
+	);
+}
+
+/**
+ * Register a "social" repeater schema: {label, url} items consumed by the
+ * Vineta footer bridge (vineta_footer_data -> pageData.customizer.social) and
+ * the shims' updateSocial(). Registered through the shared
+ * aether_repeater_schemas filter so aureon_sanitize_repeater() whitelists
+ * both keys at save time.
+ *
+ * @param array $schemas Registered repeater schemas.
+ * @return array
+ */
+function vineta_register_social_schema( $schemas ) {
+	$schemas['social'] = array(
+		'id'        => 'social',
+		'label'     => __( 'Social link', 'aureon' ),
+		'add_label' => __( 'Add social link', 'aureon' ),
+		'title_key' => 'label',
+		'visible'   => true,
+		'fields'    => array(
+			array(
+				'key'   => 'label',
+				'type'  => 'text',
+				'label' => __( 'Label (e.g. Instagram, Facebook, TikTok)', 'aureon' ),			),
+			array(
+				'key'   => 'url',
+				'type'  => 'url',
+				'label' => __( 'Profile URL', 'aureon' ),
+			),
+		),
+	);
+	return $schemas;
+}
+add_filter( 'aether_repeater_schemas', 'vineta_register_social_schema' );
+
+/**
+ * Register the "announcement" repeater schema consumed by the shims'
+ * updateAnnouncement(): items render as marquee text; visible=false hides a
+ * row. Registered through the shared filter so the sanitizer whitelists keys.
+ *
+ * @param array $schemas Registered repeater schemas.
+ * @return array
+ */
+function vineta_register_announcement_schema( $schemas ) {
+	$schemas['announcement'] = array(
+		'id'        => 'announcement',
+		'label'     => __( 'Announcement', 'aureon' ),
+		'add_label' => __( 'Add announcement', 'aureon' ),
+		'title_key' => 'text',
+		'visible'   => true,
+		'fields'    => array(
+			array(
+				'key'   => 'visible',
+				'type'  => 'checkbox',
+				'label' => __( 'Visible', 'aureon' ),
+			),
+			array(
+				'key'   => 'text',
+				'type'  => 'textarea',
+				'label' => __( 'Text', 'aureon' ),
+			),
+		),
+	);
+	return $schemas;
+}
+add_filter( 'aether_repeater_schemas', 'vineta_register_announcement_schema' );
+
+/**
+ * Register the "category" repeater schema consumed by vineta_wc_filter_data():
+ * curated shop-filter chips ({name,url}). Empty list = real WooCommerce
+ * categories are used automatically (never fake data).
+ *
+ * @param array $schemas Registered repeater schemas.
+ * @return array
+ */
+function vineta_register_category_schema( $schemas ) {
+	$schemas['category'] = array(
+		'id'        => 'category',
+		'label'     => __( 'Category', 'aureon' ),
+		'add_label' => __( 'Add category link', 'aureon' ),
+		'title_key' => 'name',
+		'visible'   => true,
+		'fields'    => array(
+			array(
+				'key'   => 'name',
+				'type'  => 'text',
+				'label' => __( 'Label', 'aureon' ),
+			),
+			array(
+				'key'   => 'url',
+				'type'  => 'url',
+				'label' => __( 'Link URL (optional - defaults to the matching product category)', 'aureon' ),
+			),
+		),
+	);
+	return $schemas;
+}
+add_filter( 'aether_repeater_schemas', 'vineta_register_category_schema' );
+
+add_action( 'customize_register', 'vineta_customize_register_contact_social', 30 );
+/**
+ * Expose a "Vineta Contact & Social" section closing the last three
+ * merchant-facing Customizer contract gaps (C4):
+ *
+ *  - aether_social_items      : footer social icons ({label,url} repeater)
+ *  - aether_contact_recipient : contact form recipient + footer contact
+ *  - aether_contact_phone / aether_contact_address / aether_contact_hours
+ *
+ * Readers already apply safe defaults (admin_email etc.); these controls let
+ * a merchant override them without touching code.
+ *
+ * @param WP_Customize_Manager $wp_customize Theme Customizer object.
+ */
+function vineta_customize_register_contact_social( $wp_customize ) {
+	if ( function_exists( 'aether_active_design' ) && 'vineta' !== aether_active_design() ) {
+		return;
+	}
+	if ( ! class_exists( 'Aureon_Customize_Field' ) || ! class_exists( 'Aureon_Customize_Repeater_Control' ) ) {
+		return;
+	}
+	if ( $wp_customize->get_section( 'vineta_contact_social' ) ) {
+		return;
+	}
+
+	$wp_customize->add_section(
+		'vineta_contact_social',
+		array(
+			'title'    => __( 'Vineta Contact & Social', 'aureon' ),
+			'priority' => 36,
+			'active_callback' => function() {
+				return function_exists( 'aether_active_design' ) && 'vineta' === aether_active_design();
+			},
+		)
+	);
+
+	$repeater_schemas = apply_filters( 'aether_repeater_schemas', array() );
+	$social_schema    = isset( $repeater_schemas['social'] ) ? $repeater_schemas['social'] : array();
+
+	// Footer social links ({label,url} repeater - consumed by updateSocial()).
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_social_items]',
+		'Aureon_Customize_Repeater_Control',
+		array(
+			'default'           => array(),
+			'sanitize_callback' => function ( $input ) {
+				return function_exists( 'aureon_sanitize_repeater' ) ? aureon_sanitize_repeater( $input, 'social' ) : $input;
+			},
+			'transport'         => 'refresh',
+		),
+		array(
+			'label'       => __( 'Social links (footer)', 'aureon' ),
+			'section'     => 'vineta_contact_social',
+			'description' => __( 'Shown in the footer social row. The label also selects the icon (e.g. Instagram, Facebook, Twitter, YouTube, TikTok, Pinterest).', 'aureon' ),
+			'choices'     => array(
+				'schema'     => $social_schema,
+				'item_label' => isset( $social_schema['label'] ) ? $social_schema['label'] : __( 'Social link', 'aureon' ),
+				'title_key'  => isset( $social_schema['title_key'] ) ? $social_schema['title_key'] : 'label',
+			),
+		)
+	);
+
+	// Contact email: form recipient (aether-ajax.php) + footer/menu contact.
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_contact_recipient]',
+		'',
+		array(
+			'default'           => get_option( 'admin_email' ),
+			'sanitize_callback' => 'sanitize_email',
+			'transport'         => 'refresh',
+		),
+		array(
+			'type'        => 'email',
+			'label'       => __( 'Contact email (form recipient)', 'aureon' ),
+			'section'     => 'vineta_contact_social',
+			'description' => __( 'Where contact-form submissions are sent. Defaults to the site admin email.', 'aureon' ),
+		)
+	);
+
+	// Public contact details shown in footer/contact page/mobile menu.
+	$contact_fields = array(
+		'aether_contact_phone'   => __( 'Contact phone', 'aureon' ),
+		'aether_contact_address' => __( 'Contact address', 'aureon' ),
+		'aether_contact_hours'   => __( 'Contact hours', 'aureon' ),
+	);
+	foreach ( $contact_fields as $key => $label ) {
+		Aureon_Customize_Field::add_field(
+			'aureon_settings[' . $key . ']',
+			'',
+			array(
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'transport'         => 'refresh',
+			),
+			array(
+				'type'    => 'text',
+				'label'   => $label,
+				'section' => 'vineta_contact_social',
+			)
+		);
+	}
+
+	// Twitter/X profile: twitter:site meta card + Organization sameAs (SEO).
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_social_twitter]',
+		'',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'esc_url_raw',
+			'transport'         => 'refresh',
+		),
+		array(
+			'type'        => 'url',
+			'label'       => __( 'Twitter / X profile URL (SEO)', 'aureon' ),
+			'section'     => 'vineta_contact_social',
+			'description' => __( 'Used for the twitter:site card and the Organization sameAs structured data.', 'aureon' ),
+		)
+	);
+
+	// Announcement marquee ({text} repeater - consumed by updateAnnouncement()).
+	$announcement_schema = isset( $repeater_schemas['announcement'] ) ? $repeater_schemas['announcement'] : array();
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_announcement_items]',
+		'Aureon_Customize_Repeater_Control',
+		array(
+			'default'           => array(),
+			'sanitize_callback' => function ( $input ) {
+				return function_exists( 'aureon_sanitize_repeater' ) ? aureon_sanitize_repeater( $input, 'announcement' ) : $input;
+			},
+			'transport'         => 'refresh',
+		),
+		array(
+			'label'   => __( 'Announcement bar items', 'aureon' ),
+			'section' => 'vineta_contact_social',
+			'choices' => array(
+				'schema'     => $announcement_schema,
+				'item_label' => isset( $announcement_schema['label'] ) ? $announcement_schema['label'] : __( 'Announcement', 'aureon' ),
+				'title_key'  => 'text',
+			),
+		)
+	);
+}
+
+add_action( 'customize_register', 'vineta_customize_register_content', 31 );
+/**
+ * "Vineta Content" section: the remaining merchant-facing content keys the
+ * Vineta bridge reads (search, newsletter copy, category filter chips).
+ *
+ * @param WP_Customize_Manager $wp_customize Theme Customizer object.
+ */
+function vineta_customize_register_content( $wp_customize ) {
+	if ( function_exists( 'aether_active_design' ) && 'vineta' !== aether_active_design() ) {
+		return;
+	}
+	if ( ! class_exists( 'Aureon_Customize_Field' ) ) {
+		return;
+	}
+	if ( $wp_customize->get_section( 'vineta_content' ) ) {
+		return;
+	}
+
+	$wp_customize->add_section(
+		'vineta_content',
+		array(
+			'title'    => __( 'Vineta Content', 'aureon' ),
+			'priority' => 37,
+			'active_callback' => function() {
+				return function_exists( 'aether_active_design' ) && 'vineta' === aether_active_design();
+			},
+		)
+	);
+
+	$repeater_schemas   = apply_filters( 'aether_repeater_schemas', array() );
+	$category_schema    = isset( $repeater_schemas['category'] ) ? $repeater_schemas['category'] : array();
+
+	// Search modal placeholder.
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_search_placeholder]',
+		'',
+		array(
+			'default'           => 'Search products...',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'refresh',
+		),
+		array(
+			'type'        => 'text',
+			'label'       => __( 'Search placeholder', 'aureon' ),
+			'section'     => 'vineta_content',
+			'description' => __( 'Placeholder text in the header search modal.', 'aureon' ),
+		)
+	);
+
+	// Curated search suggestions (one per line). Empty = real product
+	// categories are used automatically.
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_search_suggestions]',
+		'',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_textarea_field',
+			'transport'         => 'refresh',
+		),
+		array(
+			'type'        => 'textarea',
+			'label'       => __( 'Search suggestions (one per line, optional)', 'aureon' ),
+			'section'     => 'vineta_content',
+			'description' => __( 'Leave empty to automatically suggest your most-used product categories.', 'aureon' ),
+		)
+	);
+
+	// Newsletter copy (footer newsletter block + popup heading/text).
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_newsletter_heading]',
+		'',
+		array(
+			'default'           => 'Subscribe Newsletter',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'refresh',
+		),
+		array(
+			'type'    => 'text',
+			'label'   => __( 'Newsletter heading', 'aureon' ),
+			'section' => 'vineta_content',
+		)
+	);
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_newsletter_text]',
+		'',
+		array(
+			'default'           => '',
+			'sanitize_callback' => 'sanitize_textarea_field',
+			'transport'         => 'refresh',
+		),
+		array(
+			'type'    => 'textarea',
+			'label'   => __( 'Newsletter text', 'aureon' ),
+			'section' => 'vineta_content',
+		)
+	);
+
+	// Category filter chips ({name,url} repeater - shop filter data).
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_category_items]',
+		'Aureon_Customize_Repeater_Control',
+		array(
+			'default'           => array(),
+			'sanitize_callback' => function ( $input ) {
+				return function_exists( 'aureon_sanitize_repeater' ) ? aureon_sanitize_repeater( $input, 'category' ) : $input;
+			},
+			'transport'         => 'refresh',
+		),
+		array(
+			'label'       => __( 'Category filter links (shop sidebar)', 'aureon' ),
+			'section'     => 'vineta_content',
+			'description' => __( 'Optional curated list. Empty = WooCommerce categories are used automatically.', 'aureon' ),
+			'choices'     => array(
+				'schema'     => $category_schema,
+				'item_label' => isset( $category_schema['label'] ) ? $category_schema['label'] : __( 'Category', 'aureon' ),
+				'title_key'  => 'name',
+			),
+		)
+	);
+}
+
+add_action( 'customize_register', 'vineta_customize_register_fonts_demo', 31 );
+/**
+ * "Vineta Fonts & Demo" section: optional font-family overrides (consumed by
+ * vineta_emit_customizer_css and updateTypography) and the demo-content
+ * switches that govern whether the pack renders seeded demo data on a fresh
+ * store.
+ *
+ * @param WP_Customize_Manager $wp_customize Theme Customizer object.
+ */
+function vineta_customize_register_fonts_demo( $wp_customize ) {
+	if ( function_exists( 'aether_active_design' ) && 'vineta' !== aether_active_design() ) {
+		return;
+	}
+	if ( ! class_exists( 'Aureon_Customize_Field' ) ) {
+		return;
+	}
+	if ( $wp_customize->get_section( 'vineta_fonts_demo' ) ) {
+		return;
+	}
+
+	$wp_customize->add_section(
+		'vineta_fonts_demo',
+		array(
+			'title'    => __( 'Vineta Fonts & Demo', 'aureon' ),
+			'priority' => 38,
+			'active_callback' => function() {
+				return function_exists( 'aether_active_design' ) && 'vineta' === aether_active_design();
+			},
+		)
+	);
+
+	$font_fields = array(
+		'aether_font_heading' => __( 'Heading font (CSS font-family value)', 'aureon' ),
+		'aether_font_body'    => __( 'Body font (CSS font-family value)', 'aureon' ),
+	);
+	foreach ( $font_fields as $key => $label ) {
+		Aureon_Customize_Field::add_field(
+			'aureon_settings[' . $key . ']',
+			'',
+			array(
+				'default'           => '',
+				'sanitize_callback' => 'sanitize_text_field',
+				'transport'         => 'refresh',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => $label,
+				'section'     => 'vineta_fonts_demo',
+				'description' => __( 'Leave empty to keep the template font. Example: Poppins. The font must be loaded (see Vineta font assets).', 'aureon' ),
+			)
+		);
+	}
+
+	// Demo mode: governs whether a fresh store shows seeded demo content.
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_demo_mode]',
+		'',
+		array(
+			'default'           => 'auto',
+			'sanitize_callback' => function ( $input ) {
+				return in_array( $input, array( 'auto', 'force_demo', 'disabled' ), true ) ? $input : 'auto';
+			},
+			'transport'         => 'refresh',
+		),
+		array(
+			'type'        => 'select',
+			'label'       => __( 'Demo content mode', 'aureon' ),
+			'section'     => 'vineta_fonts_demo',
+			'choices'     => array(
+				'auto'        => __( 'Auto (demo on empty store, real data otherwise)', 'aureon' ),
+				'force_demo'  => __( 'Always show demo content', 'aureon' ),
+				'disabled'    => __( 'Never show demo content', 'aureon' ),
+			),
+			'description' => __( 'Controls whether design-pack demo data may appear. Real WooCommerce/WordPress data always wins when present.', 'aureon' ),
+		)
+	);
+	Aureon_Customize_Field::add_field(
+		'aureon_settings[aether_demo_content]',
+		'',
+		array(
+			'default'           => true,
+			'sanitize_callback' => 'aureon_sanitize_checkbox',
+			'transport'         => 'refresh',
+		),
+		array(
+			'type'        => 'checkbox',
+			'label'       => __( 'Allow demo content sections', 'aureon' ),
+			'section'     => 'vineta_fonts_demo',
+			'description' => __( 'Master switch for the pack demo sections. Turn off for production stores.', 'aureon' ),
 		)
 	);
 }

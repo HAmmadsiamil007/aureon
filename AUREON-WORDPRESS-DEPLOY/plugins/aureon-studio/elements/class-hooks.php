@@ -210,12 +210,19 @@ class Aureon_Hook {
 			$content = do_shortcode( $content );
 		}
 
-		if ( $this->php && Aureon_Elements_Helper::should_execute_php() ) {
-			ob_start();
-			eval( '?>' . $content . '<?php ' ); // phpcs:ignore -- Using eval() to execute PHP.
-			echo ob_get_clean(); // phpcs:ignore -- Escaping not necessary.
+		// Security contract: no arbitrary PHP execution. When the (shortcode-
+		// processed) content references a registered snippet, the version-
+		// controlled callable runs; everything else prints verbatim.
+		$snippet_id = class_exists( 'Aureon_Snippet_Registry' ) ? Aureon_Snippet_Registry::extract_id( $content ) : '';
+		if ( '' !== $snippet_id ) {
+			$out = Aureon_Snippet_Registry::execute( $snippet_id );
+			if ( false !== $out ) {
+				echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted registry output.
+			} else {
+				echo '<!-- aureon: unknown snippet ' . esc_attr( $snippet_id ) . ' -->';
+			}
 		} else {
-			echo $content; // phpcs:ignore -- Escaping not necessary.
+			echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- legacy passthrough, unchanged behavior.
 		}
 
 	}

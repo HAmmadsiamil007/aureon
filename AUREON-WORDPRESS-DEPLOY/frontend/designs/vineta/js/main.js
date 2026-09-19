@@ -433,7 +433,11 @@
           );
         }
       });
-      selectIMG.selectpicker();
+      // bootstrap-select is optional: only invoke the plugin when it is
+      // actually loaded (demo pages that need it enqueue it themselves).
+      if ($.fn && $.fn.selectpicker) {
+        selectIMG.selectpicker();
+      }
     }
   };
 
@@ -1588,7 +1592,11 @@
     total_Price();
     preloader();
     goTop();
-    new WOW().init();
+    // WOW.js is optional: it ships with the frozen demo pages. On standalone
+    // templates that only load main.js, skip animation init instead of throwing.
+    if (typeof WOW === "function") {
+      new WOW().init();
+    }
 
   });
 })(jQuery);

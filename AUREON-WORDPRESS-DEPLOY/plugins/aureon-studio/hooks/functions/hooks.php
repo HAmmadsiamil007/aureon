@@ -14,15 +14,25 @@ if ( ! function_exists( 'aureon_execute_hooks' ) ) {
 			return;
 		}
 
-		$php = isset( $hooks[$id . '_php'] ) ? $hooks[$id . '_php'] : null;
-
 		$value = do_shortcode( $content );
 
-		if ( 'true' == $php && ! defined( 'AUREON_HOOKS_DISALLOW_PHP' ) ) {
-			eval( "?>$value<?php " );
-		} else {
-			echo $value;
+		// Security contract: stored content is NEVER executed as PHP. When the
+		// (shortcode-processed) content is a `snippet:<id>` reference, the
+		// registered, version-controlled callable runs; everything else prints
+		// verbatim. A missing id prints a visible notice instead of failing
+		// silently.
+		$snippet_id = class_exists( 'Aureon_Snippet_Registry' ) ? Aureon_Snippet_Registry::extract_id( $value ) : '';
+		if ( '' !== $snippet_id ) {
+			$out = Aureon_Snippet_Registry::execute( $snippet_id );
+			if ( false !== $out ) {
+				echo $out; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted registry output.
+				return;
+			}
+			echo '<!-- aureon: unknown snippet ' . esc_attr( $snippet_id ) . ' -->';
+			return;
 		}
+
+		echo $value; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- legacy passthrough (shortcodes/HTML), unchanged behavior.
 	}
 }
 
