@@ -228,7 +228,7 @@ function aureon_aether_enqueue_assets() {
 		array(
 			'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
 			'nonce'         => wp_create_nonce( 'aether_nonce' ),
-			'restUrl'       => esc_url_raw( rest_url( 'aether/v1/' ) ),
+			'restUrl'       => esc_url_raw( rest_url( 'aureon/v1/' ) ),
 			'isUserLoggedIn'=> is_user_logged_in(),
 			'shopUrl'       => function_exists( 'wc_get_page_permalink' ) && wc_get_page_permalink( 'shop' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' ),
 			'searchUrl'     => home_url( '/?s=' ),
@@ -270,13 +270,6 @@ function aureon_aether_wc_page_templates( $template ) {
 	}
 
 	if ( is_checkout() && ! is_wc_endpoint_url( 'order-pay' ) ) {
-		// Redirect empty carts to the cart page before loading the template.
-		// WooCommerce normally does this, but our standalone template outputs
-		// HTML early which prevents the redirect from working.
-		if ( WC()->cart && WC()->cart->is_empty() && ! is_admin() && ! wp_doing_ajax() ) {
-			wp_safe_redirect( wc_get_cart_url() );
-			exit;
-		}
 		return get_template_directory() . '/checkout/form-checkout.php';
 	}
 
@@ -311,25 +304,13 @@ function aureon_ferm_template_include( $template ) {
 
 	// Checkout must use WooCommerce's native template (not the frozen HTML
 	// which may contain a Shopify redirect). Let WC handle checkout routing.
-	// Also check by slug as a fallback when is_checkout() fails to detect.
 	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
 		return $template;
 	}
-	$wc_checkout_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'checkout' ) : 0;
-	if ( $wc_checkout_id > 0 && is_page( $wc_checkout_id ) ) {
-		return $template;
-	}
 
-	// Cart page — let WooCommerce handle it natively.
-	$wc_cart_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'cart' ) : 0;
-	if ( $wc_cart_id > 0 && is_page( $wc_cart_id ) ) {
-		return $template;
-	}
-
-	// Account pages: use the standalone Vineta account template for both
-	// logged-in and logged-out states. The template handles login/register
-	// forms and the full account dashboard.
-	if ( function_exists( 'is_account_page' ) && is_account_page() ) {
+	// Logged-in account pages: use WooCommerce's native account template.
+	// The frozen login.html is only for the logged-out state.
+	if ( is_user_logged_in() && function_exists( 'is_account_page' ) && is_account_page() ) {
 		$acc_tpl = get_template_directory() . '/myaccount/my-account.php';
 		return file_exists( $acc_tpl ) ? $acc_tpl : $template;
 	}

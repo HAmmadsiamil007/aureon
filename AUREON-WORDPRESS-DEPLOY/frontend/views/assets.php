@@ -37,22 +37,6 @@ function aether_design_enqueue_assets() {
 	$pack_uri = trailingslashit( content_url() ) . 'frontend/designs/' . $design;
 	$pack_dir = trailingslashit( WP_CONTENT_DIR ) . 'frontend/designs/' . $design;
 
-	// --- Complete-page isolation: skip ALL platform CDNs and contract JS ---
-	if ( aether_is_complete_page_design() ) {
-		// Only enqueue pack assets from manifest — no platform contamination.
-		$manifest = aether_design_manifest();
-
-		foreach ( (array) ( isset( $manifest['assets']['css'] ) ? $manifest['assets']['css'] : array() ) as $entry ) {
-			aether_enqueue_pack_asset( $entry, 'css', $base_uri, $base_dir, $pack_uri, $pack_dir );
-		}
-
-		foreach ( (array) ( isset( $manifest['assets']['js'] ) ? $manifest['assets']['js'] : array() ) as $entry ) {
-			aether_enqueue_pack_asset( $entry, 'js', $base_uri, $base_dir, $pack_uri, $pack_dir );
-		}
-
-		return;
-	}
-
 	// --- Platform CDNs (same handles as the bridge, so manifest deps resolve) ---
 	wp_enqueue_style(
 		'aether-bootstrap',
@@ -95,7 +79,7 @@ function aether_design_enqueue_assets() {
 		array(
 			'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
 			'nonce'          => wp_create_nonce( 'aether_nonce' ),
-			'restUrl'        => esc_url_raw( rest_url( 'aether/v1/' ) ),
+			'restUrl'        => esc_url_raw( rest_url( 'aureon/v1/' ) ),
 			'isUserLoggedIn' => is_user_logged_in(),
 			'shopUrl'        => function_exists( 'wc_get_page_permalink' ) && wc_get_page_permalink( 'shop' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' ),
 			'searchUrl'      => home_url( '/?s=' ),
@@ -117,51 +101,6 @@ function aether_design_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'aether_design_enqueue_assets', 20 );
 
 /**
- * Check if the current page matches a manifest page key.
- *
- * @param string $page_key Page key from manifest (e.g. 'cart', 'product').
- * @return bool
- */
-function aether_is_pack_asset_page_match( $page_key ) {
-	$queried_id    = get_queried_object_id();
-	$request_uri   = isset( $_SERVER['REQUEST_URI'] ) ? strtolower( wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ) ) : '';
-
-	switch ( $page_key ) {
-		case 'cart':
-			if ( function_exists( 'wc_get_page_id' ) && $queried_id > 0 && $queried_id === (int) wc_get_page_id( 'cart' ) ) {
-				return true;
-			}
-			// Fallback: URL-based detection when queried_id is unreliable.
-			return $request_uri === '/cart' || 0 === strpos( $request_uri, '/cart/' );
-		case 'product':
-			if ( $queried_id > 0 && is_singular( 'product' ) ) {
-				return true;
-			}
-			return 0 === strpos( $request_uri, '/product/' ) && ! is_post_type_archive( 'product' );
-		case 'account':
-			if ( function_exists( 'wc_get_page_id' ) && $queried_id > 0 && $queried_id === (int) wc_get_page_id( 'myaccount' ) ) {
-				return true;
-			}
-			return 0 === strpos( $request_uri, '/my-account' ) || 0 === strpos( $request_uri, '/account' );
-		case 'checkout':
-			if ( function_exists( 'wc_get_page_id' ) && $queried_id > 0 && $queried_id === (int) wc_get_page_id( 'checkout' ) ) {
-				return true;
-			}
-			return $request_uri === '/checkout' || 0 === strpos( $request_uri, '/checkout/' );
-		case 'collection':
-			return is_post_type_archive( 'product' ) || is_tax( 'product_cat' ) || is_page( 'shop' )
-				|| 0 === strpos( $request_uri, '/product-category/' ) || 0 === strpos( $request_uri, '/shop/' );
-		case 'contact':
-			if ( $queried_id > 0 && is_page() ) {
-				return is_page( 'contact' ) || is_page( 'contact-us' );
-			}
-			return 0 === strpos( $request_uri, '/contact' );
-		default:
-			return true;
-	}
-}
-
-/**
  * Enqueue one manifest asset entry.
  *
  * @param string|array $entry    Manifest entry (string file or {file,deps,base}).
@@ -180,14 +119,6 @@ function aether_enqueue_pack_asset( $entry, $kind, $base_uri, $base_dir, $pack_u
 		return;
 	}
 
-	// Page-specific gating: skip assets that target a different page context.
-	if ( ! empty( $entry['page'] ) ) {
-		$page_key = sanitize_key( $entry['page'] );
-		if ( ! aether_is_pack_asset_page_match( $page_key ) ) {
-			return;
-		}
-	}
-
 	$file    = ltrim( $entry['file'], '/' );
 	$from_base = ! empty( $entry['base'] );
 	$src_uri = $from_base ? trailingslashit( $base_uri ) . $file : trailingslashit( $pack_uri ) . $file;
@@ -199,12 +130,7 @@ function aether_enqueue_pack_asset( $entry, $kind, $base_uri, $base_dir, $pack_u
 	}
 
 	$version = filemtime( $src_dir );
-	$base_name = sanitize_key( preg_replace( '/\.[a-z0-9]+$/i', '', basename( $file ) ) );
-
-	// Use base_name as the primary handle so that manifest dependency
-	// declarations (e.g. "deps": ["ferm-data-shims"]) resolve against
-	// the same handle WordPress already enqueued — prevents double-load.
-	$handle = $base_name;
+	$handle  = 'aether-pack-' . $kind . '-' . sanitize_key( preg_replace( '/\.[a-z0-9]+$/i', '', basename( $file ) ) );
 
 	if ( 'css' === $kind ) {
 		wp_enqueue_style( $handle, $src_uri, $deps, $version );

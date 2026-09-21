@@ -79,7 +79,7 @@ function aether_design_enqueue_assets() {
 		array(
 			'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
 			'nonce'          => wp_create_nonce( 'aether_nonce' ),
-			'restUrl'        => esc_url_raw( rest_url( 'aether/v1/' ) ),
+			'restUrl'        => esc_url_raw( rest_url( 'aureon/v1/' ) ),
 			'isUserLoggedIn' => is_user_logged_in(),
 			'shopUrl'        => function_exists( 'wc_get_page_permalink' ) && wc_get_page_permalink( 'shop' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/shop/' ),
 			'searchUrl'      => home_url( '/?s=' ),

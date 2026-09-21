@@ -99,6 +99,13 @@ if ( false !== $body_content ) {
 		);
 	}
 	echo '<body' . aureon_ferm_render_attrs( $body_attrs['body'] ) . ">\n";
+
+	// jQuery alias: WordPress prints jQuery in noConflict mode (no global `$`),
+	// but the frozen design-pack scripts (carousel.js, main.js) expect `$` and
+	// die with "TypeError: $ is not a function" — leaving every swiper slide
+	// full-width (one giant card). Restore the alias before pack scripts run.
+	echo '<script>if(window.jQuery&&!window.$){window.$=window.jQuery;}</script>' . "\n";
+
 	echo $body_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- client presentation HTML, already escaped at source.
 } else {
 	// Fallback: output entire HTML (already a complete document).
@@ -314,6 +321,15 @@ function aureon_ferm_route_class() {
 		return 'blog_single';
 	}
 
+	// Homepage — MUST outrank the is_home() blog check below. When WordPress
+	// is set to "Your homepage displays: Your latest posts", the site root is
+	// BOTH is_front_page() and is_home(); classifying it as 'blog' replaces
+	// the designed homepage with the blog grid. Paged front pages (/page/2/)
+	// are the posts archive, so they fall through to the blog check.
+	if ( is_front_page() && ! is_paged() ) {
+		return 'home';
+	}
+
 	// Blog / posts archive.
 	if ( is_home() || is_post_type_archive( 'post' ) || is_page( 'blog' ) || is_page( 'stories' ) ) {
 		return 'blog';
@@ -322,11 +338,6 @@ function aureon_ferm_route_class() {
 	// Static pages (slug-mapped below).
 	if ( is_page() ) {
 		return 'static';
-	}
-
-	// Homepage.
-	if ( is_front_page() || ( is_home() && ! is_paged() ) ) {
-		return 'home';
 	}
 
 	// Unknown route (includes WordPress 404) — must render the 404 page.

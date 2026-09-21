@@ -114,7 +114,7 @@ add_action( 'wp_ajax_nopriv_aether_contact_submit', 'aether_contact_submit' );
 function aether_contact_submit() {
 	check_ajax_referer( 'aether_contact', 'aether_contact_nonce' );
 
-	$name    = isset( $_POST['aether_name'] ) ? sanitize_text_field( wp_unslash( $_POST['aether_name'] ) ) : '';
+	$name    = isset( $_POST['aether_name'] ) ? preg_replace( '/[\r\n]+/', '', sanitize_text_field( wp_unslash( $_POST['aether_name'] ) ) ) : '';
 	$email   = isset( $_POST['aether_email'] ) ? sanitize_email( wp_unslash( $_POST['aether_email'] ) ) : '';
 	$subject = isset( $_POST['aether_subject'] ) ? sanitize_text_field( wp_unslash( $_POST['aether_subject'] ) ) : 'general';
 	$message = isset( $_POST['aether_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['aether_message'] ) ) : '';
@@ -152,7 +152,7 @@ function aether_contact_submit() {
 	$mail_body .= sprintf( __( 'Subject: %s', 'aureon' ), $subject_label ) . "\n\n";
 	$mail_body .= $message . "\n";
 
-	$headers = array( 'Reply-To: ' . $name . ' <' . $email . '>' );
+	$headers = array( 'Reply-To: ' . sanitize_text_field( $name ) . ' <' . $email . '>' );
 
 	$sent = wp_mail(
 		$recipient,

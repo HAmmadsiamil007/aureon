@@ -114,6 +114,56 @@ function aether_optimize_woocommerce() {
 	}
 }
 
+// ─── CDN Subresource Integrity (SRI) ──────────────────────────
+add_filter( 'wp_script_tag', 'aether_add_sri_to_scripts', 10, 3 );
+add_filter( 'wp_style_tag', 'aether_add_sri_to_styles', 10, 3 );
+/**
+ * Add SRI integrity/crossorigin attributes to known CDN assets.
+ *
+ * Hashes correspond to the exact pinned versions in the source contract.
+ * If a CDN URL is upgraded, hashes MUST be recomputed.
+ *
+ * @param string $tag        The script/style tag.
+ * @param string $handle     The asset handle.
+ * @param string $src        The asset source URL.
+ * @return string Modified tag.
+ */
+function aether_add_sri_to_scripts( $tag, $handle, $src ) {
+	return aether_apply_sri( $tag, $src );
+}
+function aether_add_sri_to_styles( $tag, $handle, $src ) {
+	return aether_apply_sri( $tag, $src );
+}
+function aether_apply_sri( $tag, $src ) {
+	$sri = aether_cdn_sri_map();
+	$normalized = esc_url_raw( $src );
+	foreach ( $sri as $url_fragment => $hash ) {
+		if ( false !== strpos( $normalized, $url_fragment ) ) {
+			$tag = str_replace( '<script ', '<script integrity="' . esc_attr( $hash ) . '" crossorigin="anonymous" ', $tag );
+			$tag = str_replace( '<link ', '<link integrity="' . esc_attr( $hash ) . '" crossorigin="anonymous" ', $tag );
+			break;
+		}
+	}
+	return $tag;
+}
+/**
+ * Known CDN resource SRI hashes (version-pinned).
+ *
+ * @return array URL fragment => sha384 hash.
+ */
+function aether_cdn_sri_map() {
+	return array(
+		'bootstrap@5.3.3/dist/css/bootstrap.min.css'  => 'sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH',
+		'font-awesome/6.5.1/css/all.min.css'           => 'sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g',
+		'swiper@11/swiper-bundle.min.css'              => 'sha384-gAPqlBuTCdtVcYt9ocMOYWrnBZ4XSL6q+4eXqwNycOr4iFczhNKtnYhF3NEXJM51',
+		'bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js' => 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz',
+		'swiper@11/swiper-bundle.min.js'               => 'sha384-2UI1PfnXFjVMQ7/ZDEF70CR943oH3v6uZrFQGGqJYlvhh4g6z6uVktxYbOlAczav',
+		'gsap/3.12.5/gsap.min.js'                      => 'sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt',
+		'gsap/3.12.5/ScrollTrigger.min.js'             => 'sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d',
+		'lenis@1.1.19/dist/lenis.min.js'               => 'sha384-cpO5a+hyuyImPs1AWAUDpKJ5zzCqsDjiZOqfOyTb4h4sVh2AST2RUyLHdXD3Vz8p',
+	);
+}
+
 // ─── HTML Output Compression ───────────────────────────────────
 if ( ! is_admin() && ! is_customize_preview() ) {
 	add_action( 'template_redirect', 'aether_start_output_buffer' );

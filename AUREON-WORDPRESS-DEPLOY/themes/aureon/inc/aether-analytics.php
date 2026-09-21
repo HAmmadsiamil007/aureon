@@ -82,7 +82,7 @@ function aether_analytics_flush() {
 
 	echo "\n<script>\nwindow.dataLayer = window.dataLayer || [];\n";
 	foreach ( $aether_ga4_events as $event ) {
-		echo 'dataLayer.push(' . wp_json_encode( $event ) . ");\n";
+		echo 'dataLayer.push(' . wp_json_encode( $event, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) . ");\n";
 	}
 	echo "</script>\n";
 }
@@ -134,15 +134,38 @@ function aether_analytics_view_item_list() {
 	$items = array();
 
 	if ( ! empty( $wp_query->posts ) ) {
+		$post_ids = wp_list_pluck( $wp_query->posts, 'ID' );
+		// Use lightweight meta queries instead of full wc_get_product() instantiation.
+		$prices = array();
+		$names  = array();
+		if ( ! empty( $post_ids ) ) {
+			$price_meta = get_posts( array(
+				'post_type'      => 'product',
+				'post__in'       => $post_ids,
+				'posts_per_page' => count( $post_ids ),
+				'fields'         => 'ids',
+				'meta_query'     => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
+					array(
+						'key'   => '_price',
+						'compare' => 'EXISTS',
+					),
+				),
+			) );
+			foreach ( $post_ids as $pid ) {
+				$prices[ $pid ] = (float) get_post_meta( $pid, '_price', true );
+				$names[ $pid ]  = get_the_title( $pid );
+			}
+		}
+
 		foreach ( $wp_query->posts as $post ) {
-			$product = wc_get_product( $post );
-			if ( ! $product ) {
+			$pid = (int) $post->ID;
+			if ( empty( $prices[ $pid ] ) ) {
 				continue;
 			}
 			$items[] = array(
-				'item_id'   => (string) $product->get_id(),
-				'item_name' => $product->get_name(),
-				'price'     => (float) $product->get_price(),
+				'item_id'   => (string) $pid,
+				'item_name' => isset( $names[ $pid ] ) ? $names[ $pid ] : '',
+				'price'     => $prices[ $pid ],
 			);
 		}
 	}

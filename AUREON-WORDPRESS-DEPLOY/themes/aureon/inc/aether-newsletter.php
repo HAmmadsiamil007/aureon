@@ -45,16 +45,24 @@ function aether_newsletter_create_table() {
 add_action( 'admin_init', 'aether_newsletter_maybe_create_table', 5 );
 /**
  * Create the subscribers table on first admin load if missing.
+ *
+ * Uses an option flag to avoid SHOW TABLES on every admin request.
+ * The flag is cleared only if the table is actually missing.
  */
 function aether_newsletter_maybe_create_table() {
-	global $wpdb;
+	if ( 'yes' === get_option( 'aether_newsletter_table_ready' ) ) {
+		return;
+	}
 
+	global $wpdb;
 	$table = aether_newsletter_table();
 	if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) === $table ) {
+		update_option( 'aether_newsletter_table_ready', 'yes', false );
 		return;
 	}
 
 	aether_newsletter_create_table();
+	update_option( 'aether_newsletter_table_ready', 'yes', false );
 }
 
 /**
@@ -86,8 +94,13 @@ function aether_newsletter_subscribe( $email, $ip_address = '' ) {
 	$table = aether_newsletter_table();
 
 	// Guard against a missing table (e.g. fresh install before admin init).
-	if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
-		aether_newsletter_create_table();
+	if ( 'yes' !== get_option( 'aether_newsletter_table_ready' ) ) {
+		global $wpdb;
+		$table_check = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) );
+		if ( $table_check !== $table ) {
+			aether_newsletter_create_table();
+			update_option( 'aether_newsletter_table_ready', 'yes', false );
+		}
 	}
 
 	$existing = $wpdb->get_var(
@@ -207,13 +220,12 @@ function aether_ajax_newsletter_subscribe() {
 		wp_send_json_error( array( 'message' => __( 'Please enter a valid email address.', 'aureon' ) ) );
 	}
 
-	// Rate limit: one subscribe per public IP per minute. Private/reserved
-	// ranges (loopback, Docker bridge, LAN) are trusted local traffic — rate
-	// limiting them breaks dev/test and shared-NAT deployments. Deployments
-	// behind a trusted proxy may filter the IP to null to disable entirely.
+	// Rate limit: one subscribe per IP per minute. All IPs are rate-limited
+	// including private/reserved ranges to prevent abuse from Docker bridges,
+	// shared-NAT deployments, or local proxy chains. Filter to disable per-IP
+	// via aether_newsletter_rate_limit_ip returning empty string.
 	$rate_limit_ip = apply_filters( 'aether_newsletter_rate_limit_ip', $ip );
-	$rate_limit_ip = ( ! empty( $rate_limit_ip ) && false !== filter_var( $rate_limit_ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) ? $rate_limit_ip : '';
-	if ( $rate_limit_ip ) {
+	if ( ! empty( $rate_limit_ip ) ) {
 		$ip_key = 'aether_newsletter_rate_' . md5( $rate_limit_ip );
 		if ( get_transient( $ip_key ) ) {
 			wp_send_json_error( array( 'message' => __( 'Please wait before subscribing again.', 'aureon' ) ) );
@@ -256,12 +268,16 @@ function aether_newsletter_admin_page() {
 	global $wpdb;
 	$table = aether_newsletter_table();
 
-	if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
-		echo '<div class="wrap">';
-		echo '<h1>' . esc_html__( 'Newsletter Subscribers', 'aureon' ) . '</h1>';
-		echo '<div class="notice notice-warning"><p>' . esc_html__( 'Database table not found. It will be created on the next admin load.', 'aureon' ) . '</p></div>';
-		echo '</div>';
-		return;
+	if ( 'yes' !== get_option( 'aether_newsletter_table_ready' ) ) {
+		global $wpdb;
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table ) ) !== $table ) {
+			echo '<div class="wrap">';
+			echo '<h1>' . esc_html__( 'Newsletter Subscribers', 'aureon' ) . '</h1>';
+			echo '<div class="notice notice-warning"><p>' . esc_html__( 'Database table not found. It will be created on the next admin load.', 'aureon' ) . '</p></div>';
+			echo '</div>';
+			return;
+		}
+		update_option( 'aether_newsletter_table_ready', 'yes', false );
 	}
 
 	// CSV export.
@@ -422,11 +438,20 @@ function aether_newsletter_admin_page() {
  */
 function aether_newsletter_export_csv() {
 	global $wpdb;
-	$table   = aether_newsletter_table();
-	$results = $wpdb->get_results( "SELECT * FROM {$table} ORDER BY subscribed_at DESC" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$table = aether_newsletter_table();
 
+	// Verify capability before outputting any data.
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'You do not have permission to export subscribers.', 'aureon' ) );
+	}
+
+	// Set headers and exit immediately — no further WordPress rendering.
 	header( 'Content-Type: text/csv; charset=utf-8' );
 	header( 'Content-Disposition: attachment; filename=aether-newsletter-subscribers-' . gmdate( 'Y-m-d' ) . '.csv' );
+	header( 'Pragma: no-cache' );
+	header( 'Expires: 0' );
+
+	$results = $wpdb->get_results( "SELECT * FROM {$table} ORDER BY subscribed_at DESC" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	$output = fopen( 'php://output', 'w' );
 	fputcsv( $output, array( 'Email', 'Status', 'IP Address', 'Subscribed At', 'Unsubscribed At' ) );
@@ -454,6 +479,24 @@ add_action( 'rest_api_init', 'aether_register_newsletter_rest' );
  * Register the REST newsletter endpoint.
  */
 function aether_register_newsletter_rest() {
+	register_rest_route(
+		'aureon/v1',
+		'/newsletter/subscribe',
+		array(
+			'methods'             => 'POST',
+			'callback'            => 'aether_rest_newsletter_subscribe',
+			'permission_callback' => '__return_true',
+			'args'                => array(
+				'email' => array(
+					'required'          => true,
+					'type'              => 'string',
+					'sanitize_callback' => 'sanitize_email',
+					'validate_callback' => 'is_email',
+				),
+			),
+		)
+	);
+	// Backward-compat: aether/v1 alias for existing consumers.
 	register_rest_route(
 		'aether/v1',
 		'/newsletter/subscribe',
